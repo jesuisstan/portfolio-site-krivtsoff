@@ -1,0 +1,7 @@
+:root {
+  --BOOK_WHITE: rgb(250, 250, 250);
+  --BOOK_GREEN: rgb(0, 186, 188);
+  --BOOK_GREEN_TRANS: rgba(0, 185, 188, 0.9);
+  --BOOK_ORANGE: rgb(250, 107, 107);
+  --BOOK_BLACK: rgb(35, 33, 21);
+}

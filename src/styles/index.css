@@ -1,0 +1,49 @@
+@import './bookColors.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'GT Walsheim Pro', Arial, sans-serif;
+}
+
+body {
+  font-style: normal;
+  letter-spacing: 0.15px;
+  color: var(--BOOK_BLACK);
+  background: var(--BOOK_WHITE);
+}
+
+a {
+  color: var(--BOOK_BLACK);
+  font-size: 21px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  color: var(--BOOK_WHITE);
+}
+
+nav {
+  width: 100%;
+  position: sticky;
+  top: 0px;
+  background-color: var(--BOOK_GREEN);
+  height: 50px;
+  flex-direction: row;
+  gap: 42px;
+}
+
+h1 {
+  font-weight: 500;
+}
+
+.App {
+  text-align: center;
+}
+
+.active {
+  color: var(--BOOK_WHITE);
+  text-decoration: none;
+}
