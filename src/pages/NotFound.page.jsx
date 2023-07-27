@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import * as MUI from '../styles/MUIstyles';
-import * as colors from '../styles/bookColors';
+import * as MUI from '../style/MUIstyles';
+import * as colors from '../style/bookColors';
 
 const NotFound = () => {
   const navigate = useNavigate();

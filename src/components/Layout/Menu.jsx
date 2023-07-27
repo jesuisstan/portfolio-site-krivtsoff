@@ -4,10 +4,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuDrawer from './MenuDrawer';
-import styles from '../../styles/Menu.module.css';
+import styles from '../../style/Menu.module.css';
 import LoadingButton from '@mui/lab/LoadingButton';
-import * as MUI from '../../styles/MUIstyles';
-import * as colors from '../../styles/bookColors';
+import * as MUI from '../../style/MUIstyles';
+import * as colors from '../../style/bookColors';
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const Menu = () => {
               color="inherit"
               sx={MUI.LoadButton}
               onClick={() => {
-                console.log('hello')
+                console.log('hello');
               }}
             >
               hi

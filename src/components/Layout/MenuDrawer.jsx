@@ -1,15 +1,12 @@
 import { SetStateAction, Dispatch } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Drawer, List, ListItem, ListItemText } from '@mui/material';
-import * as colors from '../../styles/bookColors';
-import * as MUI from '../../styles/MUIstyles';
+import * as colors from '../../style/bookColors';
+import * as MUI from '../../style/MUIstyles';
 
 const MenuDrawer = ({
   open,
   setOpen
-}: {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const navigate = useNavigate();
 
