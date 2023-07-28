@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
   typography: {
-    fontFamily: 'GT Walsheim Pro, Arial, sans-serif' // Specify Walsheim as the first choice
+    fontFamily: 'Montserrat, sans-serif' // Specify Montserrat as the first choice
   }
 });
 
@@ -18,7 +18,7 @@ export const modalDialog = {
 };
 
 export const modalHeader = {
-  fontFamily: 'GT Walsheim Pro, Arial, sans-serif',
+  fontFamily: 'Montserrat, Arial, sans-serif',
   fontSize: '1.2rem',
   letterSpacing: '0.02857em',
   textAlign: 'center',
@@ -42,7 +42,7 @@ export const modalClose = {
 };
 
 export const LoadButton = {
-  fontFamily: '"GT Walsheim Pro", Arial, sans-serif',
+  fontFamily: 'Montserrat, Arial, sans-serif',
   fontWeight: 'bold',
   minWidth: 125,
   borderRadius: '90px',

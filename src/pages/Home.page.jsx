@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [profileData, setProfileData] = useState(null); // Здесь может быть интерфейс для типизации
+  const [profileData, setProfileData] = useState(null);
 
   const username = 'jesuisstan';
   const token = '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';
