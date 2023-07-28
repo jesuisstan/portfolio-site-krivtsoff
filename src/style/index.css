@@ -1,36 +1,35 @@
-@import './bookColors.css';
+@import './portfolioColors.css';
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /*font-family: 'GT Walsheim Pro', Arial, sans-serif;*/
   font-family: 'Montserrat', sans-serif;
 }
 
 body {
   font-style: normal;
   letter-spacing: 0.15px;
-  color: var(--BOOK_BLACK);
-  background: var(--BOOK_WHITE);
+  color: var(--PORTFOLIO_WHITE);
+  background: var(--PORTFOLIO_BLACK);
 }
 
 a {
-  color: var(--BOOK_BLACK);
+  color: var(--PORTFOLIO_WHITE);
   font-size: 21px;
   text-decoration: none;
   font-weight: 500;
 }
 
 a:hover {
-  color: var(--BOOK_WHITE);
+  color: var(--PORTFOLIO_BLACK);
 }
 
 nav {
   width: 100%;
   position: sticky;
   top: 0px;
-  background-color: var(--BOOK_GREEN);
+  background-color: var(--PORTFOLIO_GREEN);
   height: 50px;
   flex-direction: row;
   gap: 42px;
@@ -45,6 +44,6 @@ h1 {
 }
 
 .active {
-  color: var(--BOOK_WHITE);
+  color: var(--PORTFOLIO_BLACK);
   text-decoration: none;
 }

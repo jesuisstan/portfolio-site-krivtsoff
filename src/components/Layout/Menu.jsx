@@ -7,7 +7,7 @@ import MenuDrawer from './MenuDrawer';
 import styles from '../../style/Menu.module.css';
 import LoadingButton from '@mui/lab/LoadingButton';
 import * as MUI from '../../style/MUIstyles';
-import * as colors from '../../style/bookColors';
+import * as colors from '../../style/portfolioColors';
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Menu = () => {
             color="inherit"
             onClick={() => setMenuDrawerOpen(!menuDrawerOpen)}
           >
-            <MenuIcon style={{ fill: colors.BOOK_BLACK }} />
+            <MenuIcon style={{ fill: colors.PORTFOLIO_BLACK }} />
           </IconButton>
         ) : (
           <div className={styles.left}>

@@ -4,7 +4,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import * as MUI from '../style/MUIstyles';
-import * as colors from '../style/bookColors';
+import * as colors from '../style/portfolioColors';
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -19,7 +19,10 @@ const NotFound = () => {
         gap: '21px'
       }}
     >
-      <ErrorOutlineIcon fontSize="large" sx={{ color: colors.BOOK_ORANGE }} />
+      <ErrorOutlineIcon
+        fontSize="large"
+        sx={{ color: colors.PORTFOLIO_ORANGE }}
+      />
       <h1>Not Found</h1>
       <LoadingButton
         loading={loading}

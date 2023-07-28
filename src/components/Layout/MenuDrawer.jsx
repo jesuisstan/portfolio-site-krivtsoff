@@ -1,13 +1,10 @@
 import { SetStateAction, Dispatch } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Drawer, List, ListItem, ListItemText } from '@mui/material';
-import * as colors from '../../style/bookColors';
+import * as colors from '../../style/portfolioColors';
 import * as MUI from '../../style/MUIstyles';
 
-const MenuDrawer = ({
-  open,
-  setOpen
-}) => {
+const MenuDrawer = ({ open, setOpen }) => {
   const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
@@ -18,14 +15,14 @@ const MenuDrawer = ({
     <Drawer
       PaperProps={{
         style: {
-          backgroundColor: colors.BOOK_GREEN_TRANS
+          backgroundColor: colors.PORTFOLIO_GREEN_TRANS
         }
       }}
       anchor="left"
       open={open}
       onClose={handleDrawerToggle}
     >
-      <List sx={{ color: colors.BOOK_BLACK }}>
+      <List sx={{ color: colors.PORTFOLIO_BLACK }}>
         <ListItem
           onClick={() => {
             navigate('/');

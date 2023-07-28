@@ -1,4 +1,4 @@
-import * as colors from './bookColors';
+import * as colors from './portfolioColors';
 import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
@@ -12,7 +12,7 @@ export const modalDialog = {
   maxWidth: '442px',
   minWidth: '300px',
   border: '0px solid #000',
-  bgcolor: colors.BOOK_WHITE,
+  bgcolor: colors.PORTFOLIO_WHITE,
   borderRadius: '4px',
   paddingBottom: '30px'
 };
@@ -32,12 +32,12 @@ export const modalClose = {
   right: 'calc(-1/4 * var(--IconButton-size))',
   boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
   borderRadius: '50%',
-  color: colors.BOOK_BLACK,
-  bgcolor: colors.BOOK_ORANGE,
+  color: colors.PORTFOLIO_BLACK,
+  bgcolor: colors.PORTFOLIO_ORANGE,
   transition: 'background-color 0.2s, color 0.2s ease-in-out',
   ':hover': {
-    color: colors.BOOK_WHITE,
-    bgcolor: colors.BOOK_BLACK
+    color: colors.PORTFOLIO_WHITE,
+    bgcolor: colors.PORTFOLIO_BLACK
   }
 };
 
@@ -46,12 +46,12 @@ export const LoadButton = {
   fontWeight: 'bold',
   minWidth: 125,
   borderRadius: '90px',
-  backgroundColor: colors.BOOK_ORANGE,
-  color: colors.BOOK_BLACK,
+  backgroundColor: colors.PORTFOLIO_ORANGE,
+  color: colors.PORTFOLIO_BLACK,
   transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
   ':hover': {
-    color: colors.BOOK_WHITE,
-    bgcolor: colors.BOOK_BLACK
+    color: colors.PORTFOLIO_WHITE,
+    bgcolor: colors.PORTFOLIO_BLACK
   }
 };
 
@@ -60,7 +60,7 @@ export const burgerItem = {
   fontWeight: '500',
   letterSpacing: '0.02857em',
   ':hover': {
-    color: colors.BOOK_WHITE,
+    color: colors.PORTFOLIO_WHITE,
     cursor: 'pointer'
   }
 };
@@ -69,12 +69,12 @@ export const contactCard = {
   wordBreak: 'break-all',
   maxWidth: 500,
   minWidth: 300,
-  color: colors.BOOK_BLACK,
+  color: colors.PORTFOLIO_BLACK,
   border: '1px solid',
   transition: 'border 0.2s ease-in-out',
-  borderColor: colors.BOOK_GREEN,
+  borderColor: colors.PORTFOLIO_GREEN,
   ':hover': {
     cursor: 'pointer',
-    borderColor: colors.BOOK_ORANGE
+    borderColor: colors.PORTFOLIO_ORANGE
   }
 };
