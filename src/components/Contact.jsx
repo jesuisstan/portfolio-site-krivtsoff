@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import contactImg from '../assets/contact-img.png';
 import whatsAppQR from '../assets/whatsAppQR.jpg';
 import telegramQR from '../assets/telegramQR.jpg';
 

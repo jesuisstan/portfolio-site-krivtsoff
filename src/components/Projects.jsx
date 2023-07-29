@@ -14,16 +14,7 @@ export const Projects = () => {
       description: 'Design & Development',
       imgUrl: projImg1
     },
-    {
-      title: 'Business Startup',
-      description: 'Design & Development',
-      imgUrl: projImg2
-    },
-    {
-      title: 'Business Startup',
-      description: 'Design & Development',
-      imgUrl: projImg3
-    },
+
   ];
 
   return (
@@ -53,13 +44,13 @@ export const Projects = () => {
                       id="pills-tab"
                     >
                       <Nav.Item>
-                        <Nav.Link eventKey="first">Tab 1</Nav.Link>
+                        <Nav.Link eventKey="first">PongTheGame</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="second">Tab 2</Nav.Link>
+                        <Nav.Link eventKey="second">ContactBookApp</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="third">Tab 3</Nav.Link>
+                        <Nav.Link eventKey="third">OmioLikeSearchBar</Nav.Link>
                       </Nav.Item>
                     </Nav>
                     <Tab.Content
