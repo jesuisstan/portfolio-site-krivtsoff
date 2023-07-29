@@ -1,0 +1,21 @@
+@import './portfolioColors.css';
+
+.footer {
+  background: linear-gradient(
+    90.21deg,
+    var(--PORTFOLIO_BLACK_DEEP) -5.91%,
+    var(--PORTFOLIO_GREEN) 111.58%
+  );
+}
+
+.footer img {
+  width: 26%;
+}
+
+.footer p {
+  font-weight: 400;
+  font-size: 14px;
+  color: #b8b8b8;
+  letter-spacing: 0.5px;
+  margin-top: 20px;
+}
