@@ -2,20 +2,19 @@ import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import whatsAppQR from '../assets/whatsAppQR.jpg';
 import telegramQR from '../assets/telegramQR.jpg';
-
+import emailjs from 'emailjs-com';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import styles from '../style/Contact.module.css';
 
 export const Contact = () => {
-  const formInitialDetails = {
+  const [formDetails, setFormDetails] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     message: ''
-  };
-  const [formDetails, setFormDetails] = useState(formInitialDetails);
+  });
   const [buttonText, setButtonText] = useState('Send');
   const [status, setStatus] = useState({});
 
@@ -26,25 +25,44 @@ export const Contact = () => {
     });
   };
 
+  console.log(formDetails);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setButtonText('Sending...');
-    let response = await fetch('http://localhost:5000/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify(formDetails)
-    });
-    setButtonText('Send');
-    let result = await response.json();
-    setFormDetails(formInitialDetails);
-    if (result.code == 200) {
-      setStatus({ succes: true, message: 'Message sent successfully' });
+    if (formDetails.email && formDetails.lastName && formDetails.message) {
+      setButtonText('Sending...');
+      try {
+        await emailjs.send(
+          //'YOUR_EMAILJS_SERVICE_ID',
+          'service_iztcs2p',
+
+          //'YOUR_EMAILJS_SERVICE_ID',
+          'template_ds3he2l',
+
+          formDetails,
+          //'YOUR_EMAILJS_USER_ID'
+          'DfVF4onMYhjgS2dsa'
+        );
+        setButtonText('Send');
+        setStatus({ success: true, message: 'Message sent successfully' });
+        setFormDetails({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          message: ''
+        });
+      } catch (error) {
+        setButtonText('Send');
+        setStatus({
+          success: false,
+          message: 'Something went wrong, please try again later'
+        });
+      }
     } else {
       setStatus({
-        succes: false,
-        message: 'Something went wrong, please try again later.'
+        success: false,
+        message: 'Fill in the required fields'
       });
     }
   };
@@ -77,8 +95,8 @@ export const Contact = () => {
                       <Col size={12} sm={6} className="px-1">
                         <input
                           type="text"
-                          value={formDetails.lasttName}
-                          placeholder="Last Name"
+                          value={formDetails.lastName}
+                          placeholder="* Last Name"
                           onChange={(e) =>
                             onFormUpdate('lastName', e.target.value)
                           }
@@ -88,7 +106,7 @@ export const Contact = () => {
                         <input
                           type="email"
                           value={formDetails.email}
-                          placeholder="Email Address"
+                          placeholder="* Email Address"
                           onChange={(e) =>
                             onFormUpdate('email', e.target.value)
                           }
@@ -108,26 +126,27 @@ export const Contact = () => {
                         <textarea
                           rows="6"
                           value={formDetails.message}
-                          placeholder="Message"
+                          placeholder="* Message"
                           onChange={(e) =>
                             onFormUpdate('message', e.target.value)
                           }
                         />
+                        <p style={{ opacity: '0.75' }}>* required field</p>
                         <button type="submit">
                           <span>{buttonText}</span>
                         </button>
+                        {status.message && (
+                          <Col>
+                            <p
+                              className={
+                                status.success === false ? 'warning' : 'success'
+                              }
+                            >
+                              {status.message}
+                            </p>
+                          </Col>
+                        )}
                       </Col>
-                      {status.message && (
-                        <Col>
-                          <p
-                            className={
-                              status.success === false ? 'danger' : 'success'
-                            }
-                          >
-                            {status.message}
-                          </p>
-                        </Col>
-                      )}
                     </Row>
                   </form>
                 </div>
@@ -136,16 +155,7 @@ export const Contact = () => {
           </Col>
 
           <Col size={12} md={6}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: '60px',
-                justifyContent: 'center',
-                textAlign: 'center',
-                padding: '60px 60px 60px 60px'
-              }}
-            >
+            <div className={styles.qrCodeBlock}>
               <TrackVisibility>
                 {({ isVisible }) => (
                   <>

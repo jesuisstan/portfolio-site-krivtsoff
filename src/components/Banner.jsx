@@ -76,11 +76,12 @@ export const Banner = () => {
                     </span>
                   </h2>
                   <p>
-                    AAAAAAA Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown
-                    printer took a galley of type and scrambled it to make a
-                    type specimen book.
+                    Motivated and experienced individual with a proactive
+                    mindset, transitioning from 9 years of project management
+                    and business analysis to pursue an IT developer career.
+                    Successfully completed the two-year full-time Common Core
+                    education program at École 42 Paris. Specializing in web
+                    development with a focus on ReactJS.
                   </p>
                   <button onClick={() => console.log('connect')}>
                     Let’s Connect <ArrowRightCircle size={25} />

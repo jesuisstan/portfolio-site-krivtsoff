@@ -36,14 +36,13 @@
 
 .banner p {
   color: #b8b8b8;
-  font-size: 18px;
   letter-spacing: 0.8px;
   line-height: 1.5em;
   width: 96%;
 }
 
 .banner button {
-  color: #fff;
+  color: var(--PORTFOLIO_WHITE);
   font-weight: 700;
   font-size: 20px;
   margin-top: 60px;
@@ -80,5 +79,5 @@
 }
 
 .txtRotate > .wrap {
-  border-right: 0.08em solid #666;
+  border-right: 0.08em solid var(--PORTFOLIO_GREEN);
 }

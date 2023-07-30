@@ -14,8 +14,17 @@
 
 .footer p {
   font-weight: 400;
-  font-size: 14px;
-  color: #b8b8b8;
+  font-size: 11px;
   letter-spacing: 0.5px;
-  margin-top: 20px;
+  margin-top: 15px;
+}
+
+.footerLink {
+  color: var(--PORTFOLIO_WHITE);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  color: var(--PORTFOLIO_BLACK_DEEP);
+  text-decoration: none;
 }
