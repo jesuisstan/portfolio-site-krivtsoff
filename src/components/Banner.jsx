@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import headerImg from '../assets/header-img.jpg';
-import { ArrowRightCircle } from 'react-bootstrap-icons';
+import downloadIcon from '../assets/icon-download.svg';
+import { Download } from 'react-bootstrap-icons';
+
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import '../style/Banner.css';
@@ -52,6 +54,12 @@ export const Banner = () => {
     }
   };
 
+  const downloadCV = () => {
+    window.open(
+      'https://mega.nz/file/XEhW3B5I#i38coPc8P13QUPnnSUSGjFjrnyhscdey4nzILGZHNog'
+    );
+  };
+
   return (
     <section className="banner" id="home">
       <Container>
@@ -67,11 +75,7 @@ export const Banner = () => {
                   <h2>{`Salut! I am Stan Krivtsoff,`}</h2>
                   <h2>
                     {' '}
-                    <span
-                      className="txtRotate"
-                      dataPeriod="500"
-                      //data-rotate='[ "Web Developer", "Frontend Developer", "École 42 student" ]' //todo
-                    >
+                    <span className="txtRotate" dataPeriod="500">
                       <span className="wrap">{text}</span>
                     </span>
                   </h2>
@@ -83,9 +87,14 @@ export const Banner = () => {
                     education program at École 42 Paris. Specializing in web
                     development with a focus on ReactJS.
                   </p>
-                  <button onClick={() => console.log('connect')}>
-                    Let’s Connect <ArrowRightCircle size={25} />
+                  <button onClick={downloadCV}>
+                    <span>
+                      CV <Download size={25} />
+                    </span>
                   </button>
+                  {/*<button onClick={downloadCV}>
+                    CV <Download size={25} />
+                  </button>*/}
                 </div>
               )}
             </TrackVisibility>

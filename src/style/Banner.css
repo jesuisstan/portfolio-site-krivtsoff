@@ -35,31 +35,47 @@
 }
 
 .banner p {
-  color: #b8b8b8;
   letter-spacing: 0.8px;
   line-height: 1.5em;
   width: 96%;
+  opacity: 0.75;
 }
 
 .banner button {
   color: var(--PORTFOLIO_WHITE);
   font-weight: 700;
-  font-size: 20px;
-  margin-top: 60px;
-  letter-spacing: 0.8px;
-  display: flex;
-  align-items: center;
+  font-size: 18px;
+  letter-spacing: 3px;
+  padding: 14px 48px;
+  position: relative;
+  border: 1px solid var(--PORTFOLIO_WHITE);
+  background-color: transparent;
+  transition: 0.4s ease-in-out;
 }
 
 .banner button svg {
-  font-size: 25px;
   margin-left: 10px;
-  transition: 0.3s ease-in-out;
-  line-height: 1;
+  /*transition: 0.4s ease-in-out;*/
 }
 
-.banner button:hover svg {
-  margin-left: 25px;
+.banner button:hover {
+  color: var(--PORTFOLIO_BLACK_DEEP);
+}
+
+.banner button::before {
+  content: '';
+  background: var(--PORTFOLIO_WHITE);
+  width: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: 0.4s ease-in-out;
+}
+
+.banner button:hover::before {
+  width: 100%;
 }
 
 .banner img {
@@ -80,4 +96,10 @@
 
 .txtRotate > .wrap {
   border-right: 0.08em solid var(--PORTFOLIO_GREEN);
+}
+
+@media (width <= 767px) {
+  .banner img {
+    margin-top: 42px;
+  }
 }

@@ -1,7 +1,7 @@
-import linkedinIcon from '../assets/linkedinIcon.svg';
-import facebookIcon from '../assets/facebookIcon.svg';
-import instagramIcon from '../assets/instagramIcon.svg';
-import githubIcon from '../assets/githubIcon.svg';
+import linkedinIcon from '../assets/icon-linkedin.svg';
+import facebookIcon from '../assets/icon-facebook.svg';
+import instagramIcon from '../assets/icon-instagram.svg';
+import githubIcon from '../assets/icon-github.svg';
 import styles from '../style/SocialNetworkBlock.module.css';
 
 const SocialNetworkBlock = () => {
