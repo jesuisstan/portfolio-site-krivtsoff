@@ -14,8 +14,12 @@ nav.navbar.scrolled {
   background-color: var(--PORTFOLIO_BLACK_TRANS);
 }
 
-nav.navbar a.navbar-brand {
-  width: 9%;
+/*nav.navbar a.navbar-brand {
+  width: 20%;
+}*/
+
+nav img {
+  width: 25%;
 }
 
 nav.navbar .navbar-nav .nav-link.navbar-link {

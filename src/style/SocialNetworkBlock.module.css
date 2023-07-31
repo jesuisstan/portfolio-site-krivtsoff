@@ -1,12 +1,13 @@
+@import './portfolioColors.css';
+
 .socialIcon {
   display: inline-block;
-  /*margin-left: 14px;*/
 }
 
 .socialIcon a {
   width: 42px;
   height: 42px;
-  background: rgba(217, 217, 217, 0.1);
+  background: rgba(245, 245, 245, 0.1);
   display: inline-flex;
   border-radius: 50%;
   margin-right: 5px;
@@ -14,6 +15,7 @@
   justify-content: center;
   line-height: 1;
   border: 1px solid rgba(255, 255, 255, 0.5);
+  margin: 5px 5px;
 }
 
 .socialIcon a::before {
@@ -21,7 +23,7 @@
   width: 42px;
   height: 42px;
   position: absolute;
-  background-color: #ffffff;
+  background-color: var(--PORTFOLIO_WHITE);
   border-radius: 50%;
   transform: scale(0);
   transition: 0.4s ease-in-out;
@@ -42,8 +44,8 @@
     hue-rotate(346deg) brightness(95%) contrast(86%);
 }
 
-@media (width <= 1024px) {
+/*@media (width <= 1024px) {
   .socialIcon a {
-    margin-bottom: 5px;
+    margin: 5px 5px;
   }
-}
+}*/

@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import { HashLink } from 'react-router-hash-link';
 import { BrowserRouter as Router } from 'react-router-dom';
-import SocialNetworkBlock from './SocialNetworkBlock';
 import '../style/NavBar.css';
 
 export const NavBar = () => {
@@ -32,9 +31,7 @@ export const NavBar = () => {
     <Router>
       <Navbar expand="md" className={scrolled ? 'scrolled' : ''}>
         <Container>
-          <Navbar.Brand href="/">
-            <img src={logo} alt="Logo" />
-          </Navbar.Brand>
+          <img src={logo} alt="Logo" style={{ minWidth: '250px' }} />
           <Navbar.Toggle aria-controls="basic-navbar-nav">
             <span className="navbar-toggler-icon"></span>
           </Navbar.Toggle>
@@ -71,7 +68,7 @@ export const NavBar = () => {
               </Nav.Link>
             </Nav>
             <span className="navbar-text" style={{ marginLeft: '30px' }}>
-              <SocialNetworkBlock />
+              {/*<SocialNetworkBlock />*/}
               <HashLink to="#connect">
                 <button className="vvd">
                   <span>Let’s Connect</span>

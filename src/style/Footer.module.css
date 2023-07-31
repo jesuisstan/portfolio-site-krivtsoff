@@ -6,10 +6,19 @@
     var(--PORTFOLIO_BLACK_DEEP) -5.91%,
     var(--PORTFOLIO_GREEN) 111.58%
   );
+  padding: 5px 5px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
 }
 
 .footer img {
-  width: 26%;
+  width: 25%;
 }
 
 .footer p {
@@ -27,4 +36,12 @@
 .footerLink:hover {
   color: var(--PORTFOLIO_BLACK_DEEP);
   text-decoration: none;
+}
+
+@media (width <= 323px) {
+  .content {
+    text-align: center;
+    flex-direction: column;
+    gap: 0;
+  }
 }
