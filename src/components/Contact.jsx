@@ -77,7 +77,7 @@ export const Contact = () => {
               {({ isVisible }) => (
                 <div
                   className={
-                    isVisible ? 'animate__animated animate__fadeIn' : ''
+                    isVisible ? 'animate__animated animate__fadeInLeft' : ''
                   }
                 >
                   <form onSubmit={handleSubmit}>
@@ -159,10 +159,12 @@ export const Contact = () => {
               <TrackVisibility>
                 {({ isVisible }) => (
                   <>
-                    <h4>Telegram:</h4>
+                    <h5>Telegram:</h5>
                     <img
                       className={
-                        isVisible ? 'animate__animated animate__zoomIn' : ''
+                        isVisible
+                          ? 'animate__animated animate__fadeInRight'
+                          : ''
                       }
                       src={telegramQR}
                       alt="telegramQRcode"
@@ -177,10 +179,12 @@ export const Contact = () => {
               <TrackVisibility>
                 {({ isVisible }) => (
                   <>
-                    <h4>WhatsApp:</h4>
+                    <h5>WhatsApp:</h5>
                     <img
                       className={
-                        isVisible ? 'animate__animated animate__zoomIn' : ''
+                        isVisible
+                          ? 'animate__animated animate__fadeInRight'
+                          : ''
                       }
                       src={whatsAppQR}
                       alt="whatsAppQRcode"

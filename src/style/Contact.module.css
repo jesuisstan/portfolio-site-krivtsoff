@@ -6,7 +6,7 @@
     var(--PORTFOLIO_BLACK_DEEP) -5.91%,
     var(--PORTFOLIO_BLACK) 111.58%
   );
-  padding: 60px 0 60px 0;
+  padding: 42px 42px;
   text-align: left;
 }
 
@@ -15,7 +15,7 @@
 }
 
 .contact h2 {
-  font-size: 45px;
+  font-size: 42px;
   font-weight: 700;
   margin-bottom: 30px;
   text-align: center;

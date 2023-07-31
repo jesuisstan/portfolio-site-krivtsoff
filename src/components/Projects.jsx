@@ -5,7 +5,7 @@ import projImg2 from '../assets/project-img2.png';
 import projImg3 from '../assets/project-img3.png';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
-import '../style/Projects.css'
+import '../style/Projects.css';
 
 export const Projects = () => {
   const projects = [
@@ -13,8 +13,7 @@ export const Projects = () => {
       title: 'Business Startup',
       description: 'Design & Development',
       imgUrl: projImg1
-    },
-
+    }
   ];
 
   return (
@@ -53,6 +52,7 @@ export const Projects = () => {
                         <Nav.Link eventKey="third">OmioLikeSearchBar</Nav.Link>
                       </Nav.Item>
                     </Nav>
+                    
                     <Tab.Content
                       id="slideInUp"
                       className={
@@ -60,20 +60,10 @@ export const Projects = () => {
                       }
                     >
                       <Tab.Pane eventKey="first">
-                        <Row>
-                          {projects.map((project, index) => {
-                            return <ProjectCard key={index} {...project} />;
-                          })}
-                        </Row>
+                        <ProjectCard {...projects[0]} />
                       </Tab.Pane>
-                      <Tab.Pane eventKey="section">
-                        <p>
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Cumque quam, quod neque provident velit, rem
-                          explicabo excepturi id illo molestiae blanditiis,
-                          eligendi dicta officiis asperiores delectus quasi
-                          inventore debitis quo.
-                        </p>
+                      <Tab.Pane eventKey="second">
+                        <ProjectCard {...projects[0]} />
                       </Tab.Pane>
                       <Tab.Pane eventKey="third">
                         <p>

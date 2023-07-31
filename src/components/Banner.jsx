@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import headerImg from '../assets/header-img.jpg';
-import downloadIcon from '../assets/icon-download.svg';
-import { Download } from 'react-bootstrap-icons';
-
 import 'animate.css';
+import headerImg from '../assets/header-img.jpg';
 import TrackVisibility from 'react-on-screen';
+import { Download } from 'react-bootstrap-icons';
 import '../style/Banner.css';
 
 export const Banner = () => {
@@ -55,9 +53,7 @@ export const Banner = () => {
   };
 
   const downloadCV = () => {
-    window.open(
-      'https://mega.nz/file/XEhW3B5I#i38coPc8P13QUPnnSUSGjFjrnyhscdey4nzILGZHNog'
-    );
+    window.open(`${process.env.REACT_APP_LINK_CV_DOWNLOAD}`);
   };
 
   return (
@@ -69,7 +65,7 @@ export const Banner = () => {
               {({ isVisible }) => (
                 <div
                   className={
-                    isVisible ? 'animate__animated animate__fadeIn' : ''
+                    isVisible ? 'animate__animated animate__pulse' : ''
                   }
                 >
                   <h2>{`Salut! I am Stan Krivtsoff,`}</h2>
