@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import whatsAppQR from '../assets/whatsAppQR.jpg';
-import telegramQR from '../assets/telegramQR.jpg';
+import qrWhatsApp from '../assets/qrWhatsApp.jpg';
+import qrTelegram from '../assets/qrTelegram.jpg';
 import emailjs from 'emailjs-com';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
@@ -166,8 +166,8 @@ export const Contact = () => {
                           ? 'animate__animated animate__fadeInRight'
                           : ''
                       }
-                      src={telegramQR}
-                      alt="telegramQRcode"
+                      src={qrTelegram}
+                      alt="qrTelegramcode"
                       style={{
                         width: '150px',
                         height: '150px'
@@ -186,8 +186,8 @@ export const Contact = () => {
                           ? 'animate__animated animate__fadeInRight'
                           : ''
                       }
-                      src={whatsAppQR}
-                      alt="whatsAppQRcode"
+                      src={qrWhatsApp}
+                      alt="qrWhatsAppcode"
                       style={{
                         width: '150px',
                         height: '150px'
