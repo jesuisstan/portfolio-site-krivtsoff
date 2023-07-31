@@ -68,7 +68,6 @@ export const NavBar = () => {
               </Nav.Link>
             </Nav>
             <span className="navbar-text" style={{ marginLeft: '30px' }}>
-              {/*<SocialNetworkBlock />*/}
               <HashLink to="#connect">
                 <button className="vvd">
                   <span>Let’s Connect</span>
