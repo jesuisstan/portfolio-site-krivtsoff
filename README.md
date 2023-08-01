@@ -25,9 +25,7 @@ While the project has been successfully implemented and deployed, there are pote
 
 - **Unit Testing**: Implementing unit tests for the components and functionality of the search bar would help ensure the stability and maintainability of the codebase, allowing for easier future modifications and bug fixes.
 
-- **Safari browser support** was not tested.
-
-By addressing these areas for improvement, the project can be further optimized and polished, providing an even better user experience similar to that of Omio.
+By addressing these areas for improvement, the project can be further optimized and polished.
 
 ## How to use
 #### A) With NPM:
