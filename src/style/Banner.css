@@ -8,6 +8,7 @@
     var(--PORTFOLIO_BLACK_DEEP) -5.91%,
     var(--PORTFOLIO_GREEN) 111.58%
   );
+  transition: 0.4s ease-in-out;
 }
 
 .banner .tagline {
@@ -98,6 +99,10 @@
 }
 
 @media (width <= 767px) {
+  .banner {
+    padding: 155px 0 100px 0;
+  }
+
   .banner img {
     margin-top: 42px;
   }
