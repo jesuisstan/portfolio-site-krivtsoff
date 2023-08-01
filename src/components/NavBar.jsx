@@ -35,7 +35,21 @@ export const NavBar = () => {
     <Router>
       <Navbar expand="md" className={scrolled ? 'scrolled' : ''}>
         <Container>
-          <img src={logo} alt="Logo" style={{ minWidth: '250px', padding: '11px 11px'}} />
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              minWidth: '250px',
+              padding: '11px 11px',
+              cursor: 'pointer'
+            }}
+            onClick={() =>
+              window.open(
+                `https://octoprofile.vercel.app/user?id=${process.env.REACT_APP_GITHUB_PROFILE}`
+              )
+            }
+          />
+
           {isSmallScreen ? (
             <Navbar.Toggle
               aria-controls="basic-navbar-nav"
@@ -80,7 +94,7 @@ export const NavBar = () => {
               </Nav>
               <span className="navbar-text" style={{ marginLeft: '30px' }}>
                 <HashLink to="#connect">
-                  <button className="vvd">
+                  <button>
                     <span>Let’s Connect</span>
                   </button>
                 </HashLink>

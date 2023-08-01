@@ -10,9 +10,22 @@ import '../style/Projects.css';
 export const Projects = () => {
   const projects = [
     {
-      title: 'Business Startup',
-      description: 'Design & Development',
-      imgUrl: projImg1
+      title: 'Pong The Game App',
+      description: 'Fullstack App for online PingPong',
+      imgUrl: projImg1,
+      link: 'http://www.pongthegame.rocks/'
+    },
+    {
+      title: 'Contact Book App',
+      description: 'Contact book React App with authentication',
+      imgUrl: projImg2,
+      link: 'http://209.38.216.33:9000/'
+    },
+    {
+      title: 'Omio Like Search Bar',
+      description: 'Clone of the main page of Omio.com with autocomplete',
+      imgUrl: projImg3,
+      link: 'http://209.38.216.33:5555/'
     }
   ];
 
@@ -25,17 +38,11 @@ export const Projects = () => {
               {({ isVisible }) => (
                 <div
                   className={
-                    isVisible ? 'animate__animated animate__fadeIn' : ''
+                    isVisible ? 'animate__animated animate__pulse' : ''
                   }
                 >
                   <h2>Projects</h2>
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown
-                    printer took a galley of type and scrambled it to make a
-                    type specimen book.
-                  </p>
+                  <p>My last web applications created with focus on ReactJS</p>
                   <Tab.Container id="projects-tabs" defaultActiveKey="first">
                     <Nav
                       variant="pills"
@@ -43,36 +50,38 @@ export const Projects = () => {
                       id="pills-tab"
                     >
                       <Nav.Item>
-                        <Nav.Link eventKey="first">PongTheGame</Nav.Link>
+                        <Nav.Link eventKey="first">
+                          {projects[0].title}
+                        </Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="second">ContactBookApp</Nav.Link>
+                        <Nav.Link eventKey="second">
+                          {projects[1].title}
+                        </Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="third">OmioLikeSearchBar</Nav.Link>
+                        <Nav.Link eventKey="third">
+                          {projects[2].title}
+                        </Nav.Link>
                       </Nav.Item>
                     </Nav>
-                    
+
                     <Tab.Content
                       id="slideInUp"
                       className={
-                        isVisible ? 'animate__animated animate__slideInUp' : ''
+                        isVisible
+                          ? 'animate__animated animate__slideInUp'
+                          : ''
                       }
                     >
                       <Tab.Pane eventKey="first">
                         <ProjectCard {...projects[0]} />
                       </Tab.Pane>
                       <Tab.Pane eventKey="second">
-                        <ProjectCard {...projects[0]} />
+                        <ProjectCard {...projects[1]} />
                       </Tab.Pane>
                       <Tab.Pane eventKey="third">
-                        <p>
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Cumque quam, quod neque provident velit, rem
-                          explicabo excepturi id illo molestiae blanditiis,
-                          eligendi dicta officiis asperiores delectus quasi
-                          inventore debitis quo.
-                        </p>
+                        <ProjectCard {...projects[2]} />
                       </Tab.Pane>
                     </Tab.Content>
                   </Tab.Container>

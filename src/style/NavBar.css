@@ -46,9 +46,8 @@ span.navbar-text {
   font-weight: 700;
   color: var(--PORTFOLIO_WHITE);
   border: 1px solid var(--PORTFOLIO_WHITE);
-  padding: 18px 34px;
+  padding: 18px;
   font-size: 18px;
-  margin-left: 18px;
   position: relative;
   background-color: transparent;
   transition: 0.4s ease-in-out;
@@ -132,4 +131,10 @@ nav.navbar .navbar-toggler[aria-expanded='true'] .navbar-toggler-icon:before {
 
 nav.navbar .navbar-toggler[aria-expanded='true'] .navbar-toggler-icon {
   border-color: transparent;
+}
+
+@media (width <= 800px) {
+  nav.navbar .navbar-nav .nav-link.navbar-link {
+    padding: 0 12px;
+  }
 }
