@@ -82,7 +82,7 @@
   animation: updown 3s linear infinite;
 }
 
-@keyframes updown {
+/*@keyframes updown {
   0% {
     transform: translateY(-20px);
   }
@@ -92,7 +92,7 @@
   100% {
     transform: translateY(-20px);
   }
-}
+}*/
 
 .txtRotate > .wrap {
   border-right: 0.08em solid var(--PORTFOLIO_GREEN);

@@ -6,6 +6,7 @@ import emailjs from 'emailjs-com';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import styles from '../style/Contact.module.css';
+import * as colors from '../style/portfolioColors'
 
 export const Contact = () => {
   const [formDetails, setFormDetails] = useState({
@@ -131,7 +132,7 @@ export const Contact = () => {
                             onFormUpdate('message', e.target.value)
                           }
                         />
-                        <p style={{ opacity: '0.75' }}>* required field</p>
+                        <p style={{ opacity: '0.75', color: colors.PORTFOLIO_RED_DANGER}}>* required field</p>
                         <button type="submit">
                           <span>{buttonText}</span>
                         </button>

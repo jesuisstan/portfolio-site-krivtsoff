@@ -35,8 +35,10 @@ export const Skills = () => {
   };
 
   const proceedToOctoprofile = () => {
-    window.open(`https://octoprofile.vercel.app/user?id=${process.env.REACT_APP_GITHUB_PROFILE}`)
-  }
+    window.open(
+      `https://octoprofile.vercel.app/user?id=${process.env.REACT_APP_GITHUB_PROFILE}`
+    );
+  };
 
   return (
     <section className="skill" id="skills">
@@ -50,61 +52,69 @@ export const Skills = () => {
                 technologies
                 <br />
                 required to develop contemporary, responsive, and fully
-                functional web applications.
-                <br />
-                Check out the actual github statistics {' '}
-                <ArrowRightCircle size={22} style={{cursor: 'pointer'}} onClick={proceedToOctoprofile}/>
+                functional web applications
               </p>
-              <Carousel
-                responsive={responsive}
-                infinite={true}
-                className="owl-carousel owl-theme skill-slider"
-              >
-                <div className="item">
-                  <h5>ReactJS</h5>
-                  <img src={logoReact} alt="ReactJS" />
-                </div>
-                <div className="item">
-                  <h5>Typescript</h5>
-                  <img src={logoTS} alt="Typescript" />
-                </div>
-                <div className="item">
-                  <h5>Javascript</h5>
-                  <img src={logoJS} alt="Javascript" />
-                </div>
-                <div className="item">
-                  <h5>HTML</h5>
-                  <img src={logoHTML} alt="html" />
-                </div>
-                <div className="item">
-                  <h5>CSS</h5>
-                  <img src={logoCSS} alt="css" />
-                </div>
-                <div className="item">
-                  <h5>Material UI</h5>
-                  <img src={logoMaterialUI} alt="material ui" />
-                </div>
-                <div className="item">
-                  <h5>Bootstrap</h5>
-                  <img src={logoBootstrap} alt="Bootstrap" />
-                </div>
-                <div className="item">
-                  <h5>Node.js</h5>
-                  <img src={logoNodeJS} alt="node.js" />
-                </div>
-                <div className="item">
-                  <h5>MongoDB</h5>
-                  <img src={logoMongoDB} alt="MongoDB" />
-                </div>
-                <div className="item">
-                  <h5>Git</h5>
-                  <img src={logoGit} alt="git" />
-                </div>
-                <div className="item">
-                  <h5>Docker</h5>
-                  <img src={logoDocker} alt="docker" />
-                </div>
-              </Carousel>
+              <div style={{ margin: '41px' }}>
+                <Carousel
+                  responsive={responsive}
+                  infinite={true}
+                  className="owl-carousel owl-theme skill-slider"
+                >
+                  <div className="item">
+                    <h5>ReactJS</h5>
+                    <img src={logoReact} alt="ReactJS" />
+                  </div>
+                  <div className="item">
+                    <h5>Typescript</h5>
+                    <img src={logoTS} alt="Typescript" />
+                  </div>
+                  <div className="item">
+                    <h5>Javascript</h5>
+                    <img src={logoJS} alt="Javascript" />
+                  </div>
+                  <div className="item">
+                    <h5>HTML</h5>
+                    <img src={logoHTML} alt="html" />
+                  </div>
+                  <div className="item">
+                    <h5>CSS</h5>
+                    <img src={logoCSS} alt="css" />
+                  </div>
+                  <div className="item">
+                    <h5>Material UI</h5>
+                    <img src={logoMaterialUI} alt="material ui" />
+                  </div>
+                  <div className="item">
+                    <h5>Bootstrap</h5>
+                    <img src={logoBootstrap} alt="Bootstrap" />
+                  </div>
+                  <div className="item">
+                    <h5>Node.js</h5>
+                    <img src={logoNodeJS} alt="node.js" />
+                  </div>
+                  <div className="item">
+                    <h5>MongoDB</h5>
+                    <img src={logoMongoDB} alt="MongoDB" />
+                  </div>
+                  <div className="item">
+                    <h5>Git</h5>
+                    <img src={logoGit} alt="git" />
+                  </div>
+                  <div className="item">
+                    <h5>Docker</h5>
+                    <img src={logoDocker} alt="docker" />
+                  </div>
+                </Carousel>
+              </div>
+              <p>
+                <br />
+                The actual github statistics:
+                <br />
+                <button type="submit">
+                  <span>Check out</span>
+                </button>
+                {/*<ArrowRightCircle size={22} style={{cursor: 'pointer'}} onClick={proceedToOctoprofile}/>*/}
+              </p>
             </div>
           </div>
         </div>

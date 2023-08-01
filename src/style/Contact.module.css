@@ -29,7 +29,7 @@
     var(--PORTFOLIO_BLACK) -5.91%,
     var(--PORTFOLIO_BLACK_DEEP) 111.58%
   );
-  border: 1px solid var(--PORTFOLIO_GREEN);
+  border: 1px solid var(--PORTFOLIO_WHITE);
   color: var(--PORTFOLIO_WHITE);
   margin: 0 0 8px 0;
   padding: 18px 26px;
@@ -51,7 +51,6 @@
   font-weight: 400;
   color: var(--PORTFOLIO_WHITE);
   opacity: 0.75;
-
 }
 
 .contact form input:focus::placeholder,
@@ -61,12 +60,13 @@
 
 .contact form button {
   font-weight: 700;
-  padding: 14px 48px;
+  width: 150px;
+  padding: 14px;
   font-size: 18px;
   margin: 25px 0;
   position: relative;
   color: var(--PORTFOLIO_WHITE);
-  border: 1px solid var(--PORTFOLIO_GREEN);
+  border: 1px solid var(--PORTFOLIO_WHITE);
   background-color: transparent;
   transition: 0.4s ease-in-out;
 }

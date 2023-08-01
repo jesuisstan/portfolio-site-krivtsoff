@@ -58,7 +58,7 @@
   top: 0;
   left: 0;
   z-index: -1;
-  transition: 0.3s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 .projects .nav.nav-pills .nav-link.active::before {
   width: 100% !important;
@@ -86,6 +86,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+  cursor: pointer;
 }
 
 .proj-imgbx img {
@@ -98,8 +99,8 @@
   content: '';
   background: linear-gradient(
     90.21deg,
-    var(--PORTFOLIO_BLACK) -5.91%,
-    var(--PORTFOLIO_BLUE) 111.58%
+    var(--PORTFOLIO_BLACK_DEEP) -5.91%,
+    var(--PORTFOLIO_BLACK) 111.58%
   );
   opacity: 0.85;
   position: absolute;

@@ -10,19 +10,19 @@ import '../style/Projects.css';
 export const Projects = () => {
   const projects = [
     {
-      title: 'Pong The Game App',
+      title: 'Pong The Game',
       description: 'Fullstack App for online PingPong',
       imgUrl: projImg1,
       link: 'http://www.pongthegame.rocks/'
     },
     {
-      title: 'Contact Book App',
+      title: 'Contact Book',
       description: 'Contact book React App with authentication',
       imgUrl: projImg2,
       link: 'http://209.38.216.33:9000/'
     },
     {
-      title: 'Omio Like Search Bar',
+      title: 'Omio Like Bar',
       description: 'Clone of the main page of Omio.com with autocomplete',
       imgUrl: projImg3,
       link: 'http://209.38.216.33:5555/'
@@ -37,9 +37,9 @@ export const Projects = () => {
             <TrackVisibility>
               {({ isVisible }) => (
                 <div
-                  className={
-                    isVisible ? 'animate__animated animate__pulse' : ''
-                  }
+                //className={
+                //  isVisible ? 'animate__animated animate__pulse' : ''
+                //}
                 >
                   <h2>Projects</h2>
                   <p>My last web applications created with focus on ReactJS</p>
@@ -69,9 +69,7 @@ export const Projects = () => {
                     <Tab.Content
                       id="slideInUp"
                       className={
-                        isVisible
-                          ? 'animate__animated animate__slideInUp'
-                          : ''
+                        isVisible ? 'animate__animated animate__pulse' : ''
                       }
                     >
                       <Tab.Pane eventKey="first">
