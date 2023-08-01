@@ -1,6 +1,6 @@
 # Project Documentation: portfolio-site-krivtsoff
 
-The deployed project can be accessed at http://209.38.216.33:7777/. \
+The deployed project can be accessed at http://209.38.216.33:7777/ or www.krivtsoff.me. \
 The source code with explanatory comments is available on GitHub [repository](https://github.com/jesuisstan/portfolio-site-krivtsoff).
 
 ## Objective
