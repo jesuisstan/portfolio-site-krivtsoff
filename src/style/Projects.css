@@ -37,11 +37,11 @@
   padding: 17px 0;
   color: var(--PORTFOLIO_WHITE);
   width: 100%;
-  font-size: 17px;
+  font-size: 15px;
   letter-spacing: 0.8px;
   font-weight: 500;
   position: relative;
-  transition: 0.3s ease-in-out;
+  transition: 0.4s ease-in-out;
   text-align: center;
   z-index: 0;
 }
@@ -144,4 +144,10 @@
   width: 35%;
   right: 0;
   z-index: -4;
+}
+
+@media (width <= 767px) {
+  .projects .nav.nav-pills .nav-link {
+    font-size: 10px;
+  }
 }

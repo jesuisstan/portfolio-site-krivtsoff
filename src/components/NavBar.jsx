@@ -44,9 +44,7 @@ export const NavBar = () => {
               cursor: 'pointer'
             }}
             onClick={() =>
-              window.open(
-                `https://octoprofile.vercel.app/user?id=${process.env.REACT_APP_GITHUB_PROFILE}`
-              )
+              (window.location.href = `${process.env.REACT_APP_LINK_PORTFOLIO}`)
             }
           />
 

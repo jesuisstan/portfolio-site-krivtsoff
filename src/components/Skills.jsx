@@ -10,7 +10,6 @@ import logoBootstrap from '../assets/logo-bootstrap.png';
 import logoMongoDB from '../assets/logo-mongodb.png';
 import logoReact from '../assets/logo-react.png';
 import Carousel from 'react-multi-carousel';
-import { ArrowRightCircle } from 'react-bootstrap-icons';
 import 'react-multi-carousel/lib/styles.css';
 import '../style/Skills.css';
 
@@ -110,10 +109,15 @@ export const Skills = () => {
                 <br />
                 The actual github statistics:
                 <br />
-                <button type="submit">
+                <button
+                  onClick={() =>
+                    window.open(
+                      `https://octoprofile.vercel.app/user?id=${process.env.REACT_APP_GITHUB_PROFILE}`
+                    )
+                  }
+                >
                   <span>Check out</span>
                 </button>
-                {/*<ArrowRightCircle size={22} style={{cursor: 'pointer'}} onClick={proceedToOctoprofile}/>*/}
               </p>
             </div>
           </div>
