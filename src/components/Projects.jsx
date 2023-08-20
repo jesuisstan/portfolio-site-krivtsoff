@@ -19,7 +19,7 @@ export const Projects = () => {
       title: 'Contact Book',
       description: 'Contact book React App with authentication',
       imgUrl: projImg2,
-      link: 'http://209.38.216.33:9000/'
+      link: 'http://209.38.216.33:9090/'
     },
     {
       title: 'Omio Like Bar',
