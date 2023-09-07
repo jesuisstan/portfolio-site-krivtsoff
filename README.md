@@ -61,3 +61,4 @@ docker run -p 7777:7777 portfolio
 ```
 
 Open [http://localhost:7777](http://localhost:7777) to view the App in browser.
+Enjoy!
