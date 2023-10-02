@@ -1,4 +1,4 @@
-@import './portfolioColors.css';
+/*@import './portfolioColors.css';*/
 
 .skill {
   padding: 0 0 42px 0;
@@ -8,6 +8,8 @@
     var(--PORTFOLIO_BLACK_DEEP) -5.91%,
     var(--PORTFOLIO_BLACK) 111.58%
   );
+  align-items: center;
+  text-align: center;
 }
 
 .skill-bx {

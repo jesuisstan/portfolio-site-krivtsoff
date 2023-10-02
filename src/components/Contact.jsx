@@ -1,13 +1,11 @@
-"use client"
+'use client';
 import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import qrWhatsApp from '../../public/qrWhatsApp.jpg'
-import qrTelegram from '../../public/qrTelegram.jpg';
 import emailjs from 'emailjs-com';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
-import styles from '../styles/Contact.module.css'
-import * as colors from '../styles/portfolioColors'
+import styles from '../styles/Contact.module.css';
+import * as colors from '../styles/portfolioColors';
 
 export const Contact = () => {
   const [formDetails, setFormDetails] = useState({
@@ -131,7 +129,14 @@ export const Contact = () => {
                             onFormUpdate('message', e.target.value)
                           }
                         />
-                        <p style={{ opacity: '0.75', color: colors.PORTFOLIO_RED_DANGER}}>* required field</p>
+                        <p
+                          style={{
+                            opacity: '0.75',
+                            color: colors.PORTFOLIO_RED_DANGER
+                          }}
+                        >
+                          * required field
+                        </p>
                         <button type="submit">
                           <span>{buttonText}</span>
                         </button>
@@ -166,7 +171,7 @@ export const Contact = () => {
                           ? 'animate__animated animate__fadeInRight'
                           : ''
                       }
-                      src={qrTelegram}
+                      src="/qrTelegram.jpg"
                       alt="qrTelegramcode"
                       style={{
                         width: '150px',
@@ -186,7 +191,7 @@ export const Contact = () => {
                           ? 'animate__animated animate__fadeInRight'
                           : ''
                       }
-                      src={qrWhatsApp}
+                      src="/qrWhatsApp.jpg"
                       alt="qrWhatsAppcode"
                       style={{
                         width: '150px',

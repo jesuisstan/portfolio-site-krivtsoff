@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 //import 'animate.css';
-import avatar from '../../public/avatar.jpg'
+import avatar from '../../public/avatar.jpg';
 import TrackVisibility from 'react-on-screen';
 import { Download } from 'react-bootstrap-icons';
 //import '../style/Banner.css';
@@ -50,7 +50,7 @@ export const Banner = () => {
   };
 
   const downloadCV = () => {
-    window.open(`${process.env.REACT_APP_LINK_CV_DOWNLOAD}`);
+    window.open(`${process.env.LINK_CV_DOWNLOAD}`);
   };
 
   return (
@@ -89,7 +89,7 @@ export const Banner = () => {
               }}
             >
               <img
-                src='/avatar.jpg'
+                src="/avatar.jpg"
                 alt="avatar"
                 style={{
                   width: '300px',
@@ -97,7 +97,6 @@ export const Banner = () => {
                   borderRadius: '50%'
                 }}
               />
-
             </div>
           </Col>
         </Row>

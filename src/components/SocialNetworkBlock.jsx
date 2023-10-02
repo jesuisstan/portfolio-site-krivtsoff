@@ -1,35 +1,35 @@
-import styles from '../styles/SocialNetworkBlock.module.css'
+import styles from '../styles/SocialNetworkBlock.module.css';
 
 const SocialNetworkBlock = () => {
   return (
     <div className={styles.socialIcon}>
       <a
-        href={process.env.REACT_APP_LINK_GITHUB}
+        href={process.env.LINK_GITHUB}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src='/icon-github.svg' alt="GITHUB" />
+        <img src="/icon-github.svg" alt="GITHUB" />
       </a>
       <a
-        href={process.env.REACT_APP_LINK_LINKEDIN}
+        href={process.env.LINK_LINKEDIN}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src='/icon-linkedin.svg' alt="LINKEDIN" />
+        <img src="/icon-linkedin.svg" alt="LINKEDIN" />
       </a>
       <a
-        href={process.env.REACT_APP_LINK_FACEBOOK}
+        href={process.env.LINK_FACEBOOK}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src='/icon-facebook.svg' alt="FACEBOOK" />
+        <img src="/icon-facebook.svg" alt="FACEBOOK" />
       </a>
       <a
-        href={process.env.REACT_APP_LINK_INSTAGRAM}
+        href={process.env.LINK_INSTAGRAM}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src='/icon-instagram.svg' alt="INSTAGRAM" />
+        <img src="/icon-instagram.svg" alt="INSTAGRAM" />
       </a>
     </div>
   );

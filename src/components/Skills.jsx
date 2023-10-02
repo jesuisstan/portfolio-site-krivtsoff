@@ -1,18 +1,7 @@
-'use client'
-import logoJS from '../../public/logo-js.png';
-import logoTS from '../../public/logo-ts.png';
-import logoGit from '../../public/logo-git.png';
-import logoHTML from '../../public/logo-html.png';
-import logoDocker from '../../public/logo-docker.png';
-import logoCSS from '../../public/logo-css.png';
-import logoNodeJS from '../../public/logo-node.png';
-import logoMaterialUI from '../../public/logo-material-ui.png';
-import logoBootstrap from '../../public/logo-bootstrap.png';
-import logoMongoDB from '../../public/logo-mongodb.png';
-import logoReact from '../../public/logo-react.png';
+'use client';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-//import '../style/Skills.css';
+import styles from '../styles/Skills.module.css';
 
 export const Skills = () => {
   const responsive = {
@@ -33,15 +22,11 @@ export const Skills = () => {
       items: 1
     }
   };
-
-  const proceedToOctoprofile = () => {
-    window.open(
-      `https://octoprofile.vercel.app/user?id=${process.env.REACT_APP_GITHUB_PROFILE}`
-    );
-  };
-
+  console.log(
+    `https://octoprofile.vercel.app/user?id=${process.env.GITHUB_PROFILE}`
+  );
   return (
-    <section className="skill" id="skills">
+    <section className={styles.skill} id="skills">
       <div className="container">
         <div className="row">
           <div className="col-12">
@@ -62,47 +47,102 @@ export const Skills = () => {
                 >
                   <div className="item">
                     <h5>ReactJS</h5>
-                    <img src={logoReact} alt="ReactJS" />
+                    <img
+                      src="/logo-react.png"
+                      alt="ReactJS"
+                      height="100px"
+                      width="100px"
+                    />
                   </div>
                   <div className="item">
                     <h5>Typescript</h5>
-                    <img src={logoTS} alt="Typescript" />
+                    <img
+                      src="/logo-ts.png"
+                      alt="Typescript"
+                      height="100px"
+                      width="100px"
+                    />
                   </div>
                   <div className="item">
                     <h5>Javascript</h5>
-                    <img src={logoJS} alt="Javascript" />
+                    <img
+                      src="/logo-js.png"
+                      alt="Javascript"
+                      height="100px"
+                      width="100px"
+                    />
                   </div>
                   <div className="item">
                     <h5>HTML</h5>
-                    <img src={logoHTML} alt="html" />
+                    <img
+                      src="/logo-html.png"
+                      alt="html"
+                      height="100px"
+                      width="100px"
+                    />
                   </div>
                   <div className="item">
                     <h5>CSS</h5>
-                    <img src={logoCSS} alt="css" />
+                    <img
+                      src="/logo-css.png"
+                      alt="css"
+                      height="100px"
+                      width="100px"
+                    />
                   </div>
                   <div className="item">
                     <h5>Material UI</h5>
-                    <img src={logoMaterialUI} alt="material ui" />
+                    <img
+                      src="/logo-material-ui.png"
+                      alt="material ui"
+                      height="100px"
+                      width="100px"
+                    />
                   </div>
                   <div className="item">
                     <h5>Bootstrap</h5>
-                    <img src={logoBootstrap} alt="Bootstrap" />
+                    <img
+                      src="/logo-bootstrap.png"
+                      alt="Bootstrap"
+                      height="100px"
+                      width="100px"
+                    />
                   </div>
                   <div className="item">
                     <h5>Node.js</h5>
-                    <img src={logoNodeJS} alt="node.js" />
+                    <img
+                      src="/logo-node.png"
+                      alt="node.js"
+                      height="100px"
+                      width="100px"
+                    />
                   </div>
                   <div className="item">
                     <h5>MongoDB</h5>
-                    <img src={logoMongoDB} alt="MongoDB" />
+                    <img
+                      src="/logo-mongodb.png"
+                      alt="MongoDB"
+                      height="100px"
+                      width="100px"
+                    />
                   </div>
                   <div className="item">
                     <h5>Git</h5>
-                    <img src={logoGit} alt="git" />
+                    <img
+                      src="/logo-git.png"
+                      alt="git"
+                      height="100px"
+                      width="100px"
+                    />
                   </div>
                   <div className="item">
                     <h5>Docker</h5>
-                    <img src={logoDocker} alt="docker" />
+                    <img
+                      src="/logo-docker.png"
+                      alt="docker"
+                      height="100px"
+                      width="100px"
+                    />
                   </div>
                 </Carousel>
               </div>
@@ -113,7 +153,7 @@ export const Skills = () => {
                 <button
                   onClick={() =>
                     window.open(
-                      `https://octoprofile.vercel.app/user?id=${process.env.REACT_APP_GITHUB_PROFILE}`
+                      `https://octoprofile.vercel.app/user?id=${process.env.GITHUB_PROFILE}`
                     )
                   }
                 >
