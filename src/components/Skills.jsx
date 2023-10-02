@@ -1,17 +1,18 @@
-import logoJS from '../assets/logo-js.png';
-import logoTS from '../assets/logo-ts.png';
-import logoGit from '../assets/logo-git.png';
-import logoHTML from '../assets/logo-html.png';
-import logoDocker from '../assets/logo-docker.png';
-import logoCSS from '../assets/logo-css.png';
-import logoNodeJS from '../assets/logo-node.png';
-import logoMaterialUI from '../assets/logo-material-ui.png';
-import logoBootstrap from '../assets/logo-bootstrap.png';
-import logoMongoDB from '../assets/logo-mongodb.png';
-import logoReact from '../assets/logo-react.png';
+'use client'
+import logoJS from '../../public/logo-js.png';
+import logoTS from '../../public/logo-ts.png';
+import logoGit from '../../public/logo-git.png';
+import logoHTML from '../../public/logo-html.png';
+import logoDocker from '../../public/logo-docker.png';
+import logoCSS from '../../public/logo-css.png';
+import logoNodeJS from '../../public/logo-node.png';
+import logoMaterialUI from '../../public/logo-material-ui.png';
+import logoBootstrap from '../../public/logo-bootstrap.png';
+import logoMongoDB from '../../public/logo-mongodb.png';
+import logoReact from '../../public/logo-react.png';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import '../style/Skills.css';
+//import '../style/Skills.css';
 
 export const Skills = () => {
   const responsive = {

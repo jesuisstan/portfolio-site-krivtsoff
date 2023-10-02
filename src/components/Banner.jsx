@@ -1,10 +1,12 @@
+'use client';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import 'animate.css';
-import avatar from '../assets/avatar.jpg';
+//import 'animate.css';
+import avatar from '../../public/avatar.jpg'
 import TrackVisibility from 'react-on-screen';
 import { Download } from 'react-bootstrap-icons';
-import '../style/Banner.css';
+//import '../style/Banner.css';
 
 export const Banner = () => {
   const [loopNum, setLoopNum] = useState(0);
@@ -87,7 +89,7 @@ export const Banner = () => {
               }}
             >
               <img
-                src={avatar}
+                src='/avatar.jpg'
                 alt="avatar"
                 style={{
                   width: '300px',
@@ -95,6 +97,7 @@ export const Banner = () => {
                   borderRadius: '50%'
                 }}
               />
+
             </div>
           </Col>
         </Row>

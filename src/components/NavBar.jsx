@@ -1,11 +1,13 @@
+"use client"
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import logo from '../assets/logo.png';
+//import logo from '../../public/logo.png'
 import { HashLink } from 'react-router-hash-link';
 import { BrowserRouter as Router } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuDrawer from './MenuDrawer';
-import '../style/NavBar.css';
+import styles from '@/styles/NavBar.module.css'
 
 export const NavBar = () => {
   const [activeLink, setActiveLink] = useState('home');
@@ -35,8 +37,9 @@ export const NavBar = () => {
     <Router>
       <Navbar expand="md" className={scrolled ? 'scrolled' : ''}>
         <Container>
+        <Image src="/logo.png" alt="krivtsoff-develope" priority={true} width="0" height="0" sizes="100vw" className="h-auto w-52"></Image>
           <img
-            src={logo}
+            src='/logo.png'
             alt="Logo"
             style={{
               minWidth: '250px',

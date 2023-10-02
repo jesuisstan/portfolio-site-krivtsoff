@@ -1,11 +1,12 @@
+"use client"
 import { Container, Row, Col, Tab, Nav } from 'react-bootstrap';
 import { ProjectCard } from './ProjectCard';
-import projImg1 from '../assets/project-img1.png';
-import projImg2 from '../assets/project-img2.png';
-import projImg3 from '../assets/project-img3.png';
+import projImg1 from '../../public/project-img1.png';
+import projImg2 from '../../public/project-img2.png';
+import projImg3 from '../../public/project-img3.png';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
-import '../style/Projects.css';
+//import '../style/Projects.css';
 
 export const Projects = () => {
   const projects = [

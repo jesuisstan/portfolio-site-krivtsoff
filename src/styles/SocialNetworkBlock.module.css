@@ -1,0 +1,51 @@
+/*@import './portfolioColors.css';*/
+
+.socialIcon {
+  display: inline-block;
+}
+
+.socialIcon a {
+  width: 42px;
+  height: 42px;
+  background: rgba(245, 245, 245, 0.1);
+  display: inline-flex;
+  border-radius: 50%;
+  margin-right: 5px;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  margin: 5px 5px;
+}
+
+.socialIcon a::before {
+  content: '';
+  width: 42px;
+  height: 42px;
+  position: absolute;
+  background-color: var(--PORTFOLIO_WHITE);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 0.4s ease-in-out;
+}
+
+.socialIcon a:hover::before {
+  transform: scale(1);
+}
+
+.socialIcon a img {
+  width: 55%;
+  z-index: 1;
+  transition: 0.4s ease-in-out;
+}
+
+.socialIcon a:hover img {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(7%) saturate(98%)
+    hue-rotate(346deg) brightness(95%) contrast(86%);
+}
+
+/*@media (width <= 1024px) {
+  .socialIcon a {
+    margin: 5px 5px;
+  }
+}*/

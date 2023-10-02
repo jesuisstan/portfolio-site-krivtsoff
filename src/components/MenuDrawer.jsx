@@ -1,5 +1,5 @@
 import { Drawer, List, ListItem } from '@mui/material';
-import * as colors from '../style/portfolioColors.js';
+import * as colors from '../styles/portfolioColors'
 import { Nav } from 'react-bootstrap';
 
 const listItemStyle = {

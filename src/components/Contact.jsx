@@ -1,12 +1,13 @@
+"use client"
 import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import qrWhatsApp from '../assets/qrWhatsApp.jpg';
-import qrTelegram from '../assets/qrTelegram.jpg';
+import qrWhatsApp from '../../public/qrWhatsApp.jpg'
+import qrTelegram from '../../public/qrTelegram.jpg';
 import emailjs from 'emailjs-com';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
-import styles from '../style/Contact.module.css';
-import * as colors from '../style/portfolioColors'
+import styles from '../styles/Contact.module.css'
+import * as colors from '../styles/portfolioColors'
 
 export const Contact = () => {
   const [formDetails, setFormDetails] = useState({
@@ -25,8 +26,6 @@ export const Contact = () => {
       [category]: value
     });
   };
-
-  console.log(formDetails);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

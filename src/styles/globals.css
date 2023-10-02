@@ -1,4 +1,16 @@
-@import './style/portfolioColors.css';
+/*@import './portfolioColors.css';*/
+
+:root {
+  --PORTFOLIO_BLACK: #151515;
+  --PORTFOLIO_BLACK_TRANS: #151515ef;
+  --PORTFOLIO_BLACK_DEEP: #000000;
+  --PORTFOLIO_WHITE: whitesmoke;
+  --PORTFOLIO_GREY: #d1fdfd;
+  --PORTFOLIO_GREEN: #00babc;
+  --PORTFOLIO_BLUE: #4A2FBD;
+  --PORTFOLIO_RED: #d8636f;
+  --PORTFOLIO_RED_DANGER: rgb(206, 58, 73);
+}
 
 * {
   margin: 0;
@@ -12,6 +24,7 @@ html {
 }
 
 body {
+  margin: 0;
   font-weight: 400;
   overflow-x: hidden;
   position: relative;
@@ -19,10 +32,12 @@ body {
     90.21deg,
     var(--PORTFOLIO_BLACK_DEEP) -5.91%,
     var(--PORTFOLIO_GREEN) 111.58%
-  ) !important;
-  /*background-color: #121212 !important;*/
-  color: var(--PORTFOLIO_WHITE) !important;
-  font-family: 'Montserrat', sans-serif !important;
+    ) !important;
+    /*background-color: #121212 !important;*/
+    color: var(--PORTFOLIO_WHITE) !important;
+    font-family: 'Montserrat', sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
@@ -82,4 +97,3 @@ p.success {
 p.warning {
   color: var(--PORTFOLIO_RED_DANGER);
 }
-

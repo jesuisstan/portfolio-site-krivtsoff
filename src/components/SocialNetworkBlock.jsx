@@ -1,8 +1,4 @@
-import linkedinIcon from '../assets/icon-linkedin.svg';
-import facebookIcon from '../assets/icon-facebook.svg';
-import instagramIcon from '../assets/icon-instagram.svg';
-import githubIcon from '../assets/icon-github.svg';
-import styles from '../style/SocialNetworkBlock.module.css';
+import styles from '../styles/SocialNetworkBlock.module.css'
 
 const SocialNetworkBlock = () => {
   return (
@@ -12,28 +8,28 @@ const SocialNetworkBlock = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src={githubIcon} alt="GITHUB" />
+        <img src='/icon-github.svg' alt="GITHUB" />
       </a>
       <a
         href={process.env.REACT_APP_LINK_LINKEDIN}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src={linkedinIcon} alt="LINKEDIN" />
+        <img src='/icon-linkedin.svg' alt="LINKEDIN" />
       </a>
       <a
         href={process.env.REACT_APP_LINK_FACEBOOK}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src={facebookIcon} alt="FACEBOOK" />
+        <img src='/icon-facebook.svg' alt="FACEBOOK" />
       </a>
       <a
         href={process.env.REACT_APP_LINK_INSTAGRAM}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src={instagramIcon} alt="INSTAGRAM" />
+        <img src='/icon-instagram.svg' alt="INSTAGRAM" />
       </a>
     </div>
   );
