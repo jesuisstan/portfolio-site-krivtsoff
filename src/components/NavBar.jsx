@@ -3,7 +3,6 @@
 import Link from 'next/link';
 
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuDrawer from './MenuDrawer';
 import styles from '@/styles/NavBar.module.css';
@@ -35,7 +34,7 @@ export const NavBar = () => {
   };
 
   return (
-    <Router>
+    //<Router>
       <div className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
         <div className={styles.logoWrapper}>
           <Image
@@ -90,6 +89,6 @@ export const NavBar = () => {
         )}
         <MenuDrawer open={menuDrawerOpen} setOpen={setMenuDrawerOpen} />
       </div>
-    </Router>
+    //</Router>
   );
 };
