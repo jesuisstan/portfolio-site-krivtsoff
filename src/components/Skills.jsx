@@ -1,7 +1,8 @@
 'use client';
+
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import styles from '../styles/Skills.module.css';
+import styles from '@/styles/Skills.module.css';
 
 export const Skills = () => {
   const responsive = {
@@ -22,9 +23,7 @@ export const Skills = () => {
       items: 1
     }
   };
-  console.log(
-    `https://octoprofile.vercel.app/user?id=${process.env.GITHUB_PROFILE}`
-  );
+
   return (
     <section className={styles.skill} id="skills">
       <div className="container">
@@ -153,7 +152,7 @@ export const Skills = () => {
                 <button
                   onClick={() =>
                     window.open(
-                      `https://octoprofile.vercel.app/user?id=${process.env.GITHUB_PROFILE}`
+                      `https://octoprofile.vercel.app/user?id=${process.env.NEXT_PUBLIC_GITHUB_PROFILE}`
                     )
                   }
                 >

@@ -4,28 +4,28 @@ const SocialNetworkBlock = () => {
   return (
     <div className={styles.socialIcon}>
       <a
-        href={process.env.LINK_GITHUB}
+        href={process.env.NEXT_PUBLIC_LINK_GITHUB}
         target="_blank"
         rel="noopener noreferrer"
       >
         <img src="/icon-github.svg" alt="GITHUB" />
       </a>
       <a
-        href={process.env.LINK_LINKEDIN}
+        href={process.env.NEXT_PUBLIC_LINK_LINKEDIN}
         target="_blank"
         rel="noopener noreferrer"
       >
         <img src="/icon-linkedin.svg" alt="LINKEDIN" />
       </a>
       <a
-        href={process.env.LINK_FACEBOOK}
+        href={process.env.NEXT_PUBLIC_LINK_FACEBOOK}
         target="_blank"
         rel="noopener noreferrer"
       >
         <img src="/icon-facebook.svg" alt="FACEBOOK" />
       </a>
       <a
-        href={process.env.LINK_INSTAGRAM}
+        href={process.env.NEXT_PUBLIC_LINK_INSTAGRAM}
         target="_blank"
         rel="noopener noreferrer"
       >

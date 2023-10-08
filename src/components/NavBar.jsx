@@ -1,12 +1,12 @@
 'use client';
-import Image from 'next/image';
+import Link from 'next/link';
+
 import { useState, useEffect } from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import { HashLink } from 'react-router-hash-link';
 import { BrowserRouter as Router } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuDrawer from './MenuDrawer';
 import styles from '@/styles/NavBar.module.css';
+import { MenuIcon } from 'lucide-react';
 
 export const NavBar = () => {
   const [activeLink, setActiveLink] = useState('home');
@@ -34,84 +34,57 @@ export const NavBar = () => {
 
   return (
     <Router>
-      <Navbar expand="md" className={scrolled ? 'scrolled' : ''}>
-        <Container>
-          <Image
-            src="/logo.png"
-            alt="krivtsoff-develope"
-            priority={true}
-            width="0"
-            height="0"
-            sizes="100vw"
-            className="h-auto w-52"
-          ></Image>
+      <div className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
+        <div className={styles.logoWrapper}>
           <img
             src="/logo.png"
             alt="Logo"
-            style={{
-              minWidth: '250px',
-              padding: '11px 11px',
-              cursor: 'pointer'
-            }}
-            onClick={() =>
-              (window.location.href = `${process.env.LINK_PORTFOLIO}`)
-            }
+            className={styles.logo}
+            onClick={() => (window.location.href = '/')}
           />
-
-          {isSmallScreen ? (
-            <Navbar.Toggle
-              aria-controls="basic-navbar-nav"
-              onClick={() => setMenuDrawerOpen(true)}
+        </div>
+        {isSmallScreen ? (
+          <div
+            className={styles.navbarToggle}
+            onClick={() => setMenuDrawerOpen(true)}
+          >
+            <MenuIcon />
+          </div>
+        ) : (
+          <div className={styles.navLinks}>
+            <Link
+              href="#home"
+              style={activeLink === 'home' ? { opacity: '1' } : {}}
+              onClick={() => onUpdateActiveLink('home')}
             >
-              <span className="navbar-toggler-icon"></span>
-            </Navbar.Toggle>
-          ) : (
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto">
-                <Nav.Link
-                  href="#home"
-                  className={
-                    activeLink === 'home' ? 'active navbar-link' : 'navbar-link'
-                  }
-                  onClick={() => onUpdateActiveLink('home')}
-                >
-                  Home
-                </Nav.Link>
-                <Nav.Link
-                  href="#skills"
-                  className={
-                    activeLink === 'skills'
-                      ? 'active navbar-link'
-                      : 'navbar-link'
-                  }
-                  onClick={() => onUpdateActiveLink('skills')}
-                >
-                  Skills
-                </Nav.Link>
-                <Nav.Link
-                  href="#projects"
-                  className={
-                    activeLink === 'projects'
-                      ? 'active navbar-link'
-                      : 'navbar-link'
-                  }
-                  onClick={() => onUpdateActiveLink('projects')}
-                >
-                  Projects
-                </Nav.Link>
-              </Nav>
-              <span className="navbar-text" style={{ marginLeft: '30px' }}>
-                <HashLink to="#connect">
-                  <button>
-                    <span>Let’s Connect</span>
-                  </button>
-                </HashLink>
-              </span>
-            </Navbar.Collapse>
-          )}
-        </Container>
-      </Navbar>
-      <MenuDrawer open={menuDrawerOpen} setOpen={setMenuDrawerOpen} />
+              Home
+            </Link>
+
+            <Link
+              href="#skills"
+              style={activeLink === 'skills' ? { opacity: '1' } : {}}
+              onClick={() => onUpdateActiveLink('skills')}
+            >
+              Skills
+            </Link>
+
+            <Link
+              href="#projects"
+              style={activeLink === 'projects' ? { opacity: '1' } : {}}
+              onClick={() => onUpdateActiveLink('projects')}
+            >
+              Projects
+            </Link>
+
+            <Link href="#connect">
+              <button className={styles.navButton}>
+                <span>Let’s Connect</span>
+              </button>
+            </Link>
+          </div>
+        )}
+        <MenuDrawer open={menuDrawerOpen} setOpen={setMenuDrawerOpen} />
+      </div>
     </Router>
   );
 };

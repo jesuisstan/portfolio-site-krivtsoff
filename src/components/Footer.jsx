@@ -1,6 +1,6 @@
 import { Container } from 'react-bootstrap';
 import SocialNetworkBlock from './SocialNetworkBlock';
-import styles from '../styles/Footer.module.css'
+import styles from '@/styles/Footer.module.css';
 
 export const Footer = () => {
   return (

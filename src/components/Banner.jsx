@@ -6,7 +6,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import avatar from '../../public/avatar.jpg';
 import TrackVisibility from 'react-on-screen';
 import { Download } from 'react-bootstrap-icons';
-//import '../style/Banner.css';
+import styles from '@/styles/Banner.module.css';
+
 
 export const Banner = () => {
   const [loopNum, setLoopNum] = useState(0);
@@ -50,11 +51,11 @@ export const Banner = () => {
   };
 
   const downloadCV = () => {
-    window.open(`${process.env.LINK_CV_DOWNLOAD}`);
+    window.open(`${process.env.NEXT_PUBLIC_LINK_CV_DOWNLOAD}`);
   };
 
   return (
-    <section className="banner" id="home">
+    <section className={styles.banner} id="home">
       <Container>
         <Row className="aligh-items-center">
           <Col xs={12} md={6} xl={7}>
