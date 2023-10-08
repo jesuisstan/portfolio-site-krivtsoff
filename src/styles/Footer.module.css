@@ -1,0 +1,47 @@
+/*@import './portfolioColors.css';*/
+
+.footer {
+  background: linear-gradient(
+    90.21deg,
+    var(--PORTFOLIO_BLACK_DEEP) -5.91%,
+    var(--PORTFOLIO_GREEN) 111.58%
+  );
+  padding: 5px 5px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.footer img {
+  width: 25%;
+}
+
+.footer p {
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  margin-top: 15px;
+}
+
+.footerLink {
+  color: var(--PORTFOLIO_WHITE);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  color: var(--PORTFOLIO_BLACK_DEEP);
+  text-decoration: none;
+}
+
+@media (width <= 323px) {
+  .content {
+    text-align: center;
+    flex-direction: column;
+    gap: 0;
+  }
+}
