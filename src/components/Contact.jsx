@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import emailjs from 'emailjs-com';
@@ -6,6 +7,7 @@ import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import styles from '../styles/Contact.module.css';
 import * as colors from '../styles/portfolioColors';
+import Image from 'next/image';
 
 export const Contact = () => {
   const [formDetails, setFormDetails] = useState({
@@ -167,9 +169,12 @@ export const Contact = () => {
                 }
               >
                 <h5>Telegram:</h5>
-                <img
+                <Image
                   src="/qrTelegram.jpg"
                   alt="qrTelegramcode"
+                  width="0"
+                  height="0"
+                  sizes="100vw"
                   style={{
                     width: '150px',
                     height: '150px',
@@ -183,9 +188,12 @@ export const Contact = () => {
                 }
               >
                 <h5>WhatsApp:</h5>
-                <img
+                <Image
                   src="/qrWhatsApp.jpg"
                   alt="qrWhatsAppcode"
+                  width="0"
+                  height="0"
+                  sizes="100vw"
                   style={{
                     width: '150px',
                     height: '150px',

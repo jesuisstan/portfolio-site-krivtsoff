@@ -59,6 +59,7 @@
   min-width: 150px;
   padding: 11px 11px;
   cursor: pointer;
+  height: auto;
 }
 
 .navbar span {

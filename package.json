@@ -23,6 +23,7 @@
     "react-dom": "latest",
     "react-multi-carousel": "^2.8.4",
     "react-on-screen": "^2.1.1",
+    "react-router-dom": "^6.16.0",
     "react-router-hash-link": "^2.4.3"
   },
   "devDependencies": {

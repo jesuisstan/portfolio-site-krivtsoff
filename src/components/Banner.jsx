@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Download } from 'react-bootstrap-icons';
 import styles from '@/styles/Banner.module.css';
+import Image from 'next/image';
 
 export const Banner = () => {
   const [loopNum, setLoopNum] = useState(0);
@@ -85,9 +86,12 @@ export const Banner = () => {
                 alignItems: 'center'
               }}
             >
-              <img
+              <Image
                 src="/avatar.jpg"
                 alt="avatar"
+                width="0"
+                height="0"
+                sizes="100vw"
                 style={{
                   width: '300px',
                   height: '300px',

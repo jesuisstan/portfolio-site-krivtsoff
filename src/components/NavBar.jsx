@@ -1,4 +1,5 @@
 'use client';
+
 import Link from 'next/link';
 
 import { useState, useEffect } from 'react';
@@ -7,6 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuDrawer from './MenuDrawer';
 import styles from '@/styles/NavBar.module.css';
 import { MenuIcon } from 'lucide-react';
+import Image from 'next/image';
 
 export const NavBar = () => {
   const [activeLink, setActiveLink] = useState('home');
@@ -36,9 +38,12 @@ export const NavBar = () => {
     <Router>
       <div className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
         <div className={styles.logoWrapper}>
-          <img
+          <Image
             src="/logo.png"
             alt="Logo"
+            width="0"
+            height="0"
+            sizes="100vw"
             className={styles.logo}
             onClick={() => (window.location.href = '/')}
           />

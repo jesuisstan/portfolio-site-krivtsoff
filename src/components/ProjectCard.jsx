@@ -1,10 +1,24 @@
+'use client';
+
 import { ArrowRightCircle } from 'react-bootstrap-icons';
 import styles from '@/styles/Projects.module.css';
+import Image from 'next/image';
 
 export const ProjectCard = ({ title, description, imgUrl, link }) => {
   return (
     <div className={styles.projectCard} onClick={() => window.open(link)}>
-      <img src={imgUrl} height={300} />
+      <Image
+        src={imgUrl}
+        alt="project"
+        width="0"
+        height="0"
+        sizes="100vw"
+        style={{
+          width: 'auto',
+          height: '300px',
+          cursor: 'pointer'
+        }}
+      />
       <div className="proj-txtx">
         <h4>{title}</h4>
         <span>{description}</span>

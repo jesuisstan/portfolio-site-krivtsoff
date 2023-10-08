@@ -1,3 +1,5 @@
+'use client';
+
 import { Drawer, List, ListItem } from '@mui/material';
 import * as colors from '../styles/portfolioColors'
 import { Nav } from 'react-bootstrap';

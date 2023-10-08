@@ -3,6 +3,7 @@
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import styles from '@/styles/Skills.module.css';
+import Image from 'next/image';
 
 export const Skills = () => {
   const responsive = {
@@ -47,67 +48,185 @@ export const Skills = () => {
                 >
                   <div className={styles.item}>
                     <h5>ReactJS</h5>
-                    <img src="/logo-react.png" alt="ReactJS" height="100px" />
+                    <Image
+                      src="/logo-react.png"
+                      alt="ReactJS"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
                   </div>
                   <div className={styles.item}>
                     <h5>Next.js</h5>
-                    <img src="/logo-nextjs.png" alt="nextjs" height="100px" />
+                    <Image
+                      src="/logo-nextjs.png"
+                      alt="nextjs"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
                   </div>
                   <div className={styles.item}>
                     <h5>Typescript</h5>
-                    <img src="/logo-ts.png" alt="Typescript" height="100px" />
+                    <Image
+                      src="/logo-ts.png"
+                      alt="Typescript"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
                   </div>
                   <div className={styles.item}>
                     <h5>Javascript</h5>
-                    <img src="/logo-js.png" alt="Javascript" height="100px" />
+                    <Image
+                      src="/logo-js.png"
+                      alt="Javascript"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
                   </div>
                   <div className={styles.item}>
                     <h5>HTML</h5>
-                    <img src="/logo-html.png" alt="html" height="100px" />
+                    <Image
+                      src="/logo-html.png"
+                      alt="html"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
                   </div>
                   <div className={styles.item}>
                     <h5>CSS</h5>
-                    <img src="/logo-css.png" alt="css" height="100px" />
+                    <Image
+                      src="/logo-css.png"
+                      alt="css"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
                   </div>
                   <div className={styles.item}>
                     <h5>Material UI</h5>
-                    <img
+                    <Image
                       src="/logo-material-ui.png"
                       alt="material ui"
-                      height="100px"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
                     />
                   </div>
                   <div className={styles.item}>
                     <h5>Tailwindcss</h5>
-                    <img
+                    <Image
                       src="/logo-tailwindcss.png"
                       alt="Tailwindcss"
-                      height="100px"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
                     />
                   </div>
                   <div className={styles.item}>
                     <h5>Node.js</h5>
-                    <img src="/logo-node.png" alt="node.js" height="100px" />
+                    <Image
+                      src="/logo-node.png"
+                      alt="node.js"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
                   </div>
                   <div className={styles.item}>
                     <h5>Highcharts</h5>
-                    <img
+                    <Image
                       src="/logo-highcharts.png"
                       alt="node.js"
-                      height="100px"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
                     />
                   </div>
                   <div className={styles.item}>
                     <h5>MongoDB</h5>
-                    <img src="/logo-mongodb.png" alt="MongoDB" height="100px" />
+                    <Image
+                      src="/logo-mongodb.png"
+                      alt="MongoDB"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
                   </div>
                   <div className={styles.item}>
                     <h5>Git</h5>
-                    <img src="/logo-git.png" alt="git" height="100px" />
+                    <Image
+                      src="/logo-git.png"
+                      alt="git"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
                   </div>
                   <div className={styles.item}>
                     <h5>Docker</h5>
-                    <img src="/logo-docker.png" alt="docker" height="100px" />
+                    <Image
+                      src="/logo-docker.png"
+                      alt="docker"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
                   </div>
                 </Carousel>
               </div>
