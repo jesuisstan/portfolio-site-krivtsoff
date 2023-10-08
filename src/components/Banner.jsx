@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Download } from 'react-bootstrap-icons';
-import styles from '@/styles/Banner.module.css';
 import Image from 'next/image';
+import styles from '@/styles/Banner.module.css';
 
 export const Banner = () => {
   const [loopNum, setLoopNum] = useState(0);
@@ -64,6 +64,7 @@ export const Banner = () => {
                   <span className="wrap">I am {text}</span>
                 </span>
               </h2>
+              <br />
               <p>
                 Motivated and experienced individual with a proactive mindset,
                 transitioning from 9 years of project management and business
@@ -72,6 +73,7 @@ export const Banner = () => {
                 at École 42 Paris. Specializing in web development with a focus
                 on ReactJS.
               </p>
+              <br />
               <button onClick={downloadCV}>
                 CV <Download size={25} />
               </button>

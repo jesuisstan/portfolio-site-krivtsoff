@@ -169,6 +169,7 @@ export const Contact = () => {
                 }
               >
                 <h5>Telegram:</h5>
+                <br />
                 <Image
                   src="/qrTelegram.jpg"
                   alt="qrTelegramcode"
@@ -188,6 +189,7 @@ export const Contact = () => {
                 }
               >
                 <h5>WhatsApp:</h5>
+                <br />
                 <Image
                   src="/qrWhatsApp.jpg"
                   alt="qrWhatsAppcode"
