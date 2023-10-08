@@ -1,10 +1,7 @@
 'use client';
-import Image from 'next/image';
+
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-//import 'animate.css';
-import avatar from '../../public/avatar.jpg';
-import TrackVisibility from 'react-on-screen';
 import { Download } from 'react-bootstrap-icons';
 import styles from '@/styles/Banner.module.css';
 

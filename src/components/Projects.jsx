@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import { Container, Row, Col, Tab, Nav } from 'react-bootstrap';
 import { ProjectCard } from './ProjectCard';
 import projImg1 from '../../public/project-img1.png';
@@ -6,48 +6,48 @@ import projImg2 from '../../public/project-img2.png';
 import projImg3 from '../../public/project-img3.png';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
-//import '../style/Projects.css';
+import styles from '@/styles/Projects.module.css';
 
 export const Projects = () => {
   const projects = [
     {
       title: 'Pong The Game',
       description: 'Fullstack App for online PingPong',
-      imgUrl: projImg1,
-      link: 'http://www.pongthegame.rocks/'
+      imgUrl: '/project-img1.png',
+      link: 'https://github.com/jesuisstan/PongTheGame'
+      //link: 'http://www.pongthegame.rocks/'
     },
     {
       title: 'Contact Book',
       description: 'Contact book React App with authentication',
-      imgUrl: projImg2,
-      link: 'http://209.38.216.33:9090/'
+      imgUrl: '/project-img2.png',
+      link: 'https://github.com/jesuisstan/ContactBookFullstackApp'
+      //link: 'http://209.38.216.33:9090/'
     },
     {
-      title: 'Omio Like Bar',
-      description: 'Clone of the main page of Omio.com with autocomplete',
-      imgUrl: projImg3,
-      link: 'http://209.38.216.33:5555/'
+      title: 'Info Map App',
+      description: 'Application to display a map and Yelp Fusion API data',
+      imgUrl: '/project-img3.png',
+      link: 'https://github.com/jesuisstan/InfoMapApp'
+      //link: 'http://209.38.216.33:5555/'
     }
   ];
 
   return (
-    <section className="projects" id="projects">
+    <section className={styles.projects} id="projects">
       <Container>
         <Row>
           <Col size={12}>
             <TrackVisibility>
               {({ isVisible }) => (
-                <div
-                //className={
-                //  isVisible ? 'animate__animated animate__pulse' : ''
-                //}
-                >
+                <div>
                   <h2>Projects</h2>
-                  <p>My last web applications created with focus on ReactJS</p>
+                  <p>My last web applications</p>
                   <Tab.Container id="projects-tabs" defaultActiveKey="first">
                     <Nav
                       variant="pills"
-                      className="nav-pills mb-5 justify-content-center align-items-center"
+                      className={`${styles.navPills} mb-5 justify-content-center align-items-center`}
+
                       id="pills-tab"
                     >
                       <Nav.Item>

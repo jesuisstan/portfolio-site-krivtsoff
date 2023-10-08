@@ -1,4 +1,4 @@
-@import './portfolioColors.css';
+/*@import './portfolioColors.css';*/
 
 .projects {
   padding: 42px 42px;
@@ -22,16 +22,17 @@
   text-align: center;
   width: 56%;
 }
-.projects .nav.nav-pills {
-  width: 72%;
+.navPills {
+  /*width: 72%;*/
   margin: 0 auto;
-  background-color: rgb(255 255 255 / 10%);
+  /*background-color: rgb(255 255 255 / 10%);*/
   overflow: hidden;
 }
-.projects .nav.nav-pills .nav-item {
+
+.nav-item {
   width: 33.33333%;
 }
-.projects .nav.nav-pills .nav-link {
+.nav-link {
   background-color: transparent;
   border-radius: 0;
   padding: 17px 0;
@@ -45,7 +46,7 @@
   text-align: center;
   z-index: 0;
 }
-.projects .nav.nav-pills .nav-link::before {
+.nav-link::before {
   content: '';
   position: absolute;
   width: 0;
@@ -60,10 +61,10 @@
   z-index: -1;
   transition: 0.4s ease-in-out;
 }
-.projects .nav.nav-pills .nav-link.active::before {
+.nav-link.active::before {
   width: 100% !important;
 }
-.projects .nav.nav-pills .nav-link.active {
+.nav-link.active {
   border: 1px solid rgba(245, 245, 245, 1);
 }
 .nav-link#projectss-tabs-tab-first {
@@ -146,8 +147,16 @@
   z-index: -4;
 }
 
+.projectCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
 @media (width <= 767px) {
-  .projects .nav.nav-pills .nav-link {
+  .projects .navPills .nav-link {
     font-size: 10px;
   }
 }
