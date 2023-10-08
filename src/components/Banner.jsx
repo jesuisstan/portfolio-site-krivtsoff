@@ -8,7 +8,6 @@ import TrackVisibility from 'react-on-screen';
 import { Download } from 'react-bootstrap-icons';
 import styles from '@/styles/Banner.module.css';
 
-
 export const Banner = () => {
   const [loopNum, setLoopNum] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -60,11 +59,11 @@ export const Banner = () => {
         <Row className="aligh-items-center">
           <Col xs={12} md={6} xl={7}>
             <div className={'animate__animated animate__pulse'}>
-              <h2>{`Salut! I am Stan Krivtsoff,`}</h2>
+              <h2>{`My name is Stan Krivtsoff.`}</h2>
               <h2>
                 {' '}
                 <span className="txtRotate" dataPeriod="500">
-                  <span className="wrap">{text}</span>
+                  <span className="wrap">I am {text}</span>
                 </span>
               </h2>
               <p>

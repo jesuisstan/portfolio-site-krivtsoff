@@ -161,46 +161,38 @@ export const Contact = () => {
 
           <Col size={12} md={6}>
             <div className={styles.qrCodeBlock}>
-              <TrackVisibility>
-                {({ isVisible }) => (
-                  <>
-                    <h5>Telegram:</h5>
-                    <img
-                      className={
-                        isVisible
-                          ? 'animate__animated animate__fadeInRight'
-                          : ''
-                      }
-                      src="/qrTelegram.jpg"
-                      alt="qrTelegramcode"
-                      style={{
-                        width: '150px',
-                        height: '150px'
-                      }}
-                    />
-                  </>
-                )}
-              </TrackVisibility>
-              <TrackVisibility>
-                {({ isVisible }) => (
-                  <>
-                    <h5>WhatsApp:</h5>
-                    <img
-                      className={
-                        isVisible
-                          ? 'animate__animated animate__fadeInRight'
-                          : ''
-                      }
-                      src="/qrWhatsApp.jpg"
-                      alt="qrWhatsAppcode"
-                      style={{
-                        width: '150px',
-                        height: '150px'
-                      }}
-                    />
-                  </>
-                )}
-              </TrackVisibility>
+              <div
+                onClick={() =>
+                  window.open(`${process.env.NEXT_PUBLIC_LINK_TELEGRAM}`)
+                }
+              >
+                <h5>Telegram:</h5>
+                <img
+                  src="/qrTelegram.jpg"
+                  alt="qrTelegramcode"
+                  style={{
+                    width: '150px',
+                    height: '150px',
+                    cursor: 'pointer'
+                  }}
+                />
+              </div>
+              <div
+                onClick={() =>
+                  window.open(`${process.env.NEXT_PUBLIC_LINK_WHATSAPP}`)
+                }
+              >
+                <h5>WhatsApp:</h5>
+                <img
+                  src="/qrWhatsApp.jpg"
+                  alt="qrWhatsAppcode"
+                  style={{
+                    width: '150px',
+                    height: '150px',
+                    cursor: 'pointer'
+                  }}
+                />
+              </div>
             </div>
           </Col>
         </Row>

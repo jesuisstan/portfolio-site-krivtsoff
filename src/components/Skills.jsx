@@ -29,7 +29,8 @@ export const Skills = () => {
       <div className="container">
         <div className="row">
           <div className="col-12">
-            <div className="skill-bx wow zoomIn">
+            {/*<div className="skill-bx wow zoomIn">*/}
+            <div className={styles.skillBx}>
               <h2>Skills</h2>
               <p>
                 Possessing the essential knowledge of web and related
@@ -42,106 +43,71 @@ export const Skills = () => {
                 <Carousel
                   responsive={responsive}
                   infinite={true}
-                  className="owl-carousel owl-theme skill-slider"
+                  //className="owl-carousel owl-theme skill-slider"
                 >
-                  <div className="item">
+                  <div className={styles.item}>
                     <h5>ReactJS</h5>
-                    <img
-                      src="/logo-react.png"
-                      alt="ReactJS"
-                      height="100px"
-                      width="100px"
-                    />
+                    <img src="/logo-react.png" alt="ReactJS" height="100px" />
                   </div>
-                  <div className="item">
+                  <div className={styles.item}>
+                    <h5>Next.js</h5>
+                    <img src="/logo-nextjs.png" alt="nextjs" height="100px" />
+                  </div>
+                  <div className={styles.item}>
                     <h5>Typescript</h5>
-                    <img
-                      src="/logo-ts.png"
-                      alt="Typescript"
-                      height="100px"
-                      width="100px"
-                    />
+                    <img src="/logo-ts.png" alt="Typescript" height="100px" />
                   </div>
-                  <div className="item">
+                  <div className={styles.item}>
                     <h5>Javascript</h5>
-                    <img
-                      src="/logo-js.png"
-                      alt="Javascript"
-                      height="100px"
-                      width="100px"
-                    />
+                    <img src="/logo-js.png" alt="Javascript" height="100px" />
                   </div>
-                  <div className="item">
+                  <div className={styles.item}>
                     <h5>HTML</h5>
-                    <img
-                      src="/logo-html.png"
-                      alt="html"
-                      height="100px"
-                      width="100px"
-                    />
+                    <img src="/logo-html.png" alt="html" height="100px" />
                   </div>
-                  <div className="item">
+                  <div className={styles.item}>
                     <h5>CSS</h5>
-                    <img
-                      src="/logo-css.png"
-                      alt="css"
-                      height="100px"
-                      width="100px"
-                    />
+                    <img src="/logo-css.png" alt="css" height="100px" />
                   </div>
-                  <div className="item">
+                  <div className={styles.item}>
                     <h5>Material UI</h5>
                     <img
                       src="/logo-material-ui.png"
                       alt="material ui"
                       height="100px"
-                      width="100px"
                     />
                   </div>
-                  <div className="item">
-                    <h5>Bootstrap</h5>
+                  <div className={styles.item}>
+                    <h5>Tailwindcss</h5>
                     <img
-                      src="/logo-bootstrap.png"
-                      alt="Bootstrap"
+                      src="/logo-tailwindcss.png"
+                      alt="Tailwindcss"
                       height="100px"
-                      width="100px"
                     />
                   </div>
-                  <div className="item">
+                  <div className={styles.item}>
                     <h5>Node.js</h5>
+                    <img src="/logo-node.png" alt="node.js" height="100px" />
+                  </div>
+                  <div className={styles.item}>
+                    <h5>Highcharts</h5>
                     <img
-                      src="/logo-node.png"
+                      src="/logo-highcharts.png"
                       alt="node.js"
                       height="100px"
-                      width="100px"
                     />
                   </div>
-                  <div className="item">
+                  <div className={styles.item}>
                     <h5>MongoDB</h5>
-                    <img
-                      src="/logo-mongodb.png"
-                      alt="MongoDB"
-                      height="100px"
-                      width="100px"
-                    />
+                    <img src="/logo-mongodb.png" alt="MongoDB" height="100px" />
                   </div>
-                  <div className="item">
+                  <div className={styles.item}>
                     <h5>Git</h5>
-                    <img
-                      src="/logo-git.png"
-                      alt="git"
-                      height="100px"
-                      width="100px"
-                    />
+                    <img src="/logo-git.png" alt="git" height="100px" />
                   </div>
-                  <div className="item">
+                  <div className={styles.item}>
                     <h5>Docker</h5>
-                    <img
-                      src="/logo-docker.png"
-                      alt="docker"
-                      height="100px"
-                      width="100px"
-                    />
+                    <img src="/logo-docker.png" alt="docker" height="100px" />
                   </div>
                 </Carousel>
               </div>

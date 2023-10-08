@@ -12,7 +12,7 @@
   text-align: center;
 }
 
-.skill-bx {
+.skillBx {
   border-radius: 64px;
   text-align: center;
   /*padding: 42px 42px;*/
@@ -28,7 +28,7 @@
   opacity: 0.75;
   letter-spacing: 0.8px;
   line-height: 1.5em;
-  margin: 14px
+  margin: 14px;
 }
 
 .skill-slider {
@@ -78,4 +78,11 @@
 
 .skill p button:hover::before {
   width: 100%;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
 }
