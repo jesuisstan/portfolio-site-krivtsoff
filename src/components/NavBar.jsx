@@ -12,7 +12,7 @@ import Image from 'next/image';
 export const NavBar = () => {
   const [activeLink, setActiveLink] = useState('home');
   const [scrolled, setScrolled] = useState(false);
-  const isSmallScreen = useMediaQuery('(max-width:767px)');
+  const isSmallScreen = useMediaQuery('(max-width:800px)');
   const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
 
   useEffect(() => {

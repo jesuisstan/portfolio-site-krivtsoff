@@ -60,6 +60,8 @@
   padding: 11px 11px;
   cursor: pointer;
   height: auto;
+  transition: 0.4s ease-in-out;
+
 }
 
 .navbar span {
@@ -105,9 +107,15 @@
   position: absolute;
 }
 
+.logoWrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
 @media (max-width: 800px) {
-  .navbar .navbar-nav .nav-link.navbar-link {
-    padding: 0 12px;
+  .navbar {
+    padding: 0 30px;
   }
 }
 
@@ -123,10 +131,16 @@
   .logo {
     width: 300px;
   }
+
+  .logoWrapper {
+  flex-grow: 0;
+
+  justify-content: center;
+  }
+
+  .navbarToggle {
+    flex-grow: 1;
+    justify-content: flex-start;
+  }
 }
 
-.logoWrapper {
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-}

@@ -45,6 +45,7 @@ export const Skills = () => {
                   responsive={responsive}
                   infinite={true}
                   //className="owl-carousel owl-theme skill-slider"
+                  className={styles.skillSlider}
                 >
                   <div className={styles.item}>
                     <h5>ReactJS</h5>
