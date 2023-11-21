@@ -44,7 +44,6 @@ export const Skills = () => {
                 <Carousel
                   responsive={responsive}
                   infinite={true}
-                  //className="owl-carousel owl-theme skill-slider"
                   className={styles.skillSlider}
                 >
                   <div className={styles.item}>
@@ -174,10 +173,38 @@ export const Skills = () => {
                     />
                   </div>
                   <div className={styles.item}>
+                    <h5>GraphQL</h5>
+                    <Image
+                      src="/logo-graph-ql.png"
+                      alt="graph-ql"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
+                  </div>
+                  <div className={styles.item}>
+                    <h5>Apollo</h5>
+                    <Image
+                      src="/logo-apollo.png"
+                      alt="apollol"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
+                  </div>
+                  <div className={styles.item}>
                     <h5>Highcharts</h5>
                     <Image
                       src="/logo-highcharts.png"
-                      alt="node.js"
+                      alt="highcharts"
                       width="0"
                       height="0"
                       sizes="100vw"
