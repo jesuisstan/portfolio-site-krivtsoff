@@ -57,10 +57,12 @@ export const Banner = () => {
         <Row className="aligh-items-center">
           <Col xs={12} md={6} xl={7}>
             <div className={'animate__animated animate__pulse'}>
-              <h2 style={{marginBottom: '10px'}}>{`My name is Stan Krivtsoff.`}</h2>
+              <h2
+                style={{ marginBottom: '10px' }}
+              >{`My name is Stan Krivtsoff.`}</h2>
               <h2>
                 {' '}
-                <span className="txtRotate" dataPeriod="500">
+                <span className="txtRotate" dataperiod="500">
                   <span className="wrap">I am {text}</span>
                 </span>
               </h2>

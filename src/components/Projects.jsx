@@ -45,21 +45,29 @@ export const Projects = () => {
                     <Nav
                       variant="pills"
                       className={`${styles.navPills} mb-5 justify-content-center align-items-center`}
-
                       id="pills-tab"
                     >
                       <Nav.Item>
-                        <Nav.Link eventKey="first">
+                        <Nav.Link
+                          eventKey="first"
+                          style={{ color: 'var(--foreground)' }}
+                        >
                           {projects[0].title}
                         </Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="second">
+                        <Nav.Link
+                          eventKey="second"
+                          style={{ color: 'var(--foreground)' }}
+                        >
                           {projects[1].title}
                         </Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="third">
+                        <Nav.Link
+                          eventKey="third"
+                          style={{ color: 'var(--foreground)' }}
+                        >
                           {projects[2].title}
                         </Nav.Link>
                       </Nav.Item>
