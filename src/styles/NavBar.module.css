@@ -43,8 +43,8 @@
   padding: 0px 21px;
   background-image: linear-gradient(
     90.21deg,
-    var(--background-third) -5.91%,
-    var(--background-secondary) 111.58%
+    var(--background-secondary) -5.91%,
+    var(--background-third) 111.58%
   );
 }
 
