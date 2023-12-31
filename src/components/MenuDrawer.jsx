@@ -1,7 +1,7 @@
 'use client';
 
 import { Drawer, List, ListItem } from '@mui/material';
-import * as colors from '../styles/portfolioColors'
+import * as colors from '../styles/portfolioColors';
 import { Nav } from 'react-bootstrap';
 
 const listItemStyle = {
@@ -21,7 +21,8 @@ const MenuDrawer = ({ open, setOpen }) => {
     <Drawer
       PaperProps={{
         style: {
-          backgroundColor: colors.PORTFOLIO_BLACK_TRANS
+          backgroundColor: '#151515ef',
+          width: '200px'
         }
       }}
       anchor="left"
@@ -29,7 +30,7 @@ const MenuDrawer = ({ open, setOpen }) => {
       onClose={handleDrawerToggle}
       sx={{ zIndex: 11111 }}
     >
-      <List sx={{ color: colors.PORTFOLIO_WHITE }}>
+      <List sx={{ color: 'whitesmoke' }}>
         <ListItem
           sx={listItemStyle}
           onClick={() => {

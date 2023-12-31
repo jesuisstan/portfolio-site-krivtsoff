@@ -15,8 +15,9 @@ export const ProjectCard = ({ title, description, imgUrl, link }) => {
         sizes="100vw"
         style={{
           width: 'auto',
-          height: '300px',
-          cursor: 'pointer'
+          height: 'auto',
+          maxWidth: '800px',
+          cursor: 'pointer',
         }}
       />
       <div className="proj-txtx">

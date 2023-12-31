@@ -8,6 +8,7 @@ import MenuDrawer from './MenuDrawer';
 import styles from '@/styles/NavBar.module.css';
 import { MenuIcon } from 'lucide-react';
 import Image from 'next/image';
+import ThemeToggler from './ThemeToggler';
 
 export const NavBar = () => {
   const [activeLink, setActiveLink] = useState('home');
@@ -34,61 +35,63 @@ export const NavBar = () => {
   };
 
   return (
-    //<Router>
-      <div className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
-        <div className={styles.logoWrapper}>
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width="0"
-            height="0"
-            sizes="100vw"
-            className={styles.logo}
-            onClick={() => (window.location.href = '/')}
-          />
-        </div>
-        {isSmallScreen ? (
-          <div
-            className={styles.navbarToggle}
-            onClick={() => setMenuDrawerOpen(true)}
-          >
-            <MenuIcon />
-          </div>
-        ) : (
-          <div className={styles.navLinks}>
-            <Link
-              href="#home"
-              style={activeLink === 'home' ? { opacity: '1' } : {}}
-              onClick={() => onUpdateActiveLink('home')}
-            >
-              Home
-            </Link>
-
-            <Link
-              href="#skills"
-              style={activeLink === 'skills' ? { opacity: '1' } : {}}
-              onClick={() => onUpdateActiveLink('skills')}
-            >
-              Skills
-            </Link>
-
-            <Link
-              href="#projects"
-              style={activeLink === 'projects' ? { opacity: '1' } : {}}
-              onClick={() => onUpdateActiveLink('projects')}
-            >
-              Projects
-            </Link>
-
-            <Link href="#connect">
-              <button className={styles.navButton}>
-                <span>Let’s Connect</span>
-              </button>
-            </Link>
-          </div>
-        )}
-        <MenuDrawer open={menuDrawerOpen} setOpen={setMenuDrawerOpen} />
+    <div className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
+      <div className={styles.logoWrapper}>
+        <Image
+          src="/logo-small.png"
+          alt="Logo"
+          width="0"
+          height="0"
+          sizes="100vw"
+          className={styles.logo}
+          onClick={() => (window.location.href = '/')}
+        />
       </div>
-    //</Router>
+
+      {isSmallScreen ? (
+        <div
+          className={styles.navbarToggle}
+          onClick={() => setMenuDrawerOpen(true)}
+        >
+          <MenuIcon />
+        </div>
+      ) : (
+        <div className={styles.navLinks}>
+          <Link
+            href="#home"
+            style={activeLink === 'home' ? { opacity: '1' } : {}}
+            onClick={() => onUpdateActiveLink('home')}
+          >
+            Home
+          </Link>
+
+          <Link
+            href="#skills"
+            style={activeLink === 'skills' ? { opacity: '1' } : {}}
+            onClick={() => onUpdateActiveLink('skills')}
+          >
+            Skills
+          </Link>
+
+          <Link
+            href="#projects"
+            style={activeLink === 'projects' ? { opacity: '1' } : {}}
+            onClick={() => onUpdateActiveLink('projects')}
+          >
+            Projects
+          </Link>
+
+          <Link href="#connect">
+            <button className={styles.navButton}>
+              <span>Let's Connect</span>
+            </button>
+          </Link>
+        </div>
+      )}
+      <div className={styles.navLinks}>
+        <ThemeToggler />
+      </div>
+      <MenuDrawer open={menuDrawerOpen} setOpen={setMenuDrawerOpen} />
+    </div>
   );
 };

@@ -10,7 +10,7 @@ export const Footer = () => {
       <Container>
         <div className={styles.content}>
           <p>
-            {`Stan Krivtsoff | web developer | Paris | 2023 | `}
+            {`Stan Krivtsoff | web developer | Paris | 2024 | `}
             <a
               href="https://github.com/jesuisstan/portfolio-site-krivtsoff"
               className={styles.footerLink}

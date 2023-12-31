@@ -1,7 +1,8 @@
 import '@/styles/globals.css';
-import { Montserrat } from 'next/font/google'
+import { Montserrat } from 'next/font/google';
 import 'bootstrap/dist/css/bootstrap.min.css';
-const montserrat = Montserrat({ subsets: ['latin'] })
+import { ThemeProvider } from '@/components/ThemeProvider';
+const montserrat = Montserrat({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'krivtsoff.develop()',
@@ -9,15 +10,24 @@ export const metadata = {
   icons: {
     icon: ['/favicon.ico?v-4'],
     apple: ['/apple-touch-icon.png?v-4'],
-    shortcut: ['/apple-touch-icon.png?v-4'],
+    shortcut: ['/apple-touch-icon.png?v-4']
   },
-  manifest: '/site.webmanifest',
+  manifest: '/site.webmanifest'
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={montserrat.className}>{children}</body>
+    <html suppressHydrationWarning lang="en">
+      <body className={montserrat.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
-  )
+  );
 }

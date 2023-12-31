@@ -3,8 +3,8 @@
 .footer {
   background: linear-gradient(
     90.21deg,
-    var(--PORTFOLIO_BLACK_DEEP) -5.91%,
-    var(--PORTFOLIO_GREEN) 111.58%
+    var(--background-secondary) -5.91%,
+    var(--background-primary) 111.58%
   );
   padding: 5px 5px;
   display: flex;
@@ -32,12 +32,12 @@
 }
 
 .footerLink {
-  color: var(--PORTFOLIO_WHITE);
+  color: var(--foreground);
   text-decoration: none;
 }
 
 .footerLink:hover {
-  color: var(--PORTFOLIO_BLACK_DEEP);
+  color: var(--background-secondary);
   text-decoration: none;
 }
 

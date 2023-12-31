@@ -1,15 +1,22 @@
 /*@import './portfolioColors.css';*/
 
 :root {
-  --PORTFOLIO_BLACK: #151515;
-  --PORTFOLIO_BLACK_TRANS: #151515ef;
-  --PORTFOLIO_BLACK_DEEP: #000000;
-  --PORTFOLIO_WHITE: whitesmoke;
-  --PORTFOLIO_GREY: #d1fdfd;
+  --foreground: #151515;
+  --background-primary: #ff4544;
+  --background-secondary: whitesmoke;
+  --background-third: ivory;
+
   --PORTFOLIO_GREEN: #00babc;
-  --PORTFOLIO_BLUE: #4A2FBD;
-  --PORTFOLIO_RED: #d8636f;
   --PORTFOLIO_RED_DANGER: rgb(206, 58, 73);
+  --PORTFOLIO_BLACK: #151515;
+  --PORTFOLIO_WHITE: whitesmoke;
+}
+
+.dark {
+  --foreground: whitesmoke;
+  --background-primary: #00babc;
+  --background-secondary: #000000;
+  --background-third: #1f1f1f;
 }
 
 * {
@@ -30,14 +37,14 @@ body {
   position: relative;
   background: linear-gradient(
     90.21deg,
-    var(--PORTFOLIO_BLACK_DEEP) -5.91%,
-    var(--PORTFOLIO_GREEN) 111.58%
-    ) !important;
-    /*background-color: #121212 !important;*/
-    color: var(--PORTFOLIO_WHITE) !important;
-    font-family: 'Montserrat', sans-serif !important;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    var(--background-secondary) -5.91%,
+    var(--background-primary) 111.58%
+  ) !important;
+  /*background-color: #121212 !important;*/
+  color: var(--foreground) !important;
+  font-family: 'Montserrat', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1,

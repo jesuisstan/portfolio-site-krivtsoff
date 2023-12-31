@@ -22,7 +22,7 @@
 
 .navLinks a {
   font-weight: 400;
-  color: var(--PORTFOLIO_WHITE) !important;
+  color: var(--foreground) !important;
   letter-spacing: 0.8px;
   padding: 0 25px;
   font-size: 18px;
@@ -41,7 +41,7 @@
 
 .scrolled {
   padding: 0px 21px;
-  background-color: var(--PORTFOLIO_BLACK_TRANS);
+  background-color: var(--background-secondary);
 }
 
 .navbarToggle {
@@ -55,13 +55,12 @@
 }
 
 .logo {
-  width: 400px;
-  min-width: 150px;
+  width: auto;
+  max-width: 80px;
   padding: 11px 11px;
   cursor: pointer;
   height: auto;
   transition: 0.4s ease-in-out;
-
 }
 
 .navbar span {
@@ -71,8 +70,8 @@
 
 .navbar button {
   font-weight: 700;
-  color: var(--PORTFOLIO_WHITE);
-  border: 1px solid var(--PORTFOLIO_WHITE);
+  color: var(--foreground);
+  border: 1px solid var(--foreground);
   padding: 18px;
   font-size: 18px;
   position: relative;
@@ -89,7 +88,7 @@
   width: 0%;
   height: 100%;
   position: absolute;
-  background-color: var(--PORTFOLIO_WHITE);
+  background-color: var(--foreground);
   left: 0;
   top: 0;
   z-index: -1;
@@ -97,7 +96,7 @@
 }
 
 .navbar button:hover {
-  color: var(--PORTFOLIO_BLACK_DEEP);
+  color: var(--background-secondary);
 }
 
 .navbar button:hover::before {
@@ -133,9 +132,8 @@
   }
 
   .logoWrapper {
-  flex-grow: 0;
-
-  justify-content: center;
+    flex-grow: 0;
+    justify-content: center;
   }
 
   .navbarToggle {
@@ -143,4 +141,3 @@
     justify-content: flex-start;
   }
 }
-

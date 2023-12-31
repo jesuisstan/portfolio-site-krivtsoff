@@ -5,8 +5,8 @@
   position: relative;
   background: linear-gradient(
     90.21deg,
-    var(--PORTFOLIO_BLACK_DEEP) -5.91%,
-    var(--PORTFOLIO_BLACK) 111.58%
+    var(--background-secondary) -5.91%,
+    var(--background-third) 111.58%
   );
   align-items: center;
   text-align: center;
@@ -49,8 +49,8 @@
   font-size: 18px;
   margin: 25px 0px;
   position: relative;
-  color: var(--PORTFOLIO_WHITE);
-  border: 1px solid var(--PORTFOLIO_WHITE);
+  color: var(--foreground);
+  border: 1px solid var(--foreground);
   background-color: transparent;
   transition: 0.4s ease-in-out;
 }
@@ -61,12 +61,12 @@
 }
 
 .skill p button:hover {
-  color: var(--PORTFOLIO_BLACK_DEEP);
+  color: var(--background-secondary);
 }
 
 .skill p button::before {
   content: '';
-  background: var(--PORTFOLIO_WHITE);
+  background: var(--foreground);
   width: 0;
   height: 100%;
   position: absolute;

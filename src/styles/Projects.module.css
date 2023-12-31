@@ -5,8 +5,8 @@
   position: relative;
   background: linear-gradient(
     90.21deg,
-    var(--PORTFOLIO_BLACK_DEEP) -5.91%,
-    var(--PORTFOLIO_GREEN) 111.58%
+    var(--background-secondary) -5.91%,
+    var(--background-primary) 111.58%
   );
 }
 .projects h2 {
@@ -53,8 +53,8 @@
   height: 100%;
   background: linear-gradient(
     90.21deg,
-    var(--PORTFOLIO_BLACK_DEEP) -5.91%,
-    var(--PORTFOLIO_GREEN) 111.58%
+    var(--background-secondary) -5.91%,
+    var(--background-primary) 111.58%
   );
   top: 0;
   left: 0;
@@ -100,7 +100,7 @@
   content: '';
   background: linear-gradient(
     90.21deg,
-    var(--PORTFOLIO_BLACK_DEEP) -5.91%,
+    var(--background-secondary) -5.91%,
     var(--PORTFOLIO_BLACK) 111.58%
   );
   opacity: 0.85;
