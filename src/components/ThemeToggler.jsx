@@ -29,7 +29,7 @@ const ThemeToggler = () => {
         <div title="Toggle theme" onClick={toggleTheme}>
           {theme === 'light' ? (
             <Image
-              src="/moon.svg"
+              src="/sun.svg"
               alt="toggle-icon"
               width={12}
               height={12}
@@ -38,7 +38,7 @@ const ThemeToggler = () => {
             />
           ) : (
             <Image
-              src="/sun.svg"
+              src="/moon.svg"
               alt="toggle-icon"
               width={12}
               height={12}
