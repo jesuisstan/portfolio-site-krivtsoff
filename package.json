@@ -5,28 +5,23 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.11",
+"@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.7",
     "animate.css": "^4.1.1",
-    "bootstrap": "^5.3.2",
+    "bootstrap": "^5.3.3",
     "emailjs-com": "^3.2.0",
-    "lucide-react": "^0.294.0",
-    "next": "^14.0.4",
-    "next-themes": "^0.2.1",
-    "react": "latest",
-    "react-bootstrap": "^2.9.0",
-    "react-bootstrap-icons": "^1.10.3",
-    "react-dom": "latest",
-    "react-multi-carousel": "^2.8.4",
+    "lucide-react": "^0.475.0",
+    "next": "^15.1.7",
+    "next-themes": "^0.4.4",
+    "react": "^19.0.0",
+    "react-bootstrap": "^2.10.9",
+    "react-bootstrap-icons": "^1.11.5",
+    "react-dom": "^19.0.0",
+    "react-multi-carousel": "^2.8.5",
     "react-on-screen": "^2.1.1"
-  },
-  "devDependencies": {
-    "eslint": "latest",
-    "eslint-config-next": "latest"
   }
 }
