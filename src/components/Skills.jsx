@@ -9,11 +9,11 @@ export const Skills = () => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 5
+      items: 6
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 3
+      items: 4
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -27,7 +27,7 @@ export const Skills = () => {
 
   return (
     <section className={styles.skill} id="skills">
-      <div className="container">
+      <div className="container" style={{ 'user-select': 'none' }}>
         <div className="row">
           <div className="col-12">
             {/*<div className="skill-bx wow zoomIn">*/}
@@ -49,7 +49,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>ReactJS</h5>
                     <Image
-                      src="/logo-react.png"
+                      src="/powered-by/logo-react.png"
                       alt="ReactJS"
                       width="0"
                       height="0"
@@ -63,7 +63,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>Next.js</h5>
                     <Image
-                      src="/logo-nextjs.png"
+                      src="/powered-by/logo-nextjs.png"
                       alt="nextjs"
                       width="0"
                       height="0"
@@ -77,7 +77,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>Typescript</h5>
                     <Image
-                      src="/logo-ts.png"
+                      src="/powered-by/logo-ts.png"
                       alt="Typescript"
                       width="0"
                       height="0"
@@ -91,7 +91,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>Javascript</h5>
                     <Image
-                      src="/logo-js.png"
+                      src="/powered-by/logo-js.png"
                       alt="Javascript"
                       width="0"
                       height="0"
@@ -105,7 +105,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>HTML</h5>
                     <Image
-                      src="/logo-html.png"
+                      src="/powered-by/logo-html.png"
                       alt="html"
                       width="0"
                       height="0"
@@ -119,7 +119,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>CSS</h5>
                     <Image
-                      src="/logo-css.png"
+                      src="/powered-by/logo-css.png"
                       alt="css"
                       width="0"
                       height="0"
@@ -133,7 +133,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>Material UI</h5>
                     <Image
-                      src="/logo-material-ui.png"
+                      src="/powered-by/logo-material-ui.png"
                       alt="material ui"
                       width="0"
                       height="0"
@@ -147,7 +147,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>Tailwindcss</h5>
                     <Image
-                      src="/logo-tailwindcss.png"
+                      src="/powered-by/logo-tailwindcss.png"
                       alt="Tailwindcss"
                       width="0"
                       height="0"
@@ -161,7 +161,63 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>Node.js</h5>
                     <Image
-                      src="/logo-node.png"
+                      src="/powered-by/logo-node.png"
+                      alt="node.js"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
+                  </div>
+                  <div className={styles.item}>
+                    <h5>Next Auth</h5>
+                    <Image
+                      src="/powered-by/logo-next-auth.png"
+                      alt="node.js"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
+                  </div>
+                  <div className={styles.item}>
+                    <h5>OAuth</h5>
+                    <Image
+                      src="/powered-by/logo-oauth.svg"
+                      alt="node.js"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
+                  </div>
+                  <div className={styles.item}>
+                    <h5>JWT</h5>
+                    <Image
+                      src="/powered-by/logo-jwt.svg"
+                      alt="node.js"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
+                  </div>
+                  <div className={styles.item}>
+                    <h5>Next Intl</h5>
+                    <Image
+                      src="/powered-by/logo-next-intl.png"
                       alt="node.js"
                       width="0"
                       height="0"
@@ -175,7 +231,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>GraphQL</h5>
                     <Image
-                      src="/logo-graph-ql.png"
+                      src="/powered-by/logo-graph-ql.png"
                       alt="graph-ql"
                       width="0"
                       height="0"
@@ -189,7 +245,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>Apollo</h5>
                     <Image
-                      src="/logo-apollo.png"
+                      src="/powered-by/logo-apollo.png"
                       alt="apollol"
                       width="0"
                       height="0"
@@ -203,7 +259,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>Highcharts</h5>
                     <Image
-                      src="/logo-highcharts.png"
+                      src="/powered-by/logo-highcharts.png"
                       alt="highcharts"
                       width="0"
                       height="0"
@@ -217,8 +273,36 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>MongoDB</h5>
                     <Image
-                      src="/logo-mongodb.png"
+                      src="/powered-by/logo-mongodb.png"
                       alt="MongoDB"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
+                  </div>
+                  <div className={styles.item}>
+                    <h5>Vercel PostgreSQL</h5>
+                    <Image
+                      src="/powered-by/logo-vercel-postgresql.svg"
+                      alt="node.js"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      style={{
+                        width: 'auto',
+                        height: '100px'
+                      }}
+                    />
+                  </div>
+                  <div className={styles.item}>
+                    <h5>Vercel Blob</h5>
+                    <Image
+                      src="/powered-by/logo-vercel-blob.svg"
+                      alt="node.js"
                       width="0"
                       height="0"
                       sizes="100vw"
@@ -231,7 +315,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>Git</h5>
                     <Image
-                      src="/logo-git.png"
+                      src="/powered-by/logo-git.png"
                       alt="git"
                       width="0"
                       height="0"
@@ -245,7 +329,7 @@ export const Skills = () => {
                   <div className={styles.item}>
                     <h5>Docker</h5>
                     <Image
-                      src="/logo-docker.png"
+                      src="/powered-by/logo-docker.png"
                       alt="docker"
                       width="0"
                       height="0"
