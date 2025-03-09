@@ -8,8 +8,25 @@ const ThemeToggler = () => {
   const { theme, setTheme } = useTheme();
   const [isClient, setIsClient] = useState(false);
 
+  const SWITCH = () => {
+    switch (theme) {
+      case 'light':
+        setTheme('dark');
+        break;
+      case 'dark':
+        setTheme('light');
+        break;
+      default:
+        break;
+    }
+  };
+
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    //@ts-ignore
+    if (!document.startViewTransition) SWITCH();
+
+    //@ts-ignore
+    document.startViewTransition(SWITCH);
   };
 
   const commonStyle = {
