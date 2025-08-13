@@ -1,365 +1,237 @@
 'use client';
 
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import styles from '@/styles/Skills.module.css';
-import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { useInView } from 'framer-motion';
+import { useRef } from 'react';
+import {
+  Code,
+  Database,
+  Globe,
+  Smartphone,
+  Palette,
+  Server
+} from 'lucide-react';
 
-export const Skills = () => {
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 6
+export function Skills() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  const skillCategories = [
+    {
+      title: 'Frontend Development',
+      icon: Code,
+      skills: [
+        { name: 'React.js', level: 90, color: 'from-blue-500 to-cyan-500' },
+        { name: 'Next.js', level: 85, color: 'from-black to-gray-700' },
+        { name: 'TypeScript', level: 80, color: 'from-blue-600 to-blue-800' },
+        { name: 'Tailwind CSS', level: 85, color: 'from-cyan-500 to-blue-500' },
+        { name: 'HTML/CSS', level: 95, color: 'from-orange-500 to-red-500' }
+      ]
     },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 4
+    {
+      title: 'Backend Development',
+      icon: Server,
+      skills: [
+        { name: 'Node.js', level: 80, color: 'from-green-500 to-green-700' },
+        { name: 'Express.js', level: 75, color: 'from-gray-600 to-gray-800' },
+        { name: 'Python', level: 70, color: 'from-blue-500 to-yellow-500' },
+        { name: 'PostgreSQL', level: 75, color: 'from-blue-600 to-blue-800' },
+        { name: 'MongoDB', level: 70, color: 'from-green-500 to-green-700' }
+      ]
     },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2
+    {
+      title: 'Mobile Development',
+      icon: Smartphone,
+      skills: [
+        { name: 'React Native', level: 75, color: 'from-blue-500 to-cyan-500' },
+        { name: 'Expo', level: 70, color: 'from-purple-500 to-pink-500' },
+        {
+          name: 'Mobile UI/UX',
+          level: 80,
+          color: 'from-indigo-500 to-purple-500'
+        }
+      ]
     },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
+    {
+      title: 'Design & Tools',
+      icon: Palette,
+      skills: [
+        { name: 'Figma', level: 75, color: 'from-purple-500 to-pink-500' },
+        { name: 'Git', level: 85, color: 'from-orange-500 to-red-500' },
+        { name: 'Docker', level: 70, color: 'from-blue-500 to-cyan-500' },
+        { name: 'AWS', level: 65, color: 'from-orange-500 to-yellow-500' }
+      ]
+    }
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6
+      }
     }
   };
 
   return (
-    <section className={styles.skill} id="skills">
-      <div className="container" style={{ 'user-select': 'none' }}>
-        <div className="row">
-          <div className="col-12">
-            {/*<div className="skill-bx wow zoomIn">*/}
-            <div className={styles.skillBx}>
-              <h2>Skills</h2>
-              <p>
-                Possessing the essential knowledge of web and related
-                technologies
-                <br />
-                required to develop contemporary, responsive, and fully
-                functional web applications
-              </p>
-              <div style={{ margin: '41px' }}>
-                <Carousel
-                  responsive={responsive}
-                  infinite={true}
-                  className={styles.skillSlider}
-                >
-                  <div className={styles.item}>
-                    <h5>ReactJS</h5>
-                    <Image
-                      src="/powered-by/logo-react.png"
-                      alt="ReactJS"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Next.js</h5>
-                    <Image
-                      src="/powered-by/logo-nextjs.png"
-                      alt="nextjs"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Typescript</h5>
-                    <Image
-                      src="/powered-by/logo-ts.png"
-                      alt="Typescript"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Javascript</h5>
-                    <Image
-                      src="/powered-by/logo-js.png"
-                      alt="Javascript"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>HTML</h5>
-                    <Image
-                      src="/powered-by/logo-html.png"
-                      alt="html"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>CSS</h5>
-                    <Image
-                      src="/powered-by/logo-css.png"
-                      alt="css"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Material UI</h5>
-                    <Image
-                      src="/powered-by/logo-material-ui.png"
-                      alt="material ui"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Tailwindcss</h5>
-                    <Image
-                      src="/powered-by/logo-tailwindcss.png"
-                      alt="Tailwindcss"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Node.js</h5>
-                    <Image
-                      src="/powered-by/logo-node.png"
-                      alt="node.js"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Next Auth</h5>
-                    <Image
-                      src="/powered-by/logo-next-auth.png"
-                      alt="node.js"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>OAuth</h5>
-                    <Image
-                      src="/powered-by/logo-oauth.svg"
-                      alt="node.js"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>JWT</h5>
-                    <Image
-                      src="/powered-by/logo-jwt.svg"
-                      alt="node.js"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Next Intl</h5>
-                    <Image
-                      src="/powered-by/logo-next-intl.png"
-                      alt="node.js"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>GraphQL</h5>
-                    <Image
-                      src="/powered-by/logo-graph-ql.png"
-                      alt="graph-ql"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Apollo</h5>
-                    <Image
-                      src="/powered-by/logo-apollo.png"
-                      alt="apollol"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Highcharts</h5>
-                    <Image
-                      src="/powered-by/logo-highcharts.png"
-                      alt="highcharts"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>MongoDB</h5>
-                    <Image
-                      src="/powered-by/logo-mongodb.png"
-                      alt="MongoDB"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Vercel PostgreSQL</h5>
-                    <Image
-                      src="/powered-by/logo-vercel-postgresql.svg"
-                      alt="node.js"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Vercel Blob</h5>
-                    <Image
-                      src="/powered-by/logo-vercel-blob.svg"
-                      alt="node.js"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Git</h5>
-                    <Image
-                      src="/powered-by/logo-git.png"
-                      alt="git"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <h5>Docker</h5>
-                    <Image
-                      src="/powered-by/logo-docker.png"
-                      alt="docker"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      style={{
-                        width: 'auto',
-                        height: '100px'
-                      }}
-                    />
-                  </div>
-                </Carousel>
+    <section
+      id="skills"
+      className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800"
+    >
+      <div className="container-custom px-4 sm:px-6 lg:px-8">
+        <motion.div
+          ref={ref}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          variants={containerVariants}
+          className="text-center mb-20"
+        >
+          <motion.h2
+            variants={itemVariants}
+            className="text-4xl lg:text-5xl font-bold mb-8"
+          >
+            <span className="gradient-text">Skills</span> & Expertise
+          </motion.h2>
+          <motion.p
+            variants={itemVariants}
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+          >
+            I specialize in modern web technologies and frameworks, creating
+            responsive and scalable applications.
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          variants={containerVariants}
+          className="grid md:grid-cols-2 lg:grid-cols-2 gap-12"
+        >
+          {skillCategories.map((category, categoryIndex) => (
+            <motion.div
+              key={category.title}
+              variants={itemVariants}
+              className="glass-effect rounded-2xl p-10 card-hover"
+            >
+              <div className="flex items-center mb-8">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mr-6">
+                  <category.icon className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {category.title}
+                </h3>
               </div>
-              <p>
-                <br />
-                The actual github statistics:
-                <br />
-                <button
-                  onClick={() =>
-                    window.open(
-                      `https://octoprofile.vercel.app/user?id=${process.env.NEXT_PUBLIC_GITHUB_PROFILE}`
-                    )
-                  }
-                >
-                  <span>Check out</span>
-                </button>
-              </p>
-            </div>
+
+              <div className="space-y-8">
+                {category.skills.map((skill, skillIndex) => (
+                  <motion.div
+                    key={skill.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={
+                      isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }
+                    }
+                    transition={{
+                      delay: categoryIndex * 0.2 + skillIndex * 0.1
+                    }}
+                    className="space-y-3"
+                  >
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-900 dark:text-white">
+                        {skill.name}
+                      </span>
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
+                        {skill.level}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={
+                          isInView ? { width: `${skill.level}%` } : { width: 0 }
+                        }
+                        transition={{
+                          delay: categoryIndex * 0.2 + skillIndex * 0.1 + 0.5,
+                          duration: 1,
+                          ease: 'easeOut'
+                        }}
+                        className={`h-3 rounded-full bg-gradient-to-r ${skill.color}`}
+                      />
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Additional Skills Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="mt-20"
+        >
+          <h3 className="text-2xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+            Other Technologies
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {[
+              'JavaScript',
+              'TypeScript',
+              'HTML5',
+              'CSS3',
+              'SASS',
+              'Bootstrap',
+              'Material-UI',
+              'Redux',
+              'GraphQL',
+              'REST API',
+              'JWT',
+              'OAuth',
+              'Jest',
+              'Cypress',
+              'Webpack',
+              'Vite',
+              'NPM',
+              'Yarn',
+              'Linux',
+              'VS Code',
+              'Postman',
+              'Insomnia',
+              'MongoDB Compass'
+            ].map((tech, index) => (
+              <motion.div
+                key={tech}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={
+                  isInView
+                    ? { opacity: 1, scale: 1 }
+                    : { opacity: 0, scale: 0.8 }
+                }
+                transition={{ delay: 1 + index * 0.05, duration: 0.3 }}
+                whileHover={{ scale: 1.05 }}
+                className="bg-gray-200 dark:bg-gray-700 rounded-xl p-6 text-center hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+              >
+                <span className="text-sm font-medium text-gray-900 dark:text-white">
+                  {tech}
+                </span>
+              </motion.div>
+            ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
-};
+}

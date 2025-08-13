@@ -1,28 +1,146 @@
 'use client';
 
-import { Container } from 'react-bootstrap';
-import SocialNetworkBlock from './SocialNetworkBlock';
-import styles from '@/styles/Footer.module.css';
+import { motion } from 'framer-motion';
+import { Github, Linkedin, Mail, Heart, ArrowUp } from 'lucide-react';
 
-export const Footer = () => {
+export function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const socialLinks = [
+    {
+      icon: Github,
+      href: 'https://github.com/jesuisstan',
+      label: 'GitHub',
+      color: 'hover:text-gray-400'
+    },
+    {
+      icon: Linkedin,
+      href: 'https://www.linkedin.com/in/sdkrivtsov/',
+      label: 'LinkedIn',
+      color: 'hover:text-blue-400'
+    },
+    {
+      icon: Mail,
+      href: 'mailto:stan.krivtsov@gmail.com',
+      label: 'Email',
+      color: 'hover:text-red-400'
+    }
+  ];
+
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className={styles.footer}>
-      <Container>
-        <div className={styles.content}>
-          <p>
-            {`Stan Krivtsoff | web developer | Paris | 2024 | `}
-            <a
-              href="https://github.com/jesuisstan/portfolio-site-krivtsoff"
-              className={styles.footerLink}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              @github
-            </a>
-          </p>
-          <SocialNetworkBlock />
+    <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+      <div className="container-custom px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid md:grid-cols-3 gap-8 items-center">
+          {/* Logo and Description */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center md:text-left"
+          >
+            <div className="flex items-center justify-center md:justify-start space-x-2 mb-4">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">K</span>
+              </div>
+              <span className="font-bold text-xl gradient-text">
+                krivtsoff.develop()
+              </span>
+            </div>
+            <p className="text-gray-600 dark:text-gray-300 text-sm max-w-md">
+              Full-stack developer passionate about creating innovative digital
+              experiences and building scalable web applications.
+            </p>
+          </motion.div>
+
+          {/* Quick Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-center"
+          >
+            <h3 className="font-semibold mb-4">Quick Links</h3>
+            <div className="flex flex-col space-y-2">
+              {[
+                { name: 'Home', href: '#home' },
+                { name: 'Skills', href: '#skills' },
+                { name: 'Projects', href: '#projects' },
+                { name: 'Contact', href: '#contact' }
+              ].map((link) => (
+                <motion.a
+                  key={link.name}
+                  href={link.href}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 text-sm"
+                >
+                  {link.name}
+                </motion.a>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Social Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-center md:text-right"
+          >
+            <h3 className="font-semibold mb-4">Connect</h3>
+            <div className="flex justify-center md:justify-end space-x-4">
+              {socialLinks.map((social, index) => (
+                <motion.a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 + index * 0.1 }}
+                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={`p-3 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 ${social.color}`}
+                >
+                  <social.icon className="w-5 h-5" />
+                </motion.a>
+              ))}
+            </div>
+          </motion.div>
         </div>
-      </Container>
+
+        {/* Bottom Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+        >
+          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
+            <span>© {currentYear} Stanislav Krivtsoff. Made with</span>
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 1, repeat: Infinity }}
+            >
+              <Heart className="w-4 h-4 text-red-500 fill-current" />
+            </motion.div>
+            <span>in Paris</span>
+          </div>
+
+          <motion.button
+            onClick={scrollToTop}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="p-3 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 transition-colors duration-200"
+          >
+            <ArrowUp className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+          </motion.button>
+        </motion.div>
+      </div>
     </footer>
   );
-};
+}
