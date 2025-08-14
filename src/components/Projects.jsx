@@ -165,7 +165,7 @@ export function Projects() {
                 onClick={() => setActiveCategory(category)}
                 className={`px-8 py-3 rounded-full font-medium transition-all duration-200 ${
                   activeCategory === category
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-gradient-to-r from-teal-600 to-blue-600 text-white'
                     : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600'
                 }`}
               >
@@ -231,7 +231,7 @@ export function Projects() {
 
                 {/* Category Badge */}
                 <div className="absolute top-6 left-6">
-                  <div className="flex items-center space-x-3 px-4 py-2 bg-blue-600/90 backdrop-blur-sm rounded-full">
+                  <div className="flex items-center space-x-3 px-4 py-2 bg-gradient-to-r from-teal-600/90 to-blue-600/90 backdrop-blur-sm rounded-full">
                     <project.icon className="w-5 h-5 text-white" />
                     <span className="text-sm font-medium text-white">
                       {project.category}
@@ -314,7 +314,7 @@ export function Projects() {
           className="text-center mt-16"
         >
           <motion.a
-            href="https://github.com/jesuisstan"
+            href={process.env.NEXT_PUBLIC_LINK_GITHUB}
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}

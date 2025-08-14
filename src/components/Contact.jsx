@@ -2,93 +2,89 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  CheckCircle,
-  AlertCircle,
-  MessageCircle
-} from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { MapPin, MessageCircle } from 'lucide-react';
+import emailjs from 'emailjs-com';
 import Image from 'next/image';
 
 export function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+
+  // Initialize EmailJS
+  useEffect(() => {
+    emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_USER_ID);
+  }, []);
+
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    subject: '',
+    phone: '',
     message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+  const [buttonText, setButtonText] = useState('Send Message');
+  const [status, setStatus] = useState({});
 
   const contactInfo = [
     {
-      icon: Mail,
-      title: 'Email',
-      value: 'contact@krivtsoff.me',
-      href: 'mailto:contact@krivtsoff.me'
-    },
-    {
-      icon: Phone,
-      title: 'Phone',
-      value: '+33 6 12 34 56 78',
-      href: 'tel:+33612345678'
-    },
-    {
       icon: MapPin,
       title: 'Location',
-      value: 'Paris, France',
+      value: process.env.NEXT_PUBLIC_CONTACT_LOCATION,
       href: null
     }
   ];
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+  const onFormUpdate = (category, value) => {
+    setFormData({
+      ...formData,
+      [category]: value
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
-
-    setIsSubmitting(false);
-    setSubmitStatus('success');
-    setFormData({ name: '', email: '', subject: '', message: '' });
-
-    // Reset status after 5 seconds
-    setTimeout(() => setSubmitStatus(null), 5000);
+    if (formData.email && formData.lastName && formData.message) {
+      setButtonText('Sending...');
+      try {
+        await emailjs.send(
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+          formData,
+          process.env.NEXT_PUBLIC_EMAILJS_USER_ID
+        );
+        setButtonText('Send Message');
+        setStatus({ success: true, message: 'Message sent successfully!' });
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          message: ''
+        });
+      } catch (error) {
+        setButtonText('Send Message');
+        setStatus({
+          success: false,
+          message: 'Something went wrong, please try again later'
+        });
+      }
+    } else {
+      setStatus({
+        success: false,
+        message: 'Please fill in all required fields'
+      });
+    }
   };
 
   const handleTelegramClick = () => {
     // Open Telegram with username
-    window.open('https://t.me/jesuisstan', '_blank');
+    window.open(process.env.NEXT_PUBLIC_LINK_TELEGRAM, '_blank');
   };
 
   const handleWhatsAppClick = () => {
     // Open WhatsApp with phone number
-    const phoneNumber = '+33766836729';
-    const message =
-      'Hello! I saw your portfolio and would like to discuss a project.';
-    const whatsappUrl = `https://wa.me/${phoneNumber.replace(
-      /\s/g,
-      ''
-    )}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    window.open(process.env.NEXT_PUBLIC_LINK_WHATSAPP, '_blank');
   };
 
   const containerVariants = {
@@ -170,7 +166,7 @@ export function Contact() {
                   transition={{ delay: 0.4 + index * 0.1 }}
                   className="flex items-center space-x-6"
                 >
-                  <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-teal-500/10 to-blue-500/10 rounded-2xl flex items-center justify-center">
                     <info.icon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
@@ -241,12 +237,6 @@ export function Contact() {
                       Telegram
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">
-                    @jesuisstan
-                  </p>
-                  <p className="text-xs text-blue-500 mt-1 font-medium">
-                    Click to open
-                  </p>
                 </motion.div>
 
                 {/* WhatsApp QR Code */}
@@ -284,12 +274,6 @@ export function Contact() {
                       WhatsApp
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">
-                    +33 7 66 83 67 29
-                  </p>
-                  <p className="text-xs text-green-500 mt-1 font-medium">
-                    Click to open
-                  </p>
                 </motion.div>
               </div>
             </motion.div>
@@ -306,18 +290,18 @@ export function Contact() {
                 {[
                   {
                     name: 'GitHub',
-                    href: 'https://github.com/jesuisstan',
+                    href: process.env.NEXT_PUBLIC_LINK_GITHUB,
                     color: 'hover:text-gray-600'
                   },
                   {
                     name: 'LinkedIn',
-                    href: 'https://linkedin.com/in/krivtsoff',
+                    href: process.env.NEXT_PUBLIC_LINK_LINKEDIN,
                     color: 'hover:text-blue-600'
                   },
                   {
                     name: 'Instagram',
-                    href: 'https://www.instagram.com/je.suis.stan/',
-                    color: 'hover:text-blue-400'
+                    href: process.env.NEXT_PUBLIC_LINK_INSTAGRAM,
+                    color: 'hover:text-teal-400'
                   }
                 ].map((social) => (
                   <motion.a
@@ -351,22 +335,42 @@ export function Contact() {
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <label
-                    htmlFor="name"
+                    htmlFor="firstName"
                     className="block text-sm font-medium mb-3 text-gray-900 dark:text-white"
                   >
-                    Name *
+                    First Name
                   </label>
                   <input
                     type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-6 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white text-lg"
-                    placeholder="Your name"
+                    id="firstName"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={(e) => onFormUpdate('firstName', e.target.value)}
+                    className="w-full px-6 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white text-lg"
+                    placeholder="Your first name"
                   />
                 </div>
+                <div>
+                  <label
+                    htmlFor="lastName"
+                    className="block text-sm font-medium mb-3 text-gray-900 dark:text-white"
+                  >
+                    Last Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={(e) => onFormUpdate('lastName', e.target.value)}
+                    required
+                    className="w-full px-6 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white text-lg"
+                    placeholder="Your last name"
+                  />
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <label
                     htmlFor="email"
@@ -379,31 +383,29 @@ export function Contact() {
                     id="email"
                     name="email"
                     value={formData.email}
-                    onChange={handleInputChange}
+                    onChange={(e) => onFormUpdate('email', e.target.value)}
                     required
-                    className="w-full px-6 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white text-lg"
+                    className="w-full px-6 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white text-lg"
                     placeholder="your.email@example.com"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium mb-3 text-gray-900 dark:text-white"
-                >
-                  Subject *
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-6 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white text-lg"
-                  placeholder="What's this about?"
-                />
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium mb-3 text-gray-900 dark:text-white"
+                  >
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={(e) => onFormUpdate('phone', e.target.value)}
+                    className="w-full px-6 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white text-lg"
+                    placeholder="Your phone number"
+                  />
+                </div>
               </div>
 
               <div>
@@ -417,57 +419,37 @@ export function Contact() {
                   id="message"
                   name="message"
                   value={formData.message}
-                  onChange={handleInputChange}
+                  onChange={(e) => onFormUpdate('message', e.target.value)}
                   required
                   rows={8}
-                  className="w-full px-6 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none text-gray-900 dark:text-white text-lg"
+                  className="w-full px-6 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 resize-none text-gray-900 dark:text-white text-lg"
                   placeholder="Tell me about your project..."
                 />
               </div>
 
-              {/* Submit Status */}
-              {submitStatus && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`flex items-center space-x-3 p-6 rounded-xl ${
-                    submitStatus === 'success'
-                      ? 'bg-green-500/10 text-green-600 border border-green-500/20'
-                      : 'bg-red-500/10 text-red-600 border border-red-500/20'
-                  }`}
-                >
-                  {submitStatus === 'success' ? (
-                    <CheckCircle className="w-6 h-6" />
-                  ) : (
-                    <AlertCircle className="w-6 h-6" />
-                  )}
-                  <span className="text-lg">
-                    {submitStatus === 'success'
-                      ? "Message sent successfully! I'll get back to you soon."
-                      : 'Something went wrong. Please try again.'}
-                  </span>
-                </motion.div>
-              )}
+              <p className="text-sm text-red-500">* Required fields</p>
 
               <motion.button
                 type="submit"
-                disabled={isSubmitting}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full button-primary flex items-center justify-center space-x-3 py-4 text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                className="button-primary w-full py-4 text-lg font-semibold"
+                disabled={buttonText === 'Sending...'}
               >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    <span>Sending...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-6 h-6" />
-                    <span>Send Message</span>
-                  </>
-                )}
+                {buttonText}
               </motion.button>
+
+              {status.message && (
+                <div
+                  className={`text-center p-4 rounded-xl ${
+                    status.success
+                      ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+                      : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
+                  }`}
+                >
+                  {status.message}
+                </div>
+              )}
             </motion.form>
           </motion.div>
         </div>

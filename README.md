@@ -58,13 +58,41 @@ cd portfolio-site-krivtsoff
 npm install
 ```
 
-3. Run the development server:
+3. Set up environment variables:
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```bash
+# Contact Information
+NEXT_PUBLIC_CONTACT_EMAIL=contact@krivtsoff.me
+NEXT_PUBLIC_CONTACT_PHONE=+33766836729
+NEXT_PUBLIC_CONTACT_LOCATION=Paris, France
+
+# Social Media Links
+NEXT_PUBLIC_LINK_GITHUB=https://github.com/jesuisstan
+NEXT_PUBLIC_LINK_LINKEDIN=https://linkedin.com/in/krivtsoff
+NEXT_PUBLIC_LINK_INSTAGRAM=https://www.instagram.com/je.suis.stan/
+NEXT_PUBLIC_LINK_TELEGRAM=https://t.me/jesuisstan
+NEXT_PUBLIC_LINK_WHATSAPP=https://wa.me/33766836729
+
+# CV Download
+NEXT_PUBLIC_LINK_CV_DOWNLOAD=/Krivtsov Stanislav_Frontend developer_CV.pdf
+
+# EmailJS Configuration
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_iztcs2p
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_ds3he2l
+NEXT_PUBLIC_EMAILJS_USER_ID=DfVF4onMYhjgS2dsa
+```
+
+Update these values with your actual contact information and social media links.
+
+5. Run the development server:
 
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Build for Production
 

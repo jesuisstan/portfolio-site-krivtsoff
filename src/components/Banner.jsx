@@ -5,14 +5,38 @@ import { ArrowRight, Github, Linkedin, Mail, Download } from 'lucide-react';
 import Image from 'next/image';
 
 export function Banner() {
+  const downloadCV = () => {
+    // Create link to PDF file in public folder
+    const cvUrl = '/Krivtsov Stanislav_Frontend developer_CV.pdf';
+
+    // Create temporary <a> element for download
+    const link = document.createElement('a');
+    link.href = cvUrl;
+    link.download = 'Krivtsov Stanislav_Frontend developer_CV.pdf'; // Filename when downloading
+    link.target = '_blank';
+
+    // Add element to DOM, click it and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const socialLinks = [
-    { icon: Github, href: 'https://github.com/jesuisstan', label: 'GitHub' },
     {
-      icon: Linkedin,
-      href: 'https://www.linkedin.com/in/sdkrivtsov/',
-      label: 'LinkedIn'
+      label: 'GitHub',
+      href: process.env.NEXT_PUBLIC_LINK_GITHUB,
+      icon: Github
     },
-    { icon: Mail, href: 'mailto:stan.krivtsov@gmail.com', label: 'Email' }
+    {
+      label: 'LinkedIn',
+      href: process.env.NEXT_PUBLIC_LINK_LINKEDIN,
+      icon: Linkedin
+    },
+    {
+      label: 'Email',
+      href: `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`,
+      icon: Mail
+    }
   ];
 
   const scrollToContact = () => {
@@ -29,13 +53,13 @@ export function Banner() {
     >
       {/* Background Elements */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-teal-500/20 to-blue-500/20 rounded-full blur-3xl animate-float" />
         <div
           className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-float"
           style={{ animationDelay: '1s' }}
         />
         <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-float"
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-teal-500/10 via-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-float"
           style={{ animationDelay: '2s' }}
         />
       </div>
@@ -55,8 +79,8 @@ export function Banner() {
               transition={{ delay: 0.2 }}
               className="space-y-8"
             >
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-sm font-medium">
-                <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse" />
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-teal-500/10 to-blue-500/10 text-teal-600 dark:text-teal-400 text-sm font-medium">
+                <span className="w-2 h-2 bg-gradient-to-r from-teal-500 to-blue-500 rounded-full mr-2 animate-pulse" />
                 Available for new opportunities
               </div>
 
@@ -92,6 +116,7 @@ export function Banner() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={downloadCV}
                 className="button-secondary flex items-center justify-center space-x-3"
               >
                 <Download className="w-5 h-5" />
@@ -176,7 +201,7 @@ export function Banner() {
                   repeat: Infinity,
                   ease: 'easeInOut'
                 }}
-                className="absolute -top-6 -right-6 w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-sm"
+                className="absolute -top-6 -right-6 w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-sm"
               >
                 React
               </motion.div>
@@ -192,7 +217,7 @@ export function Banner() {
                   ease: 'easeInOut',
                   delay: 1
                 }}
-                className="absolute -bottom-6 -left-6 w-20 h-20 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-sm"
+                className="absolute -bottom-6 -left-6 w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center text-white font-bold text-sm"
               >
                 NEXT.js
               </motion.div>
@@ -202,8 +227,8 @@ export function Banner() {
                 whileHover={{ scale: 1.05 }}
                 className="relative w-80 h-80 lg:w-96 lg:h-96"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-xl" />
-                <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-blue-500/20">
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-500/20 via-blue-500/20 to-purple-500/20 rounded-full blur-xl" />
+                <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gradient-to-r from-teal-500/20 to-blue-500/20">
                   <Image
                     src="/avatar.jpg"
                     alt="Stanislav Krivtsoff"

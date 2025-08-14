@@ -8,6 +8,17 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        portfolio: {
+          green: '#00babc',
+          'green-dark': '#008a8c',
+          'green-darker': '#006d6f',
+          black: '#151515',
+          'black-deep': '#000000',
+          white: 'whitesmoke',
+          'red-danger': 'rgb(206, 58, 73)'
+        }
+      },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out',
         'slide-in': 'slideIn 0.6s ease-out',
@@ -28,8 +39,8 @@ module.exports = {
           '50%': { transform: 'translateY(-10px)' }
         },
         glow: {
-          '0%, 100%': { boxShadow: '0 0 5px rgba(59, 130, 246, 0.5)' },
-          '50%': { boxShadow: '0 0 20px rgba(59, 130, 246, 0.8)' }
+          '0%, 100%': { boxShadow: '0 0 5px rgba(0, 186, 188, 0.5)' },
+          '50%': { boxShadow: '0 0 20px rgba(0, 186, 188, 0.8)' }
         }
       }
     }

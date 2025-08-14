@@ -23,6 +23,19 @@ export function NavBar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Prevent page scrolling when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   const navItems = [
     { name: 'Home', href: '#home' },
     { name: 'Skills', href: '#skills' },
@@ -31,11 +44,60 @@ export function NavBar() {
   ];
 
   const scrollToSection = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    // First close mobile menu
     setIsOpen(false);
+
+    // Add a small delay to ensure menu closes
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        // Consider fixed navigation height
+        const navHeight = 64; // h-16 = 64px
+        const elementPosition = element.offsetTop - navHeight;
+
+        // Use scrollIntoView as fallback
+        try {
+          window.scrollTo({
+            top: elementPosition,
+            behavior: 'smooth'
+          });
+        } catch (error) {
+          // Fallback to scrollIntoView if scrollTo doesn't work
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      } else {
+        console.warn(`Element with id "${href}" not found`);
+        // Try to find element by another selector
+        const alternativeElement = document.querySelector(
+          `[id="${href.substring(1)}"]`
+        );
+        if (alternativeElement) {
+          alternativeElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }
+    }, 150); // Increase delay for more reliable menu closing
+  };
+
+  const downloadCV = () => {
+    // Create link to PDF file in public folder
+    const cvUrl = process.env.NEXT_PUBLIC_LINK_CV_DOWNLOAD;
+
+    // Create temporary <a> element for download
+    const link = document.createElement('a');
+    link.href = cvUrl;
+    link.download = 'Krivtsov Stanislav_Frontend developer_CV.pdf'; // Filename when downloading
+    link.target = '_blank';
+
+    // Add element to DOM, click it and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -55,7 +117,7 @@ export function NavBar() {
             whileHover={{ scale: 1.05 }}
             className="flex items-center space-x-2"
           >
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">K</span>
             </div>
             <span className="font-bold text-xl gradient-text">
@@ -101,6 +163,7 @@ export function NavBar() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={downloadCV}
               className="button-primary hidden sm:flex items-center space-x-2"
             >
               <Download className="w-4 h-4" />
@@ -140,8 +203,12 @@ export function NavBar() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={() => scrollToSection(item.href)}
-                  className="block w-full text-left text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium py-2"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    scrollToSection(item.href);
+                  }}
+                  className="block w-full text-left text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   {item.name}
                 </motion.button>
@@ -150,6 +217,7 @@ export function NavBar() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navItems.length * 0.1 }}
+                onClick={downloadCV}
                 className="button-primary w-full flex items-center justify-center space-x-2"
               >
                 <Download className="w-4 h-4" />

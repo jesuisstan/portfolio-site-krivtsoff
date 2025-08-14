@@ -17,7 +17,8 @@ export function Experience() {
       type: 'Freelance',
       period: '2022 - Present',
       location: 'Paris, France',
-      description: 'Developing modern web applications using React, Node.js, and cloud technologies. Working with clients to create scalable and user-friendly solutions.',
+      description:
+        'Developing modern web applications using React, Node.js, and cloud technologies. Working with clients to create scalable and user-friendly solutions.',
       technologies: ['React', 'Node.js', 'TypeScript', 'MongoDB', 'AWS']
     },
     {
@@ -27,7 +28,8 @@ export function Experience() {
       type: 'Education',
       period: '2021 - 2023',
       location: 'Paris, France',
-      description: 'Completed intensive programming curriculum focusing on C, C++, algorithms, and web development. Participated in peer-to-peer learning environment.',
+      description:
+        'Completed intensive programming curriculum focusing on C, C++, algorithms, and web development. Participated in peer-to-peer learning environment.',
       technologies: ['C', 'C++', 'JavaScript', 'Python', 'Docker']
     },
     {
@@ -37,7 +39,8 @@ export function Experience() {
       type: 'Management',
       period: '2018 - 2021',
       location: 'Paris, France',
-      description: 'Led cross-functional teams in delivering complex projects. Managed stakeholder relationships and ensured project success through effective communication.',
+      description:
+        'Led cross-functional teams in delivering complex projects. Managed stakeholder relationships and ensured project success through effective communication.',
       technologies: ['Agile', 'Scrum', 'JIRA', 'Confluence', 'Leadership']
     }
   ];
@@ -82,17 +85,17 @@ export function Experience() {
         <motion.div
           ref={ref}
           initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          animate={isInView ? 'visible' : 'hidden'}
           variants={containerVariants}
           className="text-center mb-16"
         >
-          <motion.h2 
+          <motion.h2
             variants={itemVariants}
             className="text-4xl lg:text-5xl font-bold mb-6"
           >
             <span className="gradient-text">Experience</span> & Journey
           </motion.h2>
-          <motion.p 
+          <motion.p
             variants={itemVariants}
             className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
           >
@@ -103,7 +106,7 @@ export function Experience() {
 
         <motion.div
           initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          animate={isInView ? 'visible' : 'hidden'}
           variants={containerVariants}
           className="relative"
         >
@@ -119,7 +122,7 @@ export function Experience() {
               }`}
             >
               {/* Timeline Dot */}
-              <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white dark:border-gray-900 transform md:-translate-x-1/2 z-10" />
+              <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-gradient-to-r from-teal-600 to-blue-600 rounded-full border-4 border-white dark:border-gray-900 transform md:-translate-x-1/2 z-10" />
 
               {/* Content Card */}
               <motion.div
@@ -127,7 +130,7 @@ export function Experience() {
                 className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg md:w-1/2"
               >
                 {/* Type Badge */}
-                <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium mb-4 bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium mb-4 bg-gradient-to-r from-teal-500/10 to-blue-500/10 text-blue-600 dark:text-blue-400">
                   {experience.type === 'Freelance' && (
                     <Award className="w-3 h-3 mr-1" />
                   )}

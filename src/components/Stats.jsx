@@ -21,7 +21,7 @@ export function Stats() {
       number: 25,
       label: 'Projects Completed',
       suffix: '+',
-      color: 'from-blue-500 to-cyan-500'
+      color: 'from-blue-500 to-purple-600'
     },
     {
       icon: Users,
@@ -74,7 +74,7 @@ export function Stats() {
   }, [isInView]);
 
   return (
-    <section className="py-20 bg-gradient-to-r from-blue-500/5 to-purple-500/5">
+    <section className="py-20 bg-gradient-to-r from-teal-500/5 via-blue-500/5 to-purple-500/5">
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
@@ -95,7 +95,7 @@ export function Stats() {
             >
               <motion.div
                 whileHover={{ scale: 1.1, rotate: 5 }}
-                className="w-16 h-16 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-gradient-to-r group-hover:from-blue-500/20 group-hover:to-purple-500/20 transition-all duration-300"
+                className="w-16 h-16 bg-gradient-to-r from-teal-500/10 via-blue-500/10 to-purple-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-gradient-to-r group-hover:from-teal-500/20 group-hover:via-blue-500/20 group-hover:to-purple-500/20 transition-all duration-300"
               >
                 <stat.icon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
               </motion.div>

@@ -1,31 +1,85 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Heart, ArrowUp } from 'lucide-react';
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Heart,
+  ArrowUp,
+  Instagram
+} from 'lucide-react';
 
 export function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const scrollToContact = () => {
+    const contactSection = document.querySelector('#contact');
+    if (contactSection) {
+      const navHeight = 64; // h-16 = 64px
+      const elementPosition = contactSection.offsetTop - navHeight;
+
+      try {
+        window.scrollTo({
+          top: elementPosition,
+          behavior: 'smooth'
+        });
+      } catch (error) {
+        contactSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+  };
+
+  const scrollToSection = (href) => {
+    const element = document.querySelector(href);
+    if (element) {
+      const navHeight = 64; // h-16 = 64px
+      const elementPosition = element.offsetTop - navHeight;
+
+      try {
+        window.scrollTo({
+          top: elementPosition,
+          behavior: 'smooth'
+        });
+      } catch (error) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+  };
+
   const socialLinks = [
     {
       icon: Github,
-      href: 'https://github.com/jesuisstan',
+      href: process.env.NEXT_PUBLIC_LINK_GITHUB,
       label: 'GitHub',
       color: 'hover:text-gray-400'
     },
     {
       icon: Linkedin,
-      href: 'https://www.linkedin.com/in/sdkrivtsov/',
+      href: process.env.NEXT_PUBLIC_LINK_LINKEDIN,
       label: 'LinkedIn',
-      color: 'hover:text-blue-400'
+      color: 'hover:text-teal-400'
+    },
+    {
+      icon: Instagram,
+      href: process.env.NEXT_PUBLIC_LINK_INSTAGRAM,
+      label: 'Instagram',
+      color: 'hover:text-pink-400'
     },
     {
       icon: Mail,
-      href: 'mailto:stan.krivtsov@gmail.com',
+      href: '#contact',
       label: 'Email',
-      color: 'hover:text-red-400'
+      color: 'hover:text-red-400',
+      onClick: scrollToContact
     }
   ];
 
@@ -43,7 +97,7 @@ export function Footer() {
             className="text-center md:text-left"
           >
             <div className="flex items-center justify-center md:justify-start space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">K</span>
               </div>
               <span className="font-bold text-xl gradient-text">
@@ -71,15 +125,15 @@ export function Footer() {
                 { name: 'Projects', href: '#projects' },
                 { name: 'Contact', href: '#contact' }
               ].map((link) => (
-                <motion.a
+                <motion.button
                   key={link.name}
-                  href={link.href}
+                  onClick={() => scrollToSection(link.href)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 text-sm"
+                  className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 text-sm text-left"
                 >
                   {link.name}
-                </motion.a>
+                </motion.button>
               ))}
             </div>
           </motion.div>
@@ -94,20 +148,21 @@ export function Footer() {
             <h3 className="font-semibold mb-4">Connect</h3>
             <div className="flex justify-center md:justify-end space-x-4">
               {socialLinks.map((social, index) => (
-                <motion.a
+                <motion.button
                   key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={
+                    social.onClick || (() => window.open(social.href, '_blank'))
+                  }
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.3 + index * 0.1 }}
                   whileHover={{ scale: 1.2, rotate: 5 }}
                   whileTap={{ scale: 0.9 }}
                   className={`p-3 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 ${social.color}`}
+                  title={social.label}
                 >
                   <social.icon className="w-5 h-5" />
-                </motion.a>
+                </motion.button>
               ))}
             </div>
           </motion.div>
@@ -135,7 +190,7 @@ export function Footer() {
             onClick={scrollToTop}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="p-3 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 transition-colors duration-200"
+            className="p-3 rounded-lg bg-gradient-to-r from-teal-500/10 to-blue-500/10 hover:from-teal-500/20 hover:to-blue-500/20 transition-colors duration-200"
           >
             <ArrowUp className="w-5 h-5 text-blue-600 dark:text-blue-400" />
           </motion.button>

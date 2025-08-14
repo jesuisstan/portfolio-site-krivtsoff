@@ -21,10 +21,14 @@ export function Skills() {
       title: 'Frontend Development',
       icon: Code,
       skills: [
-        { name: 'React.js', level: 90, color: 'from-blue-500 to-cyan-500' },
+        { name: 'React.js', level: 90, color: 'from-blue-500 to-purple-600' },
         { name: 'Next.js', level: 85, color: 'from-black to-gray-700' },
-        { name: 'TypeScript', level: 80, color: 'from-blue-600 to-blue-800' },
-        { name: 'Tailwind CSS', level: 85, color: 'from-cyan-500 to-blue-500' },
+        {
+          name: 'TypeScript',
+          level: 80,
+          color: 'from-indigo-600 to-purple-800'
+        },
+        { name: 'Tailwind CSS', level: 85, color: 'from-cyan-500 to-blue-600' },
         { name: 'HTML/CSS', level: 95, color: 'from-orange-500 to-red-500' }
       ]
     },
@@ -34,8 +38,8 @@ export function Skills() {
       skills: [
         { name: 'Node.js', level: 80, color: 'from-green-500 to-green-700' },
         { name: 'Express.js', level: 75, color: 'from-gray-600 to-gray-800' },
-        { name: 'Python', level: 70, color: 'from-blue-500 to-yellow-500' },
-        { name: 'PostgreSQL', level: 75, color: 'from-blue-600 to-blue-800' },
+        { name: 'Python', level: 70, color: 'from-yellow-500 to-orange-500' },
+        { name: 'PostgreSQL', level: 75, color: 'from-blue-600 to-indigo-800' },
         { name: 'MongoDB', level: 70, color: 'from-green-500 to-green-700' }
       ]
     },
@@ -43,7 +47,11 @@ export function Skills() {
       title: 'Mobile Development',
       icon: Smartphone,
       skills: [
-        { name: 'React Native', level: 75, color: 'from-blue-500 to-cyan-500' },
+        {
+          name: 'React Native',
+          level: 75,
+          color: 'from-purple-500 to-pink-600'
+        },
         { name: 'Expo', level: 70, color: 'from-purple-500 to-pink-500' },
         {
           name: 'Mobile UI/UX',
@@ -58,7 +66,7 @@ export function Skills() {
       skills: [
         { name: 'Figma', level: 75, color: 'from-purple-500 to-pink-500' },
         { name: 'Git', level: 85, color: 'from-orange-500 to-red-500' },
-        { name: 'Docker', level: 70, color: 'from-blue-500 to-cyan-500' },
+        { name: 'Docker', level: 70, color: 'from-blue-500 to-cyan-600' },
         { name: 'AWS', level: 65, color: 'from-orange-500 to-yellow-500' }
       ]
     }
@@ -126,7 +134,7 @@ export function Skills() {
               className="glass-effect rounded-2xl p-10 card-hover"
             >
               <div className="flex items-center mb-8">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mr-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-700 rounded-2xl flex items-center justify-center mr-6">
                   <category.icon className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
