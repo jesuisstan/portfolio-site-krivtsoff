@@ -231,7 +231,7 @@ export function SkillsAndTech() {
   return (
     <section
       id="skills"
-      className="pt-16 pb-16 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800"
+      className="pt-16 pb-16 bg-gradient-to-b from-gray-50 to-gray-50 dark:from-gray-800 dark:to-gray-800"
     >
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         {/* Skills Section */}
@@ -250,7 +250,7 @@ export function SkillsAndTech() {
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-16"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-12"
           >
             I specialize in modern web technologies and frameworks, creating
             responsive and scalable applications with a comprehensive tech
@@ -261,24 +261,24 @@ export function SkillsAndTech() {
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
             variants={containerVariants}
-            className="grid md:grid-cols-2 lg:grid-cols-2 gap-12"
+            className="grid md:grid-cols-2 lg:grid-cols-2 gap-8"
           >
             {skillCategories.map((category, categoryIndex) => (
               <motion.div
                 key={category.title}
                 variants={itemVariants}
-                className="glass-effect rounded-2xl p-10 card-hover"
+                className="glass-effect rounded-2xl p-8 card-hover"
               >
-                <div className="flex items-center mb-8">
-                  <div className="w-16 h-16 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-700 rounded-2xl flex items-center justify-center mr-6">
-                    <category.icon className="w-8 h-8 text-white" />
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-700 rounded-xl flex items-center justify-center mr-4">
+                    <category.icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                     {category.title}
                   </h3>
                 </div>
 
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {category.skills.map((skill, skillIndex) => (
                     <motion.div
                       key={skill.name}
@@ -289,7 +289,7 @@ export function SkillsAndTech() {
                       transition={{
                         delay: categoryIndex * 0.2 + skillIndex * 0.1
                       }}
-                      className="space-y-3"
+                      className="space-y-2"
                     >
                       <div className="flex justify-between items-center">
                         <span className="font-medium text-gray-900 dark:text-white">

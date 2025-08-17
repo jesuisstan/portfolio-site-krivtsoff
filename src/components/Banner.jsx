@@ -1,10 +1,89 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Mail, Download } from 'lucide-react';
+import {
+  ArrowRight,
+  Github,
+  Linkedin,
+  Mail,
+  Download,
+  FolderOpen,
+  Award,
+  Clock,
+  Briefcase
+} from 'lucide-react';
 import Image from 'next/image';
+import { useRef, useState, useEffect } from 'react';
+import { useInView } from 'framer-motion';
 
 export function Banner() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+  const [counts, setCounts] = useState({
+    projects: 0,
+    experience: 0,
+    hours: 0,
+    certifications: 0
+  });
+
+  const stats = [
+    {
+      icon: FolderOpen,
+      number: 25,
+      label: 'Projects Completed',
+      suffix: '+',
+      color: 'from-blue-500 to-cyan-500'
+    },
+    {
+      icon: Briefcase,
+      number: 2,
+      label: 'Years Experience',
+      suffix: '+',
+      color: 'from-purple-500 to-pink-500'
+    },
+    {
+      icon: Clock,
+      number: 2000,
+      label: 'Hours Coded',
+      suffix: '+',
+      color: 'from-orange-500 to-red-500'
+    },
+    {
+      icon: Award,
+      number: 3,
+      label: 'IT Certifications',
+      suffix: '',
+      color: 'from-green-500 to-emerald-500'
+    }
+  ];
+
+  useEffect(() => {
+    if (isInView) {
+      const duration = 2000; // 2 seconds
+      const steps = 60;
+      const stepDuration = duration / steps;
+
+      let currentStep = 0;
+      const interval = setInterval(() => {
+        currentStep++;
+        const progress = currentStep / steps;
+
+        setCounts({
+          projects: Math.floor(stats[0].number * progress),
+          experience: Math.floor(stats[1].number * progress),
+          hours: Math.floor(stats[2].number * progress),
+          certifications: Math.floor(stats[3].number * progress)
+        });
+
+        if (currentStep >= steps) {
+          clearInterval(interval);
+        }
+      }, stepDuration);
+
+      return () => clearInterval(interval);
+    }
+  }, [isInView]);
+
   const downloadCV = () => {
     // Create link to PDF file in public folder
     const cvUrl = '/Krivtsov Stanislav_Frontend developer_CV.pdf';
@@ -31,11 +110,6 @@ export function Banner() {
       label: 'LinkedIn',
       href: process.env.NEXT_PUBLIC_LINK_LINKEDIN,
       icon: Linkedin
-    },
-    {
-      label: 'Email',
-      href: `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`,
-      icon: Mail
     }
   ];
 
@@ -84,11 +158,16 @@ export function Banner() {
                 Available for new opportunities
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1]"
+              >
                 <span className="gradient-text">Full-Stack</span>
                 <br />
                 <span className="text-gray-900 dark:text-white">Developer</span>
-              </h1>
+              </motion.h1>
 
               <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-lg">
                 Crafting digital experiences with modern technologies.
@@ -101,7 +180,7 @@ export function Banner() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-6"
+              className="flex flex-wrap items-center gap-4"
             >
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -122,18 +201,8 @@ export function Banner() {
                 <Download className="w-5 h-5" />
                 <span>Download CV</span>
               </motion.button>
-            </motion.div>
 
-            {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex items-center space-x-8"
-            >
-              <span className="text-gray-600 dark:text-gray-300">
-                Follow me:
-              </span>
+              {/* Social Links */}
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.label}
@@ -142,41 +211,58 @@ export function Banner() {
                   rel="noopener noreferrer"
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.8 + index * 0.1 }}
-                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  transition={{ delay: 0.6 + index * 0.1 }}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
                   whileTap={{ scale: 0.9 }}
-                  className="p-4 rounded-xl bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 group"
+                  className="p-3 rounded-xl bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 group"
                 >
-                  <social.icon className="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200" />
+                  <social.icon className="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200" />
                 </motion.a>
               ))}
             </motion.div>
 
             {/* Stats */}
             <motion.div
+              ref={ref}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="grid grid-cols-3 gap-10 pt-10 border-t border-gray-200 dark:border-gray-700"
+              className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-10 border-t border-gray-200 dark:border-gray-700"
             >
-              {[
-                { number: '3+', label: 'Years Experience' },
-                { number: '20+', label: 'Projects Completed' },
-                { number: '100%', label: 'Client Satisfaction' }
-              ].map((stat, index) => (
+              {stats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1 + index * 0.1 }}
-                  className="text-center"
+                  animate={
+                    isInView
+                      ? { opacity: 1, scale: 1 }
+                      : { opacity: 0, scale: 0.8 }
+                  }
+                  transition={{ delay: 1 + index * 0.1, duration: 0.6 }}
+                  className="text-center group"
                 >
-                  <div className="text-3xl font-bold gradient-text mb-2">
-                    {stat.number}
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">
-                    {stat.label}
-                  </div>
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="w-10 h-10 bg-gradient-to-r from-teal-500/10 via-blue-500/10 to-purple-500/10 rounded-xl flex items-center justify-center mx-auto mb-2 group-hover:bg-gradient-to-r group-hover:from-teal-500/20 group-hover:via-blue-500/20 group-hover:to-purple-500/20 transition-all duration-300"
+                  >
+                    <stat.icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={
+                      isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                    }
+                    transition={{ delay: 1.2 + index * 0.1, duration: 0.6 }}
+                    className="space-y-1"
+                  >
+                    <div className="text-xl font-bold gradient-text">
+                      {counts[Object.keys(counts)[index]]}
+                      {stat.suffix}
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-300 font-medium">
+                      {stat.label}
+                    </div>
+                  </motion.div>
                 </motion.div>
               ))}
             </motion.div>
@@ -187,7 +273,7 @@ export function Banner() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative flex justify-center lg:justify-end"
+            className="relative flex flex-col items-center lg:items-end space-y-8"
           >
             <div className="relative">
               {/* Floating Elements */}
@@ -240,6 +326,20 @@ export function Banner() {
                 </div>
               </motion.div>
             </div>
+
+            {/* Name */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center lg:text-right leading-[1.1]"
+            >
+              <span className="text-gray-900 dark:text-white">Stanislav</span>
+              <br />
+              <span className="gradient-text text-4xl sm:text-5xl lg:text-6xl">
+                Krivtsov
+              </span>
+            </motion.h2>
           </motion.div>
         </div>
       </div>

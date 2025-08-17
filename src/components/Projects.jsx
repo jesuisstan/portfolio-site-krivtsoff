@@ -27,7 +27,7 @@ export function Projects() {
       image: '/projects/project-hypertube.png',
       technologies: ['React', 'Node.js', 'WebRTC', 'Express', 'MongoDB'],
       category: 'Full-Stack',
-      liveUrl: 'https://hypertube.krivtsoff.me',
+      liveUrl: 'https://hypertube-video-library.vercel.app',
       githubUrl: 'https://github.com/jesuisstan/hypertube',
       icon: Globe,
       featured: true
@@ -40,7 +40,7 @@ export function Projects() {
       image: '/projects/project-matcha.png',
       technologies: ['React', 'Socket.io', 'Node.js', 'PostgreSQL', 'Redis'],
       category: 'Full-Stack',
-      liveUrl: 'https://matcha.krivtsoff.me',
+      liveUrl: 'https://matcha-find-your-date.vercel.app',
       githubUrl: 'https://github.com/jesuisstan/matcha',
       icon: Globe,
       featured: true
