@@ -74,7 +74,7 @@ export function Stats() {
   }, [isInView]);
 
   return (
-    <section className="py-20 bg-gradient-to-r from-teal-500/5 via-blue-500/5 to-purple-500/5">
+    <section className="py-16 bg-gradient-to-b from-gray-50 to-gray-50 dark:from-gray-800 dark:to-gray-800">
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}

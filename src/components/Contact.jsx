@@ -111,7 +111,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900"
+      className="py-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900"
     >
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -119,7 +119,7 @@ export function Contact() {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           variants={containerVariants}
-          className="text-center mb-20"
+          className="text-center mb-12"
         >
           <motion.h2
             variants={itemVariants}

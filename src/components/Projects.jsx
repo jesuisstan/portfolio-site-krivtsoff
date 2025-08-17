@@ -129,14 +129,14 @@ export function Projects() {
   };
 
   return (
-    <section id="projects" className="py-20">
+    <section id="projects" className="py-16 bg-white dark:bg-gray-900">
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           variants={containerVariants}
-          className="text-center mb-20"
+          className="text-center mb-12"
         >
           <motion.h2
             variants={itemVariants}
@@ -146,7 +146,7 @@ export function Projects() {
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-12"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8"
           >
             Here are some of my recent projects that showcase my skills and
             passion for web development.
