@@ -23,7 +23,7 @@ export function Experience() {
       company: 'Quantcube Technology',
       companyUrl: 'https://www.quant-cube.com/',
       type: 'CDI, Full-time',
-      period: 'September 2022 - Present',
+      period: 'September 2023 - Present',
       location: 'Paris, France',
       description:
         'Responsible for visualization of real-time Big Data platform indicators, design and development of new pages and features, mock-ups and integration of Dataviz interfaces and interactive dashboards, specification of technical and ergonomic improvements.',
@@ -107,7 +107,10 @@ export function Experience() {
   };
 
   return (
-    <section className="py-12 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+    <section
+      id="experience"
+      className="py-12 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800"
+    >
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
@@ -143,7 +146,7 @@ export function Experience() {
             <motion.div
               key={experience.id}
               variants={itemVariants}
-              className={`relative flex flex-col md:flex-row gap-8 mb-12 ${
+              className={`relative flex flex-col md:flex-row gap-8 mb-8 ${
                 index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
               }`}
             >
@@ -153,10 +156,10 @@ export function Experience() {
               {/* Content Card */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg md:w-1/2"
+                className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg md:w-6/12 lg:w-6/12"
               >
                 {/* Type Badge */}
-                <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium mb-4 bg-gradient-to-r from-teal-500/10 to-blue-500/10 text-blue-600 dark:text-blue-400">
+                <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium mb-2 bg-gradient-to-r from-teal-500/10 to-blue-500/10 text-blue-600 dark:text-blue-400">
                   {experience.type === 'Freelance' && (
                     <Award className="w-3 h-3 mr-1" />
                   )}
@@ -169,8 +172,8 @@ export function Experience() {
                   {experience.type}
                 </div>
 
-                <h3 className="text-xl font-bold mb-2">{experience.title}</h3>
-                <h4 className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-2">
+                <h3 className="text-xl font-bold mb-1">{experience.title}</h3>
+                <h4 className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-1">
                   {experience.companyUrl ? (
                     <a
                       href={experience.companyUrl}
@@ -186,7 +189,7 @@ export function Experience() {
                   )}
                 </h4>
 
-                <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300 mb-4">
+                <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300 mb-2">
                   <div className="flex items-center">
                     <Calendar className="w-4 h-4 mr-1" />
                     {experience.period}
@@ -197,7 +200,7 @@ export function Experience() {
                   </div>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 mb-2 leading-relaxed">
                   {experience.description}
                 </p>
 

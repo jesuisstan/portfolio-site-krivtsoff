@@ -9,7 +9,8 @@ import {
   Eye,
   Code,
   Globe,
-  Smartphone
+  Smartphone,
+  BarChart3
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -155,7 +156,7 @@ export function Projects() {
           {/* Category Filter */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-wrap justify-center gap-6 mb-8"
+            className="flex flex-wrap justify-center gap-4"
           >
             {categories.map((category) => (
               <motion.button
@@ -163,7 +164,7 @@ export function Projects() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveCategory(category)}
-                className={`px-8 py-3 rounded-full font-medium transition-all duration-200 ${
+                className={`px-4 py-1 rounded-full font-medium transition-all duration-200 ${
                   activeCategory === category
                     ? 'bg-gradient-to-r from-teal-600 to-blue-600 text-white'
                     : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -273,7 +274,7 @@ export function Projects() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex space-x-4">
+                <div className="flex space-x-2">
                   {project.liveUrl && (
                     <motion.a
                       href={project.liveUrl}
@@ -281,9 +282,9 @@ export function Projects() {
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="flex-1 button-primary text-center text-base py-3 flex items-center justify-center space-x-2"
+                      className="flex-1 button-primary text-center text-xs py-1.5 flex items-center justify-center space-x-1.5"
                     >
-                      <Eye className="w-5 h-5" />
+                      <Eye className="w-3.5 h-3.5" />
                       <span>Live Demo</span>
                     </motion.a>
                   )}
@@ -294,9 +295,9 @@ export function Projects() {
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="flex-1 button-secondary text-center text-base py-3 flex items-center justify-center space-x-2"
+                      className="flex-1 button-secondary text-center text-xs py-1.5 flex items-center justify-center space-x-1.5"
                     >
-                      <Code className="w-5 h-5" />
+                      <Code className="w-3.5 h-3.5" />
                       <span>Code</span>
                     </motion.a>
                   )}
@@ -313,17 +314,34 @@ export function Projects() {
           transition={{ delay: 0.8, duration: 0.6 }}
           className="text-center mt-8"
         >
-          <motion.a
-            href={process.env.NEXT_PUBLIC_LINK_GITHUB}
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="button-primary inline-flex items-center space-x-3 px-8 py-4 text-lg"
-          >
-            <Github className="w-6 h-6" />
-            <span>View More on GitHub</span>
-          </motion.a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <motion.a
+              href={process.env.NEXT_PUBLIC_LINK_GITHUB}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="button-primary inline-flex items-center space-x-3 px-8 py-4 text-lg"
+            >
+              <Github className="w-6 h-6" />
+              <span>View More on GitHub</span>
+            </motion.a>
+
+            <motion.button
+              onClick={() =>
+                window.open(
+                  `https://octoprofile.vercel.app/user?id=${process.env.NEXT_PUBLIC_GITHUB_PROFILE}`,
+                  '_blank'
+                )
+              }
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="button-secondary inline-flex items-center space-x-3 px-8 py-4 text-lg"
+            >
+              <BarChart3 className="w-6 h-6" />
+              <span>GitHub Stats</span>
+            </motion.button>
+          </div>
         </motion.div>
       </div>
     </section>

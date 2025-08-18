@@ -61,7 +61,16 @@ export function Footer() {
           className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 flex justify-center"
         >
           <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
-            <span>© {currentYear} Stanislav Krivtsov. Made with</span>
+            <span>© {currentYear} Stanislav Krivtsov. </span>
+            <a
+              href="https://github.com/jesuisstan/portfolio-site-krivtsoff"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 underline decoration-dotted underline-offset-4 inline-flex items-center gap-1"
+            >
+              Made
+            </a>
+            <span> with</span>
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1, repeat: Infinity }}

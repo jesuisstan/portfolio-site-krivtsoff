@@ -122,7 +122,7 @@ export function Banner() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-white dark:bg-gray-900 pt-20 pb-16"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-white dark:bg-gray-900 pt-20 pb-12"
     >
       {/* Background Elements */}
       <div className="absolute inset-0 -z-10">
