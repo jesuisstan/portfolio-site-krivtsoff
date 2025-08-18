@@ -127,13 +127,6 @@ export function Contact() {
           >
             Let's <span className="gradient-text">Connect</span>
           </motion.h2>
-          <motion.p
-            variants={itemVariants}
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
-          >
-            I'm always interested in new opportunities and exciting projects.
-            Let's discuss how we can work together!
-          </motion.p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-16">
@@ -149,9 +142,8 @@ export function Contact() {
                 Get in Touch
               </h3>
               <p className="text-gray-600 dark:text-gray-300 mb-10 text-lg leading-relaxed">
-                Ready to start a project or just want to chat? I'd love to hear
-                from you. Send me a message and I'll respond as soon as
-                possible.
+                Ready to start a project or have a job opportunity? Send me a
+                message and I'll respond as soon as possible.
               </p>
             </motion.div>
 
@@ -198,9 +190,6 @@ export function Contact() {
               <h4 className="font-semibold mb-6 text-xl text-gray-900 dark:text-white">
                 Quick Connect
               </h4>
-              <p className="text-gray-600 dark:text-gray-300 mb-8 text-base">
-                Scan QR codes or click to connect instantly via messaging apps
-              </p>
               <div className="grid grid-cols-2 gap-8">
                 {/* Telegram QR Code */}
                 <motion.div
@@ -218,6 +207,7 @@ export function Contact() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="relative w-32 h-32 mx-auto mb-4 bg-white rounded-xl p-2 shadow-lg cursor-pointer hover:shadow-xl transition-all duration-200"
+                    title="Scan QR code or click to connect instantly via messenger"
                   >
                     <Image
                       src="/qrTelegram.jpg"
@@ -255,6 +245,7 @@ export function Contact() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="relative w-32 h-32 mx-auto mb-4 bg-white rounded-xl p-2 shadow-lg cursor-pointer hover:shadow-xl transition-all duration-200"
+                    title="Scan QR code or click to connect instantly via messenger"
                   >
                     <Image
                       src="/qrWhatsApp.jpg"

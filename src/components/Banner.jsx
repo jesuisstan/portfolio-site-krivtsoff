@@ -5,7 +5,6 @@ import {
   ArrowRight,
   Github,
   Linkedin,
-  Mail,
   Download,
   FolderOpen,
   Award,
