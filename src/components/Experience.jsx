@@ -3,7 +3,14 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Calendar, MapPin, Award, GraduationCap, User } from 'lucide-react';
+import {
+  Calendar,
+  MapPin,
+  Award,
+  GraduationCap,
+  User,
+  ExternalLink
+} from 'lucide-react';
 
 export function Experience() {
   const ref = useRef(null);
@@ -13,20 +20,22 @@ export function Experience() {
     {
       id: 1,
       title: 'Full-Stack Developer',
-      company: 'Freelance',
-      type: 'Freelance',
-      period: '2022 - Present',
+      company: 'Quantcube Technology',
+      companyUrl: 'https://www.quant-cube.com/',
+      type: 'CDI, Full-time',
+      period: 'September 2022 - Present',
       location: 'Paris, France',
       description:
-        'Developing modern web applications using React, Node.js, and cloud technologies. Working with clients to create scalable and user-friendly solutions.',
-      technologies: ['React', 'Node.js', 'TypeScript', 'MongoDB', 'AWS']
+        'Responsible for visualization of real-time Big Data platform indicators, design and development of new pages and features, mock-ups and integration of Dataviz interfaces and interactive dashboards, specification of technical and ergonomic improvements.',
+      technologies: ['React', 'Node.js', 'TypeScript', 'AWS']
     },
     {
       id: 2,
       title: 'École 42 Student',
       company: 'École 42',
+      companyUrl: 'https://42.fr/',
       type: 'Education',
-      period: '2021 - 2023',
+      period: 'April 2021 - Present (ongoing)',
       location: 'Paris, France',
       description:
         'Completed intensive programming curriculum focusing on C, C++, algorithms, and web development. Participated in peer-to-peer learning environment.',
@@ -35,13 +44,31 @@ export function Experience() {
     {
       id: 3,
       title: 'Project Manager',
-      company: 'Previous Company',
+      company: 'Ernst & Young > VEON Beeline > Russian Railways',
       type: 'Management',
-      period: '2018 - 2021',
-      location: 'Paris, France',
+      period: 'July 2011 - March 2021',
+      location: 'Russia',
       description:
         'Led cross-functional teams in delivering complex projects. Managed stakeholder relationships and ensured project success through effective communication.',
-      technologies: ['Agile', 'Scrum', 'JIRA', 'Confluence', 'Leadership']
+      technologies: ['JIRA', 'Confluence', 'MS Office', 'SAP', 'ERP']
+    },
+    {
+      id: 4,
+      title: 'Higher Education',
+      company: 'National Research University "Higher School of Economics"',
+      companyUrl: 'https://www.hse.ru/en/',
+      type: 'Education',
+      period: 'September 2005 - June 2011',
+      location: 'Moscow, Russia',
+      description:
+        "Master's in Project Management (2009-2011) and Bachelor's in Strategic Management (2005-2009). Developed strong foundation in business strategy, organizational leadership, and project management principles.",
+      technologies: [
+        'Strategic Management',
+        'Project Management',
+        'Business Strategy',
+        'Leadership',
+        'Risk Management'
+      ]
     }
   ];
 
@@ -80,7 +107,7 @@ export function Experience() {
   };
 
   return (
-    <section className="pt-8 pb-16 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+    <section className="py-12 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
@@ -93,14 +120,13 @@ export function Experience() {
             variants={itemVariants}
             className="text-4xl lg:text-5xl font-bold mb-6"
           >
-            <span className="gradient-text">Experience</span> & Journey
+            <span className="gradient-text">Experience</span> & Education
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
           >
-            My professional journey from project management to full-stack
-            development
+            My journey from management education to full-stack development
           </motion.p>
         </motion.div>
 
@@ -145,7 +171,19 @@ export function Experience() {
 
                 <h3 className="text-xl font-bold mb-2">{experience.title}</h3>
                 <h4 className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-2">
-                  {experience.company}
+                  {experience.companyUrl ? (
+                    <a
+                      href={experience.companyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 underline decoration-dotted underline-offset-4 inline-flex items-center gap-2"
+                    >
+                      {experience.company}
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  ) : (
+                    experience.company
+                  )}
                 </h4>
 
                 <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300 mb-4">
@@ -177,26 +215,6 @@ export function Experience() {
               </motion.div>
             </motion.div>
           ))}
-        </motion.div>
-
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="text-center mt-16"
-        >
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
-            Let's Work Together
-          </p>
-          <motion.a
-            href="#contact"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="button-primary inline-flex items-center space-x-2"
-          >
-            <span>Get in Touch</span>
-          </motion.a>
         </motion.div>
       </div>
     </section>

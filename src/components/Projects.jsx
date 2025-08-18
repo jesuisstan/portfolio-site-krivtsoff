@@ -129,7 +129,7 @@ export function Projects() {
   };
 
   return (
-    <section id="projects" className="py-16 bg-white dark:bg-gray-900">
+    <section id="projects" className="py-12 bg-white dark:bg-gray-900">
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
@@ -146,7 +146,7 @@ export function Projects() {
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8"
           >
             Here are some of my recent projects that showcase my skills and
             passion for web development.
@@ -155,7 +155,7 @@ export function Projects() {
           {/* Category Filter */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-wrap justify-center gap-6 mb-16"
+            className="flex flex-wrap justify-center gap-6 mb-8"
           >
             {categories.map((category) => (
               <motion.button
@@ -311,7 +311,7 @@ export function Projects() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="text-center mt-16"
+          className="text-center mt-8"
         >
           <motion.a
             href={process.env.NEXT_PUBLIC_LINK_GITHUB}

@@ -231,7 +231,7 @@ export function SkillsAndTech() {
   return (
     <section
       id="skills"
-      className="pt-16 pb-16 bg-gradient-to-b from-gray-50 to-gray-50 dark:from-gray-800 dark:to-gray-800"
+      className="py-12 bg-gradient-to-b from-gray-50 to-gray-50 dark:from-gray-800 dark:to-gray-800"
     >
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         {/* Skills Section */}
@@ -250,7 +250,7 @@ export function SkillsAndTech() {
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-12"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-12"
           >
             I specialize in modern web technologies and frameworks, creating
             responsive and scalable applications with a comprehensive tech
