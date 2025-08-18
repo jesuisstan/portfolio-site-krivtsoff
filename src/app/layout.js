@@ -1,19 +1,23 @@
 import '@/styles/globals.css';
 import { Montserrat } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { Analytics } from '@vercel/analytics/next';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
 export const metadata = {
   metadataBase: new URL('https://krivtsoff.me'),
   title: 'Stanislav Krivtsoff - Full-Stack Developer',
-  description: 'Full-stack developer specializing in React, Node.js, and modern web technologies. Creating innovative digital experiences and scalable applications.',
-  keywords: 'Full-Stack Developer, React, Node.js, TypeScript, Next.js, Web Development, Paris',
+  description:
+    'Full-stack developer specializing in React, Node.js, and modern web technologies. Creating innovative digital experiences and scalable applications.',
+  keywords:
+    'Full-Stack Developer, React, Node.js, TypeScript, Next.js, Web Development, Paris',
   authors: [{ name: 'Stanislav Krivtsoff' }],
   creator: 'Stanislav Krivtsoff',
   openGraph: {
     title: 'Stanislav Krivtsoff - Full-Stack Developer',
-    description: 'Full-stack developer specializing in React, Node.js, and modern web technologies.',
+    description:
+      'Full-stack developer specializing in React, Node.js, and modern web technologies.',
     url: 'https://krivtsoff.me',
     siteName: 'Stanislav Krivtsoff Portfolio',
     images: [
@@ -21,17 +25,18 @@ export const metadata = {
         url: '/avatar.jpg',
         width: 1200,
         height: 630,
-        alt: 'Stanislav Krivtsoff - Full-Stack Developer',
-      },
+        alt: 'Stanislav Krivtsoff - Full-Stack Developer'
+      }
     ],
     locale: 'en_US',
-    type: 'website',
+    type: 'website'
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Stanislav Krivtsoff - Full-Stack Developer',
-    description: 'Full-stack developer specializing in React, Node.js, and modern web technologies.',
-    images: ['/avatar.jpg'],
+    description:
+      'Full-stack developer specializing in React, Node.js, and modern web technologies.',
+    images: ['/avatar.jpg']
   },
   icons: {
     icon: ['/favicon.ico?v-4'],
@@ -47,9 +52,9 @@ export const metadata = {
       follow: true,
       'max-video-preview': -1,
       'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+      'max-snippet': -1
+    }
+  }
 };
 
 export default function RootLayout({ children }) {
@@ -63,6 +68,7 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
         >
           {children}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
