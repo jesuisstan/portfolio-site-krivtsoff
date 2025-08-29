@@ -1,6 +1,7 @@
 # Stanislav Krivtsoff - Portfolio Website
 
 A modern, responsive portfolio website showcasing my skills as a Full-Stack Developer. Built with Next.js, React, and modern web technologies.
+The site is deployed on Vercel and can be accessed at [krivtsoff.me](https://krivtsoff.me).
 
 ## 🌟 Features
 
@@ -64,24 +65,24 @@ Create a `.env.local` file in the root directory with the following variables:
 
 ```bash
 # Contact Information
-NEXT_PUBLIC_CONTACT_EMAIL=contact@krivtsoff.me
-NEXT_PUBLIC_CONTACT_PHONE=+33766836729
-NEXT_PUBLIC_CONTACT_LOCATION=Paris, France
+NEXT_PUBLIC_CONTACT_EMAIL=
+NEXT_PUBLIC_CONTACT_PHONE=
+NEXT_PUBLIC_CONTACT_LOCATION=
 
 # Social Media Links
-NEXT_PUBLIC_LINK_GITHUB=https://github.com/jesuisstan
-NEXT_PUBLIC_LINK_LINKEDIN=https://linkedin.com/in/krivtsoff
-NEXT_PUBLIC_LINK_INSTAGRAM=https://www.instagram.com/je.suis.stan/
-NEXT_PUBLIC_LINK_TELEGRAM=https://t.me/jesuisstan
-NEXT_PUBLIC_LINK_WHATSAPP=https://wa.me/33766836729
+NEXT_PUBLIC_LINK_GITHUB=https:/...
+NEXT_PUBLIC_LINK_LINKEDIN=https://...
+NEXT_PUBLIC_LINK_INSTAGRAM=https://...
+NEXT_PUBLIC_LINK_TELEGRAM=https://t...
+NEXT_PUBLIC_LINK_WHATSAPP=https://wa.me/...
 
 # CV Download
-NEXT_PUBLIC_LINK_CV_DOWNLOAD=/Krivtsov Stanislav_Frontend developer_CV.pdf
+NEXT_PUBLIC_LINK_CV_DOWNLOAD=...
 
 # EmailJS Configuration
-NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_iztcs2p
-NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_ds3he2l
-NEXT_PUBLIC_EMAILJS_USER_ID=DfVF4onMYhjgS2dsa
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=...
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=...
+NEXT_PUBLIC_EMAILJS_USER_ID=...
 ```
 
 Update these values with your actual contact information and social media links.
@@ -156,18 +157,6 @@ The website is fully responsive with breakpoints:
 - **Tablet**: 768px - 1024px
 - **Desktop**: > 1024px
 
-## 🌐 Deployment
-
-The site is deployed on Vercel and can be accessed at [krivtsoff.me](https://krivtsoff.me).
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -175,7 +164,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 - **Website**: [krivtsoff.me](https://krivtsoff.me)
-- **Email**: contact@krivtsoff.me
 - **LinkedIn**: [linkedin.com/in/krivtsoff](https://linkedin.com/in/krivtsoff)
 - **GitHub**: [github.com/jesuisstan](https://github.com/jesuisstan)
 
