@@ -1,7 +1,7 @@
 # Stanislav Krivtsoff - Portfolio Website
 
 A modern, responsive portfolio website showcasing my skills as a Full-Stack Developer. Built with Next.js, React, and modern web technologies.
-The site is deployed on Vercel and can be accessed at [krivtsoff.me](https://krivtsoff.me).
+The site is deployed on Vercel and can be accessed at [krivtsoff.site](https://krivtsoff.site).
 
 ## 🌟 Features
 
@@ -163,7 +163,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-- **Website**: [krivtsoff.me](https://krivtsoff.me)
+- **Website**: [krivtsoff.site](https://krivtsoff.site)
 - **LinkedIn**: [linkedin.com/in/krivtsoff](https://linkedin.com/in/krivtsoff)
 - **GitHub**: [github.com/jesuisstan](https://github.com/jesuisstan)
 
