@@ -1,7 +1,9 @@
-import '@/styles/globals.css';
-import { Montserrat } from 'next/font/google';
-import { ThemeProvider } from '@/components/ThemeProvider';
 import { Analytics } from '@vercel/analytics/next';
+import { Montserrat } from 'next/font/google';
+
+import { ThemeProvider } from '@/components/ThemeProvider';
+
+import '@/styles/globals.css';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 

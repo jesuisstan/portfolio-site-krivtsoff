@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useTheme } from 'next-themes';
+import React from 'react';
+
 import Image from 'next/image';
+import { useTheme } from 'next-themes';
 
 const ThemeToggler = () => {
-  const { theme, setTheme } = useTheme();
-  const [isClient, setIsClient] = useState(false);
+  const { theme, setTheme, resolvedTheme } = useTheme();
 
   const SWITCH = () => {
     switch (theme) {
@@ -35,40 +35,31 @@ const ThemeToggler = () => {
     cursor: 'pointer'
   };
 
-  /* To render Menu only on client side to avoid hydration errors */
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   return (
-    <>
-      {isClient && (
-        <div title="Toggle theme" onClick={toggleTheme}>
-          {theme === 'light' ? (
-            <Image
-              src="/sun.svg"
-              alt="toggle-icon"
-              width={12}
-              height={12}
-              sizes="100vw"
-              style={{ ...commonStyle }}
-            />
-          ) : (
-            <Image
-              src="/moon.svg"
-              alt="toggle-icon"
-              width={12}
-              height={12}
-              sizes="100vw"
-              style={{
-                ...commonStyle,
-                filter: 'brightness(0) invert(1) saturate(5)'
-              }}
-            />
-          )}
-        </div>
+    <div title="Toggle theme" onClick={toggleTheme} suppressHydrationWarning>
+      {resolvedTheme === 'light' ? (
+        <Image
+          src="/sun.svg"
+          alt="toggle-icon"
+          width={12}
+          height={12}
+          sizes="100vw"
+          style={{ ...commonStyle }}
+        />
+      ) : (
+        <Image
+          src="/moon.svg"
+          alt="toggle-icon"
+          width={12}
+          height={12}
+          sizes="100vw"
+          style={{
+            ...commonStyle,
+            filter: 'brightness(0) invert(1) saturate(5)'
+          }}
+        />
       )}
-    </>
+    </div>
   );
 };
 

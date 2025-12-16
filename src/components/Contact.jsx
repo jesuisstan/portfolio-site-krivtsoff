@@ -1,17 +1,18 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
+
+import emailjs from 'emailjs-com';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
 import {
-  Github,
-  Linkedin,
   Facebook,
+  Github,
   Instagram,
+  Linkedin,
   MapPin,
   MessageCircle
 } from 'lucide-react';
-import emailjs from 'emailjs-com';
 import Image from 'next/image';
 
 const socialLinks = [
@@ -145,7 +146,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="py-12 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900"
+      className="bg-gradient-to-b from-gray-50 to-white py-12 dark:from-gray-800 dark:to-gray-900"
     >
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -153,17 +154,17 @@ export function Contact() {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           variants={containerVariants}
-          className="text-center mb-12"
+          className="mb-12 text-center"
         >
           <motion.h2
             variants={itemVariants}
-            className="text-4xl lg:text-5xl font-bold mb-8"
+            className="mb-8 text-4xl font-bold lg:text-5xl"
           >
-            Let's <span className="gradient-text">Connect</span>
+            Let&apos;s <span className="gradient-text">Connect</span>
           </motion.h2>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid gap-12 lg:grid-cols-2">
           {/* Contact Information */}
           <motion.div
             initial="hidden"
@@ -172,9 +173,9 @@ export function Contact() {
             className="space-y-8"
           >
             <motion.div variants={itemVariants}>
-              <p className="text-gray-600 dark:text-gray-300 mb-8 text-base leading-relaxed">
+              <p className="mb-8 text-base leading-relaxed text-gray-600 dark:text-gray-300">
                 Ready to start a project or have a job opportunity? Send me a
-                message and I'll respond as soon as possible.
+                message and I&apos;ll respond as soon as possible.
               </p>
             </motion.div>
 
@@ -189,17 +190,17 @@ export function Contact() {
                   transition={{ delay: 0.4 + index * 0.1 }}
                   className="flex items-center space-x-4"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-r from-teal-500/10 to-blue-500/10 rounded-xl flex items-center justify-center">
-                    <info.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-teal-500/10 to-blue-500/10">
+                    <info.icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-base text-gray-900 dark:text-white mb-1">
+                    <h4 className="mb-1 text-base font-semibold text-gray-900 dark:text-white">
                       {info.title}
                     </h4>
                     {info.href ? (
                       <a
                         href={info.href}
-                        className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                        className="text-gray-600 transition-colors duration-200 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
                       >
                         {info.value}
                       </a>
@@ -216,11 +217,11 @@ export function Contact() {
             {/* QR Codes Section */}
             <motion.div
               variants={itemVariants}
-              className="pt-6 border-t border-gray-200 dark:border-gray-700"
+              className="border-t border-gray-200 pt-6 dark:border-gray-700"
             >
               <motion.h4
                 variants={itemVariants}
-                className="font-semibold mb-4 text-lg text-gray-900 dark:text-white"
+                className="mb-4 text-lg font-semibold text-gray-900 dark:text-white"
               >
                 Quick Connect
               </motion.h4>
@@ -234,24 +235,25 @@ export function Contact() {
                     onClick={handleTelegramClick}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="relative w-28 h-28 mx-auto mb-3 bg-white rounded-lg p-2 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200"
+                    className="relative mx-auto mb-3 h-28 w-28 cursor-pointer rounded-lg bg-white p-2 shadow-md transition-all duration-200 hover:shadow-lg"
                     title="Scan QR code or click to connect instantly via messenger"
                   >
                     <Image
                       src="/qrTelegram.jpg"
                       alt="Telegram QR Code"
                       fill
-                      className="object-cover rounded-lg"
+                      sizes="112px"
+                      className="rounded-lg object-cover"
                     />
-                    <div className="absolute inset-0 bg-blue-500/0 hover:bg-blue-500/10 rounded-lg transition-colors duration-200 flex items-center justify-center">
-                      <div className="opacity-0 hover:opacity-100 transition-opacity duration-200">
-                        <MessageCircle className="w-6 h-6 text-blue-500" />
+                    <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-blue-500/0 transition-colors duration-200 hover:bg-blue-500/10">
+                      <div className="opacity-0 transition-opacity duration-200 hover:opacity-100">
+                        <MessageCircle className="h-6 w-6 text-blue-500" />
                       </div>
                     </div>
                   </motion.div>
-                  <div className="flex items-center justify-center space-x-2 mb-1">
-                    <MessageCircle className="w-4 h-4 text-blue-500" />
-                    <span className="font-medium text-sm text-gray-900 dark:text-white">
+                  <div className="mb-1 flex items-center justify-center space-x-2">
+                    <MessageCircle className="h-4 w-4 text-blue-500" />
+                    <span className="text-sm font-medium text-gray-900 dark:text-white">
                       Telegram
                     </span>
                   </div>
@@ -263,24 +265,25 @@ export function Contact() {
                     onClick={handleWhatsAppClick}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="relative w-28 h-28 mx-auto mb-3 bg-white rounded-lg p-2 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200"
+                    className="relative mx-auto mb-3 h-28 w-28 cursor-pointer rounded-lg bg-white p-2 shadow-md transition-all duration-200 hover:shadow-lg"
                     title="Scan QR code or click to connect instantly via messenger"
                   >
                     <Image
                       src="/qrWhatsApp.jpg"
                       alt="WhatsApp QR Code"
                       fill
-                      className="object-cover rounded-lg"
+                      sizes="112px"
+                      className="rounded-lg object-cover"
                     />
-                    <div className="absolute inset-0 bg-green-500/0 hover:bg-green-500/10 rounded-lg transition-colors duration-200 flex items-center justify-center">
-                      <div className="opacity-0 hover:opacity-100 transition-opacity duration-200">
-                        <MessageCircle className="w-6 h-6 text-green-500" />
+                    <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-green-500/0 transition-colors duration-200 hover:bg-green-500/10">
+                      <div className="opacity-0 transition-opacity duration-200 hover:opacity-100">
+                        <MessageCircle className="h-6 w-6 text-green-500" />
                       </div>
                     </div>
                   </motion.div>
-                  <div className="flex items-center justify-center space-x-2 mb-1">
-                    <MessageCircle className="w-4 h-4 text-green-500" />
-                    <span className="font-medium text-sm text-gray-900 dark:text-white">
+                  <div className="mb-1 flex items-center justify-center space-x-2">
+                    <MessageCircle className="h-4 w-4 text-green-500" />
+                    <span className="text-sm font-medium text-gray-900 dark:text-white">
                       WhatsApp
                     </span>
                   </div>
@@ -291,15 +294,15 @@ export function Contact() {
             {/* Social Links */}
             <motion.div
               variants={itemVariants}
-              className="pt-6 border-t border-gray-200 dark:border-gray-700"
+              className="border-t border-gray-200 pt-6 dark:border-gray-700"
             >
               <motion.h4
                 variants={itemVariants}
-                className="font-semibold mb-4 text-lg text-gray-900 dark:text-white"
+                className="mb-4 text-lg font-semibold text-gray-900 dark:text-white"
               >
                 Follow Me
               </motion.h4>
-              <div className="flex justify-center md:justify-start space-x-4">
+              <div className="flex justify-center space-x-4 md:justify-start">
                 {socialLinks.map((social, index) => (
                   <motion.button
                     key={social.label}
@@ -313,10 +316,10 @@ export function Contact() {
                       transition: { duration: 0.2 }
                     }}
                     whileTap={{ scale: 0.95 }}
-                    className={`p-4 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 hover:from-gray-200 hover:to-gray-300 dark:hover:from-gray-600 dark:hover:to-gray-700 shadow-md hover:shadow-lg transition-all duration-300 ${social.color}`}
+                    className={`rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 p-4 shadow-md transition-all duration-300 hover:from-gray-200 hover:to-gray-300 hover:shadow-lg dark:from-gray-700 dark:to-gray-800 dark:hover:from-gray-600 dark:hover:to-gray-700 ${social.color}`}
                     title={social.label}
                   >
-                    <social.icon className="w-6 h-6" />
+                    <social.icon className="h-6 w-6" />
                   </motion.button>
                 ))}
               </div>
@@ -328,18 +331,18 @@ export function Contact() {
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
             variants={containerVariants}
-            className="glass-effect rounded-2xl p-8 h-fit"
+            className="glass-effect h-fit rounded-2xl p-8"
           >
             <motion.form
               variants={itemVariants}
               onSubmit={handleSubmit}
               className="space-y-6"
             >
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid gap-6 md:grid-cols-2">
                 <div>
                   <label
                     htmlFor="firstName"
-                    className="block text-sm font-medium mb-2 text-gray-900 dark:text-white"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                   >
                     First Name
                   </label>
@@ -349,14 +352,14 @@ export function Contact() {
                     name="firstName"
                     value={formData.firstName}
                     onChange={(e) => onFormUpdate('firstName', e.target.value)}
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                     placeholder="Your first name"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="lastName"
-                    className="block text-sm font-medium mb-2 text-gray-900 dark:text-white"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Last Name *
                   </label>
@@ -367,17 +370,17 @@ export function Contact() {
                     value={formData.lastName}
                     onChange={(e) => onFormUpdate('lastName', e.target.value)}
                     required
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                     placeholder="Your last name"
                   />
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid gap-6 md:grid-cols-2">
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium mb-2 text-gray-900 dark:text-white"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Email *
                   </label>
@@ -388,14 +391,14 @@ export function Contact() {
                     value={formData.email}
                     onChange={(e) => onFormUpdate('email', e.target.value)}
                     required
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                     placeholder="your.email@example.com"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="phone"
-                    className="block text-sm font-medium mb-2 text-gray-900 dark:text-white"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Phone Number
                   </label>
@@ -405,7 +408,7 @@ export function Contact() {
                     name="phone"
                     value={formData.phone}
                     onChange={(e) => onFormUpdate('phone', e.target.value)}
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                     placeholder="Your phone number"
                   />
                 </div>
@@ -414,7 +417,7 @@ export function Contact() {
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium mb-2 text-gray-900 dark:text-white"
+                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Message *
                 </label>
@@ -425,7 +428,7 @@ export function Contact() {
                   onChange={(e) => onFormUpdate('message', e.target.value)}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 resize-none text-gray-900 dark:text-white"
+                  className="w-full resize-none rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   placeholder="Tell me about your project..."
                 />
               </div>
@@ -444,10 +447,10 @@ export function Contact() {
 
               {status.message && (
                 <div
-                  className={`text-center p-4 rounded-xl ${
+                  className={`rounded-xl p-4 text-center ${
                     status.success
-                      ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
-                      : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                      : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                   }`}
                 >
                   {status.message}

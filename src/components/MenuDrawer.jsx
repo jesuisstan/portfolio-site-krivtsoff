@@ -1,8 +1,9 @@
 'use client';
 
 import { Drawer, List, ListItem } from '@mui/material';
-import * as colors from '../styles/portfolioColors';
 import { Nav } from 'react-bootstrap';
+
+import * as colors from '../styles/portfolioColors';
 
 const listItemStyle = {
   transition: 'color 0.1s ease-in-out',

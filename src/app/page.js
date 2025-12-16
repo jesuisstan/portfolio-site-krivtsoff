@@ -1,12 +1,12 @@
 'use client';
 
-import { NavBar } from '@/components/NavBar';
 import { Banner } from '@/components/Banner';
-import { SkillsAndTech } from '@/components/SkillsAndTech';
-import { Experience } from '@/components/Experience';
-import { Projects } from '@/components/Projects';
 import { Contact } from '@/components/Contact';
+import { Experience } from '@/components/Experience';
 import { Footer } from '@/components/Footer';
+import { NavBar } from '@/components/NavBar';
+import { Projects } from '@/components/Projects';
+import { SkillsAndTech } from '@/components/SkillsAndTech';
 
 export default function Home() {
   return (

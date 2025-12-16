@@ -1,17 +1,18 @@
 'use client';
 
+import { useRef, useState } from 'react';
+
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import Image from 'next/image';
 import {
   Code,
   Database,
   Globe,
-  Smartphone,
   Palette,
-  Server
+  Server,
+  Smartphone
 } from 'lucide-react';
+import Image from 'next/image';
 
 export function SkillsAndTech() {
   const ref = useRef(null);
@@ -231,7 +232,7 @@ export function SkillsAndTech() {
   return (
     <section
       id="skills"
-      className="py-12 bg-gradient-to-b from-gray-50 to-gray-50 dark:from-gray-800 dark:to-gray-800"
+      className="bg-gradient-to-b from-gray-50 to-gray-50 py-12 dark:from-gray-800 dark:to-gray-800"
     >
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         {/* Skills Section */}
@@ -240,17 +241,17 @@ export function SkillsAndTech() {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           variants={containerVariants}
-          className="text-center mb-12"
+          className="mb-12 text-center"
         >
           <motion.h2
             variants={itemVariants}
-            className="text-4xl lg:text-5xl font-bold mb-8"
+            className="mb-8 text-4xl font-bold lg:text-5xl"
           >
             <span className="gradient-text">Skills</span> & Technologies
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-12"
+            className="mx-auto mb-12 max-w-3xl text-xl text-gray-600 dark:text-gray-300"
           >
             I specialize in modern web technologies and frameworks, creating
             responsive and scalable applications with a comprehensive tech
@@ -261,17 +262,17 @@ export function SkillsAndTech() {
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
             variants={containerVariants}
-            className="grid md:grid-cols-2 lg:grid-cols-2 gap-8"
+            className="grid gap-8 md:grid-cols-2 lg:grid-cols-2"
           >
             {skillCategories.map((category, categoryIndex) => (
               <motion.div
                 key={category.title}
                 variants={itemVariants}
-                className="glass-effect rounded-2xl p-8 card-hover"
+                className="glass-effect card-hover rounded-2xl p-8"
               >
-                <div className="flex items-center mb-6">
-                  <div className="w-12 h-12 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-700 rounded-xl flex items-center justify-center mr-4">
-                    <category.icon className="w-6 h-6 text-white" />
+                <div className="mb-6 flex items-center">
+                  <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-teal-600 via-blue-600 to-purple-700">
+                    <category.icon className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                     {category.title}
@@ -291,7 +292,7 @@ export function SkillsAndTech() {
                       }}
                       className="space-y-2"
                     >
-                      <div className="flex justify-between items-center">
+                      <div className="flex items-center justify-between">
                         <span className="font-medium text-gray-900 dark:text-white">
                           {skill.name}
                         </span>
@@ -299,7 +300,7 @@ export function SkillsAndTech() {
                           {skill.level}%
                         </span>
                       </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                      <div className="h-3 w-full rounded-full bg-gray-200 dark:bg-gray-700">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={
@@ -328,9 +329,9 @@ export function SkillsAndTech() {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="text-center mb-8"
+          className="mb-8 text-center"
         >
-          <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+          <h3 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
             Tech Stack
           </h3>
         </motion.div>
@@ -340,7 +341,7 @@ export function SkillsAndTech() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 1, duration: 0.6 }}
-          className="flex flex-wrap justify-center gap-4 mb-8"
+          className="mb-8 flex flex-wrap justify-center gap-4"
         >
           {categories.map((category) => (
             <motion.button
@@ -348,10 +349,10 @@ export function SkillsAndTech() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveCategory(category)}
-              className={`px-4 py-1 rounded-full font-medium transition-all duration-200 ${
+              className={`rounded-full px-4 py-1 font-medium transition-all duration-200 ${
                 activeCategory === category
                   ? 'bg-teal-600 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600'
+                  : 'bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'
               }`}
             >
               {category}
@@ -364,7 +365,7 @@ export function SkillsAndTech() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ delay: 1.2, duration: 0.6 }}
-          className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4"
+          className="grid grid-cols-3 gap-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8"
         >
           {filteredTechnologies.map((tech, index) => (
             <motion.div
@@ -377,19 +378,20 @@ export function SkillsAndTech() {
               whileHover={{ scale: 1.05 }}
               className="group relative"
             >
-              <div className="glass-effect rounded-xl p-4 text-center card-hover">
-                <div className="relative w-12 h-12 mx-auto mb-3">
+              <div className="glass-effect card-hover rounded-xl p-4 text-center">
+                <div className="relative mx-auto mb-3 h-12 w-12">
                   <Image
                     src={tech.icon}
                     alt={tech.name}
                     fill
+                    sizes="(max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 16vw, 12vw"
                     className="object-contain"
                   />
                 </div>
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+                <h3 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">
                   {tech.name}
                 </h3>
-                <span className="text-xs text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded-full">
+                <span className="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
                   {tech.category}
                 </span>
               </div>

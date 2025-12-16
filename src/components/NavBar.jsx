@@ -1,18 +1,24 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon, Download } from 'lucide-react';
+import { startTransition, useEffect, useLayoutEffect, useState } from 'react';
+
+import { AnimatePresence, motion } from 'framer-motion';
+import { Download, Menu, Moon, Sun, X } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
 
-  useEffect(() => {
-    setMounted(true);
+  // Set mounted after component mounts to prevent hydration mismatch
+  // useLayoutEffect runs synchronously before browser paint
+  // startTransition makes the state update non-blocking to avoid cascading renders
+  useLayoutEffect(() => {
+    startTransition(() => {
+      setMounted(true);
+    });
   }, []);
 
   useEffect(() => {
@@ -105,29 +111,29 @@ export function NavBar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700'
+          ? 'border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-700 dark:bg-gray-900/80'
           : 'bg-transparent'
       }`}
     >
       <div className="container-custom px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="flex items-center space-x-2"
           >
-            <div className="w-8 h-8 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">K</span>
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600">
+              <span className="text-sm font-bold text-white">K</span>
             </div>
-            <span className="font-bold text-xl gradient-text">
+            <span className="gradient-text text-xl font-bold">
               krivtsoff.develop()
             </span>
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden items-center space-x-8 lg:flex">
             {navItems.map((item, index) => (
               <motion.button
                 key={item.name}
@@ -137,7 +143,7 @@ export function NavBar() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection(item.href)}
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium"
+                className="font-medium text-gray-600 transition-colors duration-200 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
               >
                 {item.name}
               </motion.button>
@@ -151,12 +157,14 @@ export function NavBar() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+              className="rounded-lg bg-gray-200 p-2 transition-colors duration-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
             >
-              {mounted && theme === 'dark' ? (
-                <Sun className="w-5 h-5" />
+              {!mounted ? (
+                <Moon className="h-5 w-5" />
+              ) : resolvedTheme === 'dark' ? (
+                <Sun className="h-5 w-5" />
               ) : (
-                <Moon className="w-5 h-5" />
+                <Moon className="h-5 w-5" />
               )}
             </motion.button>
 
@@ -165,9 +173,9 @@ export function NavBar() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={downloadCV}
-              className="button-primary hidden sm:flex items-center space-x-2"
+              className="button-primary hidden items-center space-x-2 sm:flex"
             >
-              <Download className="w-4 h-4" />
+              <Download className="h-4 w-4" />
               <span>Download CV</span>
             </motion.button>
 
@@ -176,12 +184,12 @@ export function NavBar() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+              className="rounded-lg bg-gray-200 p-2 transition-colors duration-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 lg:hidden"
             >
               {isOpen ? (
-                <X className="w-5 h-5" />
+                <X className="h-5 w-5" />
               ) : (
-                <Menu className="w-5 h-5" />
+                <Menu className="h-5 w-5" />
               )}
             </motion.button>
           </div>
@@ -195,9 +203,9 @@ export function NavBar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-700"
+            className="border-t border-gray-200 bg-white/95 backdrop-blur-md dark:border-gray-700 dark:bg-gray-900/95 lg:hidden"
           >
-            <div className="container-custom py-4 space-y-4">
+            <div className="container-custom space-y-4 py-4">
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.name}
@@ -209,7 +217,7 @@ export function NavBar() {
                     e.stopPropagation();
                     scrollToSection(item.href);
                   }}
-                  className="block w-full text-left text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 font-medium py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="block w-full rounded-lg px-4 py-2 text-left font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
                 >
                   {item.name}
                 </motion.button>
@@ -219,9 +227,9 @@ export function NavBar() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navItems.length * 0.1 }}
                 onClick={downloadCV}
-                className="button-primary w-full flex items-center justify-center space-x-2"
+                className="button-primary flex w-full items-center justify-center space-x-2"
               >
-                <Download className="w-4 h-4" />
+                <Download className="h-4 w-4" />
                 <span>Download CV</span>
               </motion.button>
             </div>

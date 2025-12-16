@@ -1,15 +1,16 @@
 'use client';
 
+import { useRef } from 'react';
+
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
 import {
-  Calendar,
-  MapPin,
   Award,
+  Calendar,
+  ExternalLink,
   GraduationCap,
-  User,
-  ExternalLink
+  MapPin,
+  User
 } from 'lucide-react';
 
 export function Experience() {
@@ -109,7 +110,7 @@ export function Experience() {
   return (
     <section
       id="experience"
-      className="py-12 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800"
+      className="bg-gradient-to-b from-white to-gray-50 py-12 dark:from-gray-900 dark:to-gray-800"
     >
       <div className="container-custom px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -117,17 +118,17 @@ export function Experience() {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           variants={containerVariants}
-          className="text-center mb-8"
+          className="mb-8 text-center"
         >
           <motion.h2
             variants={itemVariants}
-            className="text-4xl lg:text-5xl font-bold mb-6"
+            className="mb-6 text-4xl font-bold lg:text-5xl"
           >
             <span className="gradient-text">Experience</span> & Education
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
+            className="mx-auto max-w-3xl text-xl text-gray-600 dark:text-gray-300"
           >
             My journey from management education to full-stack development
           </motion.p>
@@ -140,67 +141,67 @@ export function Experience() {
           className="relative"
         >
           {/* Timeline Line */}
-          <div className="absolute left-8 md:left-1/2 w-0.5 h-full bg-gray-200 dark:bg-gray-700 transform md:-translate-x-1/2" />
+          <div className="absolute left-8 h-full w-0.5 transform bg-gray-200 dark:bg-gray-700 md:left-1/2 md:-translate-x-1/2" />
 
           {experiences.map((experience, index) => (
             <motion.div
               key={experience.id}
               variants={itemVariants}
-              className={`relative flex flex-col md:flex-row gap-8 mb-8 ${
+              className={`relative mb-8 flex flex-col gap-8 md:flex-row ${
                 index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
               }`}
             >
               {/* Timeline Dot */}
-              <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-gradient-to-r from-teal-600 to-blue-600 rounded-full border-4 border-white dark:border-gray-900 transform md:-translate-x-1/2 z-10" />
+              <div className="absolute left-8 z-10 h-4 w-4 transform rounded-full border-4 border-white bg-gradient-to-r from-teal-600 to-blue-600 dark:border-gray-900 md:left-1/2 md:-translate-x-1/2" />
 
               {/* Content Card */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg md:w-6/12 lg:w-6/12"
+                className="rounded-xl border border-gray-200 bg-white p-4 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 md:w-6/12 lg:w-6/12"
               >
                 {/* Type Badge */}
-                <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium mb-2 bg-gradient-to-r from-teal-500/10 to-blue-500/10 text-blue-600 dark:text-blue-400">
+                <div className="mb-2 inline-flex items-center rounded-full bg-gradient-to-r from-teal-500/10 to-blue-500/10 px-3 py-1 text-xs font-medium text-blue-600 dark:text-blue-400">
                   {experience.type === 'Freelance' && (
-                    <Award className="w-3 h-3 mr-1" />
+                    <Award className="mr-1 h-3 w-3" />
                   )}
                   {experience.type === 'Education' && (
-                    <GraduationCap className="w-3 h-3 mr-1" />
+                    <GraduationCap className="mr-1 h-3 w-3" />
                   )}
                   {experience.type === 'Management' && (
-                    <User className="w-3 h-3 mr-1" />
+                    <User className="mr-1 h-3 w-3" />
                   )}
                   {experience.type}
                 </div>
 
-                <h3 className="text-xl font-bold mb-1">{experience.title}</h3>
-                <h4 className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-1">
+                <h3 className="mb-1 text-xl font-bold">{experience.title}</h3>
+                <h4 className="mb-1 text-lg font-semibold text-blue-600 dark:text-blue-400">
                   {experience.companyUrl ? (
                     <a
                       href={experience.companyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 underline decoration-dotted underline-offset-4 inline-flex items-center gap-2"
+                      className="inline-flex items-center gap-2 underline decoration-dotted underline-offset-4 transition-colors duration-200 hover:text-blue-800 dark:hover:text-blue-300"
                     >
                       {experience.company}
-                      <ExternalLink className="w-4 h-4" />
+                      <ExternalLink className="h-4 w-4" />
                     </a>
                   ) : (
                     experience.company
                   )}
                 </h4>
 
-                <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300 mb-2">
+                <div className="mb-2 flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300">
                   <div className="flex items-center">
-                    <Calendar className="w-4 h-4 mr-1" />
+                    <Calendar className="mr-1 h-4 w-4" />
                     {experience.period}
                   </div>
                   <div className="flex items-center">
-                    <MapPin className="w-4 h-4 mr-1" />
+                    <MapPin className="mr-1 h-4 w-4" />
                     {experience.location}
                   </div>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-2 leading-relaxed">
+                <p className="mb-2 leading-relaxed text-gray-600 dark:text-gray-300">
                   {experience.description}
                 </p>
 
@@ -209,7 +210,7 @@ export function Experience() {
                   {experience.technologies.map((tech) => (
                     <span
                       key={tech}
-                      className="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white text-xs rounded-md"
+                      className="rounded-md bg-gray-200 px-2 py-1 text-xs text-gray-900 dark:bg-gray-700 dark:text-white"
                     >
                       {tech}
                     </span>
