@@ -288,9 +288,10 @@ export function Banner() {
                   repeat: Infinity,
                   ease: 'easeInOut'
                 }}
-                className="absolute -right-6 -top-6 flex h-20 w-20 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-sm font-bold text-white"
+                className="absolute -right-6 -top-6 flex h-20 w-20 flex-col items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-center text-sm font-bold text-white"
               >
-                React
+                React{'\n'}
+                JS/TS
               </motion.div>
 
               <motion.div
@@ -304,9 +305,9 @@ export function Banner() {
                   ease: 'easeInOut',
                   delay: 1
                 }}
-                className="absolute -bottom-6 -left-6 flex h-20 w-20 items-center justify-center rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 text-sm font-bold text-white"
+                className="absolute -bottom-6 -left-6 flex h-20 w-20 flex-col items-center justify-center rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 text-center text-sm font-bold text-white"
               >
-                NEXT.js
+                NEXT.js{'\n'}EXPO
               </motion.div>
 
               {/* Main Image */}

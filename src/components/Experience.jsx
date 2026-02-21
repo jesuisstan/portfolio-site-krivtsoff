@@ -13,65 +13,11 @@ import {
   User
 } from 'lucide-react';
 
+import { experiences } from '@/constants/experiences';
+
 export function Experience() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
-
-  const experiences = [
-    {
-      id: 1,
-      title: 'Full-Stack Developer',
-      company: 'Quantcube Technology',
-      companyUrl: 'https://www.quant-cube.com/',
-      type: 'CDI, Full-time',
-      period: 'September 2023 - Present',
-      location: 'Paris, France',
-      description:
-        'Responsible for visualization of real-time Big Data platform indicators, design and development of new pages and features, mock-ups and integration of Dataviz interfaces and interactive dashboards, specification of technical and ergonomic improvements.',
-      technologies: ['React', 'Node.js', 'TypeScript', 'AWS']
-    },
-    {
-      id: 2,
-      title: 'École 42 Student',
-      company: 'École 42',
-      companyUrl: 'https://42.fr/',
-      type: 'Education',
-      period: 'April 2021 - Present (ongoing)',
-      location: 'Paris, France',
-      description:
-        'Completed intensive programming curriculum focusing on C, C++, algorithms, and web development. Participated in peer-to-peer learning environment.',
-      technologies: ['C', 'C++', 'JavaScript', 'Python', 'Docker']
-    },
-    {
-      id: 3,
-      title: 'Project Manager',
-      company: 'Ernst & Young > VEON Beeline > Russian Railways',
-      type: 'Management',
-      period: 'July 2011 - March 2021',
-      location: 'Russia',
-      description:
-        'Led cross-functional teams in delivering complex projects. Managed stakeholder relationships and ensured project success through effective communication.',
-      technologies: ['JIRA', 'Confluence', 'MS Office', 'SAP', 'ERP']
-    },
-    {
-      id: 4,
-      title: 'Higher Education',
-      company: 'National Research University "Higher School of Economics"',
-      companyUrl: 'https://www.hse.ru/en/',
-      type: 'Education',
-      period: 'September 2005 - June 2011',
-      location: 'Moscow, Russia',
-      description:
-        "Master's in Project Management (2009-2011) and Bachelor's in Strategic Management (2005-2009). Developed strong foundation in business strategy, organizational leadership, and project management principles.",
-      technologies: [
-        'Strategic Management',
-        'Project Management',
-        'Business Strategy',
-        'Leadership',
-        'Risk Management'
-      ]
-    }
-  ];
 
   const getTypeIcon = (type) => {
     switch (type) {
@@ -204,6 +150,77 @@ export function Experience() {
                 <p className="mb-2 leading-relaxed text-gray-600 dark:text-gray-300">
                   {experience.description}
                 </p>
+
+                {/* Certificates List */}
+                {experience.certificates && (
+                  <div className="mb-3">
+                    <p className="mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
+                      {experience.id === 2
+                        ? 'State-recognized certifications (RNCP):'
+                        : 'Academic degrees:'}
+                    </p>
+                    <ul className="ml-4 list-disc space-y-1 text-sm text-gray-600 dark:text-gray-300">
+                      {experience.certificates.map((cert, idx) => (
+                        <li key={idx}>
+                          {cert.url ? (
+                            <a
+                              href={cert.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-medium text-blue-600 underline decoration-dotted underline-offset-2 transition-colors duration-200 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                            >
+                              {cert.title}
+                            </a>
+                          ) : (
+                            <span className="font-medium">{cert.title}</span>
+                          )}
+                          {' - '}
+                          <span className="text-blue-600 dark:text-blue-400">
+                            {cert.level}
+                          </span>{' '}
+                          <span className="text-gray-500 dark:text-gray-400">
+                            ({cert.date})
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Positions List */}
+                {experience.positions && (
+                  <div className="mb-3">
+                    <p className="mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
+                      Positions:
+                    </p>
+                    <ul className="ml-4 list-disc space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                      {experience.positions.map((position, idx) => (
+                        <li key={idx}>
+                          <span className="font-medium">{position.title}</span>
+                          {' at '}
+                          {position.companyUrl ? (
+                            <a
+                              href={position.companyUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-medium text-blue-600 underline decoration-dotted underline-offset-2 transition-colors duration-200 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                            >
+                              {position.company}
+                            </a>
+                          ) : (
+                            <span className="font-medium">
+                              {position.company}
+                            </span>
+                          )}
+                          {': '}
+                          <span className="text-gray-600 dark:text-gray-400">
+                            {position.description}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
                 {/* Technologies */}
                 <div className="flex flex-wrap gap-2">
