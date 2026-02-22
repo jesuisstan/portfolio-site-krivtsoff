@@ -198,6 +198,26 @@ export const technologies = [
     name: 'Kubernetes',
     icon: '/powered-by/logo-kubernetes.svg',
     category: 'DevOps'
+  },
+  {
+    name: 'Jest',
+    icon: '/powered-by/logo-jest.png',
+    category: 'Testing'
+  },
+  {
+    name: 'Cypress',
+    icon: '/powered-by/logo-cypress.svg',
+    category: 'Testing'
+  },
+  {
+    name: 'Socket.io',
+    icon: '/powered-by/logo-socket-io.png',
+    category: 'API'
+  },
+  {
+    name: 'Redux',
+    icon: '/powered-by/logo-redux.png',
+    category: 'Frontend'
   }
 ];
 
@@ -214,5 +234,6 @@ export const categories = [
   'DevOps',
   'Tools',
   'Language',
-  'Storage'
+  'Storage',
+  'Testing'
 ];
