@@ -29,21 +29,21 @@ export function Banner() {
   const stats = [
     {
       icon: FolderOpen,
-      number: 25,
+      number: 30,
       label: 'Projects Completed',
       suffix: '+',
       color: 'from-blue-500 to-cyan-500'
     },
     {
       icon: Briefcase,
-      number: 2,
+      number: 2.5,
       label: 'Years Experience',
       suffix: '+',
       color: 'from-purple-500 to-pink-500'
     },
     {
       icon: Clock,
-      number: 2000,
+      number: 5000,
       label: 'Hours Coded',
       suffix: '+',
       color: 'from-orange-500 to-red-500'
