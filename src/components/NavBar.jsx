@@ -93,12 +93,12 @@ export function NavBar() {
 
   const downloadCV = () => {
     // Create link to PDF file in public folder
-    const cvUrl = process.env.NEXT_PUBLIC_LINK_CV_DOWNLOAD;
+    const cvUrl = process.env.NEXT_PUBLIC_LINK_CV_DOWNLOAD || '/Krivtsov_Stanislav_Fullstack_developer_CV.pdf';
 
     // Create temporary <a> element for download
     const link = document.createElement('a');
     link.href = cvUrl;
-    link.download = 'Krivtsov Stanislav_Frontend developer_CV.pdf'; // Filename when downloading
+    link.download = 'Krivtsov Stanislav_Fullstack developer_CV.pdf'; // Filename when downloading
     link.target = '_blank';
 
     // Add element to DOM, click it and remove
