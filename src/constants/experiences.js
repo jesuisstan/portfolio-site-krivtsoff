@@ -74,14 +74,14 @@ export const experiences = [
       {
         title: 'Project Manager',
         company: 'VEON Beeline',
-        companyUrl: 'https://www.beeline.ru/',
+        companyUrl: 'https://moskva.beeline.ru/about/about-beeline/',
         description:
           'Led cross-functional teams in delivering complex projects. Managed stakeholder relationships and ensured project success through effective communication.'
       },
       {
         title: 'Efficiency Analyst',
         company: 'Russian Railways',
-        companyUrl: 'https://www.rzd.ru/',
+        companyUrl: 'https://eng.rzd.ru/',
         description:
           'Analyzed operational efficiency, identified optimization opportunities, and developed recommendations for process improvements.'
       }
