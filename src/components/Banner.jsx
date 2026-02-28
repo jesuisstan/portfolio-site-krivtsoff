@@ -36,7 +36,7 @@ export function Banner() {
     },
     {
       icon: Briefcase,
-      number: 2.5,
+      number: 3,
       label: 'Years Experience',
       suffix: '+',
       color: 'from-purple-500 to-pink-500'
