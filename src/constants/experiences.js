@@ -8,8 +8,24 @@ export const experiences = [
     period: 'September 2023 - Present',
     location: 'Paris, France',
     description:
-      'Responsible for visualization of real-time Big Data platform indicators, design and development of new pages and features, mock-ups and integration of Dataviz interfaces and interactive dashboards, specification of technical and ergonomic improvements.',
-    technologies: ['React', 'Node.js', 'TypeScript', 'AWS']
+      'Designing and developing a large-scale SaaS platform for real-time visualization of 40+ macroeconomic Big Data indicators used by financial institutions and analysts:',
+    responsibilities: [
+      'Contributed to the frontend architecture of a modular React/Next.js application.',
+      'Built advanced interactive data visualizations, including charts, heatmaps, and geospatial maps.',
+      'Developed BFF logic and integrated GraphQL APIs.',
+      'Created reusable UI components and implemented authentication flows.',
+      'Implemented automated test scenarios and contributed to CI/CD workflows.'
+    ],
+    technologies: [
+      'React',
+      'Node.js',
+      'TypeScript',
+      'AWS',
+      'GraphQL',
+      'CI/CD',
+      'Testing',
+      'UI/UX Design'
+    ]
   },
   {
     id: 2,
@@ -50,9 +66,13 @@ export const experiences = [
       'Python',
       'Docker',
       'React',
+      'React Native',
+      'Next.js',
+      'Expo Mobile Framework',
       'Node.js',
-      'Mobile Development',
-      'Data Architecture'
+      'Data Architecture',
+      'Ocaml',
+      'Database'
     ]
   },
   {
@@ -92,7 +112,8 @@ export const experiences = [
       'MS Office',
       'SAP',
       'ERP',
-      'Data Analysis'
+      'Data Analysis',
+      'Project Management'
     ]
   },
   {

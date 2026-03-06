@@ -218,6 +218,26 @@ export const technologies = [
     name: 'Redux',
     icon: '/powered-by/logo-redux.png',
     category: 'Frontend'
+  },
+  {
+    name: 'Zustand',
+    icon: '/powered-by/logo-zustand.png',
+    category: 'Frontend'
+  },
+  {
+    name: 'NativeWind',
+    icon: '/powered-by/logo-nativewind.svg',
+    category: 'Styling'
+  },
+  {
+    name: 'Postman',
+    icon: '/powered-by/logo-postman.svg',
+    category: 'Tools'
+  },
+  {
+    name: 'Cursor IDE',
+    icon: '/powered-by/logo-cursor-ide.png',
+    category: 'Tools'
   }
 ];
 

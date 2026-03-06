@@ -151,6 +151,14 @@ export function Experience() {
                   {experience.description}
                 </p>
 
+                {experience.responsibilities && (
+                  <ul className="mb-3 ml-4 list-disc space-y-1 text-sm text-gray-600 dark:text-gray-300">
+                    {experience.responsibilities.map((responsibility, idx) => (
+                      <li key={idx}>{responsibility}</li>
+                    ))}
+                  </ul>
+                )}
+
                 {/* Certificates List */}
                 {experience.certificates && (
                   <div className="mb-3">
