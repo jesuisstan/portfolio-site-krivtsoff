@@ -89,12 +89,12 @@ export function Banner() {
     // Create link to PDF file in public folder
     const cvUrl =
       process.env.NEXT_PUBLIC_LINK_CV_DOWNLOAD ||
-      '/Krivtsov_Stanislav_Fullstack_developer_CV.pdf';
+      '/Krivtsov Stanislav_Frontend developer_CV.pdf';
 
     // Create temporary <a> element for download
     const link = document.createElement('a');
     link.href = cvUrl;
-    link.download = 'Krivtsov Stanislav_Fullstack developer_CV.pdf'; // Filename when downloading
+    link.download = 'Krivtsov Stanislav_Frontend developer_CV.pdf'; // Filename when downloading
     link.target = '_blank';
 
     // Add element to DOM, click it and remove
@@ -167,7 +167,7 @@ export function Banner() {
                 transition={{ delay: 0.3 }}
                 className="text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl xl:text-7xl"
               >
-                <span className="gradient-text">Full-Stack</span>
+                <span className="gradient-text">Frontend</span>
                 <br />
                 <span className="text-gray-900 dark:text-white">Developer</span>
               </motion.h1>

@@ -1,7 +1,7 @@
 export const experiences = [
   {
     id: 1,
-    title: 'Full-Stack Developer',
+    title: 'Frontend Developer',
     company: 'Quantcube Technology',
     companyUrl: 'https://www.quant-cube.com/',
     type: 'CDI, Full-time',

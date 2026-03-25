@@ -1,6 +1,6 @@
 # Stanislav Krivtsoff - Portfolio Website
 
-A modern, responsive portfolio website showcasing my skills as a Full-Stack Developer. Built with Next.js, React, and modern web technologies.
+A modern, responsive portfolio website showcasing my skills as a Frontend Developer. Built with Next.js, React, and modern web technologies.
 The site is deployed on Vercel and can be accessed at [krivtsoff.site](https://krivtsoff.site).
 
 ## 🌟 Features

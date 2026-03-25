@@ -9,17 +9,17 @@ const montserrat = Montserrat({ subsets: ['latin'] });
 
 export const metadata = {
   metadataBase: new URL('https://krivtsoff.me'),
-  title: 'Stanislav Krivtsoff - Full-Stack Developer',
+  title: 'Stanislav Krivtsoff - Frontend Developer',
   description:
-    'Full-stack developer specializing in React, Node.js, and modern web technologies. Creating innovative digital experiences and scalable applications.',
+    'Frontend developer focused on React, Next.js, and TypeScript. Building product UIs, data visualization, and scalable web experiences.',
   keywords:
-    'Full-Stack Developer, React, Node.js, TypeScript, Next.js, Web Development, Paris',
+    'Frontend Developer, React, Next.js, TypeScript, Web Development, UI, Paris',
   authors: [{ name: 'Stanislav Krivtsoff' }],
   creator: 'Stanislav Krivtsoff',
   openGraph: {
-    title: 'Stanislav Krivtsoff - Full-Stack Developer',
+    title: 'Stanislav Krivtsoff - Frontend Developer',
     description:
-      'Full-stack developer specializing in React, Node.js, and modern web technologies.',
+      'Frontend developer focused on React, Next.js, and TypeScript.',
     url: 'https://krivtsoff.me',
     siteName: 'Stanislav Krivtsoff Portfolio',
     images: [
@@ -27,7 +27,7 @@ export const metadata = {
         url: '/avatar.jpg',
         width: 1200,
         height: 630,
-        alt: 'Stanislav Krivtsoff - Full-Stack Developer'
+        alt: 'Stanislav Krivtsoff - Frontend Developer'
       }
     ],
     locale: 'en_US',
@@ -35,9 +35,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Stanislav Krivtsoff - Full-Stack Developer',
+    title: 'Stanislav Krivtsoff - Frontend Developer',
     description:
-      'Full-stack developer specializing in React, Node.js, and modern web technologies.',
+      'Frontend developer focused on React, Next.js, and TypeScript.',
     images: ['/avatar.jpg']
   },
   icons: {

@@ -30,8 +30,8 @@ export function Footer() {
               </span>
             </div>
             <p className="max-w-md text-sm text-gray-600 dark:text-gray-300">
-              Full-stack developer passionate about creating innovative digital
-              experiences and building scalable web applications.
+              Frontend developer focused on product UIs, React/Next.js, and
+              clear, maintainable web experiences.
             </p>
           </motion.div>
 

@@ -76,7 +76,7 @@ export function Experience() {
             variants={itemVariants}
             className="mx-auto max-w-3xl text-xl text-gray-600 dark:text-gray-300"
           >
-            My journey from management education to full-stack development
+            My journey from management education to frontend development
           </motion.p>
         </motion.div>
 
