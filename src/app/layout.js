@@ -8,7 +8,7 @@ import '@/styles/globals.css';
 const montserrat = Montserrat({ subsets: ['latin'] });
 
 export const metadata = {
-  metadataBase: new URL('https://krivtsoff.me'),
+  metadataBase: new URL('https://krivtsoff.online'),
   title: 'Stanislav Krivtsoff - Frontend Developer',
   description:
     'Frontend developer focused on React, Next.js, and TypeScript. Building product UIs, data visualization, and scalable web experiences.',
@@ -20,7 +20,7 @@ export const metadata = {
     title: 'Stanislav Krivtsoff - Frontend Developer',
     description:
       'Frontend developer focused on React, Next.js, and TypeScript.',
-    url: 'https://krivtsoff.me',
+    url: 'https://krivtsoff.online',
     siteName: 'Stanislav Krivtsoff Portfolio',
     images: [
       {
