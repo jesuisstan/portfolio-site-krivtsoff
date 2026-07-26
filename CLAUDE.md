@@ -13,6 +13,9 @@ This file provides guidance to Claude Code when working with code in this reposi
   `src/` — never add one. `typescript` is pinned to `^5` and `eslint` to `^9` for compatibility reasons
   documented in `.claude/agents/platform.md`; do not bump them casually. Toolchain changes belong to
   the `platform` agent.
+- **Documentation is part of the deliverable**: `README.md` and `CLAUDE.md` must be true at all times.
+  Any change that invalidates a statement in either file fixes it in the **same** change, never as a
+  follow-up — see `.claude/rules/docs-maintenance.md` for the trigger table and the reporting format.
 - **UI components**: the shadcn CLI is **not initialized yet** (no `components.json`). When a real
   primitive is first needed, initialize it and source primitives from the `@shadcn` registry via the
   shadcn MCP tools and `npx shadcn@latest add` — never hand-write a primitive the registry ships, and
@@ -42,7 +45,11 @@ conversation (subagents cannot spawn subagents), using the three specialized age
    when it was not part of the task.
 5. **Correct and repeat.** On `FAIL`, feed the verifier's `FIX_HINTS` back to the relevant builder
    agent and re-verify. Loop until `PASS` or a **maximum of 3 build→verify iterations**.
-6. **Stop honestly.** If still failing after 3 iterations, or on `BLOCKED`, stop and report the last
+6. **Sync the docs.** Before reporting done, check the change against `README.md` and `CLAUDE.md` and
+   fix whatever it made false (`.claude/rules/docs-maintenance.md`). A builder agent that returned
+   `Docs: no change needed` is not a substitute for your own check — you see the whole change, it saw
+   only its slice.
+7. **Stop honestly.** If still failing after 3 iterations, or on `BLOCKED`, stop and report the last
    verdict plainly — never claim success the verifier did not confirm.
 
 Prerequisite: the chrome-devtools MCP server must be connected. If it is not, report `BLOCKED` rather
