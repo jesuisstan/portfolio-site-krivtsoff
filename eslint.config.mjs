@@ -84,13 +84,6 @@ const eslintConfig = [
       'build/**',
       'next-env.d.ts'
     ]
-  },
-  {
-    files: ['src/components/NavBar.jsx'],
-    rules: {
-      'react-compiler/react-compiler': 'off',
-      '@next/next/no-html-link-for-pages': 'off'
-    }
   }
 ];
 

@@ -1,4 +1,19 @@
-export const projects = [
+export type ProjectCategory = 'Full-Stack' | 'Frontend' | 'Game' | 'Mobile';
+
+export type ProjectFilter = 'All' | ProjectCategory;
+
+export interface Project {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  category: ProjectCategory | ProjectCategory[];
+  liveUrl: string;
+  githubUrl: string;
+}
+
+export const projects: Project[] = [
   {
     id: 1,
     title: 'DeezerRoom',

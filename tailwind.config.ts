@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
   darkMode: ['class'],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -27,8 +28,8 @@ module.exports = {
       },
       keyframes: {
         fadeIn: {
-          '0%': { opacity: 0, transform: 'translateY(20px)' },
-          '100%': { opacity: 1, transform: 'translateY(0)' }
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' }
         },
         slideIn: {
           '0%': { transform: 'translateX(-100%)' },
@@ -47,3 +48,5 @@ module.exports = {
   },
   plugins: []
 };
+
+export default config;

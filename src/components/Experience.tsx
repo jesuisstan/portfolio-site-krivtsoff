@@ -2,8 +2,10 @@
 
 import { useRef } from 'react';
 
+import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
+import type { LucideIcon } from 'lucide-react';
 import {
   Award,
   Calendar,
@@ -15,11 +17,12 @@ import {
 
 import { experiences } from '@/constants/experiences';
 
-export function Experience() {
-  const ref = useRef(null);
+/** Timeline of professional experience, education, and certifications. */
+const Experience = () => {
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
 
-  const getTypeIcon = (type) => {
+  const getTypeIcon = (type: string): LucideIcon => {
     switch (type) {
       case 'Freelance':
         return Award;
@@ -32,7 +35,7 @@ export function Experience() {
     }
   };
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -42,7 +45,7 @@ export function Experience() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
@@ -248,4 +251,6 @@ export function Experience() {
       </div>
     </section>
   );
-}
+};
+
+export default Experience;

@@ -6,7 +6,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Download, Menu, Moon, Sun, X } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-export function NavBar() {
+interface NavItem {
+  name: string;
+  href: string;
+}
+
+/** Fixed top navigation with section links, theme toggle, and mobile menu. */
+const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -42,7 +48,7 @@ export function NavBar() {
     };
   }, [isOpen]);
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { name: 'Home', href: '#home' },
     { name: 'Skills', href: '#skills' },
     { name: 'Experience', href: '#experience' },
@@ -50,13 +56,13 @@ export function NavBar() {
     { name: 'Contact', href: '#contact' }
   ];
 
-  const scrollToSection = (href) => {
+  const scrollToSection = (href: string) => {
     // First close mobile menu
     setIsOpen(false);
 
     // Add a small delay to ensure menu closes
     setTimeout(() => {
-      const element = document.querySelector(href);
+      const element = document.querySelector<HTMLElement>(href);
       if (element) {
         // Consider fixed navigation height
         const navHeight = 64; // h-16 = 64px
@@ -68,7 +74,7 @@ export function NavBar() {
             top: elementPosition,
             behavior: 'smooth'
           });
-        } catch (error) {
+        } catch {
           // Fallback to scrollIntoView if scrollTo doesn't work
           element.scrollIntoView({
             behavior: 'smooth',
@@ -240,4 +246,6 @@ export function NavBar() {
       </AnimatePresence>
     </motion.nav>
   );
-}
+};
+
+export default NavBar;

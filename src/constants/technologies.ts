@@ -1,4 +1,27 @@
-export const technologies = [
+export type TechnologyCategory =
+  | 'Frontend'
+  | 'Backend'
+  | 'Mobile'
+  | 'Database'
+  | 'Styling'
+  | 'Design'
+  | 'API'
+  | 'Authentication'
+  | 'DevOps'
+  | 'Tools'
+  | 'Language'
+  | 'Storage'
+  | 'Testing';
+
+export type TechnologyFilter = 'All' | TechnologyCategory;
+
+export interface Technology {
+  name: string;
+  icon: string;
+  category: TechnologyCategory;
+}
+
+export const technologies: Technology[] = [
   {
     name: 'React',
     icon: '/powered-by/logo-react.png',
@@ -241,7 +264,7 @@ export const technologies = [
   }
 ];
 
-export const categories = [
+export const categories: TechnologyFilter[] = [
   'All',
   'Frontend',
   'Backend',

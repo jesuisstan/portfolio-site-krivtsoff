@@ -1,13 +1,15 @@
 import { Analytics } from '@vercel/analytics/next';
+import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
+import type { ReactNode } from 'react';
 
-import { ThemeProvider } from '@/components/ThemeProvider';
+import ThemeProvider from '@/components/ThemeProvider';
 
 import '@/styles/globals.css';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL('https://krivtsoff.online'),
   title: 'Stanislav Krivtsoff - Frontend Developer',
   description:
@@ -59,7 +61,8 @@ export const metadata = {
   }
 };
 
-export default function RootLayout({ children }) {
+/** Root layout wiring the app font, theme provider, and analytics. */
+const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html suppressHydrationWarning lang="en">
       <body className={montserrat.className}>
@@ -75,4 +78,6 @@ export default function RootLayout({ children }) {
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

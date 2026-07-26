@@ -3,8 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 
 import emailjs from 'emailjs-com';
+import type { Variants } from 'framer-motion';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
+import type { LucideIcon } from 'lucide-react';
 import {
   Facebook,
   Github,
@@ -14,8 +16,37 @@ import {
   MessageCircle
 } from 'lucide-react';
 import Image from 'next/image';
+import type { FormEvent } from 'react';
 
-const socialLinks = [
+interface ContactSocialLink {
+  icon: LucideIcon;
+  href: string | undefined;
+  label: string;
+  color: string;
+  onClick?: () => void;
+}
+
+interface ContactInfoItem {
+  icon: LucideIcon;
+  title: string;
+  value: string | undefined;
+  href: string | null;
+}
+
+type ContactFormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  message: string;
+};
+
+interface ContactFormStatus {
+  success?: boolean;
+  message?: string;
+}
+
+const socialLinks: ContactSocialLink[] = [
   {
     icon: Github,
     href: process.env.NEXT_PUBLIC_LINK_GITHUB,
@@ -42,16 +73,17 @@ const socialLinks = [
   }
 ];
 
-export function Contact() {
-  const ref = useRef(null);
+/** Contact section with details, messenger QR codes, and an EmailJS form. */
+const Contact = () => {
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
 
   // Initialize EmailJS
   useEffect(() => {
-    emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_USER_ID);
+    emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_USER_ID!);
   }, []);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactFormData>({
     firstName: '',
     lastName: '',
     email: '',
@@ -59,9 +91,9 @@ export function Contact() {
     message: ''
   });
   const [buttonText, setButtonText] = useState('Send Message');
-  const [status, setStatus] = useState({});
+  const [status, setStatus] = useState<ContactFormStatus>({});
 
-  const contactInfo = [
+  const contactInfo: ContactInfoItem[] = [
     {
       icon: MapPin,
       title: 'Location',
@@ -70,21 +102,21 @@ export function Contact() {
     }
   ];
 
-  const onFormUpdate = (category, value) => {
+  const onFormUpdate = (category: keyof ContactFormData, value: string) => {
     setFormData({
       ...formData,
       [category]: value
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.email && formData.lastName && formData.message) {
       setButtonText('Sending...');
       try {
         await emailjs.send(
-          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
           formData,
           process.env.NEXT_PUBLIC_EMAILJS_USER_ID
         );
@@ -97,7 +129,7 @@ export function Contact() {
           phone: '',
           message: ''
         });
-      } catch (error) {
+      } catch {
         setButtonText('Send Message');
         setStatus({
           success: false,
@@ -122,7 +154,7 @@ export function Contact() {
     window.open(process.env.NEXT_PUBLIC_LINK_WHATSAPP, '_blank');
   };
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -132,7 +164,7 @@ export function Contact() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
@@ -303,7 +335,7 @@ export function Contact() {
                 Follow Me
               </motion.h4>
               <div className="flex justify-center space-x-4 md:justify-start">
-                {socialLinks.map((social, index) => (
+                {socialLinks.map((social) => (
                   <motion.button
                     key={social.label}
                     onClick={
@@ -462,4 +494,6 @@ export function Contact() {
       </div>
     </section>
   );
-}
+};
+
+export default Contact;

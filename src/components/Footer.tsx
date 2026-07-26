@@ -3,7 +3,8 @@
 import { motion } from 'framer-motion';
 import { ArrowUp, Heart } from 'lucide-react';
 
-export function Footer() {
+/** Site footer with branding and a scroll-to-top control. */
+const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -83,4 +84,6 @@ export function Footer() {
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
+import type { LucideIcon } from 'lucide-react';
 import {
   ArrowRight,
   Award,
@@ -16,17 +17,39 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 
-export function Banner() {
-  const ref = useRef(null);
+interface BannerStat {
+  icon: LucideIcon;
+  number: number;
+  label: string;
+  suffix: string;
+  color: string;
+}
+
+interface BannerStatCounts {
+  projects: number;
+  experience: number;
+  hours: number;
+  certifications: number;
+}
+
+interface BannerSocialLink {
+  label: string;
+  href: string | undefined;
+  icon: LucideIcon;
+}
+
+/** Hero section with intro copy, CTAs, animated stat counters, and avatar. */
+const Banner = () => {
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-  const [counts, setCounts] = useState({
+  const [counts, setCounts] = useState<BannerStatCounts>({
     projects: 0,
     experience: 0,
     hours: 0,
     certifications: 0
   });
 
-  const stats = [
+  const stats: BannerStat[] = [
     {
       icon: FolderOpen,
       number: 30,
@@ -103,7 +126,7 @@ export function Banner() {
     document.body.removeChild(link);
   };
 
-  const socialLinks = [
+  const socialLinks: BannerSocialLink[] = [
     {
       label: 'GitHub',
       href: process.env.NEXT_PUBLIC_LINK_GITHUB,
@@ -259,7 +282,11 @@ export function Banner() {
                     className="space-y-1"
                   >
                     <div className="gradient-text text-xl font-bold">
-                      {counts[Object.keys(counts)[index]]}
+                      {
+                        counts[
+                          Object.keys(counts)[index] as keyof BannerStatCounts
+                        ]
+                      }
                       {stat.suffix}
                     </div>
                     <div className="text-xs font-medium text-gray-600 dark:text-gray-300">
@@ -349,4 +376,6 @@ export function Banner() {
       </div>
     </section>
   );
-}
+};
+
+export default Banner;

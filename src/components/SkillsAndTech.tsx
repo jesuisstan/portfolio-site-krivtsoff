@@ -2,22 +2,25 @@
 
 import { useRef, useState } from 'react';
 
+import type { Variants } from 'framer-motion';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 
+import type { TechnologyFilter } from '@/constants/technologies';
 import { categories, technologies } from '@/constants/technologies';
 
-export function SkillsAndTech() {
-  const ref = useRef(null);
+/** Skills section with a category filter over the technology logo grid. */
+const SkillsAndTech = () => {
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [activeCategory, setActiveCategory] = useState<TechnologyFilter>('All');
 
   const filteredTechnologies =
     activeCategory === 'All'
       ? technologies
       : technologies.filter((tech) => tech.category === activeCategory);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -27,7 +30,7 @@ export function SkillsAndTech() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
@@ -133,4 +136,6 @@ export function SkillsAndTech() {
       </div>
     </section>
   );
-}
+};
+
+export default SkillsAndTech;

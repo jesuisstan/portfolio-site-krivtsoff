@@ -2,16 +2,22 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import type { Variants } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { motion } from 'framer-motion';
 import { BarChart3, Code, Eye, Github } from 'lucide-react';
 import Image from 'next/image';
 
+import type { ProjectCategory, ProjectFilter } from '@/constants/projects';
 import { projects } from '@/constants/projects';
 
-function TooltipDescription({ description }) {
-  const descRef = useRef(null);
-  const tooltipRef = useRef(null);
+interface TooltipDescriptionProps {
+  description: string;
+}
+
+const TooltipDescription = ({ description }: TooltipDescriptionProps) => {
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
@@ -75,27 +81,36 @@ function TooltipDescription({ description }) {
       )}
     </div>
   );
-}
+};
 
-export function Projects() {
-  const ref = useRef(null);
+/** Projects section with category filtering and per-card action links. */
+const Projects = () => {
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-  const [hoveredProject, setHoveredProject] = useState(null);
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
-  const categories = ['All', 'Full-Stack', 'Frontend', 'Game', 'Mobile'];
-  const [activeCategory, setActiveCategory] = useState('All');
+  const categories: ProjectFilter[] = [
+    'All',
+    'Full-Stack',
+    'Frontend',
+    'Game',
+    'Mobile'
+  ];
+  const [activeCategory, setActiveCategory] = useState<ProjectFilter>('All');
 
   const filteredProjects =
     activeCategory === 'All'
       ? projects
       : projects.filter((project) => {
-          const projectCategories = Array.isArray(project.category)
+          const projectCategories: ProjectCategory[] = Array.isArray(
+            project.category
+          )
             ? project.category
             : [project.category];
           return projectCategories.includes(activeCategory);
         });
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -105,7 +120,7 @@ export function Projects() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
@@ -170,7 +185,7 @@ export function Projects() {
           variants={containerVariants}
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
-          {filteredProjects.map((project, index) => (
+          {filteredProjects.map((project) => (
             <motion.div
               key={project.id}
               variants={itemVariants}
@@ -297,4 +312,6 @@ export function Projects() {
       </div>
     </section>
   );
-}
+};
+
+export default Projects;
