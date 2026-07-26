@@ -13,9 +13,13 @@ This file provides guidance to Claude Code when working with code in this reposi
   `src/` — never add one. `typescript` is pinned to `^5` and `eslint` to `^9` for compatibility reasons
   documented in `.claude/agents/platform.md`; do not bump them casually. Toolchain changes belong to
   the `platform` agent.
-- **Documentation is part of the deliverable**: `README.md` and `CLAUDE.md` must be true at all times.
-  Any change that invalidates a statement in either file fixes it in the **same** change, never as a
-  follow-up — see `.claude/rules/docs-maintenance.md` for the trigger table and the reporting format.
+- **Documentation is part of the deliverable**: `README.md`, `CLAUDE.md`, `DESIGN.md` and `PRODUCT.md`
+  must be true at all times. Any change that invalidates a statement in one of them fixes it in the
+  **same** change, never as a follow-up. **One fact, one file**: each document owns its subject and the
+  others link to it instead of repeating it — README the project and its stack, this file how to work in
+  the repo, `DESIGN.md` the visual system, `PRODUCT.md` the product truth. A fact written in two places is
+  a bug; delete the copy and leave a pointer. See `.claude/rules/docs-maintenance.md` for the ownership
+  table, the trigger table, and the reporting format.
 - **UI components**: shadcn/ui **is initialized and in use** — `components.json` at the repo root
   (style `new-york`, base color `neutral`, CSS variables, `lucide` icons, css
   `src/styles/globals.css`). `src/components/ui/` holds `button`, `card`, `badge`, `input`, `textarea`,
@@ -62,10 +66,12 @@ conversation (subagents cannot spawn subagents), using the three specialized age
    when it was not part of the task.
 5. **Correct and repeat.** On `FAIL`, feed the verifier's `FIX_HINTS` back to the relevant builder
    agent and re-verify. Loop until `PASS` or a **maximum of 3 build→verify iterations**.
-6. **Sync the docs.** Before reporting done, check the change against `README.md` and `CLAUDE.md` and
-   fix whatever it made false (`.claude/rules/docs-maintenance.md`). A builder agent that returned
-   `Docs: no change needed` is not a substitute for your own check — you see the whole change, it saw
-   only its slice.
+6. **Sync the docs.** Before reporting done, check the change against the four root documents and fix
+   whatever it made false, in the owning file only (`.claude/rules/docs-maintenance.md`). A visual change
+   almost always means `DESIGN.md` and nothing else; if you find yourself about to write the same design
+   fact into README or this file, that is the duplication the ownership table exists to prevent. A builder
+   agent that returned `Docs: no change needed` is not a substitute for your own check — you see the whole
+   change, it saw only its slice.
 7. **Stop honestly.** If still failing after 3 iterations, or on `BLOCKED`, stop and report the last
    verdict plainly — never claim success the verifier did not confirm.
 
@@ -85,7 +91,17 @@ npm run start          # serve the production build
 npm run lint           # eslint (flat config) — the authoritative style config
 npm run lint:fix       # runs automatically after every edit via a PostToolUse hook
 npm run typecheck      # tsc --noEmit
+
+npm run design:sync    # regenerate DESIGN.md frontmatter + .impeccable/design.json from globals.css
+npm run design:check   # fail if that generated layer is stale (read-only)
 ```
+
+`design:sync` is wired to run automatically two ways, because neither covers the other's gap. A
+`PostToolUse` hook in `.claude/settings.json` runs it after an `Edit`/`Write` touching `globals.css` or
+`DESIGN.md` — so it only sees edits made through Claude Code's tools, never the user's own editor.
+`.githooks/pre-commit` runs `design:check` and blocks a drifted commit regardless of who edited; it needs
+`git config core.hooksPath .githooks` once per clone (documented in README § Getting Started) or it
+silently never runs.
 
 **Do not run `npm run build` while a `next dev` server is live on this tree.** Both write to `.next`,
 and the production artifacts clobber the dev manifests — the running server then answers every request
@@ -123,43 +139,47 @@ without asking.
 
 ### Styling
 
-Tailwind CSS 4 with CSS-first configuration: there is **no** `tailwind.config.ts` and no
-`portfolioColors.ts` (both deleted on 2026-07-26 when the project moved to shadcn/ui). Everything lives
-in `src/styles/globals.css` — `@import 'tailwindcss' source(none)`, `@import 'tw-animate-css'`,
-`@source '../../src'` (**content detection is explicit on purpose**: Tailwind 4 otherwise scans the whole
-repo except `node_modules` and gitignored files, which meant the utility names quoted as prose in
-`.agents/skills/**` _and_ in `.claude/agents/*.md` — including the "never do this" examples like
-`from-purple-500` and `text-gray-600` — were compiled into the bundle for real. `src/` is the only place
-with actual class usage; an `@source not` exclusion per offending directory was the earlier approach and
-kept missing new ones),
-`@custom-variant dark (&:is(.dark *))` (keyed to the `next-themes` class strategy), the shadcn OKLCH
-token set in `:root`/`.dark` with the brand teal `#00babc` as `--primary`, the `@theme inline` mapping
-that exposes each token as a Tailwind utility (plus the `shine` keyframes and `--animate-shine`, which
-must stay in the `inline` block so its `var(--duration)` resolves against the element the utility is on,
-not `:root`), a `@theme` block holding the `float` animation, and the
-`@layer base` reset (`border-border`, `outline-ring/50`, `bg-background text-foreground`). The tail of
-the file also carries the scrollbar rules and the three `::view-transition-*(root)` rules the theme
-toggler's clip-path reveal needs — the two scoped ones read
-`--magicui-theme-toggle-vt-duration` / `--magicui-theme-vt-clip-from`, which the toggler sets on `<html>`
-only while a toggle is in flight, so no other view transition is affected.
+Tailwind CSS 4, CSS-first: there is **no** `tailwind.config.ts`. Everything lives in
+`src/styles/globals.css`, which is the **single source of truth for every token value**.
 
-There are **no hand-written legacy classes left** — `.gradient-text`, `.glass-effect`,
-`.button-primary`, `.button-secondary`, `.container-custom` and `.card-hover` were deleted on
-2026-07-26 when the sections moved onto shadcn primitives. Do not reintroduce classes of that kind:
-containers are `mx-auto max-w-7xl`, buttons are `Button` variants, panels are `Card`.
+**`DESIGN.md` owns the design system** — colour roles, typography, layout and breakpoints, elevation,
+shapes, component specs, and the named rules that govern them. Read it before any visual work and do not
+restate it here; per `.claude/rules/docs-maintenance.md` a design fact written twice is a bug. What
+follows is only the mechanical set — the things that silently break the build or the theme if you get
+them wrong.
 
-Three tokens were added beyond the stock shadcn set: `--destructive-foreground` (so no variant needs
-`text-white`), `--overlay`, the theme-constant sheet scrim declared in `:root` only, and
-`--primary-alt`/`--primary-alt-foreground`, a coral second brand accent that is likewise theme-constant
-(`:root` only) and shares `--primary`'s lightness so the two read as siblings. `text-primary` is
-full-chroma teal and only clears contrast on dark backgrounds — use it for display headings, icons and
-fills; `text-primary-alt` is under the same restriction (2.62:1 on the light background, 7.56:1 the
-other way round as `text-primary-alt-foreground` on `bg-primary-alt`) and is deliberately scarce, used
-in three places only. Use `text-accent-foreground` for teal-toned links and small accent text, and
-`text-foreground`/`text-muted-foreground` for reading text. See `.claude/agents/frontend.md` and
-`.claude/rules/code-organization.md`. If the `impeccable` skill is initialized later, `DESIGN.md` layers
-editorial rules (type scale, spacing rhythm, motion) **on top of** these tokens — the values themselves
-stay in `globals.css`.
+- **Adding a token**: declare the variable in `:root`, and in `.dark` unless it is deliberately
+  theme-constant, then map it in `@theme inline`. Then run `npm run design:sync` so `DESIGN.md`'s
+  frontmatter and `.impeccable/design.json` follow. Never hand-edit that generated frontmatter.
+- **`@theme inline` is load-bearing, not stylistic.** `inline` makes the utility inline the `var()`
+  instead of freezing a value, which is the only reason a token can resolve differently inside `.dark`.
+  The elevation and colour mappings depend on it, as does `--animate-shine`, whose `var(--duration)`
+  must resolve against the element the utility sits on rather than `:root`.
+- **Elevation is `shadow-ambient` / `shadow-raised` / `shadow-overlay`.** Tailwind's stock
+  `shadow-xs`…`shadow-2xl` are theme-blind and vanish on graphite — do not use them here.
+- **Tailwind only compiles class names it can read as literal text.** A runtime-built class
+  (`` `text-[${item.color}]` ``, `'text-' + tone`) type-checks, lints, and emits no CSS at all. Per-item
+  colours go in the data as complete token class names.
+- **No arbitrary colour values** — no hex, no `rgb()`, no `bg-[#…]`, no inline `style={{ color }}`.
+  Opacity modifiers on tokens (`bg-primary/10`, `bg-muted/30`) are the sanctioned way to lighten one.
+- **Content detection is explicit on purpose**: `@import 'tailwindcss' source(none)` plus
+  `@source '../../src'`. Tailwind 4 otherwise scans the whole repo except `node_modules` and gitignored
+  files, which compiled the utility names quoted as prose in `.agents/skills/**` and `.claude/agents/*.md`
+  — including the "never do this" examples — into the bundle for real. An `@source not` exclusion per
+  offending directory was the earlier approach and kept missing new ones.
+- **No hand-written legacy classes.** `.gradient-text`, `.glass-effect`, `.button-primary`,
+  `.button-secondary`, `.container-custom` and `.card-hover` were deleted on 2026-07-26. Containers are
+  `mx-auto max-w-7xl`, buttons are `Button` variants, panels are `Card`.
+- The rest of `globals.css`: `@import 'tw-animate-css'`,
+  `@custom-variant dark (&:is(.dark *))` (keyed to the `next-themes` class strategy), a `@theme` block
+  for the `float` animation, the `@layer base` reset, the scrollbar rules, and the three
+  `::view-transition-*(root)` rules the theme toggler's clip-path reveal needs — the two scoped ones read
+  `--magicui-theme-toggle-vt-duration` / `--magicui-theme-vt-clip-from`, which the toggler sets on
+  `<html>` only while a toggle is in flight, so no other view transition is affected.
+
+The other root documents: `PRODUCT.md` owns product truth (audience, positioning, protected facts) and
+wins on product and voice decisions; `DESIGN.md` wins on visual ones. See also
+`.claude/agents/frontend.md` and `.claude/rules/code-organization.md`.
 
 ### Environment variables
 

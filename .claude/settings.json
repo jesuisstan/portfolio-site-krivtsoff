@@ -23,6 +23,17 @@
             "command": "npm run lint:fix"
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "grep -qE 'globals\\.css|DESIGN\\.md' || exit 0; node \"${CLAUDE_PROJECT_DIR}/scripts/design-sync.mjs\" || true",
+            "timeout": 15,
+            "statusMessage": "Syncing design tokens"
+          }
+        ]
       }
     ]
   }

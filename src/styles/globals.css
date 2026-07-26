@@ -27,6 +27,8 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-overlay: var(--overlay);
+  --color-brand-telegram: var(--brand-telegram);
+  --color-brand-whatsapp: var(--brand-whatsapp);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -47,6 +49,11 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  /* `inline` is what lets these switch per theme: the utility inlines
+     var(--elevation-N), which resolves again inside `.dark`. */
+  --shadow-ambient: var(--elevation-1);
+  --shadow-raised: var(--elevation-2);
+  --shadow-overlay: var(--elevation-3);
   /* Kept in `@theme inline` so `var(--duration)` resolves against the element, not `:root`. */
   --animate-shine: shine var(--duration) infinite linear;
 
@@ -77,6 +84,13 @@
 
 :root {
   --radius: 0.625rem;
+  /* Three elevation steps, per theme: a shadow tuned for paper is invisible on graphite. */
+  --elevation-1:
+    0 1px 2px 0 oklch(0.145 0 0 / 6%), 0 1px 3px 0 oklch(0.145 0 0 / 4%);
+  --elevation-2:
+    0 2px 4px -1px oklch(0.145 0 0 / 6%), 0 8px 16px -4px oklch(0.145 0 0 / 10%);
+  --elevation-3:
+    0 4px 8px -2px oklch(0.145 0 0 / 8%), 0 16px 40px -8px oklch(0.145 0 0 / 18%);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -98,6 +112,11 @@
   /* Theme-constant: near-white on destructive red, and a dark scrim behind overlays. */
   --destructive-foreground: oklch(0.985 0 0);
   --overlay: oklch(0.145 0 0 / 60%);
+  /* Third-party brand marks. Telegram's own #0088cc clears 3:1 on both themes, so it is
+     theme-constant; WhatsApp's #25d366 is only 1.98:1 on paper, so light darkens it to
+     #05a34a (3.32:1) at the same hue and .dark restores the official value. */
+  --brand-telegram: oklch(0.5998 0.1412 241.55);
+  --brand-whatsapp: oklch(0.625 0.172 149.74);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.715 0.122 196.14);
@@ -117,6 +136,12 @@
 }
 
 .dark {
+  --brand-whatsapp: oklch(0.761 0.2015 149.74);
+  --elevation-1: 0 1px 2px 0 oklch(0 0 0 / 40%), 0 1px 3px 0 oklch(0 0 0 / 28%);
+  --elevation-2:
+    0 2px 4px -1px oklch(0 0 0 / 40%), 0 8px 16px -4px oklch(0 0 0 / 55%);
+  --elevation-3:
+    0 4px 8px -2px oklch(0 0 0 / 45%), 0 16px 40px -8px oklch(0 0 0 / 70%);
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);

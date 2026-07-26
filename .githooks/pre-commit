@@ -1,0 +1,18 @@
+#!/bin/sh
+# Blocks a commit when DESIGN.md's generated token layer has drifted from
+# src/styles/globals.css. Catches edits made outside Claude Code, which the
+# PostToolUse hook in .claude/settings.json cannot see.
+#
+# It reports drift and never rewrites files: a hook that edits during a commit
+# produces commits whose content nobody reviewed.
+#
+# Note: this checks the working tree, not the staged snapshot. Committing a
+# subset of a drifted tree is therefore judged on the tree as a whole.
+
+if ! npm run --silent design:check; then
+  echo '' >&2
+  echo 'pre-commit: design tokens have drifted from src/styles/globals.css.' >&2
+  echo 'Fix with:' >&2
+  echo '  npm run design:sync && git add DESIGN.md .impeccable/design.json' >&2
+  exit 1
+fi

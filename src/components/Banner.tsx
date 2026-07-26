@@ -104,7 +104,7 @@ const Banner = () => {
               <Badge variant="secondary" className="gap-2 px-4 py-2 text-sm">
                 <span
                   aria-hidden
-                  className="size-2 animate-pulse rounded-full bg-primary motion-reduce:animate-none"
+                  className="size-2 animate-pulse rounded-full bg-primary-alt motion-reduce:animate-none"
                 />
                 Available for new opportunities
               </Badge>

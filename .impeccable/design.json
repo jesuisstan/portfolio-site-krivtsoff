@@ -1,0 +1,616 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-26T20:55:51.969Z",
+  "title": "Design System: krivtsoff.develop()",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Signal Teal",
+        "canonical": "oklch(0.715 0.122 196.14)",
+        "tonalRamp": [
+          "oklch(0.150 0.122 196.14)",
+          "oklch(0.264 0.122 196.14)",
+          "oklch(0.379 0.122 196.14)",
+          "oklch(0.493 0.122 196.14)",
+          "oklch(0.607 0.122 196.14)",
+          "oklch(0.721 0.122 196.14)",
+          "oklch(0.836 0.122 196.14)",
+          "oklch(0.950 0.122 196.14)"
+        ]
+      },
+      "primary-foreground": {
+        "role": "primary",
+        "displayName": "Signal Teal Foreground",
+        "canonical": "oklch(0.145 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ]
+      },
+      "ring": {
+        "role": "primary",
+        "displayName": "Focus Ring Teal",
+        "canonical": "oklch(0.715 0.122 196.14)",
+        "tonalRamp": [
+          "oklch(0.150 0.122 196.14)",
+          "oklch(0.264 0.122 196.14)",
+          "oklch(0.379 0.122 196.14)",
+          "oklch(0.493 0.122 196.14)",
+          "oklch(0.607 0.122 196.14)",
+          "oklch(0.721 0.122 196.14)",
+          "oklch(0.836 0.122 196.14)",
+          "oklch(0.950 0.122 196.14)"
+        ]
+      },
+      "primary-alt": {
+        "role": "secondary",
+        "displayName": "Alert Coral",
+        "canonical": "oklch(0.7208 0.134 25.35)",
+        "tonalRamp": [
+          "oklch(0.150 0.134 25.35)",
+          "oklch(0.264 0.134 25.35)",
+          "oklch(0.379 0.134 25.35)",
+          "oklch(0.493 0.134 25.35)",
+          "oklch(0.607 0.134 25.35)",
+          "oklch(0.721 0.134 25.35)",
+          "oklch(0.836 0.134 25.35)",
+          "oklch(0.950 0.134 25.35)"
+        ]
+      },
+      "primary-alt-foreground": {
+        "role": "secondary",
+        "displayName": "Alert Coral Foreground",
+        "canonical": "oklch(0.145 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ]
+      },
+      "accent": {
+        "role": "tertiary",
+        "displayName": "Teal Wash",
+        "canonical": "oklch(0.955 0.025 196.14)",
+        "tonalRamp": [
+          "oklch(0.150 0.025 196.14)",
+          "oklch(0.264 0.025 196.14)",
+          "oklch(0.379 0.025 196.14)",
+          "oklch(0.493 0.025 196.14)",
+          "oklch(0.607 0.025 196.14)",
+          "oklch(0.721 0.025 196.14)",
+          "oklch(0.836 0.025 196.14)",
+          "oklch(0.950 0.025 196.14)"
+        ],
+        "dark": "oklch(0.29 0.04 196.14)"
+      },
+      "accent-foreground": {
+        "role": "tertiary",
+        "displayName": "Teal Ink",
+        "canonical": "oklch(0.3 0.04 196.14)",
+        "tonalRamp": [
+          "oklch(0.150 0.04 196.14)",
+          "oklch(0.264 0.04 196.14)",
+          "oklch(0.379 0.04 196.14)",
+          "oklch(0.493 0.04 196.14)",
+          "oklch(0.607 0.04 196.14)",
+          "oklch(0.721 0.04 196.14)",
+          "oklch(0.836 0.04 196.14)",
+          "oklch(0.950 0.04 196.14)"
+        ],
+        "dark": "oklch(0.96 0.015 196.14)"
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Paper / Graphite",
+        "canonical": "oklch(1 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(0.145 0 0)"
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.145 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(0.985 0 0)"
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Raised Surface",
+        "canonical": "oklch(1 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(0.205 0 0)"
+      },
+      "card-foreground": {
+        "role": "neutral",
+        "displayName": "Raised Surface Ink",
+        "canonical": "oklch(0.145 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(0.985 0 0)"
+      },
+      "popover": {
+        "role": "neutral",
+        "displayName": "Floating Surface",
+        "canonical": "oklch(1 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(0.205 0 0)"
+      },
+      "popover-foreground": {
+        "role": "neutral",
+        "displayName": "Floating Surface Ink",
+        "canonical": "oklch(0.145 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(0.985 0 0)"
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Quiet Fill",
+        "canonical": "oklch(0.97 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(0.269 0 0)"
+      },
+      "secondary-foreground": {
+        "role": "neutral",
+        "displayName": "Quiet Fill Ink",
+        "canonical": "oklch(0.205 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(0.985 0 0)"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Section Wash",
+        "canonical": "oklch(0.97 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(0.269 0 0)"
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Quiet Ink",
+        "canonical": "oklch(0.556 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(0.708 0 0)"
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(0.922 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(1 0 0 / 10%)"
+      },
+      "input": {
+        "role": "neutral",
+        "displayName": "Field Hairline",
+        "canonical": "oklch(0.922 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ],
+        "dark": "oklch(1 0 0 / 15%)"
+      },
+      "overlay": {
+        "role": "neutral",
+        "displayName": "Scrim",
+        "canonical": "oklch(0.145 0 0 / 60%)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ]
+      },
+      "destructive": {
+        "role": "danger",
+        "displayName": "Alarm",
+        "canonical": "oklch(0.577 0.245 27.325)",
+        "tonalRamp": [
+          "oklch(0.150 0.245 27.325)",
+          "oklch(0.264 0.245 27.325)",
+          "oklch(0.379 0.245 27.325)",
+          "oklch(0.493 0.245 27.325)",
+          "oklch(0.607 0.245 27.325)",
+          "oklch(0.721 0.245 27.325)",
+          "oklch(0.836 0.245 27.325)",
+          "oklch(0.950 0.245 27.325)"
+        ],
+        "dark": "oklch(0.704 0.191 22.216)"
+      },
+      "destructive-foreground": {
+        "role": "danger",
+        "displayName": "Alarm Foreground",
+        "canonical": "oklch(0.985 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ]
+      },
+      "brand-telegram": {
+        "role": "brand",
+        "displayName": "Telegram Blue",
+        "canonical": "oklch(0.5998 0.1412 241.55)",
+        "tonalRamp": [
+          "oklch(0.150 0.1412 241.55)",
+          "oklch(0.264 0.1412 241.55)",
+          "oklch(0.379 0.1412 241.55)",
+          "oklch(0.493 0.1412 241.55)",
+          "oklch(0.607 0.1412 241.55)",
+          "oklch(0.721 0.1412 241.55)",
+          "oklch(0.836 0.1412 241.55)",
+          "oklch(0.950 0.1412 241.55)"
+        ]
+      },
+      "brand-whatsapp": {
+        "role": "brand",
+        "displayName": "WhatsApp Green",
+        "canonical": "oklch(0.625 0.172 149.74)",
+        "tonalRamp": [
+          "oklch(0.150 0.172 149.74)",
+          "oklch(0.264 0.172 149.74)",
+          "oklch(0.379 0.172 149.74)",
+          "oklch(0.493 0.172 149.74)",
+          "oklch(0.607 0.172 149.74)",
+          "oklch(0.721 0.172 149.74)",
+          "oklch(0.836 0.172 149.74)",
+          "oklch(0.950 0.172 149.74)"
+        ],
+        "dark": "oklch(0.761 0.2015 149.74)"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The hero h1 only, one per page. 700 weight, text-4xl through xl:text-7xl (2.25-4.5rem), leading-[1.1]."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles, two words with exactly one in teal. 700 weight, text-4xl to lg:text-5xl."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card and project titles. 700 weight, text-xl."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reading copy at 400 weight, text-base; ledes step up to text-lg sm:text-xl. Held to 58-70ch by max-w-lg / max-w-3xl."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, badges, form labels at 500 weight text-sm; stat captions at text-xs. Sentence case, never tracked uppercase."
+      }
+    },
+    "fontFamily": "Montserrat, sans-serif",
+    "shadows": [
+      {
+        "name": "ambient",
+        "utility": "shadow-ambient",
+        "light": "0 1px 2px 0 oklch(0.145 0 0 / 6%), 0 1px 3px 0 oklch(0.145 0 0 / 4%)",
+        "dark": "0 1px 2px 0 oklch(0 0 0 / 40%), 0 1px 3px 0 oklch(0 0 0 / 28%)"
+      },
+      {
+        "name": "raised",
+        "utility": "shadow-raised",
+        "light": "0 2px 4px -1px oklch(0.145 0 0 / 6%), 0 8px 16px -4px oklch(0.145 0 0 / 10%)",
+        "dark": "0 2px 4px -1px oklch(0 0 0 / 40%), 0 8px 16px -4px oklch(0 0 0 / 55%)"
+      },
+      {
+        "name": "overlay",
+        "utility": "shadow-overlay",
+        "light": "0 4px 8px -2px oklch(0.145 0 0 / 8%), 0 16px 40px -8px oklch(0.145 0 0 / 18%)",
+        "dark": "0 4px 8px -2px oklch(0 0 0 / 45%), 0 16px 40px -8px oklch(0 0 0 / 70%)"
+      }
+    ],
+    "motion": [
+      {
+        "name": "float",
+        "utility": "animate-float",
+        "value": "float 3s ease-in-out infinite"
+      },
+      {
+        "name": "shine",
+        "utility": "animate-shine",
+        "value": "shine var(--duration) infinite linear"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      },
+      {
+        "name": "2xl",
+        "value": "1536px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single strongest action in a region: teal fill, near-black label.",
+      "html": "<button class=\"ds-btn-primary\">Let's Talk<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 0 24px; border: none; border-radius: 8px; background: var(--primary); color: var(--primary-foreground); font: 500 14px/1 inherit; cursor: pointer; transition: all 0.15s ease-out; } .ds-btn-primary:hover { background: color-mix(in oklab, var(--primary) 90%, transparent); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "The secondary action: hairline on the page surface, ambient shadow, teal wash on hover.",
+      "html": "<button class=\"ds-btn-outline\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"7 10 12 15 17 10\"/><line x1=\"12\" x2=\"12\" y1=\"15\" y2=\"3\"/></svg>Download CV</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 0 24px; border: 1px solid var(--border); border-radius: 8px; background: var(--background); color: var(--foreground); font: 500 14px/1 inherit; box-shadow: var(--elevation-1); cursor: pointer; transition: all 0.15s ease-out; } .ds-btn-outline:hover { background: var(--accent); color: var(--accent-foreground); } .ds-btn-outline:focus-visible { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent); }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip-filter",
+      "description": "Category filter in the skills and projects sections. Selected is a full teal fill — the only loud state in the system.",
+      "html": "<div class=\"ds-chip-row\"><button class=\"ds-chip\" data-state=\"on\">All</button><button class=\"ds-chip\">Full-Stack</button><button class=\"ds-chip\">Mobile</button></div>",
+      "css": ".ds-chip-row { display: flex; flex-wrap: wrap; gap: 8px; } .ds-chip { height: 36px; padding: 0 12px; border: 1px solid var(--input); border-radius: 9999px; background: transparent; color: var(--foreground); font: 500 14px/1 inherit; box-shadow: var(--elevation-1); cursor: pointer; transition: color 0.15s ease-out, background 0.15s ease-out, box-shadow 0.15s ease-out; } .ds-chip:hover { background: var(--accent); color: var(--accent-foreground); } .ds-chip[data-state=\"on\"] { background: var(--primary); color: var(--primary-foreground); border-color: transparent; } .ds-chip:focus-visible { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent); }"
+    },
+    {
+      "name": "Technology Badge",
+      "kind": "chip",
+      "refersTo": "badge-secondary",
+      "description": "Dense technology tags on project cards. The one sanctioned exception to the pill rule — a row of these reads better as tiles.",
+      "html": "<div class=\"ds-badge-row\"><span class=\"ds-badge\">TypeScript</span><span class=\"ds-badge\">Next.js</span><span class=\"ds-badge\">GraphQL</span></div>",
+      "css": ".ds-badge-row { display: flex; flex-wrap: wrap; gap: 8px; } .ds-badge { display: inline-flex; align-items: center; padding: 2px 8px; border: 1px solid transparent; border-radius: 8px; background: var(--secondary); color: var(--secondary-foreground); font: 500 12px/1.4 inherit; white-space: nowrap; }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The repeating unit of the projects grid. Flat at rest; hover shifts the hairline to teal and nothing else moves except the image.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-media\"><span class=\"ds-card-tag\">Mobile</span></div><div class=\"ds-card-body\"><h3 class=\"ds-card-title\">DeezerRoom</h3><p class=\"ds-card-text\">A collaborative music experience with real-time track voting, shared playlists, and cross-platform support.</p></div></article>",
+      "css": ".ds-card { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: var(--card); color: var(--card-foreground); box-shadow: var(--elevation-1); transition: border-color 0.15s ease-out; } .ds-card:hover { border-color: color-mix(in oklab, var(--primary) 50%, transparent); } .ds-card-media { position: relative; height: 120px; background: linear-gradient(135deg, color-mix(in oklab, var(--primary) 22%, transparent), var(--muted)); } .ds-card-tag { position: absolute; top: 16px; left: 16px; padding: 2px 8px; border-radius: 9999px; background: color-mix(in oklab, var(--primary) 90%, transparent); color: var(--primary-foreground); font: 500 12px/1.4 inherit; } .ds-card-body { padding: 20px; } .ds-card-title { margin: 0 0 8px; font: 700 20px/1.3 inherit; } .ds-card-text { margin: 0; color: var(--muted-foreground); font: 400 14px/1.6 inherit; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Contact form field. Transparent fill, hairline border, 3px ring on focus.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"ds-email\">Email *</label><input class=\"ds-input\" id=\"ds-email\" type=\"email\" placeholder=\"your.email@example.com\"></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 8px; max-width: 320px; } .ds-label { color: var(--foreground); font: 500 14px/1 inherit; } .ds-input { height: 44px; padding: 0 12px; border: 1px solid var(--input); border-radius: 8px; background: transparent; color: var(--foreground); font: 400 14px/1 inherit; box-shadow: var(--elevation-1); transition: color 0.15s ease-out, box-shadow 0.15s ease-out; } .ds-input::placeholder { color: var(--muted-foreground); } .ds-input:focus-visible { outline: none; border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent); }"
+    },
+    {
+      "name": "Navigation Bar (scrolled)",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Fixed 64px bar. Transparent over the hero, then a hairline plus translucent blur past 50px of scroll.",
+      "html": "<nav class=\"ds-nav\"><div class=\"ds-nav-brand\"><span class=\"ds-nav-mark\">K</span><span class=\"ds-nav-name\">krivtsoff.develop()</span></div><div class=\"ds-nav-links\"><a class=\"ds-nav-link\" href=\"#\">Skills</a><a class=\"ds-nav-link\" href=\"#\">Projects</a><a class=\"ds-nav-link\" href=\"#\">Contact</a></div></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; padding: 0 24px; border-bottom: 1px solid var(--border); background: color-mix(in oklab, var(--background) 80%, transparent); backdrop-filter: blur(12px); } .ds-nav-brand { display: flex; align-items: center; gap: 8px; } .ds-nav-mark { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 10px; background: var(--primary); color: var(--primary-foreground); font: 700 14px/1 inherit; } .ds-nav-name { color: var(--foreground); font: 700 20px/1 inherit; } .ds-nav-links { display: flex; gap: 8px; } .ds-nav-link { padding: 8px 16px; border-radius: 8px; color: var(--muted-foreground); font: 500 14px/1 inherit; text-decoration: none; transition: color 0.15s ease-out, background 0.15s ease-out; } .ds-nav-link:hover { background: var(--accent); color: var(--foreground); } .ds-nav-link:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Signal in the Noise",
+    "overview": "This is a monochrome field with one voice in it. The neutral scale does all the structural work — surfaces, borders, reading text, dividers — and a single saturated teal appears only where attention has actually been earned: one word per section heading, the icons that label a fact, the counters, the primary action. The palette is neutral by decision, not by timidity. Colour here is a signal, and a signal that fires everywhere is noise.\n\nThe character is precise and engineered. Spacing is regular rather than expressive, states are predictable, every interactive element has a real focus ring, and nothing is placed by feel. The audience for this system is engineers reading it as a work sample, so a misaligned edge reads exactly like a bug in the code — the discipline is the argument. It is also alive without being busy: sections reveal once on scroll, the hero counters run once and stop, two borders trace slowly enough to read as highlights rather than as animation. Motion is authored in single moments; nothing loops fast enough to pull the eye off the text.\n\nDark is the native environment, not an option. defaultTheme=\"dark\", and the teal was chosen for how it reads on graphite. The light theme is fully correct and fully supported, but it is the translation, not the original.",
+    "keyCharacteristics": [
+      "One saturated accent against a strictly neutral scale; a coral sibling used five times in the whole page",
+      "Dark-first, with the light theme derived rather than designed twice",
+      "Tonal layering carries structure; a three-step shadow scale carries only state and layer",
+      "Softly rounded geometry (10px base radius), pill shapes reserved for labels and filters",
+      "Single type family; hierarchy comes from size and weight alone",
+      "Motion is slow, one-shot, and fully removable under prefers-reduced-motion"
+    ],
+    "rules": [
+      {
+        "name": "The One Signal Rule",
+        "section": "colors",
+        "body": "Signal Teal at full chroma clears contrast only against dark backgrounds. It is for display-size type, icons, and fills — never body copy, never small links. Reading text is text-foreground / text-muted-foreground; teal-toned text is text-accent-foreground. text-primary-alt is under the same restriction and stricter still (2.62:1 on the light background): display or decorative only."
+      },
+      {
+        "name": "The Token Law",
+        "section": "colors",
+        "body": "A colour that is not a token does not exist. No hex, no rgb(), no arbitrary Tailwind value (bg-[#1b1828]), no inline style={{ color }}. A new colour means a variable in :root — and in .dark unless it is deliberately theme-constant — plus an @theme inline entry, added in src/styles/globals.css and nowhere else. Opacity modifiers on tokens (bg-primary/10, bg-muted/30) are the sanctioned way to get a lighter reading of an existing colour."
+      },
+      {
+        "name": "The One Palette Rule",
+        "section": "colors",
+        "body": "A component installed from a registry that ships its own :root/.dark block has that block stripped on install. There is exactly one palette in this project."
+      },
+      {
+        "name": "The Literal Class Rule",
+        "section": "colors",
+        "body": "Tailwind 4 compiles only class names it can read as literal text in the source. A class assembled at runtime — a template literal such as text-[${item.color}], or 'text-' + tone — produces no CSS at all, silently: the code type-checks, lints, and renders with no colour. Per-item colours therefore live in the data as complete token class names (tint: 'text-brand-telegram') and reach the element through cn()."
+      },
+      {
+        "name": "The Single Accent Word Rule",
+        "section": "typography",
+        "body": "Every section heading carries exactly one teal word — Frontend Developer, Featured Projects, Let's Connect. Not a gradient, not the whole line, not two words. The heading is where the signal is spent."
+      },
+      {
+        "name": "The No Second Voice Rule",
+        "section": "typography",
+        "body": "No second font family, no uppercase tracked eyebrow above sections, no monospace as a texture. If something needs to feel different, it changes weight or size."
+      },
+      {
+        "name": "The No Horizontal Scroll Rule",
+        "section": "layout",
+        "body": "360px is the floor, and nothing may overflow it. Test the real copy at 360 / 768 / 1280 before calling a layout done."
+      },
+      {
+        "name": "The Structure-Is-Tonal Rule",
+        "section": "elevation",
+        "body": "If a surface needs to read as separate, change its tone and give it a hairline. Reach for a shadow only to report a state change or a layer above the page — never to make a flat card look important."
+      },
+      {
+        "name": "The Three Steps Rule",
+        "section": "elevation",
+        "body": "Ambient, raised, overlay. Do not use Tailwind's stock shadow-xs…shadow-2xl in this project; they are theme-blind and invisible on graphite. A fourth step means a token, not a one-off shadow-[...]."
+      },
+      {
+        "name": "The No Halo Rule",
+        "section": "elevation",
+        "body": "Every shadow carries a vertical offset and a soft blur. A zero-offset coloured glow is decoration, and the hero's blurred teal orbs already own that register."
+      },
+      {
+        "name": "The Hairline Rule",
+        "section": "shapes",
+        "body": "1px, all four sides, border-border. No coloured border-left accent bars, no 2px emphasis borders, no border as decoration."
+      },
+      {
+        "name": "The Pill Means Label Rule",
+        "section": "shapes",
+        "body": "A pill is a badge, a chip, or a filter. An action is a md-radius rectangle. Do not round a button to a pill to make it look friendlier."
+      }
+    ],
+    "dos": [
+      "Do add every new colour, radius, or shadow as a token in src/styles/globals.css — variable in :root (and .dark unless theme-constant) plus an @theme inline entry — and then run npm run design:sync so DESIGN.md's frontmatter and .impeccable/design.json follow. There is no Tailwind config file; that stylesheet is the only place values live.",
+      "Do spend the teal on one thing per region: one accent word, one primary action, one set of icons.",
+      "Do use text-accent-foreground for teal-toned text and links; reserve text-primary for display-size type, icons, and fills.",
+      "Do separate sections by alternating bg-background and bg-muted/30, and keep every section on py-12 inside mx-auto max-w-7xl px-4 sm:px-6 lg:px-8.",
+      "Do give every interactive element the standard focus ring (focus-visible:ring-[3px] ring-ring/50 with focus-visible:border-ring).",
+      "Do gate every non-essential animation behind prefers-reduced-motion — motion-reduce:animate-none, a motion-safe: prefix, useReducedMotion(), or simply not rendering the effect.",
+      "Do check both themes and 360 / 768 / 1280 with the real copy before calling any change done."
+    ],
+    "donts": [
+      "Don't write a raw colour anywhere: no #FE8FB5, no bg-[#1b1828], no text-[#a3cfff], no inline style={{ color }}. This has happened twice already — the contact form's shine stops, and the messenger icons before Telegram Blue and WhatsApp Green became tokens.",
+      "Don't build a class name at runtime to get a per-item colour. It compiles to nothing — see The Literal Class Rule.",
+      "Don't use Tailwind's stock shadow-xs…shadow-2xl. They are theme-blind and vanish on graphite — use shadow-ambient / shadow-raised / shadow-overlay.",
+      "Don't put text-primary or text-primary-alt on body copy, small links, or captions. They fail contrast on the light background.",
+      "Don't reintroduce hand-written utility classes of the .gradient-text / .glass-effect / .button-primary / .container-custom / .card-hover kind. Containers are mx-auto max-w-7xl, buttons are Button variants, panels are Card.",
+      "Don't add gradient text, a second font family, a tracked uppercase eyebrow over sections, or monospace used as a \"technical\" texture.",
+      "Don't hand-write a primitive the shadcn registry ships, and don't paste registry source by hand — install it and reconcile it with these tokens and the repo's conventions.",
+      "Don't add a coloured border-left accent bar or any border above 1px. The focus ring is the only thicker stroke in the system.",
+      "Don't nest a card inside a card, or let a grid of identical icon-heading-text cards become a section's whole structure.",
+      "Don't spread --destructive into decoration. It means failure, and --primary-alt is the decorative sibling. The hero beam's leading stop is the single sanctioned exception (see Components); do not cite it to justify a second one.",
+      "Don't revive the --chart-* or --sidebar-* tokens as a shortcut to a new colour. Nothing under src/ reads them today, and they are excluded from this document on purpose."
+    ]
+  }
+}

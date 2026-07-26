@@ -61,30 +61,13 @@ The repo is **fully TypeScript** (`tsconfig.json`, `strict: true`, `jsx: "react-
 
 ## Current state
 
-```
-src/
-├── app/
-│   ├── layout.tsx          ← root layout: Montserrat, ThemeProvider, metadata, Vercel Analytics
-│   └── page.tsx            ← the only route (server component); renders every section in order
-├── components/
-│   ├── ui/                 ← shadcn primitives — badge, button, card, input, label, separator,
-│   │                         sheet, textarea, toggle, toggle-group, tooltip
-│   ├── Banner.tsx          ← hero + animated stat counters
-│   ├── banner-content.ts   ← the hero's stats / social-link data
-│   ├── SkillsAndTech.tsx   ← skills groups + tech logo grid, ToggleGroup filter
-│   ├── Experience.tsx      ← timeline
-│   ├── Projects.tsx        ← project cards, ToggleGroup filter, Tooltip descriptions
-│   ├── Contact.tsx         ← EmailJS contact form + contact details
-│   ├── NavBar.tsx          ← sticky nav; Sheet drawer + the sun/moon theme toggle
-│   ├── Footer.tsx          ← site footer
-│   └── ThemeProvider.tsx   ← next-themes wrapper
-├── constants/
-│   ├── experiences.ts      ← timeline data + `Experience` types
-│   ├── projects.ts         ← project cards data + `Project`/`ProjectCategory` types
-│   └── technologies.ts     ← tech/logo data + `Technology` types
-├── lib/utils.ts            ← `cn()` (clsx + tailwind-merge)
-└── styles/globals.css      ← Tailwind v4 entry + the design tokens. Nothing else.
-```
+The file tree is documented in **`README.md` § Project Structure** — read it there rather than from a
+copy here, and `ls src/components/ui/` for the current primitive list (a hardcoded list in this file went
+stale within weeks). `CLAUDE.md` § Shape states which sections `page.tsx` renders, in order.
+
+What that tree does not tell you: every section component carries its own `'use client'`, `page.tsx` is a
+server component, and `src/styles/globals.css` holds the Tailwind entry plus the tokens and nothing that
+belongs in a component.
 
 The legacy layer is **gone** (retired 2026-07-26) — do not bring any of it back:
 
@@ -102,53 +85,51 @@ The legacy layer is **gone** (retired 2026-07-26) — do not bring any of it bac
 
 ## Design system
 
-**`src/styles/globals.css` is the single source of truth for design tokens.** Read it before styling
-anything, and never quote token values from prose — this file included; they go stale.
+Two authorities, and neither of them is this file:
 
-The palette is the shadcn **neutral** set written as OKLCH variables in `:root` and `.dark`, mapped to
-Tailwind utilities through `@theme inline`. Available: `background`, `foreground`, `card`, `popover`,
-`primary`, `secondary`, `muted`, `accent`, `destructive`, `overlay`, `border`, `input`, `ring`,
-`chart-1…5`, `sidebar-*`, plus `--radius` (`rounded-sm|md|lg|xl`).
+- **`src/styles/globals.css`** — the single source of truth for every token **value**. Read it before
+  styling anything.
+- **`DESIGN.md`** — the single source of truth for every design **decision**: colour roles and where each
+  may be used, the type scale, layout and breakpoints, elevation, shapes, per-component specs, and the
+  named rules and do's/don'ts that bind them. Read it before any visual work, and follow it rather than
+  your own taste.
 
-Rules:
+**Never quote a token value, contrast ratio, or palette list in prose — including in this file.** Copies
+go stale; that is why they live in exactly one place each (`.claude/rules/docs-maintenance.md`). If a
+design question is not answered by `DESIGN.md`, that is a gap in `DESIGN.md` — say so and get it decided,
+do not invent an answer inline.
 
-- **Colors reach components only through token utilities** — `bg-background`, `text-foreground`,
-  `bg-card`, `border-border`, `text-muted-foreground`, `bg-primary text-primary-foreground`. Opacity
-  modifiers are fine (`bg-primary/10`).
-- **No arbitrary values, ever** — no `text-[#00babc]`, no `bg-[rgba(...)]`, no `style={{ color }}`,
-  and no Tailwind stock palette (`gray-700`, `blue-500`). A genuinely new color is a **new token**:
-  add the variable to `:root` **and** `.dark` (or only `:root` when it is theme-constant, as `--overlay`
-  is), then map it in `@theme inline`. A token that exists in one place but not the other is a bug.
-- **The brand accent is `--primary`** — the teal `#00babc`, identical in both themes. Contrast caveat
-  that decides real code: `text-primary` on `--background` is only **2.40:1**. Use it for display-size
-  accents and decorative fills, never for body copy or small links — those take `text-foreground`,
-  `text-muted-foreground`, or `text-accent-foreground` (the deep-teal token, ~9.5:1 in light).
-- `bg-primary text-primary-foreground` is 8.25:1 — safe for buttons and pills.
-- Tailwind v4 syntax, not v3: `bg-linear-to-r` (not `bg-gradient-to-r`), `focus:outline-hidden`
-  (not `outline-none`), `shrink-0`, `backdrop-blur-xs`.
+The mechanics you must not get wrong:
 
-If the `impeccable` skill is later initialized, `DESIGN.md` layers editorial rules (type scale, spacing
-rhythm, motion, named constraints) **on top of** these tokens — it never replaces `globals.css` as the
-place the values live.
+- **Colours reach components only through token utilities** — `bg-background`, `text-foreground`,
+  `bg-card`, `border-border`, `bg-primary text-primary-foreground`. Opacity modifiers are fine
+  (`bg-primary/10`).
+- **No arbitrary values, ever** — no `text-[#1b1828]`, no `bg-[rgba(...)]`, no `style={{ color }}`, no
+  Tailwind stock palette (`gray-700`, `blue-500`). A genuinely new colour is a **new token**: variable in
+  `:root` **and** `.dark` (or `:root` alone when deliberately theme-constant), mapped in `@theme inline`.
+  A token in one block but not the other is a bug.
+- **Tailwind compiles only class names it can read as literal text.** A class built at runtime
+  (`` `text-[${item.color}]` ``, `'text-' + tone`) type-checks, lints, and produces no CSS whatsoever.
+  Per-item colours belong in the data as complete token class names.
+- **After adding or changing a token, run `npm run design:sync`** so `DESIGN.md`'s frontmatter and
+  `.impeccable/design.json` follow. Never hand-edit that generated frontmatter.
+- **Elevation is `shadow-ambient` / `shadow-raised` / `shadow-overlay`.** Tailwind's stock
+  `shadow-xs`…`shadow-2xl` are theme-blind and vanish on the dark background — not used in this project.
+- Tailwind v4 syntax, not v3: `bg-linear-to-r` (not `bg-gradient-to-r`), `focus:outline-hidden` (not
+  `outline-none`), `shrink-0`, `backdrop-blur-xs`.
 
 ## Do not ship a generic AI-template look
 
-The current site reads as a stock template, and the redesign exists to fix exactly that. These are
-the tells — treat each as a defect unless `DESIGN.md` explicitly calls for it:
+This site's whole purpose is to prove its author's craft, so a stock-template result is a failed task,
+not a neutral one. `DESIGN.md` § Do's and Don'ts is the binding list — treat every "Don't" there as a
+defect in your own output.
 
-- Gradient text on headings; multi-hue per-card gradients (`from-blue-500 to-cyan-500`,
-  `from-purple-500 to-pink-500`, `from-orange-500 to-red-500`) used as decoration.
-- Glass-morphism blur panels everywhere.
-- The hero → four stat cards → uniform 3-column card grid → centered contact form skeleton.
-- Every card getting the same `hover:-translate-y-2` lift and the same soft shadow.
-- Emoji as section markers; "Let's work together!"-class filler copy.
-- Section after section of identical rhythm: centered eyebrow, centered H2, centered lead paragraph.
-
-Instead: commit to one deliberate visual idea and carry it consistently — a real type scale with
-contrast between display and body sizes, asymmetric or editorial layout where it earns attention,
-restrained color with a single accent, and motion that serves reading order rather than decorating it.
-When a request is vague ("make projects nicer"), propose a specific direction in one or two sentences
-before building.
+Beyond that list, the habit to resist is reaching for the default rather than deciding: uniform
+icon-heading-text card grids as a section's whole structure, the same hover lift on everything, an
+eyebrow over every heading, identical centred rhythm section after section, filler copy of the
+"Let's work together!" kind. Commit to the visual idea `DESIGN.md` already states and carry it
+consistently. When a request is vague ("make projects nicer"), propose a specific direction in one or two
+sentences before building.
 
 ## Sourcing components — the shadcn MCP is mandatory
 
@@ -246,7 +227,8 @@ find one and `getRegistryItem` (with `includeSource` / `includeExamples`) to ins
 ## Responsive design and accessibility (always)
 
 - Mobile-first: base styles target small screens, then layer `sm:` / `md:` / `lg:` / `xl:` upward.
-  Tailwind's default breakpoints apply — this project defines no custom ones.
+  `DESIGN.md` § Layout states the breakpoints, the structural switch point, and the per-grid column
+  counts — follow it instead of choosing your own.
 - Fluid layouts (flex/grid, `max-w-*`, `min-w-0`, relative units) over fixed pixel widths. **No
   horizontal page overflow at any width**, down to 360px.
 - Both themes are first-class: every surface, border, and text color must be legible in light **and**
@@ -260,20 +242,24 @@ find one and `getRegistryItem` (with `includeSource` / `includeExamples`) to ins
 
 ## Keeping the docs true (mandatory)
 
-`README.md` and `CLAUDE.md` are part of every deliverable. Before you report a task done, check your
-diff against both and fix anything your change made false — in the **same** change, per
-`.claude/rules/docs-maintenance.md`.
+Documentation is part of every deliverable. **`.claude/rules/docs-maintenance.md` holds the ownership
+table — read it and update only the owning file.** One fact lives in one place; writing it in a second
+file is a defect, not thoroughness.
 
-What most often needs it from a frontend change:
+What a frontend change usually touches, and where it goes:
 
-- A component added, deleted, or renamed → README "Project Structure", and CLAUDE.md "Shape" when it is
-  one of the sections `page.tsx` renders.
-- A new design token, a retired legacy class, or a palette change → README "Design System" and
-  CLAUDE.md "Styling".
-- A new dependency (a Radix package, a registry component's peer) → README "Technologies Used".
-- A change to breakpoints or the responsive strategy → README "Responsive Design".
-- A changed code convention (export style, file layout, `'use client'` policy) → CLAUDE.md
-  "Code conventions" **and** this file.
+- Colour, typography, spacing, elevation, motion, breakpoints, or how a component looks → **`DESIGN.md`
+  only.** Not README, not CLAUDE.md. Those two deliberately carry no design detail.
+- A new or changed token → `globals.css`, then `npm run design:sync`, then describe its *role* in
+  `DESIGN.md` prose. README and CLAUDE.md get nothing unless a mechanical rule changed.
+- A component file added, deleted, or renamed → README § Project Structure, and CLAUDE.md § Shape when it
+  is one of the sections `page.tsx` renders.
+- A new dependency (a registry component's peer) → README § Technologies Used.
+- A changed code convention (export style, file layout, `'use client'` policy) → CLAUDE.md § Code
+  conventions **and** this file.
+
+If you find the same fact stated in two files, delete the copy and leave a pointer to the owner. That is
+fixing the docs, not scope creep — report it as such.
 
 Verify each claim against the repo instead of recalling it. End your report with
 `Docs: updated <file> § <section>` per section touched, or `Docs: no change needed` plus a half-sentence

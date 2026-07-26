@@ -43,6 +43,8 @@ interface ContactMessenger {
   label: string;
   href: string | undefined;
   qrCode: string;
+  /** Literal token class for the service's brand colour — Tailwind only compiles class names it can read as text. */
+  tint: string;
 }
 
 type ContactFormData = {
@@ -85,12 +87,14 @@ const messengers: ContactMessenger[] = [
   {
     label: 'Telegram',
     href: process.env.NEXT_PUBLIC_LINK_TELEGRAM,
-    qrCode: '/qrTelegram.jpg'
+    qrCode: '/qrTelegram.jpg',
+    tint: 'text-brand-telegram'
   },
   {
     label: 'WhatsApp',
     href: process.env.NEXT_PUBLIC_LINK_WHATSAPP,
-    qrCode: '/qrWhatsApp.jpg'
+    qrCode: '/qrWhatsApp.jpg',
+    tint: 'text-brand-whatsapp'
   }
 ];
 
@@ -281,7 +285,7 @@ const Contact = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       title="Scan QR code or click to connect instantly via messenger"
-                      className="group relative mx-auto mb-3 block size-28 rounded-lg bg-card shadow-md transition-shadow hover:shadow-lg focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                      className="group relative mx-auto mb-3 block size-28 rounded-lg bg-card shadow-ambient transition-shadow hover:shadow-raised focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
                     >
                       <Image
                         src={messenger.qrCode}
@@ -293,14 +297,17 @@ const Contact = () => {
                       <span className="absolute inset-0 flex items-center justify-center rounded-lg bg-primary/0 transition-colors group-hover:bg-primary/15">
                         <MessageCircle
                           aria-hidden
-                          className="size-6 text-primary opacity-0 transition-opacity group-hover:opacity-100"
+                          className={cn(
+                            'size-6 opacity-0 transition-opacity group-hover:opacity-100',
+                            messenger.tint
+                          )}
                         />
                       </span>
                     </a>
                     <div className="mb-1 flex items-center justify-center gap-2">
                       <MessageCircle
                         aria-hidden
-                        className="size-4 text-primary"
+                        className={cn('size-4', messenger.tint)}
                       />
                       <span className="text-sm font-medium text-foreground">
                         {messenger.label}
@@ -353,7 +360,7 @@ const Contact = () => {
               <ShineBorder
                 borderWidth={1}
                 duration={14}
-                shineColor={['var(--primary)', '#FE8FB5', 'var(--primary-alt)']}
+                shineColor={['var(--primary)', 'var(--primary-alt)']}
               />
               <motion.form
                 variants={itemVariants}

@@ -201,12 +201,26 @@ dependency and its reason explicitly rather than adding it silently.
 ## Keeping the docs true (mandatory)
 
 You are the primary owner of `README.md` and `CLAUDE.md` accuracy, because most of what they state —
-stack, versions, scripts, env vars, structure, deployment — is your domain. Fix any statement your
-change makes false in the **same** change, per `.claude/rules/docs-maintenance.md`.
+stack, versions, scripts, env vars, structure, deployment — is your domain. Fix any statement your change
+makes false in the **same** change, per `.claude/rules/docs-maintenance.md`, which holds the ownership
+table: **one fact, one file.**
 
 Always re-check both files after: a dependency added/removed/pinned, an npm script changed, an env var
 added/renamed, a config file added/renamed, a Node/npm floor moved, a route added, a file moved under
 `src/` or `public/`, an agent/rule/hook re-scoped, or the domain/hosting changed.
+
+Two files you own the *accuracy* of but not the *content* of:
+
+- **`DESIGN.md`** owns the whole visual system. Never add design detail to README or CLAUDE.md, and never
+  copy a token value, colour role, type scale, or breakpoint table into them — those two carry a pointer
+  and nothing more. Token values live in `src/styles/globals.css` and reach `DESIGN.md` only through
+  `npm run design:sync` (`scripts/design-sync.mjs`); the generated frontmatter and the token fields of
+  `.impeccable/design.json` are never hand-edited.
+- **`PRODUCT.md`** owns product truth — audience, positioning, protected facts, documented absences.
+  A claim about who the site is for or what it may assert belongs there, not in README prose.
+
+If you find the same fact in two files, delete the copy and leave a pointer to the owner; report that as
+a doc fix.
 
 Verify each claim by reading the repo (`package.json`, `.env.local` keys, the actual file tree) — never
 from memory. End your report with `Docs: updated <file> § <section>` per section touched, or

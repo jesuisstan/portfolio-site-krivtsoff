@@ -9,6 +9,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
+    "design:sync": "node scripts/design-sync.mjs",
+    "design:check": "node scripts/design-sync.mjs --check",
     "fresh": "npx rimraf .swc && npx rimraf .next && npx rimraf node_modules && npx rimraf package-lock.json && npm install"
   },
   "dependencies": {

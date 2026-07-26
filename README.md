@@ -6,9 +6,9 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
 ## 🌟 Features
 
 - **Single-page layout**: hero, skills & tech, experience, projects, contact — with a sticky nav that scrolls to each section
-- **Dark/Light Theme**: `next-themes` with class strategy and system preference detection (dark by default), toggled with a View Transitions clip-path reveal
-- **Responsive**: mobile-first layout with a Radix-backed off-canvas drawer below the `lg` breakpoint
-- **Animations**: scroll reveals, staggered lists and animated stat counters via Framer Motion
+- **Dark/Light Theme**: `next-themes` with class strategy and system preference detection (dark by default)
+- **Responsive**: mobile-first layout with a Radix-backed off-canvas drawer on small screens
+- **Animations**: Framer Motion throughout, with `prefers-reduced-motion` respected
 - **Contact form**: sends mail straight from the browser through EmailJS
 - **SEO**: full metadata, OpenGraph and Twitter cards, web manifest, Vercel Analytics
 
@@ -30,14 +30,14 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
   `card`, `badge`, `input`, `textarea`, `label`, `sheet`, `tooltip`, `toggle`, `toggle-group`,
   `separator`. Add more with `npx shadcn@latest add @shadcn/<name>`
 - **Magic UI** - a second, opt-in registry, used only where an animated component is asked for.
-  Installed in `src/components/ui/`: `animated-theme-toggler` (the nav theme switch),
-  `shine-border` (the contact form card) and `border-beam` (the hero "Download CV" button). Items come
-  from `npx shadcn@latest add "https://magicui.design/r/<name>.json"`, then get their decorative colors
-  reduced to this project's tokens and their `motion/react` imports re-pointed to `framer-motion`, so
-  the repo keeps a single animation runtime
+  Installed in `src/components/ui/`: `animated-theme-toggler`, `shine-border`, `border-beam`. Items come
+  from `npx shadcn@latest add "https://magicui.design/r/<name>.json"`. Each one then has its decorative
+  colours reduced to this project's tokens and its `motion/react` imports re-pointed to `framer-motion`,
+  so the repo carries a single animation runtime
 - **radix-ui** - the unified Radix package the current registry components import from
 - **class-variance-authority** + **tailwind-merge**/**clsx** - variant recipes and the `cn()` helper
-- **Design tokens** - OKLCH CSS variables in `src/styles/globals.css`, exposed to Tailwind through `@theme inline`
+- **Design tokens** - OKLCH CSS variables in `src/styles/globals.css`, exposed to Tailwind through
+  `@theme inline`; documented in [`DESIGN.md`](./DESIGN.md)
 - **tw-animate-css** - the animation utilities shadcn components rely on
 - **next-themes** - class-based dark/light theming, wired to the `.dark` custom variant
 
@@ -69,7 +69,16 @@ cd portfolio-site-krivtsoff
 npm install
 ```
 
-3. Set up environment variables:
+3. Enable the repository's git hooks (once per clone — git does not do this for you):
+
+```bash
+git config core.hooksPath .githooks
+```
+
+`.githooks/pre-commit` runs `npm run design:check` and blocks a commit whose design tokens have drifted
+from `src/styles/globals.css`. Without this step the check simply never runs.
+
+4. Set up environment variables:
 
 Create a `.env.local` file in the root directory with the following variables. All of them are
 `NEXT_PUBLIC_*`, so they are inlined into the client bundle — never put a secret here.
@@ -102,13 +111,13 @@ Update these values with your actual contact information and social media links.
 > reads them any more — the contact section shows the location plus the messenger links. They are listed
 > as unused rather than required; wire them back into `Contact.tsx` or delete them from `.env.local`.
 
-4. Run the development server:
+5. Run the development server:
 
 ```bash
 npm run dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Scripts
 
@@ -120,6 +129,9 @@ npm start            # serve the production build
 npm run lint         # ESLint — the authoritative style check
 npm run lint:fix     # ESLint with --fix (also runs automatically after every edit by Claude Code)
 npm run typecheck    # tsc --noEmit
+
+npm run design:sync  # regenerate DESIGN.md's token frontmatter + .impeccable/design.json from globals.css
+npm run design:check # fail if that generated layer is stale (read-only)
 
 npm run fresh        # wipe .next / .swc / node_modules / package-lock.json and reinstall
 ```
@@ -168,95 +180,45 @@ Root-level configuration: `components.json` (shadcn/ui), `postcss.config.js`, `n
 `tsconfig.json`, `eslint.config.mjs`. Tailwind has no config file — its theme lives in
 `src/styles/globals.css`.
 
+Also at the root: `PRODUCT.md` (the durable product record — audience, positioning, protected facts),
+`DESIGN.md` (the design system, its token frontmatter generated from `globals.css`),
+`scripts/design-sync.mjs` (that generator) and `.impeccable/` (the design skill's config and the
+machine-readable sidecar `design.json`).
+
 Static assets live in `public/`: favicons, the web manifest, the avatar, the CV PDF, the Telegram and
 WhatsApp QR codes, project screenshots (`public/projects/`) and technology logos (`public/powered-by/`).
 
 ## 🎨 Design System
 
-The palette is the shadcn/ui token set (neutral base) written as OKLCH CSS variables in
-`src/styles/globals.css`, with a `:root` and a `.dark` block and an `@theme inline` mapping that turns
-each one into a Tailwind color utility:
+The visual system lives in **[`DESIGN.md`](./DESIGN.md)** — palette and colour roles, typography,
+layout and breakpoints, elevation, shapes, per-component specs, and the rules that govern them. It is
+the single place design decisions are recorded; this README deliberately does not restate them.
 
-- **Brand**: teal `#00babc` = `oklch(0.715 0.122 196.14)`, used for `--primary`, `--ring`, `--chart-1`
-  and the sidebar accents; `--primary-foreground` is near-black for a 8.25:1 contrast ratio on it
-- **Second brand accent**: coral `--primary-alt` with `--primary-alt-foreground` (the same near-black,
-  7.56:1 on the coral). Its lightness matches `--primary`, so the two accents read as siblings rather
-  than one shouting over the other. Theme-constant — declared in `:root` only, like `--primary`'s value.
-  Used sparingly and on purpose: one hero chip, the footer heart, one of the two `ShineBorder` stops.
-  `text-primary-alt` carries the same restriction as `text-primary` — 2.62:1 on the light background,
-  so display-size or decorative only, never body copy or small links
-- **Neutrals**: the shadcn neutral scale — `--background`, `--foreground`, `--card`, `--popover`,
-  `--secondary`, `--muted`, `--border`, `--input`
-- **Accent**: `--accent` is a teal-tinted neutral wash; `--accent-foreground` is the high-contrast
-  teal used for links and small accent text in both themes
-- **Danger**: `--destructive` with `--destructive-foreground`
-- **Overlay**: `--overlay`, the theme-constant scrim behind the mobile sheet (declared in `:root` only)
-- **Radius**: `--radius` (0.625rem) plus the derived `--radius-sm|md|lg|xl`
+Two facts about how it is wired, because they affect the build rather than the design:
 
-There is no legacy CSS layer any more: the hand-written `.gradient-text`, `.glass-effect`,
-`.button-primary`, `.button-secondary`, `.container-custom` and `.card-hover` classes were deleted when
-the sections moved onto shadcn primitives. `globals.css` now holds only the Tailwind entry, the token
-blocks, the `float` keyframes, the base layer, smooth scrolling (which the nav links rely on), the
-scrollbar rules, the three `::view-transition-*(root)` rules the theme toggler needs, and one
-`@source` declaration — the Tailwind entry is imported with `source(none)` and `src/` is registered
-explicitly, because automatic detection scans the whole repository (minus `node_modules` and gitignored
-files) and was compiling utility names that appear only as prose in the agent and skill markdown.
+- **`src/styles/globals.css` is the only place a token value exists.** Tailwind CSS 4 is configured
+  CSS-first, so there is no `tailwind.config.ts` to keep in step.
+- `DESIGN.md`'s YAML frontmatter and `.impeccable/design.json` are **generated** from that stylesheet
+  by `npm run design:sync`; `npm run design:check` reports drift without writing. Edit the token in the
+  CSS and run the script — never hand-edit the generated frontmatter.
 
-Use the utilities (`bg-primary`, `text-muted-foreground`, `border-border`, …). A new color is a new
-token: add the variable to both `:root` and `.dark` (or to `:root` only when it is identical in both
-themes), then map it in `@theme inline` — never a one-off hex value or an arbitrary Tailwind color.
-
-`text-primary` is the brand teal at full chroma: it only clears contrast requirements on dark
-backgrounds, so it is reserved for display-size headings, icons, and decorative fills. Reading text
-uses `text-foreground` / `text-muted-foreground`, and teal-toned links use `text-accent-foreground`.
-
-### Typography
-
-- **Font**: Montserrat, loaded through `next/font/google`
-- **Headings**: bold weights in `text-foreground`, with a single accent word in `text-primary`
-- **Body**: regular weight in `text-foreground` / `text-muted-foreground`
-
-### Animations
-
-- **Scroll reveals**: staggered fade/translate via Framer Motion `useInView`
-- **Hero counters**: count-up animation on first view
-- **Hover effects**: restrained border, background and scale transitions from the primitives
-- **Theme switch**: Magic UI's `AnimatedThemeToggler` reveals the new theme with a 400ms circular
-  clip-path through the View Transitions API, expanding from the nav button. It runs in controlled
-  mode so `next-themes` stays the only owner of theme persistence, and it falls back to an instant
-  swap where `document.startViewTransition` is unavailable
-- **Contact form border**: Magic UI's `ShineBorder` traces a 1px teal → coral gradient
-  (`var(--primary)`, `var(--primary-alt)`) around the form card on a 14s linear loop — slow enough to
-  read as a highlight rather than a glow
-- **"Download CV" button**: Magic UI's `BorderBeam` sends a 36px teal → coral highlight
-  (`var(--primary)`, `var(--primary-alt)`) around the hero button's 1px border on a slow spring
-  (`stiffness: 26`), short enough to read as a travelling glint rather than a racing dot. The beam is a
-  `div` rendered inside the `button`, which is how it inherits the radius and stays clipped by
-  `overflow-hidden` without a wrapper that would swallow the focus ring
-- **Reduced motion**: `prefers-reduced-motion` disables the floating hero shapes, the pulsing
-  accents, the hero count-up (which jumps straight to its final values), the contact form's shine
-  (gated behind `motion-safe:`, leaving a static ring), the "Download CV" beam (not rendered at all),
-  and the theme-toggle reveal (`duration` drops to 0, so the theme swaps instantly)
-
-## 📱 Responsive Design
-
-Mobile-first, using Tailwind's default breakpoints:
-
-- **sm**: 640px
-- **md**: 768px
-- **lg**: 1024px — the desktop nav appears here; below it the mobile drawer takes over
-- **xl**: 1280px
-
-Column counts follow from that: the projects grid is 1 → 2 (`md`) → 3 (`lg`), and the technology grid is
-2 → 3 (`sm`) → 4 (`md`) → 6 (`lg`) → 8 (`xl`). Two columns at the smallest width is deliberate — at three
-the cards are too narrow for the longest category label and the page picks up a horizontal scrollbar.
+Product context — who the site is for, what it claims, and which facts must not be changed — lives in
+**[`PRODUCT.md`](./PRODUCT.md)**.
 
 ## 🤖 Working on this repo with Claude Code
 
 `CLAUDE.md` holds the project guidance (architecture, conventions, the build → verify loop), and
 `.claude/` contains the specialized agents (`frontend`, `platform`, `verifier`) plus the shared rules.
-Both `CLAUDE.md` and this README are kept in sync with the code — see
-`.claude/rules/docs-maintenance.md`.
+
+Two hooks keep the generated design layer honest, and they cover different gaps. `.claude/settings.json`
+runs `scripts/design-sync.mjs` after Claude Code edits `globals.css` or `DESIGN.md` — that only fires for
+edits made through Claude Code's tools. `.githooks/pre-commit` runs `npm run design:check` and blocks a
+drifted commit whichever editor made the change.
+
+The four root documents each own their subject and link to each other rather than repeating it — this
+README the project and its stack, `CLAUDE.md` how to work in the repo, `DESIGN.md` the visual system,
+`PRODUCT.md` the product truth. `.claude/rules/docs-maintenance.md` holds that ownership table and is
+what keeps a fact from being written in two places.
 
 Component work goes through the **shadcn MCP server** (declared in `.mcp.json`) and the project-level
 `shadcn` skill in `.agents/skills/shadcn` (installed with `npx skills add shadcn/ui`, symlinked into

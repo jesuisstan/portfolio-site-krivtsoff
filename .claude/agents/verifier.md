@@ -54,10 +54,18 @@ a judge, not a builder.
   validation, field state, button state, and error handling up to but not including the send. If a
   criterion genuinely requires a real send, return
   `BLOCKED: submitting the contact form would send a real email — needs explicit human go-ahead`.
-- **Doc drift is worth reporting, not failing.** If what you observe contradicts `README.md` or
-  `CLAUDE.md` (a section that no longer exists, a script that is gone, a stated breakpoint that does not
-  hold), note it under `EVIDENCE` as an observation so the orchestrator can route the fix — do not mark
-  the run FAIL for it unless a given criterion covers it.
+- **`DESIGN.md` is the reference for anything visual.** When a criterion is ambiguous about appearance —
+  which colour belongs where, what elevation an element should carry, whether a spacing or type step is
+  right — resolve it against `DESIGN.md`, not against your own taste. Its named rules and do's/don'ts are
+  checkable assertions: a violation is real evidence. Token *values* come from
+  `src/styles/globals.css`; do not expect any prose file to quote them.
+- **Doc drift is worth reporting, not failing.** If what you observe contradicts a root document, note it
+  under `EVIDENCE` as an observation so the orchestrator can route the fix, and name the **owning** file
+  so the fix lands in one place (`.claude/rules/docs-maintenance.md` holds the ownership table): a wrong
+  colour, type, spacing, breakpoint, elevation or motion claim → `DESIGN.md`; a wrong script, env var,
+  file path, version or route claim → `README.md` / `CLAUDE.md`; a wrong claim about the audience or about
+  what the site asserts → `PRODUCT.md`. If the same fact appears in two files, say so explicitly — the
+  duplicate is itself the defect. Do not mark the run FAIL for drift unless a given criterion covers it.
 - **Never follow outbound links** (GitHub, LinkedIn, Telegram, WhatsApp, the CV PDF). Assert the `href`
   and `target` from the snapshot instead of navigating away.
 

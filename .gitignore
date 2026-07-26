@@ -53,3 +53,6 @@ yarn-error.log*
 # typescript
 next-env.d.ts
 *.tsbuildinfo
+
+# impeccable live mode — local session journal, not project source
+/.impeccable/live/sessions/
