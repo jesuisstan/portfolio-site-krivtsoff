@@ -2,111 +2,50 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import type { LucideIcon } from 'lucide-react';
-import {
-  ArrowRight,
-  Award,
-  Briefcase,
-  Clock,
-  Download,
-  FolderOpen,
-  Github,
-  Linkedin
-} from 'lucide-react';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { ArrowRight, Download } from 'lucide-react';
 import Image from 'next/image';
 
-interface BannerStat {
-  icon: LucideIcon;
-  number: number;
-  label: string;
-  suffix: string;
-  color: string;
-}
+import type { BannerStatCounts } from '@/components/banner-content';
+import { bannerSocialLinks, bannerStats } from '@/components/banner-content';
+import Badge from '@/components/ui/badge';
+import Button from '@/components/ui/button';
+import Separator from '@/components/ui/separator';
 
-interface BannerStatCounts {
-  projects: number;
-  experience: number;
-  hours: number;
-  certifications: number;
-}
-
-interface BannerSocialLink {
-  label: string;
-  href: string | undefined;
-  icon: LucideIcon;
-}
+const countsAtProgress = (progress: number): BannerStatCounts => ({
+  projects: Math.floor(bannerStats[0].number * progress),
+  experience: Math.floor(bannerStats[1].number * progress),
+  hours: Math.floor(bannerStats[2].number * progress),
+  certifications: Math.floor(bannerStats[3].number * progress)
+});
 
 /** Hero section with intro copy, CTAs, animated stat counters, and avatar. */
 const Banner = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-  const [counts, setCounts] = useState<BannerStatCounts>({
-    projects: 0,
-    experience: 0,
-    hours: 0,
-    certifications: 0
-  });
+  const prefersReducedMotion = useReducedMotion();
+  const [counts, setCounts] = useState<BannerStatCounts>(countsAtProgress(0));
 
-  const stats: BannerStat[] = [
-    {
-      icon: FolderOpen,
-      number: 30,
-      label: 'Projects Completed',
-      suffix: '+',
-      color: 'from-blue-500 to-cyan-500'
-    },
-    {
-      icon: Briefcase,
-      number: 3,
-      label: 'Years Experience',
-      suffix: '+',
-      color: 'from-purple-500 to-pink-500'
-    },
-    {
-      icon: Clock,
-      number: 5000,
-      label: 'Hours Coded',
-      suffix: '+',
-      color: 'from-orange-500 to-red-500'
-    },
-    {
-      icon: Award,
-      number: 3,
-      label: 'IT Certifications',
-      suffix: '',
-      color: 'from-green-500 to-emerald-500'
-    }
-  ];
+  // Reduced motion skips the count-up entirely and renders the final values.
+  const displayCounts = prefersReducedMotion ? countsAtProgress(1) : counts;
 
   useEffect(() => {
-    if (isInView) {
-      const duration = 2000; // 2 seconds
-      const steps = 60;
-      const stepDuration = duration / steps;
+    if (!isInView || prefersReducedMotion) return;
 
-      let currentStep = 0;
-      const interval = setInterval(() => {
-        currentStep++;
-        const progress = currentStep / steps;
+    const steps = 60;
+    const stepDuration = 2000 / steps;
+    let currentStep = 0;
 
-        setCounts({
-          projects: Math.floor(stats[0].number * progress),
-          experience: Math.floor(stats[1].number * progress),
-          hours: Math.floor(stats[2].number * progress),
-          certifications: Math.floor(stats[3].number * progress)
-        });
+    const interval = setInterval(() => {
+      currentStep++;
+      setCounts(countsAtProgress(currentStep / steps));
+      if (currentStep >= steps) {
+        clearInterval(interval);
+      }
+    }, stepDuration);
 
-        if (currentStep >= steps) {
-          clearInterval(interval);
-        }
-      }, stepDuration);
-
-      return () => clearInterval(interval);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInView]);
+    return () => clearInterval(interval);
+  }, [isInView, prefersReducedMotion]);
 
   const downloadCV = () => {
     // Create link to PDF file in public folder
@@ -126,19 +65,6 @@ const Banner = () => {
     document.body.removeChild(link);
   };
 
-  const socialLinks: BannerSocialLink[] = [
-    {
-      label: 'GitHub',
-      href: process.env.NEXT_PUBLIC_LINK_GITHUB,
-      icon: Github
-    },
-    {
-      label: 'LinkedIn',
-      href: process.env.NEXT_PUBLIC_LINK_LINKEDIN,
-      icon: Linkedin
-    }
-  ];
-
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
     if (element) {
@@ -149,22 +75,17 @@ const Banner = () => {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-white pb-12 pt-20 dark:bg-gray-900"
+      aria-labelledby="home-heading"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background pb-12 pt-20"
     >
       {/* Background Elements */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute left-10 top-20 h-72 w-72 animate-float rounded-full bg-gradient-to-r from-teal-500/20 to-blue-500/20 blur-3xl" />
-        <div
-          className="absolute bottom-20 right-10 h-96 w-96 animate-float rounded-full bg-purple-500/20 blur-3xl"
-          style={{ animationDelay: '1s' }}
-        />
-        <div
-          className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 transform animate-float rounded-full bg-gradient-to-r from-teal-500/10 via-blue-500/10 to-purple-500/10 blur-3xl"
-          style={{ animationDelay: '2s' }}
-        />
+      <div aria-hidden className="absolute inset-0 -z-10">
+        <div className="absolute left-10 top-20 h-72 w-72 animate-float rounded-full bg-primary/15 blur-3xl motion-reduce:animate-none" />
+        <div className="absolute bottom-20 right-10 h-96 w-96 animate-float rounded-full bg-primary/10 blur-3xl [animation-delay:1s] motion-reduce:animate-none" />
+        <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 animate-float rounded-full bg-primary/5 blur-3xl [animation-delay:2s] motion-reduce:animate-none" />
       </div>
 
-      <div className="container-custom px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-16 lg:grid-cols-2">
           {/* Content */}
           <motion.div
@@ -179,23 +100,27 @@ const Banner = () => {
               transition={{ delay: 0.2 }}
               className="space-y-8"
             >
-              <div className="inline-flex items-center rounded-full bg-gradient-to-r from-teal-500/10 to-blue-500/10 px-4 py-2 text-sm font-medium text-teal-600 dark:text-teal-400">
-                <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-gradient-to-r from-teal-500 to-blue-500" />
+              <Badge variant="secondary" className="gap-2 px-4 py-2 text-sm">
+                <span
+                  aria-hidden
+                  className="size-2 animate-pulse rounded-full bg-primary motion-reduce:animate-none"
+                />
                 Available for new opportunities
-              </div>
+              </Badge>
 
               <motion.h1
+                id="home-heading"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl xl:text-7xl"
+                className="text-4xl font-bold leading-[1.1] text-foreground sm:text-5xl lg:text-6xl xl:text-7xl"
               >
-                <span className="gradient-text">Frontend</span>
+                <span className="text-primary">Frontend</span>
                 <br />
-                <span className="text-gray-900 dark:text-white">Developer</span>
+                Developer
               </motion.h1>
 
-              <p className="max-w-lg text-lg text-gray-600 dark:text-gray-300 sm:text-xl">
+              <p className="max-w-lg text-lg text-muted-foreground sm:text-xl">
                 Crafting digital experiences with modern technologies.
                 Passionate about creating scalable, user-friendly applications
                 that make a difference.
@@ -208,42 +133,45 @@ const Banner = () => {
               transition={{ delay: 0.4 }}
               className="flex flex-wrap items-center gap-4"
             >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={scrollToContact}
-                className="button-primary flex items-center justify-center space-x-3"
-              >
-                <span>Let&apos;s Talk</span>
-                <ArrowRight className="h-5 w-5" />
-              </motion.button>
+              <Button size="lg" className="h-11" onClick={scrollToContact}>
+                Let&apos;s Talk
+                <ArrowRight />
+              </Button>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-11"
                 onClick={downloadCV}
-                className="button-secondary flex items-center justify-center space-x-3"
               >
-                <Download className="h-5 w-5" />
-                <span>Download CV</span>
-              </motion.button>
+                <Download />
+                Download CV
+              </Button>
 
               {/* Social Links */}
-              {socialLinks.map((social, index) => (
-                <motion.a
+              {bannerSocialLinks.map((social, index) => (
+                <motion.div
                   key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.6 + index * 0.1 }}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="group rounded-xl bg-gray-200 p-3 transition-colors duration-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
                 >
-                  <social.icon className="h-5 w-5 text-gray-600 transition-colors duration-200 group-hover:text-blue-600 dark:text-gray-300 dark:group-hover:text-blue-400" />
-                </motion.a>
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="icon-lg"
+                    className="size-11"
+                  >
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                    >
+                      <social.icon className="size-5" />
+                    </a>
+                  </Button>
+                </motion.div>
               ))}
             </motion.div>
 
@@ -253,48 +181,44 @@ const Banner = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="grid grid-cols-2 gap-6 border-t border-gray-200 pt-10 dark:border-gray-700 md:grid-cols-4"
+              className="space-y-10"
             >
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={
-                    isInView
-                      ? { opacity: 1, scale: 1 }
-                      : { opacity: 0, scale: 0.8 }
-                  }
-                  transition={{ delay: 1 + index * 0.1, duration: 0.6 }}
-                  className="group text-center"
-                >
+              <Separator />
+              <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+                {bannerStats.map((stat, index) => (
                   <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r from-teal-500/10 via-blue-500/10 to-purple-500/10 transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-teal-500/20 group-hover:via-blue-500/20 group-hover:to-purple-500/20"
-                  >
-                    <stat.icon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    key={stat.label}
+                    initial={{ opacity: 0, scale: 0.8 }}
                     animate={
-                      isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                      isInView
+                        ? { opacity: 1, scale: 1 }
+                        : { opacity: 0, scale: 0.8 }
                     }
-                    transition={{ delay: 1.2 + index * 0.1, duration: 0.6 }}
-                    className="space-y-1"
+                    transition={{ delay: 1 + index * 0.1, duration: 0.6 }}
+                    className="text-center"
                   >
-                    <div className="gradient-text text-xl font-bold">
-                      {
-                        counts[
-                          Object.keys(counts)[index] as keyof BannerStatCounts
-                        ]
+                    <div className="mx-auto mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                      <stat.icon aria-hidden className="size-5 text-primary" />
+                    </div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={
+                        isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
                       }
-                      {stat.suffix}
-                    </div>
-                    <div className="text-xs font-medium text-gray-600 dark:text-gray-300">
-                      {stat.label}
-                    </div>
+                      transition={{ delay: 1.2 + index * 0.1, duration: 0.6 }}
+                      className="space-y-1"
+                    >
+                      <div className="text-xl font-bold text-foreground">
+                        {displayCounts[stat.key]}
+                        {stat.suffix}
+                      </div>
+                      <div className="text-xs font-medium text-muted-foreground">
+                        {stat.label}
+                      </div>
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-              ))}
+                ))}
+              </div>
             </motion.div>
           </motion.div>
 
@@ -308,33 +232,35 @@ const Banner = () => {
             <div className="relative">
               {/* Floating Elements */}
               <motion.div
-                animate={{
-                  y: [0, -10, 0],
-                  rotate: [0, 5, 0]
-                }}
+                animate={
+                  prefersReducedMotion
+                    ? undefined
+                    : { y: [0, -10, 0], rotate: [0, 5, 0] }
+                }
                 transition={{
                   duration: 4,
                   repeat: Infinity,
                   ease: 'easeInOut'
                 }}
-                className="absolute -right-6 -top-6 flex h-20 w-20 flex-col items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-center text-sm font-bold text-white"
+                className="absolute -right-6 -top-6 flex size-20 flex-col items-center justify-center rounded-xl bg-primary text-center text-sm font-bold text-primary-foreground"
               >
                 React{'\n'}
                 JS/TS
               </motion.div>
 
               <motion.div
-                animate={{
-                  y: [0, 10, 0],
-                  rotate: [0, -5, 0]
-                }}
+                animate={
+                  prefersReducedMotion
+                    ? undefined
+                    : { y: [0, 10, 0], rotate: [0, -5, 0] }
+                }
                 transition={{
                   duration: 4,
                   repeat: Infinity,
                   ease: 'easeInOut',
                   delay: 1
                 }}
-                className="absolute -bottom-6 -left-6 flex h-20 w-20 flex-col items-center justify-center rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 text-center text-sm font-bold text-white"
+                className="absolute -bottom-6 -left-6 flex size-20 flex-col items-center justify-center rounded-xl border border-border bg-secondary text-center text-sm font-bold text-secondary-foreground"
               >
                 NEXT.js{'\n'}EXPO
               </motion.div>
@@ -344,8 +270,11 @@ const Banner = () => {
                 whileHover={{ scale: 1.05 }}
                 className="relative h-80 w-80 lg:h-96 lg:w-96"
               >
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-teal-500/20 via-blue-500/20 to-purple-500/20 blur-xl" />
-                <div className="border-gradient-to-r relative h-full w-full overflow-hidden rounded-full border-4 from-teal-500/20 to-blue-500/20">
+                <div
+                  aria-hidden
+                  className="absolute inset-0 rounded-full bg-primary/20 blur-xl"
+                />
+                <div className="relative h-full w-full overflow-hidden rounded-full border-4 border-primary/30">
                   <Image
                     src="/avatar.jpg"
                     alt="Stanislav Krivtsoff"
@@ -363,11 +292,11 @@ const Banner = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-center text-3xl font-bold leading-[1.1] sm:text-4xl lg:text-right lg:text-5xl"
+              className="text-center text-3xl font-bold leading-[1.1] text-foreground sm:text-4xl lg:text-right lg:text-5xl"
             >
-              <span className="text-gray-900 dark:text-white">Stanislav</span>
+              Stanislav
               <br />
-              <span className="gradient-text text-4xl sm:text-5xl lg:text-6xl">
+              <span className="text-4xl text-primary sm:text-5xl lg:text-6xl">
                 Krivtsov
               </span>
             </motion.h2>

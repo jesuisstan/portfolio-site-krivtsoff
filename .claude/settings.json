@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "PowerShell(npm run *)",
+      "Bash(npm install *)",
+      "PowerShell(npm install *)",
+      "Bash(npm ci)",
+      "Bash(npx -y @anthropic-ai/skill-creator-mcp)",
+      "Bash(npx -y @anthropic-ai/typescript-lsp-mcp)",
+      "Bash(npx -y @anthropic-ai/claude-code-setup-mcp)",
+      "Bash(claude mcp *)",
+      "mcp__chrome-devtools"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm run lint:fix"
+          }
+        ]
+      }
+    ]
+  }
+}

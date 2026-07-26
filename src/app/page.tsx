@@ -1,5 +1,3 @@
-'use client';
-
 import Banner from '@/components/Banner';
 import Contact from '@/components/Contact';
 import Experience from '@/components/Experience';
@@ -11,7 +9,7 @@ import SkillsAndTech from '@/components/SkillsAndTech';
 /** Renders the single-page portfolio with every section in order. */
 const Home = () => {
   return (
-    <main className="min-h-screen bg-white dark:bg-gray-900">
+    <main className="min-h-screen bg-background">
       <NavBar />
       <Banner />
       <SkillsAndTech />

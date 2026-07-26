@@ -6,6 +6,9 @@ import type { Variants } from 'framer-motion';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 
+import Badge from '@/components/ui/badge';
+import Card from '@/components/ui/card';
+import ToggleGroup, { ToggleGroupItem } from '@/components/ui/toggle-group';
 import type { TechnologyFilter } from '@/constants/technologies';
 import { categories, technologies } from '@/constants/technologies';
 
@@ -44,9 +47,10 @@ const SkillsAndTech = () => {
   return (
     <section
       id="skills"
-      className="bg-gradient-to-b from-gray-50 to-gray-50 py-12 dark:from-gray-800 dark:to-gray-800"
+      aria-labelledby="skills-heading"
+      className="bg-muted/30 py-12"
     >
-      <div className="container-custom px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Tech Stack Section */}
         <motion.div
           ref={ref}
@@ -56,14 +60,15 @@ const SkillsAndTech = () => {
           className="mb-12 text-center"
         >
           <motion.h2
+            id="skills-heading"
             variants={itemVariants}
-            className="mb-8 text-4xl font-bold lg:text-5xl"
+            className="mb-8 text-4xl font-bold text-foreground lg:text-5xl"
           >
-            <span className="gradient-text">Skills</span> & Technologies
+            <span className="text-primary">Skills</span> & Technologies
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="mx-auto mb-12 max-w-3xl text-xl text-gray-600 dark:text-gray-300"
+            className="mx-auto mb-12 max-w-3xl text-xl text-muted-foreground"
           >
             I specialize in modern web and mobile technologies, creating
             responsive and scalable applications with a comprehensive tech
@@ -76,23 +81,29 @@ const SkillsAndTech = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="mb-8 flex flex-wrap justify-center gap-4"
+          className="mb-8 flex justify-center"
         >
-          {categories.map((category) => (
-            <motion.button
-              key={category}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveCategory(category)}
-              className={`rounded-full px-4 py-1 font-medium transition-all duration-200 ${
-                activeCategory === category
-                  ? 'bg-teal-600 text-white'
-                  : 'bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'
-              }`}
-            >
-              {category}
-            </motion.button>
-          ))}
+          <ToggleGroup
+            type="single"
+            variant="outline"
+            spacing={2}
+            value={activeCategory}
+            onValueChange={(value) => {
+              if (value) setActiveCategory(value as TechnologyFilter);
+            }}
+            aria-label="Filter technologies by category"
+            className="w-full flex-wrap justify-center gap-2"
+          >
+            {categories.map((category) => (
+              <ToggleGroupItem
+                key={category}
+                value={category}
+                className="h-9 rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+              >
+                {category}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
         </motion.div>
 
         {/* Technologies Grid */}
@@ -100,7 +111,7 @@ const SkillsAndTech = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ delay: 0.4, duration: 0.6 }}
-          className="grid grid-cols-3 gap-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8"
+          className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8"
         >
           {filteredTechnologies.map((tech, index) => (
             <motion.div
@@ -111,10 +122,10 @@ const SkillsAndTech = () => {
               }
               transition={{ delay: 0.6 + index * 0.05, duration: 0.6 }}
               whileHover={{ scale: 1.05 }}
-              className="group relative"
+              className="relative"
             >
-              <div className="glass-effect card-hover rounded-xl p-4 text-center">
-                <div className="relative mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-gray-200/40 p-2">
+              <Card className="h-full gap-2 p-4 text-center transition-colors hover:border-primary/40">
+                <div className="relative mx-auto size-12 rounded-lg bg-muted p-2">
                   <Image
                     src={tech.icon}
                     alt={tech.name}
@@ -123,13 +134,13 @@ const SkillsAndTech = () => {
                     className="object-contain p-1.5"
                   />
                 </div>
-                <h3 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-sm font-semibold text-card-foreground">
                   {tech.name}
                 </h3>
-                <span className="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                <Badge variant="secondary" className="mx-auto">
                   {tech.category}
-                </span>
-              </div>
+                </Badge>
+              </Card>
             </motion.div>
           ))}
         </motion.div>

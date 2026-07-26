@@ -2,21 +2,38 @@
 
 import { startTransition, useEffect, useLayoutEffect, useState } from 'react';
 
-import { AnimatePresence, motion } from 'framer-motion';
-import { Download, Menu, Moon, Sun, X } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Download, Menu, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
+
+import Button from '@/components/ui/button';
+import Sheet, {
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
 
 interface NavItem {
   name: string;
   href: string;
 }
 
-/** Fixed top navigation with section links, theme toggle, and mobile menu. */
+const navItems: NavItem[] = [
+  { name: 'Home', href: '#home' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Experience', href: '#experience' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Contact', href: '#contact' }
+];
+
+/** Fixed top navigation with section links, theme toggle, and mobile drawer. */
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
 
   // Set mounted after component mounts to prevent hydration mismatch
   // useLayoutEffect runs synchronously before browser paint
@@ -34,27 +51,6 @@ const NavBar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Prevent page scrolling when mobile menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
-
-  const navItems: NavItem[] = [
-    { name: 'Home', href: '#home' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' }
-  ];
 
   const scrollToSection = (href: string) => {
     // First close mobile menu
@@ -115,135 +111,120 @@ const NavBar = () => {
     document.body.removeChild(link);
   };
 
+  const isDark = mounted && resolvedTheme === 'dark';
+
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+      aria-label="Main"
+      className={cn(
+        'fixed left-0 right-0 top-0 z-50 transition-colors duration-300',
         scrolled
-          ? 'border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-700 dark:bg-gray-900/80'
+          ? 'border-b border-border bg-background/80 backdrop-blur-md'
           : 'bg-transparent'
-      }`}
+      )}
     >
-      <div className="container-custom px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="flex items-center space-x-2"
-          >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600">
-              <span className="text-sm font-bold text-white">K</span>
+          <div className="flex min-w-0 items-center gap-2">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary">
+              <span className="text-sm font-bold text-primary-foreground">
+                K
+              </span>
             </div>
-            <span className="gradient-text text-xl font-bold">
+            <span className="truncate text-xl font-bold text-foreground">
               krivtsoff.develop()
             </span>
-          </motion.div>
+          </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden items-center space-x-8 lg:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             {navItems.map((item, index) => (
-              <motion.button
+              <motion.div
                 key={item.name}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => scrollToSection(item.href)}
-                className="font-medium text-gray-600 transition-colors duration-200 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
               >
-                {item.name}
-              </motion.button>
+                <Button
+                  variant="ghost"
+                  className="text-muted-foreground hover:text-foreground"
+                  onClick={() => scrollToSection(item.href)}
+                >
+                  {item.name}
+                </Button>
+              </motion.div>
             ))}
           </div>
 
           {/* Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex shrink-0 items-center gap-2">
             {/* Theme Toggle */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="rounded-lg bg-gray-200 p-2 transition-colors duration-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-11"
+              aria-label={
+                isDark ? 'Switch to light theme' : 'Switch to dark theme'
+              }
+              onClick={() => setTheme(isDark ? 'light' : 'dark')}
             >
-              {!mounted ? (
-                <Moon className="h-5 w-5" />
-              ) : resolvedTheme === 'dark' ? (
-                <Sun className="h-5 w-5" />
+              {isDark ? (
+                <Sun className="size-5" />
               ) : (
-                <Moon className="h-5 w-5" />
+                <Moon className="size-5" />
               )}
-            </motion.button>
+            </Button>
 
             {/* Download CV */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={downloadCV}
-              className="button-primary hidden items-center space-x-2 sm:flex"
-            >
-              <Download className="h-4 w-4" />
-              <span>Download CV</span>
-            </motion.button>
+            <Button className="hidden sm:flex" onClick={downloadCV}>
+              <Download />
+              Download CV
+            </Button>
 
-            {/* Mobile Menu Button */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setIsOpen(!isOpen)}
-              className="rounded-lg bg-gray-200 p-2 transition-colors duration-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 lg:hidden"
-            >
-              {isOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </motion.button>
+            {/* Mobile Menu */}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="size-11 lg:hidden"
+                  aria-label="Open navigation menu"
+                >
+                  <Menu className="size-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="w-72"
+                aria-describedby={undefined}
+              >
+                <SheetHeader>
+                  <SheetTitle>krivtsoff.develop()</SheetTitle>
+                </SheetHeader>
+                <nav aria-label="Sections" className="flex flex-col gap-1 px-4">
+                  {navItems.map((item) => (
+                    <Button
+                      key={item.name}
+                      variant="ghost"
+                      className="h-11 justify-start text-base text-muted-foreground hover:text-foreground"
+                      onClick={() => scrollToSection(item.href)}
+                    >
+                      {item.name}
+                    </Button>
+                  ))}
+                  <Button className="mt-4 h-11" onClick={downloadCV}>
+                    <Download />
+                    Download CV
+                  </Button>
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="border-t border-gray-200 bg-white/95 backdrop-blur-md dark:border-gray-700 dark:bg-gray-900/95 lg:hidden"
-          >
-            <div className="container-custom space-y-4 py-4">
-              {navItems.map((item, index) => (
-                <motion.button
-                  key={item.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    scrollToSection(item.href);
-                  }}
-                  className="block w-full rounded-lg px-4 py-2 text-left font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
-                >
-                  {item.name}
-                </motion.button>
-              ))}
-              <motion.button
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navItems.length * 0.1 }}
-                onClick={downloadCV}
-                className="button-primary flex w-full items-center justify-center space-x-2"
-              >
-                <Download className="h-4 w-4" />
-                <span>Download CV</span>
-              </motion.button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.nav>
   );
 };

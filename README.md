@@ -7,7 +7,7 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
 
 - **Single-page layout**: hero, skills & tech, experience, projects, contact — with a sticky nav that scrolls to each section
 - **Dark/Light Theme**: `next-themes` with class strategy and system preference detection (dark by default)
-- **Responsive**: mobile-first layout with an off-canvas drawer below the `lg` breakpoint
+- **Responsive**: mobile-first layout with a Radix-backed off-canvas drawer below the `lg` breakpoint
 - **Animations**: scroll reveals, staggered lists and animated stat counters via Framer Motion
 - **Contact form**: sends mail straight from the browser through EmailJS
 - **SEO**: full metadata, OpenGraph and Twitter cards, web manifest, Vercel Analytics
@@ -19,19 +19,25 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
 - **Next.js 16** - React framework with App Router (Turbopack)
 - **React 19** - Latest React with concurrent features
 - **TypeScript** - strict mode, no `any`
-- **Tailwind CSS 3** - Utility-first CSS framework
+- **Tailwind CSS 4** - Utility-first CSS framework, CSS-first configuration (no `tailwind.config.ts`)
 - **Framer Motion** - Animation library
 - **Lucide React** - Icon set
 
 ### Styling & UI
 
-- **Tailwind + Radix UI** - the only styling stack; Radix primitives are installed and ready to use
-- **next-themes** - class-based dark/light theming
-- **Custom CSS classes** - a legacy layer in `src/styles/globals.css` (gradient text, glass effect, card hover) currently being replaced by a token-based design system
+- **shadcn/ui** - every section is built on registry primitives (`components.json`: style `new-york`,
+  base color `neutral`, CSS variables, `lucide` icons). Installed in `src/components/ui/`: `button`,
+  `card`, `badge`, `input`, `textarea`, `label`, `sheet`, `tooltip`, `toggle`, `toggle-group`,
+  `separator`. Add more with `npx shadcn@latest add @shadcn/<name>`
+- **radix-ui** - the unified Radix package the current registry components import from
+- **class-variance-authority** + **tailwind-merge**/**clsx** - variant recipes and the `cn()` helper
+- **Design tokens** - OKLCH CSS variables in `src/styles/globals.css`, exposed to Tailwind through `@theme inline`
+- **tw-animate-css** - the animation utilities shadcn components rely on
+- **next-themes** - class-based dark/light theming, wired to the `.dark` custom variant
 
 ### Development Tools
 
-- **PostCSS** + **Autoprefixer** - CSS processing
+- **PostCSS** + **@tailwindcss/postcss** - CSS processing (Tailwind v4 handles vendor prefixing itself, so there is no Autoprefixer)
 - **ESLint** (flat config) - linting; also the authoritative code-style config via `eslint-plugin-prettier`
 - **Prettier** - formatting, driven through ESLint
 
@@ -64,8 +70,6 @@ Create a `.env.local` file in the root directory with the following variables. A
 
 ```bash
 # Contact Information
-NEXT_PUBLIC_CONTACT_EMAIL=
-NEXT_PUBLIC_CONTACT_PHONE=
 NEXT_PUBLIC_CONTACT_LOCATION=
 
 # Social Media Links
@@ -88,6 +92,10 @@ NEXT_PUBLIC_EMAILJS_USER_ID=...
 
 Update these values with your actual contact information and social media links.
 
+> `NEXT_PUBLIC_CONTACT_EMAIL` and `NEXT_PUBLIC_CONTACT_PHONE` used to be documented here but no code
+> reads them any more — the contact section shows the location plus the messenger links. They are listed
+> as unused rather than required; wire them back into `Contact.tsx` or delete them from `.env.local`.
+
 4. Run the development server:
 
 ```bash
@@ -104,14 +112,19 @@ npm run build        # production build (type-checks the project)
 npm start            # serve the production build
 
 npm run lint         # ESLint — the authoritative style check
-npm run lint:fix     # ESLint with --fix
-npx tsc --noEmit     # type-check without building
+npm run lint:fix     # ESLint with --fix (also runs automatically after every edit by Claude Code)
+npm run typecheck    # tsc --noEmit
 
 npm run fresh        # wipe .next / .swc / node_modules / package-lock.json and reinstall
 ```
 
-> `npm run format` runs bare Prettier, which does **not** read the project's style options (they live
-> in `eslint.config.mjs`). Use `npm run lint:fix` instead.
+> There is no `format` script and no `.prettierrc`: the Prettier options live inside `eslint.config.mjs`
+> as a `prettier/prettier` rule, so bare Prettier would format against its own defaults and fight
+> ESLint. `npm run lint:fix` is the only formatter.
+
+> Do not run `npm run build` while `npm run dev` is live on the same checkout — both write to `.next`
+> and the production artifacts clobber the dev manifests, after which the dev server answers every
+> request with `Internal Server Error` until restarted. Use `npm run typecheck` while it is up.
 
 ## 📁 Project Structure
 
@@ -121,12 +134,15 @@ src/
 │   ├── layout.tsx          # Root layout: font, theme provider, metadata, analytics
 │   └── page.tsx            # Home page — renders every section in order
 ├── components/             # React components
+│   ├── ui/                 # shadcn/ui primitives (button, card, badge, input, textarea,
+│   │                       #   label, sheet, tooltip, toggle, toggle-group, separator)
 │   ├── Banner.tsx          # Hero section + animated stat counters
+│   ├── banner-content.ts   # Hero stat + social link data
 │   ├── SkillsAndTech.tsx   # Skills groups + technology logo grid with category filter
 │   ├── Experience.tsx      # Work experience timeline
 │   ├── Projects.tsx        # Projects showcase with category filter
 │   ├── Contact.tsx         # Contact form (EmailJS) + contact details
-│   ├── NavBar.tsx          # Sticky navigation, mobile drawer, theme toggle
+│   ├── NavBar.tsx          # Sticky navigation, mobile drawer (sheet), theme toggle
 │   ├── Footer.tsx          # Site footer
 │   └── ThemeProvider.tsx   # next-themes wrapper
 ├── constants/              # Page content data + its TypeScript types
@@ -136,36 +152,61 @@ src/
 ├── lib/
 │   └── utils.ts            # `cn()` class-merge helper
 └── styles/
-    ├── globals.css         # Tailwind directives + legacy custom classes
-    └── portfolioColors.ts  # Legacy hex constants (being replaced by design tokens)
+    └── globals.css         # Tailwind v4 entry, design tokens, base layer, scrollbar
 ```
 
-Static assets live in `public/`: favicons, the web manifest, the avatar, the CV PDF, project
-screenshots (`public/projects/`) and technology logos (`public/powered-by/`).
+Root-level configuration: `components.json` (shadcn/ui), `postcss.config.js`, `next.config.ts`,
+`tsconfig.json`, `eslint.config.mjs`. Tailwind has no config file — its theme lives in
+`src/styles/globals.css`.
+
+Static assets live in `public/`: favicons, the web manifest, the avatar, the CV PDF, the Telegram and
+WhatsApp QR codes, project screenshots (`public/projects/`) and technology logos (`public/powered-by/`).
 
 ## 🎨 Design System
 
-The current palette is a legacy layer scheduled for replacement by named design tokens:
+The palette is the shadcn/ui token set (neutral base) written as OKLCH CSS variables in
+`src/styles/globals.css`, with a `:root` and a `.dark` block and an `@theme inline` mapping that turns
+each one into a Tailwind color utility:
 
-- **Brand**: teal `#00babc` (`colors.portfolio.green` in `tailwind.config.ts`), with darker variants
-- **Neutrals**: Tailwind's gray scale, `whitesmoke` / `#151515` for surfaces
-- **Danger**: `rgb(206, 58, 73)`
-- **Decorative gradients**: teal → indigo → violet, used by `.gradient-text` and the primary button
+- **Brand**: teal `#00babc` = `oklch(0.715 0.122 196.14)`, used for `--primary`, `--ring`, `--chart-1`
+  and the sidebar accents; `--primary-foreground` is near-black for a 8.25:1 contrast ratio on it
+- **Neutrals**: the shadcn neutral scale — `--background`, `--foreground`, `--card`, `--popover`,
+  `--secondary`, `--muted`, `--border`, `--input`
+- **Accent**: `--accent` is a teal-tinted neutral wash; `--accent-foreground` is the high-contrast
+  teal used for links and small accent text in both themes
+- **Danger**: `--destructive` with `--destructive-foreground`
+- **Overlay**: `--overlay`, the theme-constant scrim behind the mobile sheet (declared in `:root` only)
+- **Radius**: `--radius` (0.625rem) plus the derived `--radius-sm|md|lg|xl`
 
-New colors must be added as named tokens (a CSS variable in `globals.css` plus an entry in
-`tailwind.config.ts`) — not as one-off hex values.
+There is no legacy CSS layer any more: the hand-written `.gradient-text`, `.glass-effect`,
+`.button-primary`, `.button-secondary`, `.container-custom` and `.card-hover` classes were deleted when
+the sections moved onto shadcn primitives. `globals.css` now holds only the Tailwind entry, the token
+blocks, the `float` keyframes, the base layer, smooth scrolling (which the nav links rely on), the
+scrollbar rules, and one `@source not` exclusion —
+Tailwind 4 detects classes automatically, and without it the utility names quoted in the `.agents/`
+skill documentation would be compiled into the production CSS.
+
+Use the utilities (`bg-primary`, `text-muted-foreground`, `border-border`, …). A new color is a new
+token: add the variable to both `:root` and `.dark` (or to `:root` only when it is identical in both
+themes), then map it in `@theme inline` — never a one-off hex value or an arbitrary Tailwind color.
+
+`text-primary` is the brand teal at full chroma: it only clears contrast requirements on dark
+backgrounds, so it is reserved for display-size headings, icons, and decorative fills. Reading text
+uses `text-foreground` / `text-muted-foreground`, and teal-toned links use `text-accent-foreground`.
 
 ### Typography
 
 - **Font**: Montserrat, loaded through `next/font/google`
-- **Headings**: bold weights, some with gradient text
-- **Body**: regular weight
+- **Headings**: bold weights in `text-foreground`, with a single accent word in `text-primary`
+- **Body**: regular weight in `text-foreground` / `text-muted-foreground`
 
 ### Animations
 
 - **Scroll reveals**: staggered fade/translate via Framer Motion `useInView`
 - **Hero counters**: count-up animation on first view
-- **Hover effects**: card lift, scale and color transitions
+- **Hover effects**: restrained border, background and scale transitions from the primitives
+- **Reduced motion**: `prefers-reduced-motion` disables the floating hero shapes, the pulsing
+  accents, and the hero count-up (which jumps straight to its final values)
 
 ## 📱 Responsive Design
 
@@ -176,12 +217,21 @@ Mobile-first, using Tailwind's default breakpoints:
 - **lg**: 1024px — the desktop nav appears here; below it the mobile drawer takes over
 - **xl**: 1280px
 
+Column counts follow from that: the projects grid is 1 → 2 (`md`) → 3 (`lg`), and the technology grid is
+2 → 3 (`sm`) → 4 (`md`) → 6 (`lg`) → 8 (`xl`). Two columns at the smallest width is deliberate — at three
+the cards are too narrow for the longest category label and the page picks up a horizontal scrollbar.
+
 ## 🤖 Working on this repo with Claude Code
 
 `CLAUDE.md` holds the project guidance (architecture, conventions, the build → verify loop), and
 `.claude/` contains the specialized agents (`frontend`, `platform`, `verifier`) plus the shared rules.
 Both `CLAUDE.md` and this README are kept in sync with the code — see
 `.claude/rules/docs-maintenance.md`.
+
+Component work goes through the **shadcn MCP server** (declared in `.mcp.json`) and the project-level
+`shadcn` skill in `.agents/skills/shadcn` (installed with `npx skills add shadcn/ui`, symlinked into
+`.claude/skills/`, tracked in `skills-lock.json`) — primitives are searched, inspected and installed from
+the registry rather than hand-written.
 
 ## 📞 Contact
 

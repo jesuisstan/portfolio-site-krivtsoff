@@ -3,9 +3,7 @@
 import { useRef } from 'react';
 
 import type { Variants } from 'framer-motion';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import type { LucideIcon } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
 import {
   Award,
   Calendar,
@@ -15,25 +13,15 @@ import {
   User
 } from 'lucide-react';
 
+import Badge from '@/components/ui/badge';
+import Card from '@/components/ui/card';
+import Separator from '@/components/ui/separator';
 import { experiences } from '@/constants/experiences';
 
 /** Timeline of professional experience, education, and certifications. */
 const Experience = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-
-  const getTypeIcon = (type: string): LucideIcon => {
-    switch (type) {
-      case 'Freelance':
-        return Award;
-      case 'Education':
-        return GraduationCap;
-      case 'Management':
-        return User;
-      default:
-        return User;
-    }
-  };
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -59,9 +47,10 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="bg-gradient-to-b from-white to-gray-50 py-12 dark:from-gray-900 dark:to-gray-800"
+      aria-labelledby="experience-heading"
+      className="bg-background py-12"
     >
-      <div className="container-custom px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
           initial="hidden"
@@ -70,14 +59,15 @@ const Experience = () => {
           className="mb-8 text-center"
         >
           <motion.h2
+            id="experience-heading"
             variants={itemVariants}
-            className="mb-6 text-4xl font-bold lg:text-5xl"
+            className="mb-6 text-4xl font-bold text-foreground lg:text-5xl"
           >
-            <span className="gradient-text">Experience</span> & Education
+            <span className="text-primary">Experience</span> & Education
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="mx-auto max-w-3xl text-xl text-gray-600 dark:text-gray-300"
+            className="mx-auto max-w-3xl text-xl text-muted-foreground"
           >
             My journey from management education to frontend development
           </motion.p>
@@ -90,7 +80,10 @@ const Experience = () => {
           className="relative"
         >
           {/* Timeline Line */}
-          <div className="absolute left-8 h-full w-0.5 transform bg-gray-200 dark:bg-gray-700 md:left-1/2 md:-translate-x-1/2" />
+          <Separator
+            orientation="vertical"
+            className="absolute left-8 md:left-1/2 md:-translate-x-1/2"
+          />
 
           {experiences.map((experience, index) => (
             <motion.div
@@ -101,149 +94,148 @@ const Experience = () => {
               }`}
             >
               {/* Timeline Dot */}
-              <div className="absolute left-8 z-10 h-4 w-4 transform rounded-full border-4 border-white bg-gradient-to-r from-teal-600 to-blue-600 dark:border-gray-900 md:left-1/2 md:-translate-x-1/2" />
+              <div className="absolute left-8 z-10 size-4 rounded-full border-4 border-background bg-primary md:left-1/2 md:-translate-x-1/2" />
 
               {/* Content Card */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="rounded-xl border border-gray-200 bg-white p-4 transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 md:w-6/12 lg:w-6/12"
+                className="md:w-6/12 lg:w-6/12"
               >
-                {/* Type Badge */}
-                <div className="mb-2 inline-flex items-center rounded-full bg-gradient-to-r from-teal-500/10 to-blue-500/10 px-3 py-1 text-xs font-medium text-blue-600 dark:text-blue-400">
-                  {experience.type === 'Freelance' && (
-                    <Award className="mr-1 h-3 w-3" />
-                  )}
-                  {experience.type === 'Education' && (
-                    <GraduationCap className="mr-1 h-3 w-3" />
-                  )}
-                  {experience.type === 'Management' && (
-                    <User className="mr-1 h-3 w-3" />
-                  )}
-                  {experience.type}
-                </div>
+                <Card className="gap-2 p-4 transition-colors hover:border-primary/50">
+                  {/* Type Badge */}
+                  <Badge variant="secondary" className="mb-2 w-fit">
+                    {experience.type === 'Freelance' && <Award />}
+                    {experience.type === 'Education' && <GraduationCap />}
+                    {experience.type === 'Management' && <User />}
+                    {experience.type}
+                  </Badge>
 
-                <h3 className="mb-1 text-xl font-bold">{experience.title}</h3>
-                <h4 className="mb-1 text-lg font-semibold text-blue-600 dark:text-blue-400">
-                  {experience.companyUrl ? (
-                    <a
-                      href={experience.companyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 underline decoration-dotted underline-offset-4 transition-colors duration-200 hover:text-blue-800 dark:hover:text-blue-300"
-                    >
-                      {experience.company}
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
-                  ) : (
-                    experience.company
-                  )}
-                </h4>
+                  <h3 className="text-xl font-bold text-card-foreground">
+                    {experience.title}
+                  </h3>
+                  <h4 className="text-lg font-semibold text-accent-foreground">
+                    {experience.companyUrl ? (
+                      <a
+                        href={experience.companyUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-sm underline decoration-dotted underline-offset-4 transition-opacity hover:opacity-80 focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                      >
+                        {experience.company}
+                        <ExternalLink className="size-4" />
+                      </a>
+                    ) : (
+                      experience.company
+                    )}
+                  </h4>
 
-                <div className="mb-2 flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300">
-                  <div className="flex items-center">
-                    <Calendar className="mr-1 h-4 w-4" />
-                    {experience.period}
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center">
+                      <Calendar className="mr-1 size-4" />
+                      {experience.period}
+                    </div>
+                    <div className="flex items-center">
+                      <MapPin className="mr-1 size-4" />
+                      {experience.location}
+                    </div>
                   </div>
-                  <div className="flex items-center">
-                    <MapPin className="mr-1 h-4 w-4" />
-                    {experience.location}
-                  </div>
-                </div>
 
-                <p className="mb-2 leading-relaxed text-gray-600 dark:text-gray-300">
-                  {experience.description}
-                </p>
+                  <p className="leading-relaxed text-muted-foreground">
+                    {experience.description}
+                  </p>
 
-                {experience.responsibilities && (
-                  <ul className="mb-3 ml-4 list-disc space-y-1 text-sm text-gray-600 dark:text-gray-300">
-                    {experience.responsibilities.map((responsibility, idx) => (
-                      <li key={idx}>{responsibility}</li>
-                    ))}
-                  </ul>
-                )}
-
-                {/* Certificates List */}
-                {experience.certificates && (
-                  <div className="mb-3">
-                    <p className="mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
-                      {experience.id === 2
-                        ? 'State-recognized certifications (RNCP):'
-                        : 'Academic degrees:'}
-                    </p>
-                    <ul className="ml-4 list-disc space-y-1 text-sm text-gray-600 dark:text-gray-300">
-                      {experience.certificates.map((cert, idx) => (
-                        <li key={idx}>
-                          {cert.url ? (
-                            <a
-                              href={cert.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="font-medium text-blue-600 underline decoration-dotted underline-offset-2 transition-colors duration-200 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                            >
-                              {cert.title}
-                            </a>
-                          ) : (
-                            <span className="font-medium">{cert.title}</span>
-                          )}
-                          {' - '}
-                          <span className="text-blue-600 dark:text-blue-400">
-                            {cert.level}
-                          </span>{' '}
-                          <span className="text-gray-500 dark:text-gray-400">
-                            ({cert.date})
-                          </span>
-                        </li>
-                      ))}
+                  {experience.responsibilities && (
+                    <ul className="ml-4 list-disc space-y-1 text-sm text-muted-foreground">
+                      {experience.responsibilities.map(
+                        (responsibility, idx) => (
+                          <li key={idx}>{responsibility}</li>
+                        )
+                      )}
                     </ul>
-                  </div>
-                )}
+                  )}
 
-                {/* Positions List */}
-                {experience.positions && (
-                  <div className="mb-3">
-                    <p className="mb-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
-                      Positions:
-                    </p>
-                    <ul className="ml-4 list-disc space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                      {experience.positions.map((position, idx) => (
-                        <li key={idx}>
-                          <span className="font-medium">{position.title}</span>
-                          {' at '}
-                          {position.companyUrl ? (
-                            <a
-                              href={position.companyUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="font-medium text-blue-600 underline decoration-dotted underline-offset-2 transition-colors duration-200 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                            >
-                              {position.company}
-                            </a>
-                          ) : (
+                  {/* Certificates List */}
+                  {experience.certificates && (
+                    <div>
+                      <p className="mb-2 text-sm font-semibold text-card-foreground">
+                        {experience.id === 2
+                          ? 'State-recognized certifications (RNCP):'
+                          : 'Academic degrees:'}
+                      </p>
+                      <ul className="ml-4 list-disc space-y-1 text-sm text-muted-foreground">
+                        {experience.certificates.map((cert, idx) => (
+                          <li key={idx}>
+                            {cert.url ? (
+                              <a
+                                href={cert.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="rounded-sm font-medium text-accent-foreground underline decoration-dotted underline-offset-2 transition-opacity hover:opacity-80 focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                              >
+                                {cert.title}
+                              </a>
+                            ) : (
+                              <span className="font-medium">{cert.title}</span>
+                            )}
+                            {' - '}
+                            <span className="text-accent-foreground">
+                              {cert.level}
+                            </span>{' '}
+                            <span>({cert.date})</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Positions List */}
+                  {experience.positions && (
+                    <div>
+                      <p className="mb-2 text-sm font-semibold text-card-foreground">
+                        Positions:
+                      </p>
+                      <ul className="ml-4 list-disc space-y-2 text-sm text-muted-foreground">
+                        {experience.positions.map((position, idx) => (
+                          <li key={idx}>
                             <span className="font-medium">
-                              {position.company}
+                              {position.title}
                             </span>
-                          )}
-                          {': '}
-                          <span className="text-gray-600 dark:text-gray-400">
-                            {position.description}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                            {' at '}
+                            {position.companyUrl ? (
+                              <a
+                                href={position.companyUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="rounded-sm font-medium text-accent-foreground underline decoration-dotted underline-offset-2 transition-opacity hover:opacity-80 focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                              >
+                                {position.company}
+                              </a>
+                            ) : (
+                              <span className="font-medium">
+                                {position.company}
+                              </span>
+                            )}
+                            {': '}
+                            <span>{position.description}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2">
-                  {experience.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-md bg-gray-200 px-2 py-1 text-xs text-gray-900 dark:bg-gray-700 dark:text-white"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                  {/* Technologies */}
+                  <div className="mt-1 flex flex-wrap gap-2">
+                    {experience.technologies.map((tech) => (
+                      <Badge
+                        key={tech}
+                        variant="secondary"
+                        className="rounded-md"
+                      >
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                </Card>
               </motion.div>
             </motion.div>
           ))}

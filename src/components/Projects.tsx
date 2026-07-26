@@ -1,101 +1,67 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import type { Variants } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { BarChart3, Code, Eye, Github } from 'lucide-react';
 import Image from 'next/image';
 
+import Badge from '@/components/ui/badge';
+import Button from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import ToggleGroup, { ToggleGroupItem } from '@/components/ui/toggle-group';
+import Tooltip, {
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip';
 import type { ProjectCategory, ProjectFilter } from '@/constants/projects';
 import { projects } from '@/constants/projects';
+import { cn } from '@/lib/utils';
 
-interface TooltipDescriptionProps {
-  description: string;
-}
+const descriptionClasses =
+  'mb-4 line-clamp-3 text-left text-sm leading-relaxed text-muted-foreground';
 
-const TooltipDescription = ({ description }: TooltipDescriptionProps) => {
-  const descRef = useRef<HTMLParagraphElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  const updateTooltipPosition = () => {
-    if (descRef.current) {
-      const rect = descRef.current.getBoundingClientRect();
-      setTooltipPosition({
-        top: rect.bottom + 8,
-        left: rect.left
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (isHovered) {
-      updateTooltipPosition();
-
-      const handleScroll = () => updateTooltipPosition();
-      const handleResize = () => updateTooltipPosition();
-
-      window.addEventListener('scroll', handleScroll, true);
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('scroll', handleScroll, true);
-        window.removeEventListener('resize', handleResize);
-      };
-    }
-  }, [isHovered]);
-
+const ProjectDescription = ({ description }: { description: string }) => {
   if (description.length <= 100) {
-    return (
-      <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-        {description}
-      </p>
-    );
+    return <p className={descriptionClasses}>{description}</p>;
   }
 
   return (
-    <div className="mb-4">
-      <p
-        ref={descRef}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className="line-clamp-3 text-sm leading-relaxed text-gray-600 dark:text-gray-300"
-      >
-        {description}
-      </p>
-      {isHovered && (
-        <div
-          ref={tooltipRef}
-          className="pointer-events-none fixed z-[9999] w-72 rounded-lg bg-gray-900 px-4 py-3 text-sm leading-relaxed text-white shadow-xl dark:border dark:border-gray-600 dark:bg-gray-700"
-          style={{
-            top: `${tooltipPosition.top}px`,
-            left: `${tooltipPosition.left}px`
-          }}
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          className={cn(
+            descriptionClasses,
+            'cursor-help rounded-sm focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50'
+          )}
         >
           {description}
-          <div className="absolute -top-1 left-4 h-2 w-2 rotate-45 bg-gray-900 dark:border-l dark:border-t dark:border-gray-600 dark:bg-gray-700" />
-        </div>
-      )}
-    </div>
+        </button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" align="start" className="max-w-72">
+        {description}
+      </TooltipContent>
+    </Tooltip>
   );
 };
+
+const categories: ProjectFilter[] = [
+  'All',
+  'Full-Stack',
+  'Frontend',
+  'Game',
+  'Mobile'
+];
+
+const octoprofileUrl = `https://octoprofile.vercel.app/user?id=${process.env.NEXT_PUBLIC_GITHUB_PROFILE}`;
 
 /** Projects section with category filtering and per-card action links. */
 const Projects = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
-
-  const categories: ProjectFilter[] = [
-    'All',
-    'Full-Stack',
-    'Frontend',
-    'Game',
-    'Mobile'
-  ];
   const [activeCategory, setActiveCategory] = useState<ProjectFilter>('All');
 
   const filteredProjects =
@@ -132,8 +98,12 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="bg-white py-12 dark:bg-gray-900">
-      <div className="container-custom px-4 sm:px-6 lg:px-8">
+    <section
+      id="projects"
+      aria-labelledby="projects-heading"
+      className="bg-muted/30 py-12"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
           initial="hidden"
@@ -142,136 +112,140 @@ const Projects = () => {
           className="mb-12 text-center"
         >
           <motion.h2
+            id="projects-heading"
             variants={itemVariants}
-            className="mb-8 text-4xl font-bold lg:text-5xl"
+            className="mb-8 text-4xl font-bold text-foreground lg:text-5xl"
           >
-            Featured <span className="gradient-text">Projects</span>
+            Featured <span className="text-primary">Projects</span>
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="mx-auto mb-8 max-w-3xl text-xl text-gray-600 dark:text-gray-300"
+            className="mx-auto mb-8 max-w-3xl text-xl text-muted-foreground"
           >
             Here are some of my recent projects that showcase my skills and
             passion for web development.
           </motion.p>
 
           {/* Category Filter */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-wrap justify-center gap-4"
-          >
-            {categories.map((category) => (
-              <motion.button
-                key={category}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setActiveCategory(category)}
-                className={`rounded-full px-4 py-1 font-medium transition-all duration-200 ${
-                  activeCategory === category
-                    ? 'bg-gradient-to-r from-teal-600 to-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'
-                }`}
-              >
-                {category}
-              </motion.button>
-            ))}
+          <motion.div variants={itemVariants} className="flex justify-center">
+            <ToggleGroup
+              type="single"
+              variant="outline"
+              spacing={2}
+              value={activeCategory}
+              onValueChange={(value) => {
+                if (value) setActiveCategory(value as ProjectFilter);
+              }}
+              aria-label="Filter projects by category"
+              className="w-full flex-wrap justify-center gap-2"
+            >
+              {categories.map((category) => (
+                <ToggleGroupItem
+                  key={category}
+                  value={category}
+                  className="h-9 rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                >
+                  {category}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
           </motion.div>
         </motion.div>
 
-        <motion.div
-          key={activeCategory}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          variants={containerVariants}
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {filteredProjects.map((project) => (
-            <motion.div
-              key={project.id}
-              variants={itemVariants}
-              onHoverStart={() => setHoveredProject(project.id)}
-              onHoverEnd={() => setHoveredProject(null)}
-              className="card-hover group relative rounded-2xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
-            >
-              {/* Project Image */}
-              <div className="relative h-48 overflow-hidden rounded-t-2xl">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                {/* Category Badge */}
-                <div className="absolute left-4 top-4 flex flex-wrap gap-1.5">
-                  {(Array.isArray(project.category)
-                    ? project.category
-                    : [project.category]
-                  ).map((category, idx) => (
-                    <div
-                      key={idx}
-                      className="rounded-full bg-gradient-to-r from-teal-600/90 to-blue-600/90 px-2 py-1 backdrop-blur-sm"
-                    >
-                      <span className="text-xs font-medium text-white">
-                        {category}
-                      </span>
+        <TooltipProvider delayDuration={200}>
+          <motion.div
+            key={activeCategory}
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+            variants={containerVariants}
+            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {filteredProjects.map((project) => (
+              <motion.div key={project.id} variants={itemVariants}>
+                <Card className="group h-full gap-0 overflow-hidden p-0 transition-colors hover:border-primary/50">
+                  {/* Project Image */}
+                  <div className="relative h-48 overflow-hidden">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110 motion-reduce:transition-none"
+                    />
+                    {/* Category Badge */}
+                    <div className="absolute left-4 top-4 flex flex-wrap gap-1.5">
+                      {(Array.isArray(project.category)
+                        ? project.category
+                        : [project.category]
+                      ).map((category, idx) => (
+                        <Badge
+                          key={idx}
+                          className="bg-primary/90 backdrop-blur-xs"
+                        >
+                          {category}
+                        </Badge>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </div>
 
-              {/* Project Content */}
-              <div className="p-5">
-                <h3 className="mb-2 text-xl font-bold transition-colors duration-200 group-hover:text-blue-600 dark:group-hover:text-blue-400">
-                  {project.title}
-                </h3>
-                <TooltipDescription description={project.description} />
+                  {/* Project Content */}
+                  <div className="p-5">
+                    <h3 className="mb-2 text-xl font-bold text-card-foreground transition-colors group-hover:text-accent-foreground">
+                      {project.title}
+                    </h3>
+                    <ProjectDescription description={project.description} />
 
-                {/* Technologies */}
-                <div className="mb-4 flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-lg bg-gray-200 px-2 py-1 text-xs font-medium text-gray-900 dark:bg-gray-700 dark:text-white"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                    {/* Technologies */}
+                    <div className="mb-4 flex flex-wrap gap-2">
+                      {project.technologies.map((tech) => (
+                        <Badge
+                          key={tech}
+                          variant="secondary"
+                          className="rounded-md"
+                        >
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
 
-                {/* Action Buttons */}
-                <div className="flex space-x-2">
-                  {project.liveUrl && (
-                    <motion.a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="button-primary flex flex-1 items-center justify-center space-x-1.5 py-1.5 text-center text-xs"
-                    >
-                      <Eye className="h-3.5 w-3.5" />
-                      <span>Live Demo</span>
-                    </motion.a>
-                  )}
-                  {project.githubUrl && (
-                    <motion.a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="button-secondary flex flex-1 items-center justify-center space-x-1.5 py-1.5 text-center text-xs"
-                    >
-                      <Code className="h-3.5 w-3.5" />
-                      <span>Code</span>
-                    </motion.a>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+                    {/* Action Buttons */}
+                    <div className="flex gap-2">
+                      {project.liveUrl && (
+                        <Button asChild size="sm" className="flex-1">
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Eye />
+                            Live Demo
+                          </a>
+                        </Button>
+                      )}
+                      {project.githubUrl && (
+                        <Button
+                          asChild
+                          size="sm"
+                          variant="outline"
+                          className="flex-1"
+                        >
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Code />
+                            Code
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+        </TooltipProvider>
 
         {/* View More Projects */}
         <motion.div
@@ -281,32 +255,32 @@ const Projects = () => {
           className="mt-8 text-center"
         >
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <motion.a
-              href={process.env.NEXT_PUBLIC_LINK_GITHUB}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="button-primary inline-flex items-center space-x-3 px-8 py-4 text-lg"
-            >
-              <Github className="h-6 w-6" />
-              <span>View More on GitHub</span>
-            </motion.a>
+            <Button asChild size="lg" className="h-12 px-8 text-base">
+              <a
+                href={process.env.NEXT_PUBLIC_LINK_GITHUB}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github className="size-5" />
+                View More on GitHub
+              </a>
+            </Button>
 
-            <motion.button
-              onClick={() =>
-                window.open(
-                  `https://octoprofile.vercel.app/user?id=${process.env.NEXT_PUBLIC_GITHUB_PROFILE}`,
-                  '_blank'
-                )
-              }
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="button-secondary inline-flex items-center space-x-3 px-8 py-4 text-lg"
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="h-12 px-8 text-base"
             >
-              <BarChart3 className="h-6 w-6" />
-              <span>GitHub Stats</span>
-            </motion.button>
+              <a
+                href={octoprofileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BarChart3 className="size-5" />
+                GitHub Stats
+              </a>
+            </Button>
           </div>
         </motion.div>
       </div>

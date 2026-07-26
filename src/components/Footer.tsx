@@ -1,10 +1,15 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowUp, Heart } from 'lucide-react';
+
+import Button from '@/components/ui/button';
+import Separator from '@/components/ui/separator';
 
 /** Site footer with branding and a scroll-to-top control. */
 const Footer = () => {
+  const prefersReducedMotion = useReducedMotion();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -12,8 +17,8 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
-      <div className="container-custom px-4 py-12 sm:px-6 lg:px-8">
+    <footer className="border-t border-border bg-muted/30">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
           {/* Logo and Description */}
           <motion.div
@@ -22,15 +27,17 @@ const Footer = () => {
             transition={{ duration: 0.6 }}
             className="flex-1 text-center md:text-left"
           >
-            <div className="mb-4 flex items-center justify-center space-x-2 md:justify-start">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600">
-                <span className="text-sm font-bold text-white">K</span>
+            <div className="mb-4 flex items-center justify-center gap-2 md:justify-start">
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary">
+                <span className="text-sm font-bold text-primary-foreground">
+                  K
+                </span>
               </div>
-              <span className="gradient-text text-xl font-bold">
+              <span className="text-xl font-bold text-foreground">
                 krivtsoff.develop()
               </span>
             </div>
-            <p className="max-w-md text-sm text-gray-600 dark:text-gray-300">
+            <p className="max-w-md text-sm text-muted-foreground">
               Frontend developer focused on product UIs, React/Next.js, and
               clear, maintainable web experiences.
             </p>
@@ -41,16 +48,17 @@ const Footer = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex-shrink-0"
+            className="shrink-0"
           >
-            <motion.button
+            <Button
+              variant="outline"
+              size="icon-lg"
+              className="size-12"
+              aria-label="Back to top"
               onClick={scrollToTop}
-              whileHover={{ scale: 1.1, y: -2 }}
-              whileTap={{ scale: 0.9 }}
-              className="rounded-xl bg-gradient-to-r from-teal-500/10 to-blue-500/10 p-4 shadow-md transition-all duration-300 hover:from-teal-500/20 hover:to-blue-500/20 hover:shadow-lg"
             >
-              <ArrowUp className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-            </motion.button>
+              <ArrowUp className="size-6" />
+            </Button>
           </motion.div>
         </div>
 
@@ -59,25 +67,29 @@ const Footer = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-8 flex justify-center border-t border-gray-200 pt-8 dark:border-gray-700"
+          className="mt-8"
         >
-          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
+          <Separator className="mb-8" />
+          <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-muted-foreground">
             <span>© {currentYear} Stanislav Krivtsov. </span>
             <a
               href="https://github.com/jesuisstan/portfolio-site-krivtsoff"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 underline decoration-dotted underline-offset-4 transition-colors duration-200 hover:text-blue-600 dark:hover:text-blue-400"
+              className="inline-flex items-center gap-1 rounded-sm underline decoration-dotted underline-offset-4 transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
               Made
             </a>
             <span> with</span>
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
+            <motion.span
+              animate={
+                prefersReducedMotion ? undefined : { scale: [1, 1.2, 1] }
+              }
               transition={{ duration: 1, repeat: Infinity }}
+              className="inline-flex"
             >
-              <Heart className="h-4 w-4 fill-current text-red-500" />
-            </motion.div>
+              <Heart aria-hidden className="size-4 fill-current text-primary" />
+            </motion.span>
             <span>in Paris</span>
           </div>
         </motion.div>

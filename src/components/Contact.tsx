@@ -4,8 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import emailjs from 'emailjs-com';
 import type { Variants } from 'framer-motion';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import {
   Facebook,
@@ -18,12 +17,18 @@ import {
 import Image from 'next/image';
 import type { FormEvent } from 'react';
 
+import Button from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import Input from '@/components/ui/input';
+import Label from '@/components/ui/label';
+import Separator from '@/components/ui/separator';
+import Textarea from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
+
 interface ContactSocialLink {
   icon: LucideIcon;
   href: string | undefined;
   label: string;
-  color: string;
-  onClick?: () => void;
 }
 
 interface ContactInfoItem {
@@ -31,6 +36,12 @@ interface ContactInfoItem {
   title: string;
   value: string | undefined;
   href: string | null;
+}
+
+interface ContactMessenger {
+  label: string;
+  href: string | undefined;
+  qrCode: string;
 }
 
 type ContactFormData = {
@@ -50,26 +61,35 @@ const socialLinks: ContactSocialLink[] = [
   {
     icon: Github,
     href: process.env.NEXT_PUBLIC_LINK_GITHUB,
-    label: 'GitHub',
-    color: 'hover:text-gray-400'
+    label: 'GitHub'
   },
   {
     icon: Linkedin,
     href: process.env.NEXT_PUBLIC_LINK_LINKEDIN,
-    label: 'LinkedIn',
-    color: 'hover:text-blue-300'
+    label: 'LinkedIn'
   },
   {
     icon: Instagram,
     href: process.env.NEXT_PUBLIC_LINK_INSTAGRAM,
-    label: 'Instagram',
-    color: 'hover:text-pink-400'
+    label: 'Instagram'
   },
   {
     icon: Facebook,
     href: process.env.NEXT_PUBLIC_LINK_FACEBOOK,
-    label: 'Facebook',
-    color: 'hover:text-blue-600'
+    label: 'Facebook'
+  }
+];
+
+const messengers: ContactMessenger[] = [
+  {
+    label: 'Telegram',
+    href: process.env.NEXT_PUBLIC_LINK_TELEGRAM,
+    qrCode: '/qrTelegram.jpg'
+  },
+  {
+    label: 'WhatsApp',
+    href: process.env.NEXT_PUBLIC_LINK_WHATSAPP,
+    qrCode: '/qrWhatsApp.jpg'
   }
 ];
 
@@ -144,16 +164,6 @@ const Contact = () => {
     }
   };
 
-  const handleTelegramClick = () => {
-    // Open Telegram with username
-    window.open(process.env.NEXT_PUBLIC_LINK_TELEGRAM, '_blank');
-  };
-
-  const handleWhatsAppClick = () => {
-    // Open WhatsApp with phone number
-    window.open(process.env.NEXT_PUBLIC_LINK_WHATSAPP, '_blank');
-  };
-
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -178,9 +188,10 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="bg-gradient-to-b from-gray-50 to-white py-12 dark:from-gray-800 dark:to-gray-900"
+      aria-labelledby="contact-heading"
+      className="bg-background py-12"
     >
-      <div className="container-custom px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
           initial="hidden"
@@ -189,10 +200,11 @@ const Contact = () => {
           className="mb-12 text-center"
         >
           <motion.h2
+            id="contact-heading"
             variants={itemVariants}
-            className="mb-8 text-4xl font-bold lg:text-5xl"
+            className="mb-8 text-4xl font-bold text-foreground lg:text-5xl"
           >
-            Let&apos;s <span className="gradient-text">Connect</span>
+            Let&apos;s <span className="text-primary">Connect</span>
           </motion.h2>
         </motion.div>
 
@@ -205,7 +217,7 @@ const Contact = () => {
             className="space-y-8"
           >
             <motion.div variants={itemVariants}>
-              <p className="mb-8 text-base leading-relaxed text-gray-600 dark:text-gray-300">
+              <p className="mb-8 text-base leading-relaxed text-muted-foreground">
                 Ready to start a project or have a job opportunity? Send me a
                 message and I&apos;ll respond as soon as possible.
               </p>
@@ -220,26 +232,24 @@ const Contact = () => {
                     isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }
                   }
                   transition={{ delay: 0.4 + index * 0.1 }}
-                  className="flex items-center space-x-4"
+                  className="flex items-center gap-4"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-teal-500/10 to-blue-500/10">
-                    <info.icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                    <info.icon aria-hidden className="size-6 text-primary" />
                   </div>
                   <div>
-                    <h4 className="mb-1 text-base font-semibold text-gray-900 dark:text-white">
+                    <h3 className="mb-1 text-base font-semibold text-foreground">
                       {info.title}
-                    </h4>
+                    </h3>
                     {info.href ? (
                       <a
                         href={info.href}
-                        className="text-gray-600 transition-colors duration-200 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
+                        className="rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
                       >
                         {info.value}
                       </a>
                     ) : (
-                      <p className="text-gray-600 dark:text-gray-300">
-                        {info.value}
-                      </p>
+                      <p className="text-muted-foreground">{info.value}</p>
                     )}
                   </div>
                 </motion.div>
@@ -247,112 +257,86 @@ const Contact = () => {
             </motion.div>
 
             {/* QR Codes Section */}
-            <motion.div
-              variants={itemVariants}
-              className="border-t border-gray-200 pt-6 dark:border-gray-700"
-            >
-              <motion.h4
+            <motion.div variants={itemVariants}>
+              <Separator className="mb-6" />
+              <motion.h3
                 variants={itemVariants}
-                className="mb-4 text-lg font-semibold text-gray-900 dark:text-white"
+                className="mb-4 text-lg font-semibold text-foreground"
               >
                 Quick Connect
-              </motion.h4>
+              </motion.h3>
               <motion.div
                 variants={itemVariants}
                 className="grid grid-cols-2 gap-6"
               >
-                {/* Telegram QR Code */}
-                <motion.div variants={itemVariants} className="text-center">
+                {messengers.map((messenger) => (
                   <motion.div
-                    onClick={handleTelegramClick}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative mx-auto mb-3 h-28 w-28 cursor-pointer rounded-lg bg-white p-2 shadow-md transition-all duration-200 hover:shadow-lg"
-                    title="Scan QR code or click to connect instantly via messenger"
+                    key={messenger.label}
+                    variants={itemVariants}
+                    className="text-center"
                   >
-                    <Image
-                      src="/qrTelegram.jpg"
-                      alt="Telegram QR Code"
-                      fill
-                      sizes="112px"
-                      className="rounded-lg object-cover"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-blue-500/0 transition-colors duration-200 hover:bg-blue-500/10">
-                      <div className="opacity-0 transition-opacity duration-200 hover:opacity-100">
-                        <MessageCircle className="h-6 w-6 text-blue-500" />
-                      </div>
+                    <a
+                      href={messenger.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Scan QR code or click to connect instantly via messenger"
+                      className="group relative mx-auto mb-3 block size-28 rounded-lg bg-card shadow-md transition-shadow hover:shadow-lg focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                    >
+                      <Image
+                        src={messenger.qrCode}
+                        alt={`${messenger.label} QR Code`}
+                        fill
+                        sizes="112px"
+                        className="rounded-lg object-cover"
+                      />
+                      <span className="absolute inset-0 flex items-center justify-center rounded-lg bg-primary/0 transition-colors group-hover:bg-primary/15">
+                        <MessageCircle
+                          aria-hidden
+                          className="size-6 text-primary opacity-0 transition-opacity group-hover:opacity-100"
+                        />
+                      </span>
+                    </a>
+                    <div className="mb-1 flex items-center justify-center gap-2">
+                      <MessageCircle
+                        aria-hidden
+                        className="size-4 text-primary"
+                      />
+                      <span className="text-sm font-medium text-foreground">
+                        {messenger.label}
+                      </span>
                     </div>
                   </motion.div>
-                  <div className="mb-1 flex items-center justify-center space-x-2">
-                    <MessageCircle className="h-4 w-4 text-blue-500" />
-                    <span className="text-sm font-medium text-gray-900 dark:text-white">
-                      Telegram
-                    </span>
-                  </div>
-                </motion.div>
-
-                {/* WhatsApp QR Code */}
-                <motion.div variants={itemVariants} className="text-center">
-                  <motion.div
-                    onClick={handleWhatsAppClick}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative mx-auto mb-3 h-28 w-28 cursor-pointer rounded-lg bg-white p-2 shadow-md transition-all duration-200 hover:shadow-lg"
-                    title="Scan QR code or click to connect instantly via messenger"
-                  >
-                    <Image
-                      src="/qrWhatsApp.jpg"
-                      alt="WhatsApp QR Code"
-                      fill
-                      sizes="112px"
-                      className="rounded-lg object-cover"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-green-500/0 transition-colors duration-200 hover:bg-green-500/10">
-                      <div className="opacity-0 transition-opacity duration-200 hover:opacity-100">
-                        <MessageCircle className="h-6 w-6 text-green-500" />
-                      </div>
-                    </div>
-                  </motion.div>
-                  <div className="mb-1 flex items-center justify-center space-x-2">
-                    <MessageCircle className="h-4 w-4 text-green-500" />
-                    <span className="text-sm font-medium text-gray-900 dark:text-white">
-                      WhatsApp
-                    </span>
-                  </div>
-                </motion.div>
+                ))}
               </motion.div>
             </motion.div>
 
             {/* Social Links */}
-            <motion.div
-              variants={itemVariants}
-              className="border-t border-gray-200 pt-6 dark:border-gray-700"
-            >
-              <motion.h4
+            <motion.div variants={itemVariants}>
+              <Separator className="mb-6" />
+              <motion.h3
                 variants={itemVariants}
-                className="mb-4 text-lg font-semibold text-gray-900 dark:text-white"
+                className="mb-4 text-lg font-semibold text-foreground"
               >
                 Follow Me
-              </motion.h4>
-              <div className="flex justify-center space-x-4 md:justify-start">
+              </motion.h3>
+              <div className="flex justify-center gap-4 md:justify-start">
                 {socialLinks.map((social) => (
-                  <motion.button
+                  <Button
                     key={social.label}
-                    onClick={
-                      social.onClick ||
-                      (() => window.open(social.href, '_blank'))
-                    }
-                    whileHover={{
-                      scale: 1.15,
-                      y: -2,
-                      transition: { duration: 0.2 }
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 p-4 shadow-md transition-all duration-300 hover:from-gray-200 hover:to-gray-300 hover:shadow-lg dark:from-gray-700 dark:to-gray-800 dark:hover:from-gray-600 dark:hover:to-gray-700 ${social.color}`}
-                    title={social.label}
+                    asChild
+                    variant="outline"
+                    size="icon-lg"
+                    className="size-12"
                   >
-                    <social.icon className="h-6 w-6" />
-                  </motion.button>
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                    >
+                      <social.icon className="size-6" />
+                    </a>
+                  </Button>
                 ))}
               </div>
             </motion.div>
@@ -363,132 +347,111 @@ const Contact = () => {
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
             variants={containerVariants}
-            className="glass-effect h-fit rounded-2xl p-8"
           >
-            <motion.form
-              variants={itemVariants}
-              onSubmit={handleSubmit}
-              className="space-y-6"
-            >
-              <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="firstName"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={(e) => onFormUpdate('firstName', e.target.value)}
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="Your first name"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="lastName"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Last Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={(e) => onFormUpdate('lastName', e.target.value)}
-                    required
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="Your last name"
-                  />
-                </div>
-              </div>
-
-              <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={(e) => onFormUpdate('email', e.target.value)}
-                    required
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={(e) => onFormUpdate('phone', e.target.value)}
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="Your phone number"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={(e) => onFormUpdate('message', e.target.value)}
-                  required
-                  rows={6}
-                  className="w-full resize-none rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                  placeholder="Tell me about your project..."
-                />
-              </div>
-
-              <p className="text-sm text-red-500">* Required fields</p>
-
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="button-primary w-full py-3 text-base font-semibold"
-                disabled={buttonText === 'Sending...'}
+            <Card className="h-fit p-6 sm:p-8">
+              <motion.form
+                variants={itemVariants}
+                onSubmit={handleSubmit}
+                className="space-y-6"
               >
-                {buttonText}
-              </motion.button>
-
-              {status.message && (
-                <div
-                  className={`rounded-xl p-4 text-center ${
-                    status.success
-                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                      : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                  }`}
-                >
-                  {status.message}
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={(e) =>
+                        onFormUpdate('firstName', e.target.value)
+                      }
+                      className="h-11"
+                      placeholder="Your first name"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Last Name *</Label>
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={(e) => onFormUpdate('lastName', e.target.value)}
+                      required
+                      className="h-11"
+                      placeholder="Your last name"
+                    />
+                  </div>
                 </div>
-              )}
-            </motion.form>
+
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email *</Label>
+                    <Input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={(e) => onFormUpdate('email', e.target.value)}
+                      required
+                      className="h-11"
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <Input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={(e) => onFormUpdate('phone', e.target.value)}
+                      className="h-11"
+                      placeholder="Your phone number"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="message">Message *</Label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={(e) => onFormUpdate('message', e.target.value)}
+                    required
+                    rows={6}
+                    className="resize-none"
+                    placeholder="Tell me about your project..."
+                  />
+                </div>
+
+                <p className="text-sm text-muted-foreground">
+                  * Required fields
+                </p>
+
+                <Button
+                  type="submit"
+                  className="h-11 w-full text-base font-semibold"
+                  disabled={buttonText === 'Sending...'}
+                >
+                  {buttonText}
+                </Button>
+
+                {status.message && (
+                  <p
+                    role="status"
+                    aria-live="polite"
+                    className={cn(
+                      'rounded-lg border p-4 text-center text-sm',
+                      status.success
+                        ? 'border-primary/40 bg-primary/10 text-foreground'
+                        : 'border-destructive/40 bg-destructive/10 text-destructive'
+                    )}
+                  >
+                    {status.message}
+                  </p>
+                )}
+              </motion.form>
+            </Card>
           </motion.div>
         </div>
       </div>
