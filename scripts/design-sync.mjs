@@ -356,14 +356,14 @@ const sidecarStale = !existsSync(SIDECAR_PATH) || !unchangedSidecar;
 
 if (CHECK_ONLY) {
   if (designStale)
-    console.error('design-sync: DESIGN.md frontmatter is stale.');
+    console.error('design-sync: ‼️ DESIGN.md frontmatter is stale.');
   if (sidecarStale)
-    console.error('design-sync: .impeccable/design.json is stale.');
+    console.error('design-sync: ‼️ .impeccable/design.json is stale.');
   if (designStale || sidecarStale) {
-    console.error('design-sync: run `npm run design:sync`.');
+    console.error('design-sync: ⚠️ run `npm run design:sync`.');
     process.exit(1);
   }
-  console.log('design-sync: generated layer is up to date.');
+  console.log('design-sync: ✅ generated layer is up to date.');
   process.exit(0);
 }
 
