@@ -159,8 +159,10 @@ defect, not initiative — the registry version is accessible, keyboard-correct,
 Whenever a task involves a UI primitive — adding one, replacing one, debugging one, or restyling one —
 work through the **shadcn MCP tools**, in this order:
 
-1. **Check `src/components/ui/` first.** Already installed: `badge`, `button`, `card`, `input`,
-   `label`, `separator`, `sheet`, `textarea`, `toggle`, `toggle-group`, `tooltip`. Reuse and extend
+1. **Check `src/components/ui/` first.** From `@shadcn`: `badge`, `button`, `card`, `input`, `label`,
+   `separator`, `sheet`, `textarea`, `toggle`, `toggle-group`, `tooltip`. From Magic UI:
+   `animated-theme-toggler` (the nav's theme control, controlled by `next-themes`), `shine-border`
+   (the contact form card), `border-beam` (the hero's "Download CV" button). Reuse and extend
    these — never add a second variant of a primitive that exists. New variants go in the component's
    own `cva` block, not a wrapper component.
 2. **Search the registry**: `mcp__shadcn__search_items_in_registries` (query `@shadcn`), or
@@ -210,6 +212,19 @@ find one and `getRegistryItem` (with `includeSource` / `includeExamples`) to ins
 `npx shadcn@latest add "https://magicui.design/r/marquee.json"` — run that rather than pasting source.
 
 - **Only when the user asks for it.** Never reach for Magic UI to satisfy a plain primitive.
+- **Never let a Magic UI install add the `motion` package.** Its components import from `motion/react`,
+  the renamed successor of Framer Motion; this repo has `framer-motion@^12`, the same codebase under the
+  old name, so installing both ships two animation runtimes. Re-point the import to `framer-motion`,
+  check the named types still resolve, `npm uninstall motion` if the CLI added it, and leave a header
+  comment saying the import was re-pointed on purpose — otherwise the next reader "fixes" it back and a
+  `shadcn diff` mismatch looks like a bug. `border-beam.tsx` is the worked example.
+- **Their defaults are raw hex** (`#ffaa40`, `#9c40ff`, `#000000`) and their demos use the stock palette
+  (`via-yellow-500`). Replace both the call-site values _and_ the component's defaults with tokens —
+  `var(--primary)` / `var(--primary-alt)` — so no hex survives in the repo. Copying a demo snippet
+  verbatim reintroduces exactly what our color rule forbids.
+- **Gate their infinite animations.** These components loop forever by design; render nothing at all
+  under `prefers-reduced-motion` (`border-beam` in `Banner.tsx` is the pattern) unless the effect is
+  already wrapped in a `motion-safe:` utility, as `shine-border` is.
 - Magic UI leans on gradients, glow, and multi-hue palettes — precisely the template look above.
   Strip decorative color down to the design tokens; if the effect only works with a second brand hue,
   say so and ask before shipping it.

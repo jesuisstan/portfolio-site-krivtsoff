@@ -23,8 +23,11 @@ This file provides guidance to Claude Code when working with code in this reposi
   **`radix-ui`** package. Source any further primitive from the `@shadcn` registry via the shadcn MCP
   tools and `npx shadcn@latest add` — never hand-write a primitive the registry ships, and never paste
   registry source by hand. Magic UI (`magicuidesign-mcp`) only when the user explicitly asks — the repo
-  currently holds one such component, `src/components/ui/animated-theme-toggler.tsx` (the nav theme
-  switch), installed from `https://magicui.design/r/animated-theme-toggler.json`. Every
+  currently holds three such components in `src/components/ui/`: `animated-theme-toggler` (the nav
+  theme switch), `shine-border` (the contact form card) and `border-beam` (the hero "Download CV"
+  button), each installed from `https://magicui.design/r/<name>.json`. Magic UI ships these importing
+  `motion/react`; the import is deliberately re-pointed to `framer-motion` so the repo carries one
+  animation runtime, which means `shadcn diff` reports a mismatch on them. Every
   installed component must then be reconciled with the design system and this repo's code conventions
   (arrow functions, bottom `export default`, one palette) — see `.claude/agents/frontend.md`.
 - **The shadcn MCP is the way in for all component work** — not just installing. Adding, replacing,

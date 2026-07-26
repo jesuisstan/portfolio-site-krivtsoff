@@ -11,6 +11,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
     "jsx": "react-jsx",
     "incremental": true,
     "forceConsistentCasingInFileNames": true,

@@ -9,6 +9,7 @@ import Image from 'next/image';
 import type { BannerStatCounts } from '@/components/banner-content';
 import { bannerSocialLinks, bannerStats } from '@/components/banner-content';
 import Badge from '@/components/ui/badge';
+import BorderBeam from '@/components/ui/border-beam';
 import Button from '@/components/ui/button';
 import Separator from '@/components/ui/separator';
 
@@ -141,11 +142,21 @@ const Banner = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="h-11"
+                className="relative h-11 overflow-hidden"
                 onClick={downloadCV}
               >
                 <Download />
                 Download CV
+                {/* Decorative infinite loop — omitted outright under reduced motion. */}
+                {!prefersReducedMotion && (
+                  <BorderBeam
+                    size={60}
+                    initialOffset={20}
+                    transition={{ type: 'spring', stiffness: 26, damping: 20 }}
+                    colorFrom="var(--destructive)"
+                    colorTo="var(--primary-alt)"
+                  />
+                )}
               </Button>
 
               {/* Social Links */}

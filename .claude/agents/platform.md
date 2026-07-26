@@ -51,16 +51,16 @@ npm run fresh          # nuke .next/.swc/node_modules/package-lock.json and rein
 
 ## Configuration files you own
 
-| File                 | Notes                                                                                                                          |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `next.config.ts`     | Minimal; only `allowedDevOrigins: ['*']` (dev-only — do not extend that to production)                                         |
-| _(no Tailwind config)_ | Tailwind v4 is CSS-first: the theme, tokens, `@custom-variant dark`, `@theme inline` and content sources all live in `src/styles/globals.css`. Do **not** recreate `tailwind.config.*` |
-| `components.json`    | shadcn/ui config — style `new-york`, base `neutral`, `cssVariables: true`, css `src/styles/globals.css`, icons `lucide`, aliases `@/components`, `@/components/ui`, `@/lib/utils`, `@/lib`, `@/hooks`. Locked: changing style or base color re-themes the whole site and is the user's call |
-| `tsconfig.json`      | Strict; `@/*` → `./src/*`. Read the version constraints below before touching it                                               |
-| `postcss.config.js`  | `@tailwindcss/postcss` only — v4 handles vendor prefixing, so there is no Autoprefixer                                          |
-| `eslint.config.mjs`  | ESLint 9 flat config; prettier rules inline (single quotes, no trailing comma, printWidth 80) — the authoritative style config |
-| `.env.local`         | All keys are `NEXT_PUBLIC_*` (see below); never commit it                                                                      |
-| `public/`            | Favicons, `site.webmanifest`, avatar, CV PDF, project screenshots, tech logos                                                  |
+| File                   | Notes                                                                                                                                                                                                                                                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `next.config.ts`       | Minimal; only `allowedDevOrigins: ['*']` (dev-only — do not extend that to production)                                                                                                                                                                                                      |
+| _(no Tailwind config)_ | Tailwind v4 is CSS-first: the theme, tokens, `@custom-variant dark`, `@theme inline` and content sources all live in `src/styles/globals.css`. Do **not** recreate `tailwind.config.*`                                                                                                      |
+| `components.json`      | shadcn/ui config — style `new-york`, base `neutral`, `cssVariables: true`, css `src/styles/globals.css`, icons `lucide`, aliases `@/components`, `@/components/ui`, `@/lib/utils`, `@/lib`, `@/hooks`. Locked: changing style or base color re-themes the whole site and is the user's call |
+| `tsconfig.json`        | Strict; `@/*` → `./src/*`. Read the version constraints below before touching it                                                                                                                                                                                                            |
+| `postcss.config.js`    | `@tailwindcss/postcss` only — v4 handles vendor prefixing, so there is no Autoprefixer                                                                                                                                                                                                      |
+| `eslint.config.mjs`    | ESLint 9 flat config; prettier rules inline (single quotes, no trailing comma, printWidth 80) — the authoritative style config                                                                                                                                                              |
+| `.env.local`           | All keys are `NEXT_PUBLIC_*` (see below); never commit it                                                                                                                                                                                                                                   |
+| `public/`              | Favicons, `site.webmanifest`, avatar, CV PDF, project screenshots, tech logos                                                                                                                                                                                                               |
 
 Prettier config lives **inside** `eslint.config.mjs` as a `prettier/prettier` rule — keep any format
 change in sync there.
@@ -92,6 +92,11 @@ Version constraints learned the hard way — do not "upgrade" past them without 
 - `eslint-config-next` must match the Next version (`16.1.6`); `@eslint/eslintrc` must be `^3` for
   `FlatCompat`. The originally committed specs (`^0.2.4` / `^0.1.0` / eslint `^10`) made lint crash.
 - `allowJs: true` is still on; it can be dropped now that no `.js` remains under `src/`.
+- **`noUncheckedSideEffectImports: true`** is enabled so `npm run typecheck` matches editors whose
+  bundled TypeScript turns that check on by default — without it, `import '@/styles/globals.css'` was
+  clean in CI and red in the editor. Next ships no ambient declaration for stylesheets, so
+  `src/types/css.d.ts` declares `*.css`; do not delete it, and add a matching declaration before
+  introducing a side-effect import of any other non-TS asset.
 
 ## shadcn/ui and Tailwind v4 — what is yours and what is not
 
@@ -100,7 +105,7 @@ Version constraints learned the hard way — do not "upgrade" past them without 
   (`npx skills add shadcn/ui`; it symlinks into `.claude/skills/`).
 - **Not yours**: adding registry components and editing anything in `src/components/ui/` — that is the
   `frontend` agent's job, through the shadcn MCP tools. If a task needs a primitive, hand it over.
-- **Token values are the `frontend` agent's call**, but the token *system* must stay intact: exactly one
+- **Token values are the `frontend` agent's call**, but the token _system_ must stay intact: exactly one
   palette, every token defined in both `:root` and `.dark` (or `:root` alone when theme-constant), and
   mapped in `@theme inline`.
 - Tailwind v4 notes that bite: utilities were renamed (`bg-linear-to-*`, `outline-hidden`,

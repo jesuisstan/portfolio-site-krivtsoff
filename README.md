@@ -30,10 +30,11 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
   `card`, `badge`, `input`, `textarea`, `label`, `sheet`, `tooltip`, `toggle`, `toggle-group`,
   `separator`. Add more with `npx shadcn@latest add @shadcn/<name>`
 - **Magic UI** - a second, opt-in registry, used only where an animated component is asked for.
-  Installed in `src/components/ui/`: `animated-theme-toggler` (the nav theme switch) and
-  `shine-border` (the contact form card). Items come from
-  `npx shadcn@latest add "https://magicui.design/r/<name>.json"`, then get their decorative colors
-  reduced to this project's tokens
+  Installed in `src/components/ui/`: `animated-theme-toggler` (the nav theme switch),
+  `shine-border` (the contact form card) and `border-beam` (the hero "Download CV" button). Items come
+  from `npx shadcn@latest add "https://magicui.design/r/<name>.json"`, then get their decorative colors
+  reduced to this project's tokens and their `motion/react` imports re-pointed to `framer-motion`, so
+  the repo keeps a single animation runtime
 - **radix-ui** - the unified Radix package the current registry components import from
 - **class-variance-authority** + **tailwind-merge**/**clsx** - variant recipes and the `cn()` helper
 - **Design tokens** - OKLCH CSS variables in `src/styles/globals.css`, exposed to Tailwind through `@theme inline`
@@ -141,7 +142,7 @@ src/
 ├── components/             # React components
 │   ├── ui/                 # shadcn/ui primitives (button, card, badge, input, textarea,
 │   │                       #   label, sheet, tooltip, toggle, toggle-group, separator)
-│   │                       #   + animated-theme-toggler, shine-border (Magic UI)
+│   │                       #   + animated-theme-toggler, shine-border, border-beam (Magic UI)
 │   ├── Banner.tsx          # Hero section + animated stat counters
 │   ├── banner-content.ts   # Hero stat + social link data
 │   ├── SkillsAndTech.tsx   # Skills groups + technology logo grid with category filter
@@ -157,6 +158,8 @@ src/
 │   └── technologies.ts     # Technology / logo entries
 ├── lib/
 │   └── utils.ts            # `cn()` class-merge helper
+├── types/
+│   └── css.d.ts            # ambient declaration for stylesheet side-effect imports
 └── styles/
     └── globals.css         # Tailwind v4 entry, design tokens, base layer, scrollbar
 ```
@@ -225,10 +228,15 @@ uses `text-foreground` / `text-muted-foreground`, and teal-toned links use `text
 - **Contact form border**: Magic UI's `ShineBorder` traces a 1px teal → coral gradient
   (`var(--primary)`, `var(--primary-alt)`) around the form card on a 14s linear loop — slow enough to
   read as a highlight rather than a glow
+- **"Download CV" button**: Magic UI's `BorderBeam` sends a 36px teal → coral highlight
+  (`var(--primary)`, `var(--primary-alt)`) around the hero button's 1px border on a slow spring
+  (`stiffness: 26`), short enough to read as a travelling glint rather than a racing dot. The beam is a
+  `div` rendered inside the `button`, which is how it inherits the radius and stays clipped by
+  `overflow-hidden` without a wrapper that would swallow the focus ring
 - **Reduced motion**: `prefers-reduced-motion` disables the floating hero shapes, the pulsing
   accents, the hero count-up (which jumps straight to its final values), the contact form's shine
-  (gated behind `motion-safe:`, leaving a static ring), and the theme-toggle reveal (`duration` drops
-  to 0, so the theme swaps instantly)
+  (gated behind `motion-safe:`, leaving a static ring), the "Download CV" beam (not rendered at all),
+  and the theme-toggle reveal (`duration` drops to 0, so the theme swaps instantly)
 
 ## 📱 Responsive Design
 
