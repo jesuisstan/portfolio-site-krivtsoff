@@ -29,6 +29,7 @@ colors:
   brand-telegram: "oklch(0.5998 0.1412 241.55)"
   brand-whatsapp: "oklch(0.625 0.172 149.74)"
 rounded:
+  xs: "2px"
   sm: "6px"
   md: "8px"
   lg: "10px"
@@ -238,21 +239,27 @@ inlines the `var()` so the utility resolves again inside `.dark`.
 ### Shadow Vocabulary
 
 - **Ambient** (`shadow-ambient`; light `0 1px 2px 0 oklch(0.145 0 0 / 6%), 0 1px 3px 0 oklch(0.145 0 0 / 4%)`,
-  dark `0 1px 2px 0 oklch(0 0 0 / 40%), 0 1px 3px 0 oklch(0 0 0 / 28%)`): the resting tier. Cards,
-  inputs, textareas, outline buttons and toggles, the QR tiles. Barely visible by design — it seats an
-  element on the page rather than lifting it.
+  dark `0 1px 2px 0 oklch(0 0 0 / 40%), 0 1px 3px 0 oklch(0 0 0 / 28%)`): the resting tier, carried by
+  every surface and every control that has one — cards, inputs, textareas, the QR tiles, and buttons in
+  all four variants that paint a background (`default`, `destructive`, `secondary`, `outline`). `ghost`
+  and `link` have no surface, so they take no shadow. Barely visible by design: it seats an element on the
+  page rather than lifting it, and it applies uniformly so that depth never signals importance.
 - **Raised** (`shadow-raised`; light `0 2px 4px -1px oklch(0.145 0 0 / 6%), 0 8px 16px -4px oklch(0.145 0 0 / 10%)`,
   dark `0 2px 4px -1px oklch(0 0 0 / 40%), 0 8px 16px -4px oklch(0 0 0 / 55%)`): a response to hover on
   something genuinely liftable. Currently the messenger QR tiles.
 - **Overlay** (`shadow-overlay`; light `0 4px 8px -2px oklch(0.145 0 0 / 8%), 0 16px 40px -8px oklch(0.145 0 0 / 18%)`,
   dark `0 4px 8px -2px oklch(0 0 0 / 45%), 0 16px 40px -8px oklch(0 0 0 / 70%)`): reserved for surfaces
-  above the page. The mobile sheet, and any future popover or dialog.
+  above the page: the mobile sheet, the project-description tooltip, and any future popover or dialog.
+  A floating surface with no shadow reads as pasted onto the page — if it is portalled, it takes this tier.
 
 ### Named Rules
 
-**The Structure-Is-Tonal Rule.** If a surface needs to read as separate, change its tone and give it a
-hairline. Reach for a shadow only to report a state change or a layer above the page — never to make a
-flat card look important.
+**The Structure-Is-Tonal Rule.** Structure is tone plus a hairline: if a surface needs to read as
+separate, change its tone and give it a 1px border. Ambient seats a surface or a control on the page —
+that is its whole job, and it is why every filled and outlined control carries it at rest. What a shadow
+may never do is **rank** things: it does not replace tonal structure, and it does not mark one element as
+more important than its neighbour. Depth above ambient is earned only by a state change (raised) or by
+floating above the page (overlay).
 
 **The Three Steps Rule.** Ambient, raised, overlay. Do not use Tailwind's stock `shadow-xs`…`shadow-2xl`
 in this project; they are theme-blind and invisible on graphite. A fourth step means a token, not a
@@ -263,23 +270,34 @@ is decoration, and the hero's blurred teal orbs already own that register.
 
 ## Shapes
 
-One softly-rounded family from a single base: `--radius: 0.625rem` (10px), with `sm` 6px, `md` 8px, `lg`
-10px and `xl` 14px derived from it in `@theme inline`. Buttons, inputs, textareas and toggles take `md`;
-cards take `xl`; the logo tile and the floating hero tiles take `lg`. Nothing in the system is square,
-and nothing is fully organic.
+One softly-rounded family from a single base: `--radius: 0.625rem` (10px), with `xs` 2px, `sm` 6px, `md`
+8px, `lg` 10px and `xl` 14px derived from it in `@theme inline`. Buttons, inputs, textareas and toggles
+take `md`; cards take `xl`; the logo tile and the floating hero tiles take `lg`; `xs` exists for details
+too small to carry a real corner — the tooltip's arrow and the sheet's close affordance. Nothing in the
+system is square, and nothing is fully organic.
 
 Full pills (`rounded-full`) are reserved for things that label or select: badges, category chips, filter
-toggles, the availability chip, the status dot. The avatar is the one circle, ringed by a 4px
-`border-primary/30`.
+toggles, the availability chip, the status dot — plus the avatar and the hero's blurred orbs, which are
+circles because they are round objects rather than because they are pills.
 
-Borders are always exactly 1px `border-border`, on every side. The focus ring is the single deliberate
-exception to that weight: `ring-[3px] ring-ring/50` with `focus-visible:border-ring`, applied to every
-interactive element without exception.
+Borders are 1px `border-border` on every side. There are exactly **three** deliberate exceptions, and a
+fourth is a defect:
+
+1. The **focus ring** — `ring-[3px] ring-ring/50` with `focus-visible:border-ring`, on every interactive
+   element without exception.
+2. The **avatar ring** — a 4px `border-primary/30` around the one circular photograph, where the weight
+   is the frame, not emphasis.
+3. The **timeline dot knockout** — a 4px `border-background` on the experience timeline's dot. The border
+   is background-coloured, so it is not read as a border at all: it punches the dot out of the vertical
+   line running behind it. A knockout ring is a masking technique, and it must stay background-coloured
+   to qualify.
 
 ### Named Rules
 
 **The Hairline Rule.** 1px, all four sides, `border-border`. No coloured `border-left` accent bars, no
-2px emphasis borders, no border as decoration.
+2px emphasis borders, no border as decoration. The three exceptions above are exhaustive: a thicker
+border is legitimate only as a focus ring, as a frame around a photograph, or as a background-coloured
+knockout. Wanting something to look more important is not a fourth reason.
 
 **The Pill Means Label Rule.** A pill is a badge, a chip, or a filter. An action is a `md`-radius
 rectangle. Do not round a button to a pill to make it look friendlier.
@@ -294,12 +312,16 @@ transitions, an unmissable focus ring. Nothing jumps, nothing asks for attention
 - **Shape:** 8px radius (`rounded-md`), `text-sm font-medium`, icon slots auto-sized to 16px, `gap-2`.
 - **Sizes:** `default` h-9 / px-4, `sm` h-8 / px-3, `lg` h-10 / px-6, `xs` h-6 / px-2, plus square icon
   sizes 6/8/9/10. Section CTAs override to h-11 or h-12 for touch comfort.
+- **Depth:** every variant that paints a background carries `shadow-ambient` at rest — primary,
+  destructive, secondary and outline alike. Hierarchy between them is colour, never depth; a button does
+  not become the primary action by sitting higher.
 - **Primary (`default`):** `bg-primary` with `text-primary-foreground`, hover `bg-primary/90`. One
   primary action per region.
-- **Outline:** 1px hairline on `bg-background` with `shadow-ambient`; hover fills `bg-accent` and shifts
-  text to `text-accent-foreground`. In dark it swaps to `bg-input/30` so the fill reads on graphite.
-- **Ghost:** no chrome at rest — nav links and icon actions. Hover picks up `bg-accent`.
-- **Secondary / Link:** `bg-secondary` for quiet actions; `link` is teal with `underline-offset-4`.
+- **Outline:** 1px hairline on `bg-background`; hover fills `bg-accent` and shifts text to
+  `text-accent-foreground`. In dark it swaps to `bg-input/30` so the fill reads on graphite.
+- **Ghost:** no chrome and no shadow at rest — nav links and icon actions. Hover picks up `bg-accent`.
+- **Secondary / Link:** `bg-secondary` for quiet actions; `link` is teal with `underline-offset-4` and,
+  having no surface, no shadow.
 - **Hover / Focus:** `transition-all`; `focus-visible:border-ring` + `focus-visible:ring-[3px]
   ring-ring/50`. Disabled is `opacity-50` with pointer events off.
 
@@ -411,8 +433,10 @@ to `duration: 0` under reduced motion.
   monospace used as a "technical" texture.
 - **Don't** hand-write a primitive the shadcn registry ships, and don't paste registry source by hand —
   install it and reconcile it with these tokens and the repo's conventions.
-- **Don't** add a coloured `border-left` accent bar or any border above 1px. The focus ring is the only
-  thicker stroke in the system.
+- **Don't** add a coloured `border-left` accent bar, or a border above 1px for emphasis. Thicker strokes
+  exist in exactly three sanctioned places (focus ring, avatar frame, timeline knockout) — see Shapes.
+- **Don't** use depth to rank elements. Ambient is uniform across surfaces and controls; if something
+  needs to read as more important, that is colour, size, or position — not a bigger shadow.
 - **Don't** nest a card inside a card, or let a grid of identical icon-heading-text cards become a
   section's whole structure.
 - **Don't** spread `--destructive` into decoration. It means failure, and `--primary-alt` is the

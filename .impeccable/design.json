@@ -567,7 +567,7 @@
       {
         "name": "The Structure-Is-Tonal Rule",
         "section": "elevation",
-        "body": "If a surface needs to read as separate, change its tone and give it a hairline. Reach for a shadow only to report a state change or a layer above the page — never to make a flat card look important."
+        "body": "Structure is tone plus a hairline: if a surface needs to read as separate, change its tone and give it a 1px border. Ambient seats a surface or a control on the page — that is its whole job, and it is why every filled and outlined control carries it at rest. What a shadow may never do is rank things: it does not replace tonal structure, and it does not mark one element as more important than its neighbour. Depth above ambient is earned only by a state change (raised) or by floating above the page (overlay)."
       },
       {
         "name": "The Three Steps Rule",
@@ -582,7 +582,7 @@
       {
         "name": "The Hairline Rule",
         "section": "shapes",
-        "body": "1px, all four sides, border-border. No coloured border-left accent bars, no 2px emphasis borders, no border as decoration."
+        "body": "1px, all four sides, border-border. No coloured border-left accent bars, no 2px emphasis borders, no border as decoration. Three exceptions are exhaustive: a thicker border is legitimate only as a focus ring, as a frame around a photograph (the avatar), or as a background-coloured knockout (the timeline dot). Wanting something to look more important is not a fourth reason."
       },
       {
         "name": "The Pill Means Label Rule",
@@ -607,7 +607,8 @@
       "Don't reintroduce hand-written utility classes of the .gradient-text / .glass-effect / .button-primary / .container-custom / .card-hover kind. Containers are mx-auto max-w-7xl, buttons are Button variants, panels are Card.",
       "Don't add gradient text, a second font family, a tracked uppercase eyebrow over sections, or monospace used as a \"technical\" texture.",
       "Don't hand-write a primitive the shadcn registry ships, and don't paste registry source by hand — install it and reconcile it with these tokens and the repo's conventions.",
-      "Don't add a coloured border-left accent bar or any border above 1px. The focus ring is the only thicker stroke in the system.",
+      "Don't add a coloured border-left accent bar, or a border above 1px for emphasis. Thicker strokes exist in exactly three sanctioned places (focus ring, avatar frame, timeline knockout) — see Shapes.",
+      "Don't use depth to rank elements. Ambient is uniform across surfaces and controls; if something needs to read as more important, that is colour, size, or position — not a bigger shadow.",
       "Don't nest a card inside a card, or let a grid of identical icon-heading-text cards become a section's whole structure.",
       "Don't spread --destructive into decoration. It means failure, and --primary-alt is the decorative sibling. The hero beam's leading stop is the single sanctioned exception (see Components); do not cite it to justify a second one.",
       "Don't revive the --chart-* or --sidebar-* tokens as a shortcut to a new colour. Nothing under src/ reads them today, and they are excluded from this document on purpose."
