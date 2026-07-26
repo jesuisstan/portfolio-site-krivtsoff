@@ -260,7 +260,7 @@ const Banner = () => {
                   ease: 'easeInOut',
                   delay: 1
                 }}
-                className="absolute -bottom-6 -left-6 flex size-20 flex-col items-center justify-center rounded-xl border border-border bg-secondary text-center text-sm font-bold text-secondary-foreground"
+                className="absolute -bottom-6 -left-6 flex size-20 flex-col items-center justify-center rounded-xl bg-primary-alt text-center text-sm font-bold text-primary-alt-foreground"
               >
                 NEXT.js{'\n'}EXPO
               </motion.div>

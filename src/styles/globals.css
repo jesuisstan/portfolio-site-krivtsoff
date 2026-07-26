@@ -1,8 +1,9 @@
-@import 'tailwindcss';
+/* source(none) + an explicit @source: automatic detection also scanned the markdown in
+   .agents/ and .claude/, which quotes utility names in prose and compiled them for real. */
+@import 'tailwindcss' source(none);
 @import 'tw-animate-css';
 
-/* Agent skill docs quote utility class names in prose; scanning them bloats the bundle. */
-@source not '../../.agents';
+@source '../../src';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -15,6 +16,8 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-alt: var(--primary-alt);
+  --color-primary-alt-foreground: var(--primary-alt-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -44,6 +47,18 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  /* Kept in `@theme inline` so `var(--duration)` resolves against the element, not `:root`. */
+  --animate-shine: shine var(--duration) infinite linear;
+
+  @keyframes shine {
+    0%,
+    100% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+  }
 }
 
 @theme {
@@ -70,6 +85,9 @@
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.715 0.122 196.14);
   --primary-foreground: oklch(0.145 0 0);
+  /* Theme-constant like --primary — a brand accent must not shift per theme. Coral rgb(237 129 121). */
+  --primary-alt: oklch(0.7208 0.134 25.35);
+  --primary-alt-foreground: oklch(0.145 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -161,4 +179,20 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: color-mix(in oklab, var(--primary) 75%, var(--foreground));
+}
+
+/* AnimatedThemeToggler: the clip-path animation alone drives the reveal. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Scoped to the toggler — attribute and variable exist only while a toggle is in flight. */
+html[data-magicui-theme-vt='active']::view-transition-group(root) {
+  animation-duration: var(--magicui-theme-toggle-vt-duration);
+}
+
+html[data-magicui-theme-vt='active']::view-transition-new(root) {
+  clip-path: var(--magicui-theme-vt-clip-from);
 }

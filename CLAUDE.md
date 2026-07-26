@@ -22,7 +22,9 @@ This file provides guidance to Claude Code when working with code in this reposi
   `label`, `sheet`, `tooltip`, `toggle`, `toggle-group`, `separator`; they import from the unified
   **`radix-ui`** package. Source any further primitive from the `@shadcn` registry via the shadcn MCP
   tools and `npx shadcn@latest add` — never hand-write a primitive the registry ships, and never paste
-  registry source by hand. Magic UI (`magicuidesign-mcp`) only when the user explicitly asks. Every
+  registry source by hand. Magic UI (`magicuidesign-mcp`) only when the user explicitly asks — the repo
+  currently holds one such component, `src/components/ui/animated-theme-toggler.tsx` (the nav theme
+  switch), installed from `https://magicui.design/r/animated-theme-toggler.json`. Every
   installed component must then be reconciled with the design system and this repo's code conventions
   (arrow functions, bottom `export default`, one palette) — see `.claude/agents/frontend.md`.
 - **The shadcn MCP is the way in for all component work** — not just installing. Adding, replacing,
@@ -101,7 +103,9 @@ A **single route**. `src/app/page.tsx` renders the sections in order: `NavBar`, 
 `SkillsAndTech`, `Experience`, `Projects`, `Contact`, `Footer`. `src/app/layout.tsx` owns the font
 (Montserrat via `next/font`), the `next-themes` provider (class strategy, `defaultTheme="dark"`), site
 metadata/OpenGraph, and Vercel Analytics. `NavBar.tsx` owns the sticky nav, the mobile drawer (a shadcn
-`Sheet`, so Radix handles focus trapping and scroll locking), and the theme toggle; there is no
+`Sheet`, so Radix handles focus trapping and scroll locking), and the theme toggle (Magic UI's
+`AnimatedThemeToggler`, driven in controlled mode from `useTheme()` so `next-themes` keeps sole
+ownership of persistence, styled with `buttonVariants`); there is no
 scroll-spy. The styling stack is Tailwind + Radix only — MUI and Bootstrap were removed on 2026-07-26
 along with the dead `MenuDrawer`/`ThemeToggler` components. `src/app/page.tsx` is a server component;
 each section carries its own `'use client'`.
@@ -118,23 +122,37 @@ without asking.
 
 Tailwind CSS 4 with CSS-first configuration: there is **no** `tailwind.config.ts` and no
 `portfolioColors.ts` (both deleted on 2026-07-26 when the project moved to shadcn/ui). Everything lives
-in `src/styles/globals.css` — `@import 'tailwindcss'`, `@import 'tw-animate-css'`,
-`@source not '../../.agents'` (Tailwind 4 detects classes automatically and `.agents/` is not
-gitignored, so the skill docs' prose class names would otherwise be compiled into the bundle),
+in `src/styles/globals.css` — `@import 'tailwindcss' source(none)`, `@import 'tw-animate-css'`,
+`@source '../../src'` (**content detection is explicit on purpose**: Tailwind 4 otherwise scans the whole
+repo except `node_modules` and gitignored files, which meant the utility names quoted as prose in
+`.agents/skills/**` _and_ in `.claude/agents/*.md` — including the "never do this" examples like
+`from-purple-500` and `text-gray-600` — were compiled into the bundle for real. `src/` is the only place
+with actual class usage; an `@source not` exclusion per offending directory was the earlier approach and
+kept missing new ones),
 `@custom-variant dark (&:is(.dark *))` (keyed to the `next-themes` class strategy), the shadcn OKLCH
 token set in `:root`/`.dark` with the brand teal `#00babc` as `--primary`, the `@theme inline` mapping
-that exposes each token as a Tailwind utility, a `@theme` block holding the `float` animation, and the
-`@layer base` reset (`border-border`, `outline-ring/50`, `bg-background text-foreground`).
+that exposes each token as a Tailwind utility (plus the `shine` keyframes and `--animate-shine`, which
+must stay in the `inline` block so its `var(--duration)` resolves against the element the utility is on,
+not `:root`), a `@theme` block holding the `float` animation, and the
+`@layer base` reset (`border-border`, `outline-ring/50`, `bg-background text-foreground`). The tail of
+the file also carries the scrollbar rules and the three `::view-transition-*(root)` rules the theme
+toggler's clip-path reveal needs — the two scoped ones read
+`--magicui-theme-toggle-vt-duration` / `--magicui-theme-vt-clip-from`, which the toggler sets on `<html>`
+only while a toggle is in flight, so no other view transition is affected.
 
 There are **no hand-written legacy classes left** — `.gradient-text`, `.glass-effect`,
 `.button-primary`, `.button-secondary`, `.container-custom` and `.card-hover` were deleted on
 2026-07-26 when the sections moved onto shadcn primitives. Do not reintroduce classes of that kind:
 containers are `mx-auto max-w-7xl`, buttons are `Button` variants, panels are `Card`.
 
-Two tokens were added beyond the stock shadcn set: `--destructive-foreground` (so no variant needs
-`text-white`) and `--overlay`, the theme-constant sheet scrim declared in `:root` only. `text-primary`
-is full-chroma teal and only clears contrast on dark backgrounds — use it for display headings, icons
-and fills; use `text-accent-foreground` for teal-toned links and small accent text, and
+Three tokens were added beyond the stock shadcn set: `--destructive-foreground` (so no variant needs
+`text-white`), `--overlay`, the theme-constant sheet scrim declared in `:root` only, and
+`--primary-alt`/`--primary-alt-foreground`, a coral second brand accent that is likewise theme-constant
+(`:root` only) and shares `--primary`'s lightness so the two read as siblings. `text-primary` is
+full-chroma teal and only clears contrast on dark backgrounds — use it for display headings, icons and
+fills; `text-primary-alt` is under the same restriction (2.62:1 on the light background, 7.56:1 the
+other way round as `text-primary-alt-foreground` on `bg-primary-alt`) and is deliberately scarce, used
+in three places only. Use `text-accent-foreground` for teal-toned links and small accent text, and
 `text-foreground`/`text-muted-foreground` for reading text. See `.claude/agents/frontend.md` and
 `.claude/rules/code-organization.md`. If the `impeccable` skill is initialized later, `DESIGN.md` layers
 editorial rules (type scale, spacing rhythm, motion) **on top of** these tokens — the values themselves

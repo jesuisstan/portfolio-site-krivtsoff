@@ -22,6 +22,7 @@ import Card from '@/components/ui/card';
 import Input from '@/components/ui/input';
 import Label from '@/components/ui/label';
 import Separator from '@/components/ui/separator';
+import ShineBorder from '@/components/ui/shine-border';
 import Textarea from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
@@ -348,7 +349,12 @@ const Contact = () => {
             animate={isInView ? 'visible' : 'hidden'}
             variants={containerVariants}
           >
-            <Card className="h-fit p-6 sm:p-8">
+            <Card className="relative h-fit overflow-hidden p-6 sm:p-8">
+              <ShineBorder
+                borderWidth={1}
+                duration={14}
+                shineColor={['var(--primary)', '#FE8FB5', 'var(--primary-alt)']}
+              />
               <motion.form
                 variants={itemVariants}
                 onSubmit={handleSubmit}

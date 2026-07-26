@@ -6,7 +6,7 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
 ## 🌟 Features
 
 - **Single-page layout**: hero, skills & tech, experience, projects, contact — with a sticky nav that scrolls to each section
-- **Dark/Light Theme**: `next-themes` with class strategy and system preference detection (dark by default)
+- **Dark/Light Theme**: `next-themes` with class strategy and system preference detection (dark by default), toggled with a View Transitions clip-path reveal
 - **Responsive**: mobile-first layout with a Radix-backed off-canvas drawer below the `lg` breakpoint
 - **Animations**: scroll reveals, staggered lists and animated stat counters via Framer Motion
 - **Contact form**: sends mail straight from the browser through EmailJS
@@ -29,6 +29,11 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
   base color `neutral`, CSS variables, `lucide` icons). Installed in `src/components/ui/`: `button`,
   `card`, `badge`, `input`, `textarea`, `label`, `sheet`, `tooltip`, `toggle`, `toggle-group`,
   `separator`. Add more with `npx shadcn@latest add @shadcn/<name>`
+- **Magic UI** - a second, opt-in registry, used only where an animated component is asked for.
+  Installed in `src/components/ui/`: `animated-theme-toggler` (the nav theme switch) and
+  `shine-border` (the contact form card). Items come from
+  `npx shadcn@latest add "https://magicui.design/r/<name>.json"`, then get their decorative colors
+  reduced to this project's tokens
 - **radix-ui** - the unified Radix package the current registry components import from
 - **class-variance-authority** + **tailwind-merge**/**clsx** - variant recipes and the `cn()` helper
 - **Design tokens** - OKLCH CSS variables in `src/styles/globals.css`, exposed to Tailwind through `@theme inline`
@@ -136,6 +141,7 @@ src/
 ├── components/             # React components
 │   ├── ui/                 # shadcn/ui primitives (button, card, badge, input, textarea,
 │   │                       #   label, sheet, tooltip, toggle, toggle-group, separator)
+│   │                       #   + animated-theme-toggler, shine-border (Magic UI)
 │   ├── Banner.tsx          # Hero section + animated stat counters
 │   ├── banner-content.ts   # Hero stat + social link data
 │   ├── SkillsAndTech.tsx   # Skills groups + technology logo grid with category filter
@@ -170,6 +176,12 @@ each one into a Tailwind color utility:
 
 - **Brand**: teal `#00babc` = `oklch(0.715 0.122 196.14)`, used for `--primary`, `--ring`, `--chart-1`
   and the sidebar accents; `--primary-foreground` is near-black for a 8.25:1 contrast ratio on it
+- **Second brand accent**: coral `--primary-alt` with `--primary-alt-foreground` (the same near-black,
+  7.56:1 on the coral). Its lightness matches `--primary`, so the two accents read as siblings rather
+  than one shouting over the other. Theme-constant — declared in `:root` only, like `--primary`'s value.
+  Used sparingly and on purpose: one hero chip, the footer heart, one of the two `ShineBorder` stops.
+  `text-primary-alt` carries the same restriction as `text-primary` — 2.62:1 on the light background,
+  so display-size or decorative only, never body copy or small links
 - **Neutrals**: the shadcn neutral scale — `--background`, `--foreground`, `--card`, `--popover`,
   `--secondary`, `--muted`, `--border`, `--input`
 - **Accent**: `--accent` is a teal-tinted neutral wash; `--accent-foreground` is the high-contrast
@@ -182,9 +194,10 @@ There is no legacy CSS layer any more: the hand-written `.gradient-text`, `.glas
 `.button-primary`, `.button-secondary`, `.container-custom` and `.card-hover` classes were deleted when
 the sections moved onto shadcn primitives. `globals.css` now holds only the Tailwind entry, the token
 blocks, the `float` keyframes, the base layer, smooth scrolling (which the nav links rely on), the
-scrollbar rules, and one `@source not` exclusion —
-Tailwind 4 detects classes automatically, and without it the utility names quoted in the `.agents/`
-skill documentation would be compiled into the production CSS.
+scrollbar rules, the three `::view-transition-*(root)` rules the theme toggler needs, and one
+`@source` declaration — the Tailwind entry is imported with `source(none)` and `src/` is registered
+explicitly, because automatic detection scans the whole repository (minus `node_modules` and gitignored
+files) and was compiling utility names that appear only as prose in the agent and skill markdown.
 
 Use the utilities (`bg-primary`, `text-muted-foreground`, `border-border`, …). A new color is a new
 token: add the variable to both `:root` and `.dark` (or to `:root` only when it is identical in both
@@ -205,8 +218,17 @@ uses `text-foreground` / `text-muted-foreground`, and teal-toned links use `text
 - **Scroll reveals**: staggered fade/translate via Framer Motion `useInView`
 - **Hero counters**: count-up animation on first view
 - **Hover effects**: restrained border, background and scale transitions from the primitives
+- **Theme switch**: Magic UI's `AnimatedThemeToggler` reveals the new theme with a 400ms circular
+  clip-path through the View Transitions API, expanding from the nav button. It runs in controlled
+  mode so `next-themes` stays the only owner of theme persistence, and it falls back to an instant
+  swap where `document.startViewTransition` is unavailable
+- **Contact form border**: Magic UI's `ShineBorder` traces a 1px teal → coral gradient
+  (`var(--primary)`, `var(--primary-alt)`) around the form card on a 14s linear loop — slow enough to
+  read as a highlight rather than a glow
 - **Reduced motion**: `prefers-reduced-motion` disables the floating hero shapes, the pulsing
-  accents, and the hero count-up (which jumps straight to its final values)
+  accents, the hero count-up (which jumps straight to its final values), the contact form's shine
+  (gated behind `motion-safe:`, leaving a static ring), and the theme-toggle reveal (`duration` drops
+  to 0, so the theme swaps instantly)
 
 ## 📱 Responsive Design
 
@@ -231,7 +253,8 @@ Both `CLAUDE.md` and this README are kept in sync with the code — see
 Component work goes through the **shadcn MCP server** (declared in `.mcp.json`) and the project-level
 `shadcn` skill in `.agents/skills/shadcn` (installed with `npx skills add shadcn/ui`, symlinked into
 `.claude/skills/`, tracked in `skills-lock.json`) — primitives are searched, inspected and installed from
-the registry rather than hand-written.
+the registry rather than hand-written. The **magicuidesign MCP server** is available for the same
+workflow against the Magic UI registry, but only when an animated component is explicitly requested.
 
 ## 📞 Contact
 

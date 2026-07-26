@@ -7,6 +7,13 @@
     "source.organizeImports": "never"
   },
 
+  // The built-in CSS validator does not understand Tailwind v4 syntax: it flags the at-rules
+  // (@theme, @source, @custom-variant, @apply) as unknown, and `@import 'tailwindcss' source(none)`
+  // as "semi-colon expected", since per the CSS spec only media/supports may follow an import.
+  // Diagnostics come from the Tailwind CSS IntelliSense extension instead (see extensions.json).
+  "css.validate": false,
+  "css.lint.unknownAtRules": "ignore",
+
   // ESLint settings
   "eslint.enable": true,
   "eslint.validate": [

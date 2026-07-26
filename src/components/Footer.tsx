@@ -88,7 +88,10 @@ const Footer = () => {
               transition={{ duration: 1, repeat: Infinity }}
               className="inline-flex"
             >
-              <Heart aria-hidden className="size-4 fill-current text-primary" />
+              <Heart
+                aria-hidden
+                className="size-4 fill-current text-primary-alt"
+              />
             </motion.span>
             <span>in Paris</span>
           </div>

@@ -2,11 +2,12 @@
 
 import { startTransition, useEffect, useLayoutEffect, useState } from 'react';
 
-import { motion } from 'framer-motion';
-import { Download, Menu, Moon, Sun } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { Download, Menu } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-import Button from '@/components/ui/button';
+import AnimatedThemeToggler from '@/components/ui/animated-theme-toggler';
+import Button, { buttonVariants } from '@/components/ui/button';
 import Sheet, {
   SheetContent,
   SheetHeader,
@@ -34,6 +35,7 @@ const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();
+  const prefersReducedMotion = useReducedMotion();
 
   // Set mounted after component mounts to prevent hydration mismatch
   // useLayoutEffect runs synchronously before browser paint
@@ -162,21 +164,19 @@ const NavBar = () => {
           {/* Actions */}
           <div className="flex shrink-0 items-center gap-2">
             {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-11"
+            <AnimatedThemeToggler
+              theme={isDark ? 'dark' : 'light'}
+              onThemeChange={setTheme}
+              duration={prefersReducedMotion ? 0 : 400}
+              className={buttonVariants({
+                variant: 'ghost',
+                size: 'icon',
+                className: "size-11 [&_svg:not([class*='size-'])]:size-5"
+              })}
               aria-label={
                 isDark ? 'Switch to light theme' : 'Switch to dark theme'
               }
-              onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            >
-              {isDark ? (
-                <Sun className="size-5" />
-              ) : (
-                <Moon className="size-5" />
-              )}
-            </Button>
+            />
 
             {/* Download CV */}
             <Button className="hidden sm:flex" onClick={downloadCV}>
