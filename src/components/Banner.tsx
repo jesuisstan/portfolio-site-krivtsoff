@@ -1,16 +1,18 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Download } from 'lucide-react';
 import Image from 'next/image';
+import { useTheme } from 'next-themes';
 
 import type { BannerStatCounts } from '@/components/banner-content';
 import { bannerSocialLinks, bannerStats } from '@/components/banner-content';
 import Badge from '@/components/ui/badge';
 import BorderBeam from '@/components/ui/border-beam';
 import Button from '@/components/ui/button';
+import { Particles } from '@/components/ui/particles';
 import Separator from '@/components/ui/separator';
 
 const countsAtProgress = (progress: number): BannerStatCounts => ({
@@ -26,6 +28,13 @@ const Banner = () => {
   const isInView = useInView(ref, { once: true });
   const prefersReducedMotion = useReducedMotion();
   const [counts, setCounts] = useState<BannerStatCounts>(countsAtProgress(0));
+
+  const { setTheme, resolvedTheme } = useTheme();
+
+  const color = useMemo(
+    () => (resolvedTheme === 'dark' ? '#ffffff' : '#000000'),
+    [resolvedTheme]
+  );
 
   // Reduced motion skips the count-up entirely and renders the final values.
   const displayCounts = prefersReducedMotion ? countsAtProgress(1) : counts;
@@ -79,6 +88,13 @@ const Banner = () => {
       aria-labelledby="home-heading"
       className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background pb-12 pt-20"
     >
+      <Particles
+        className="absolute inset-0 z-0"
+        quantity={100}
+        ease={80}
+        color={color}
+        refresh
+      />
       {/* Background Elements */}
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="absolute left-10 top-20 h-72 w-72 animate-float rounded-full bg-primary/15 blur-3xl motion-reduce:animate-none" />
