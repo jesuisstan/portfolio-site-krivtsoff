@@ -55,4 +55,4 @@ next-env.d.ts
 *.tsbuildinfo
 
 # impeccable live mode — local session journal, not project source
-/.impeccable/live/sessions/
+/.impeccable/live/sessions/.env.local
