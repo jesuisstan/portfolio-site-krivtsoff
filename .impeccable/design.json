@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-26T20:55:51.969Z",
+  "generatedAt": "2026-07-28T11:18:16.554Z",
   "title": "Design System: krivtsoff.develop()",
   "extensions": {
     "colorMeta": {
@@ -379,6 +379,36 @@
           "oklch(0.950 0.172 149.74)"
         ],
         "dark": "oklch(0.761 0.2015 149.74)"
+      },
+      "logo-plate": {
+        "role": "neutral",
+        "displayName": "Logo Plate",
+        "canonical": "oklch(0.97 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ]
+      },
+      "logo-plate-dark": {
+        "role": "neutral",
+        "displayName": "Logo Plate Dark",
+        "canonical": "oklch(0.28 0 0)",
+        "tonalRamp": [
+          "oklch(0.150 0 0)",
+          "oklch(0.264 0 0)",
+          "oklch(0.379 0 0)",
+          "oklch(0.493 0 0)",
+          "oklch(0.607 0 0)",
+          "oklch(0.721 0 0)",
+          "oklch(0.836 0 0)",
+          "oklch(0.950 0 0)"
+        ]
       }
     },
     "typographyMeta": {
@@ -434,6 +464,11 @@
         "name": "shine",
         "utility": "animate-shine",
         "value": "shine var(--duration) infinite linear"
+      },
+      {
+        "name": "orbit",
+        "utility": "animate-orbit",
+        "value": "orbit calc(var(--orbit-duration) * 1s) linear infinite"
       }
     ],
     "breakpoints": [

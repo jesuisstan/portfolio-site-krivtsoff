@@ -27,9 +27,10 @@ This file provides guidance to Claude Code when working with code in this reposi
   **`radix-ui`** package. Source any further primitive from the `@shadcn` registry via the shadcn MCP
   tools and `npx shadcn@latest add` — never hand-write a primitive the registry ships, and never paste
   registry source by hand. Magic UI (`magicuidesign-mcp`) only when the user explicitly asks — the repo
-  currently holds four such components in `src/components/ui/`: `animated-theme-toggler` (the nav
+  currently holds five such components in `src/components/ui/`: `animated-theme-toggler` (the nav
   theme switch), `shine-border` (the contact form card), `border-beam` (the hero "Download CV"
-  button) and `particles` (the hero and footer background field), each installed from
+  button), `particles` (the hero and footer background field) and `orbiting-circles` (the skills
+  section's orbital system), each installed from
   `https://magicui.design/r/<name>.json`. Magic UI ships the first three importing
   `motion/react`; the import is deliberately re-pointed to `framer-motion` so the repo carries one
   animation runtime, which means `shadcn diff` reports a mismatch on them. `particles` needs no
@@ -37,7 +38,10 @@ This file provides guidance to Claude Code when working with code in this reposi
   sanctioned exception to the no-raw-colour rule**, because it paints a `<canvas>` where a token class
   cannot reach — its `color` prop takes a hex literal, supplied by `useParticleColor()` in
   `src/lib/particle-color.ts`, which is `--foreground` converted to hex and is the only place those two
-  literals may live. Do not generalise that exception to anything a token can style. Every
+  literals may live. Do not generalise that exception to anything a token can style — `orbiting-circles`
+  paints its ring as an SVG `stroke`, so it takes `stroke-border` and needs no exception. That component
+  also renames upstream's `--duration`/`--radius` to `--orbit-duration`/`--orbit-radius`, because
+  `--radius` is the shape token and a unitless override would break `rounded-*` on its children. Every
   installed component must then be reconciled with the design system and this repo's code conventions
   (arrow functions, bottom `export default`, one palette) — see `.claude/agents/frontend.md`.
 - **The shadcn MCP is the way in for all component work** — not just installing. Adding, replacing,
@@ -125,7 +129,9 @@ quality is the product, not decoration.
 ### Shape
 
 A **single route**. `src/app/page.tsx` renders the sections in order: `NavBar`, `Banner`,
-`SkillsAndTech`, `Experience`, `Projects`, `Contact`, `Footer`. `src/app/layout.tsx` owns the font
+`SkillsAndTech`, `Experience`, `Projects`, `Contact`, `Footer`, then `ScrollToTop` — a fixed control
+outside the section flow, which reveals itself from an `IntersectionObserver` on the hero.
+`src/app/layout.tsx` owns the font
 (Montserrat via `next/font`), the `next-themes` provider (class strategy, `defaultTheme="dark"`), site
 metadata/OpenGraph, and Vercel Analytics. `NavBar.tsx` owns the sticky nav, the mobile drawer (a shadcn
 `Sheet`, so Radix handles focus trapping and scroll locking), and the theme toggle (Magic UI's
@@ -178,7 +184,9 @@ them wrong.
   `mx-auto max-w-7xl`, buttons are `Button` variants, panels are `Card`.
 - The rest of `globals.css`: `@import 'tw-animate-css'`,
   `@custom-variant dark (&:is(.dark *))` (keyed to the `next-themes` class strategy), a `@theme` block
-  for the `float` animation, the `@layer base` reset, the scrollbar rules, and the three
+  for the `float` animation, the `@layer base` reset, `html { scroll-behavior: smooth;
+  scroll-padding-top: 4rem }` — the padding is what stops an anchor jump from parking a heading under the
+  fixed nav — the scrollbar rules, and the three
   `::view-transition-*(root)` rules the theme toggler's clip-path reveal needs — the two scoped ones read
   `--magicui-theme-toggle-vt-duration` / `--magicui-theme-vt-clip-from`, which the toggler sets on
   `<html>` only while a toggle is in flight, so no other view transition is affected.

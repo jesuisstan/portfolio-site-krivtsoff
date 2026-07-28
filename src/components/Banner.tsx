@@ -81,7 +81,7 @@ const Banner = () => {
     <section
       id="home"
       aria-labelledby="home-heading"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background pb-12 pt-20"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background pb-12 pt-20 select-none"
     >
       {/* Decorative drifting field — omitted outright under reduced motion. */}
       {!prefersReducedMotion && (

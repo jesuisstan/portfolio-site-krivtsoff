@@ -28,6 +28,8 @@ colors:
   destructive-foreground: "oklch(0.985 0 0)"
   brand-telegram: "oklch(0.5998 0.1412 241.55)"
   brand-whatsapp: "oklch(0.625 0.172 149.74)"
+  logo-plate: "oklch(0.97 0 0)"
+  logo-plate-dark: "oklch(0.28 0 0)"
 rounded:
   xs: "2px"
   sm: "6px"
@@ -137,6 +139,22 @@ a graphical object.
 They may only ever tint that service's own mark. They are not available as accents, fills, or link
 colours anywhere else in the system.
 
+### Logo Plates
+
+Third-party logo artwork is fixed: some marks are drawn in black, some in white, and neither survives a
+plate that follows the theme. So the plate does not follow the theme — two theme-constant neutrals,
+declared in `:root` only:
+
+- **Light plate** (`--logo-plate`, `oklch(0.97 0 0)`): the default under every technology logo, in both
+  themes. Most brand marks are authored for a light background, so this is what keeps them legible on
+  graphite.
+- **Dark plate** (`--logo-plate-dark`, `oklch(0.28 0 0)`): the exception, for the four marks drawn in
+  white — measured, not guessed: `PostgreSQL`, `Vercel Blob`, `Render`, `Socket.io`. Each is opted in
+  from the data (`plate: 'bg-logo-plate-dark'`), never from a runtime-built class.
+
+A white circle on graphite is a deliberate cost, paid because an invisible logo is worse. These two are
+not surfaces: nothing but a third-party mark ever sits on them, and no text does.
+
 ### Named Rules
 
 **The One Signal Rule.** Signal Teal at full chroma clears contrast only against dark backgrounds. It is
@@ -186,8 +204,11 @@ whole vocabulary.
 - **Body** (400, `text-base` 1rem; the hero and section ledes step up to `text-lg sm:text-xl`): reading
   copy, held to `max-w-lg` in the hero and `max-w-3xl` for section ledes — roughly 58–70ch, inside the
   65–75ch comfort band.
-- **Label** (500, `text-sm` 0.875rem for controls and links; `text-xs` 0.75rem for stat captions and
-  badges): buttons, badges, form labels, counter captions. Sentence case.
+- **Label** (500, `text-sm` 0.875rem for controls and links; `text-xs` 0.75rem for stat captions,
+  badges and filter chips): buttons, badges, form labels, counter captions. Sentence case.
+- **Micro label** (500, 10px, `leading-none`): one use only — the technology names under the orbiting
+  logos, where 48 of them share one ring and `text-xs` collides. Below the scale on purpose; anything
+  that has room for `text-xs` uses `text-xs`.
 
 ### Named Rules
 
@@ -332,10 +353,12 @@ transitions, an unmissable focus ring. Nothing jumps, nothing asks for attention
   teal fill (project category, over an image at `bg-primary/90 backdrop-blur-xs`); `secondary` is the
   quiet fill used for technology tags — those override to `rounded-md`, the one intentional exception to
   the pill rule, because a dense row of tech tags reads better as tiles.
-- **Filter toggles:** a Radix `ToggleGroup` of `rounded-full` items at h-9, `outline` variant, `gap-2`,
-  wrapping and centred. Selected is a full teal fill (`data-[state=on]:bg-primary`); unselected is a
-  hairline on transparent. The group is the section's only control, so its selected state is allowed to
-  be loud.
+- **Filter toggles:** a Radix `ToggleGroup` of `rounded-full` items at h-7 with `px-3 text-xs`, `outline`
+  variant, `gap-2`, wrapping and centred. Selected is a full teal fill (`data-[state=on]:bg-primary`);
+  unselected is a hairline on transparent. The group is the section's only control, so its selected state
+  is allowed to be loud — but it is navigation furniture, not content, so it sits a step below control
+  size and stays on one row wherever the width allows. One constant, `FILTER_CHIP_CLASS`, is shared by
+  the Skills and Projects filters; they are the same control and may not drift apart.
 
 ### Cards / Containers
 
@@ -417,6 +440,33 @@ escapes to the root and hides behind the container's own opaque background.
 **Why dust and not a pattern.** A grid, a noise texture or a gradient mesh would compete with the type
 for the same flat plane. Sparse dots at low alpha read as depth — they sit *behind* the words — which is
 the one thing the hero needs from a background and the only reason it earns motion at all.
+
+### Orbital System (signature)
+
+The Skills section is not a grid of cards; the technologies orbit. Magic UI's `OrbitingCircles` places
+each logo on one of up to three concentric rings, `stroke-border` hairlines, counter-rotated so the marks
+stay upright. Laps are 50/65/80s outwards and directions alternate, which keeps the linear speed roughly
+equal and stops neighbouring rings from reading as one mass. The hub is a `bg-card` disc carrying the
+count in `text-primary` over the active category — the filter's answer, stated in the middle of its own
+result.
+
+**The system scales to its content, not the other way round.** Rings are apportioned by circumference so
+arc spacing stays even whatever the filter selects, and a small category collapses to a single tighter
+ring in a smaller box rather than leaving three near-empty circles. The box is also capped by the
+leftover viewport height, so scrolling to the section lands the whole system on screen instead of
+cropping it.
+
+**Interaction.** Hovering a logo pauses its ring and raises it above its neighbours, which is the only
+way to read a moving label; the border warms to `border-primary/40`. Under reduced motion the animation
+is paused rather than removed — the `0%` keyframe is what puts each logo on its ring, so removing it
+would collapse the system into the hub.
+
+### Back To Top (floating)
+
+A single floating control, `fixed bottom-6 right-6`, revealed once the hero is 80% scrolled away and
+faded out again when it returns. It is the one element allowed `shadow-overlay` outside a real overlay,
+because it genuinely floats above the page, and it is `bg-card/60` with `backdrop-blur-sm` so the content
+it covers stays half-visible — a solid disc parked over the page reads as a defect.
 
 ### Theme Toggle (signature)
 

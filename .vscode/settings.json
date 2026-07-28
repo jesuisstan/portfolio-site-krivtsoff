@@ -14,6 +14,14 @@
   "css.validate": false,
   "css.lint.unknownAtRules": "ignore",
 
+  // `cssConflict` flags any two classes in one string that touch the same CSS property — it does not
+  // treat a variant as a separate condition. A theme-aware design system cannot avoid that: stating
+  // "20% on paper, 40% on graphite" *requires* both `ring-destructive/20` and
+  // `dark:ring-destructive/40`, and every shadcn recipe in src/components/ui is built that way, so the
+  // rule fires on correct code and its only available fix would break a theme. Genuine same-property
+  // duplicates are already resolved at runtime by tailwind-merge inside `cn()`, which is modifier-aware.
+  "tailwindCSS.lint.cssConflict": "ignore",
+
   // Type-check in the editor with the same TypeScript the project pins (5.x). A newer bundled
   // TypeScript reports diagnostics `npm run typecheck` never sees, and TS 7 additionally breaks
   // next.config.ts — see .claude/agents/platform.md

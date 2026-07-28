@@ -6,14 +6,7 @@ import emailjs from 'emailjs-com';
 import type { Variants } from 'framer-motion';
 import { motion, useInView } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
-import {
-  Facebook,
-  Github,
-  Instagram,
-  Linkedin,
-  MapPin,
-  MessageCircle
-} from 'lucide-react';
+import { MapPin, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import type { FormEvent } from 'react';
 
@@ -25,12 +18,6 @@ import Separator from '@/components/ui/separator';
 import ShineBorder from '@/components/ui/shine-border';
 import Textarea from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-
-interface ContactSocialLink {
-  icon: LucideIcon;
-  href: string | undefined;
-  label: string;
-}
 
 interface ContactInfoItem {
   icon: LucideIcon;
@@ -59,29 +46,6 @@ interface ContactFormStatus {
   success?: boolean;
   message?: string;
 }
-
-const socialLinks: ContactSocialLink[] = [
-  {
-    icon: Github,
-    href: process.env.NEXT_PUBLIC_LINK_GITHUB,
-    label: 'GitHub'
-  },
-  {
-    icon: Linkedin,
-    href: process.env.NEXT_PUBLIC_LINK_LINKEDIN,
-    label: 'LinkedIn'
-  },
-  {
-    icon: Instagram,
-    href: process.env.NEXT_PUBLIC_LINK_INSTAGRAM,
-    label: 'Instagram'
-  },
-  {
-    icon: Facebook,
-    href: process.env.NEXT_PUBLIC_LINK_FACEBOOK,
-    label: 'Facebook'
-  }
-];
 
 const messengers: ContactMessenger[] = [
   {
@@ -316,37 +280,6 @@ const Contact = () => {
                   </motion.div>
                 ))}
               </motion.div>
-            </motion.div>
-
-            {/* Social Links */}
-            <motion.div variants={itemVariants}>
-              <Separator className="mb-6" />
-              <motion.h3
-                variants={itemVariants}
-                className="mb-4 text-lg font-semibold text-foreground"
-              >
-                Follow Me
-              </motion.h3>
-              <div className="flex justify-center gap-4 md:justify-start">
-                {socialLinks.map((social) => (
-                  <Button
-                    key={social.label}
-                    asChild
-                    variant="outline"
-                    size="icon-lg"
-                    className="size-12"
-                  >
-                    <a
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={social.label}
-                    >
-                      <social.icon className="size-6" />
-                    </a>
-                  </Button>
-                ))}
-              </div>
             </motion.div>
           </motion.div>
 

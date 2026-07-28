@@ -4,6 +4,7 @@ import Experience from '@/components/Experience';
 import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
 import Projects from '@/components/Projects';
+import ScrollToTop from '@/components/ScrollToTop';
 import SkillsAndTech from '@/components/SkillsAndTech';
 
 /** Renders the single-page portfolio with every section in order. */
@@ -17,6 +18,7 @@ const Home = () => {
       <Projects />
       <Contact />
       <Footer />
+      <ScrollToTop />
     </main>
   );
 };

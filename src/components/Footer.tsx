@@ -1,21 +1,18 @@
 'use client';
 
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowUp, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 import Button from '@/components/ui/button';
 import { Particles } from '@/components/ui/particles';
 import Separator from '@/components/ui/separator';
 import { useParticleColor } from '@/lib/particle-color';
+import { socialLinks } from '@/lib/social-links';
 
-/** Site footer with branding and a scroll-to-top control. */
+/** Site footer with branding and the social links. */
 const Footer = () => {
   const prefersReducedMotion = useReducedMotion();
   const particleColor = useParticleColor();
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   const currentYear = new Date().getFullYear();
 
@@ -57,22 +54,36 @@ const Footer = () => {
             </p>
           </motion.div>
 
-          {/* Scroll to Top Button */}
+          {/* Social Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="shrink-0"
+            className="shrink-0 text-center md:text-right"
           >
-            <Button
-              variant="outline"
-              size="icon-lg"
-              className="size-12"
-              aria-label="Back to top"
-              onClick={scrollToTop}
-            >
-              <ArrowUp className="size-6" />
-            </Button>
+            <h3 className="mb-4 text-lg font-semibold text-foreground">
+              Follow Me
+            </h3>
+            <div className="flex justify-center gap-4 md:justify-end">
+              {socialLinks.map((social) => (
+                <Button
+                  key={social.label}
+                  asChild
+                  variant="outline"
+                  size="icon-lg"
+                  className="size-12"
+                >
+                  <a
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                  >
+                    <social.icon className="size-6" />
+                  </a>
+                </Button>
+              ))}
+            </div>
           </motion.div>
         </div>
 

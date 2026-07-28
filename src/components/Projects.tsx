@@ -18,6 +18,7 @@ import Tooltip, {
 } from '@/components/ui/tooltip';
 import type { ProjectCategory, ProjectFilter } from '@/constants/projects';
 import { projects } from '@/constants/projects';
+import { FILTER_CHIP_CLASS } from '@/lib/filter-chip';
 import { cn } from '@/lib/utils';
 
 const descriptionClasses =
@@ -143,7 +144,7 @@ const Projects = () => {
                 <ToggleGroupItem
                   key={category}
                   value={category}
-                  className="h-9 rounded-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                  className={FILTER_CHIP_CLASS}
                 >
                   {category}
                 </ToggleGroupItem>

@@ -29,6 +29,8 @@
   --color-overlay: var(--overlay);
   --color-brand-telegram: var(--brand-telegram);
   --color-brand-whatsapp: var(--brand-whatsapp);
+  --color-logo-plate: var(--logo-plate);
+  --color-logo-plate-dark: var(--logo-plate-dark);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -65,6 +67,24 @@
     }
     50% {
       background-position: 100% 100%;
+    }
+  }
+
+  /* Same reason as `--animate-shine`: the orbit reads per-element custom properties. Upstream names
+     them `--duration` and `--radius`; both are renamed here because `--radius` is already the shape
+     token, and a unitless override on an orbiting element would break `rounded-*` on its children. */
+  --animate-orbit: orbit calc(var(--orbit-duration) * 1s) linear infinite;
+
+  @keyframes orbit {
+    0% {
+      transform: rotate(calc(var(--angle) * 1deg))
+        translateY(calc(var(--orbit-radius) * 1px))
+        rotate(calc(var(--angle) * -1deg));
+    }
+    100% {
+      transform: rotate(calc(var(--angle) * 1deg + 360deg))
+        translateY(calc(var(--orbit-radius) * 1px))
+        rotate(calc((var(--angle) * -1deg) - 360deg));
     }
   }
 }
@@ -118,6 +138,12 @@
      #05a34a (3.32:1) at the same hue and .dark restores the official value. */
   --brand-telegram: oklch(0.5998 0.1412 241.55);
   --brand-whatsapp: oklch(0.625 0.172 149.74);
+  /* Theme-constant, same reason as the brand marks above: third-party logo artwork is mostly drawn
+     for a light background, and a plate that followed the theme would swallow every black mark on
+     graphite. One plate colour in both themes keeps every logo legible. */
+  --logo-plate: oklch(0.97 0 0);
+  /* The counterpart, for the handful of marks drawn in white, which would vanish on the light plate. */
+  --logo-plate-dark: oklch(0.28 0 0);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.715 0.122 196.14);
@@ -188,6 +214,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* The nav is fixed at h-16, so an anchor jump must stop short of it or the heading lands underneath. */
+  scroll-padding-top: 4rem;
 }
 
 ::-webkit-scrollbar {
