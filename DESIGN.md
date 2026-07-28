@@ -230,15 +230,19 @@ Vertical rhythm is deliberately flat: every section below the hero is `py-12`, a
 header block separates the title from the content, and content groups use `space-y-8` / `gap-6`. Headings
 carry more space above than below.
 
+The nav is fixed, so an anchor jump has to stop short of it: `html` carries
+`scroll-padding-top: 4rem`, exactly the nav's height. Without it every in-page link parks its own
+heading underneath the bar — the one place where the sticky nav would cost the reader the thing they
+clicked for.
+
 Depth of field comes from alternating surface tone rather than dividers: hero, experience, and contact
 sit on `bg-background`; skills and projects on `bg-muted/30`. That alternation is the section separator —
 there are no horizontal rules between sections.
 
 Responsive behaviour is mobile-first on Tailwind's default breakpoints. The structural switch is at `lg`
 (1024px), where the desktop nav replaces the drawer and the hero goes two-column. Grids: projects
-1 → `md` 2 → `lg` 3; technologies 2 → `sm` 3 → `md` 4 → `lg` 6 → `xl` 8; hero stats 2 → `md` 4. Two
-technology columns at the smallest width is a decision, not a default — three makes the cards narrower
-than the longest category label and the page picks up a horizontal scrollbar.
+1 → `md` 2 → `lg` 3; hero stats 2 → `md` 4. The skills section is not a grid — see the Particle Field's
+sibling, the Orbital System, whose size is measured rather than stepped.
 
 ### Named Rules
 
@@ -288,7 +292,9 @@ in this project; they are theme-blind and invisible on graphite. A fourth step m
 one-off `shadow-[...]`.
 
 **The No Halo Rule.** Every shadow carries a vertical offset and a soft blur. A zero-offset coloured glow
-is decoration, and the hero's blurred teal orbs already own that register.
+is not a shadow, it is decoration — the one on the page is the teal wash behind the avatar
+(`bg-primary/20 blur-xl`), and it sits under a photograph rather than under a surface. Nothing that
+carries content gets one.
 
 ## Shapes
 
@@ -299,8 +305,9 @@ too small to carry a real corner — the tooltip's arrow and the sheet's close a
 system is square, and nothing is fully organic.
 
 Full pills (`rounded-full`) are reserved for things that label or select: badges, category chips, filter
-toggles, the availability chip, the status dot — plus the avatar and the hero's blurred orbs, which are
-circles because they are round objects rather than because they are pills.
+toggles, the availability chip, the status dot — plus the avatar, its teal wash, and every technology
+logo plate on the orbit, which are circles because they are round objects rather than because they are
+pills.
 
 Borders are 1px `border-border` on every side. There are exactly **three** deliberate exceptions, and a
 fourth is a defect:
@@ -369,6 +376,15 @@ transitions, an unmissable focus ring. Nothing jumps, nothing asks for attention
   change, plus a 500ms `scale-110` on the image, is the entire hover treatment.
 - **Internal Padding:** `p-5` for project cards, `p-6 sm:p-8` for the contact form. The default
   `CardHeader`/`CardContent` rhythm is `px-6` with `py-6` and `gap-6`.
+- **Truncated description:** a project description is clamped to three lines (`line-clamp-3`). Anything
+  longer than 100 characters becomes a real `<button>` carrying the clamped text, with the full string in
+  a tooltip below it. Truncation without a way back to the whole sentence is a defect; the button is what
+  makes the rest reachable by keyboard as well as by pointer, and it is why the clamp is allowed at all.
+- **Truncated body:** a project description longer than 100 characters is clamped to three lines
+  (`line-clamp-3`) and the full text is disclosed in a tooltip. The clamped text is a real `button`, not
+  a `p`, so it carries the standard focus ring and the disclosure is reachable by keyboard — a card that
+  ends in an ellipsis with no way to finish the sentence is a dead end, and a hover-only tooltip is one
+  for anyone not using a mouse. Nine cards of equal height are worth more than nine full paragraphs.
 
 ### Inputs / Fields
 
@@ -418,6 +434,11 @@ Magic UI's `Particles` lays a canvas of drifting dots behind the page's two end 
 hero, 50 across the shorter footer, so the density reads the same in both — `pointer-events-none` and
 `aria-hidden`. It bookends the page: the same dust under the first screen and the last, and nothing in
 the reading sections between them, where it would compete with the content.
+
+**Decoration is not selectable.** The hero, the footer and the orbit box carry `select-none`. Dragging
+across a decorative region should not produce a text selection over animated logos and drifting dots —
+the highlight lands on nothing a reader wanted. Reading regions stay selectable; this is scoped to the
+three surfaces whose content is the effect itself.
 
 **The dots are the reading colour, thinned to dust.** They take the `--foreground` value itself, held
 between 10% and 70% alpha, so the field inverts with the theme instead of owning a colour — near-white
@@ -522,5 +543,7 @@ to `duration: 0` under reduced motion.
 - **Don't** spread `--destructive` into decoration. It means failure, and `--primary-alt` is the
   decorative sibling. The hero beam's leading stop is the single sanctioned exception (see Components);
   do not cite it to justify a second one.
-- **Don't** revive the `--chart-*` or `--sidebar-*` tokens as a shortcut to a new colour. Nothing under
-  `src/` reads them today, and they are excluded from this document on purpose.
+- **Don't** reintroduce the `--chart-*` or `--sidebar-*` tokens as a shortcut to a new colour. They came
+  with the shadcn scale, nothing under `src/` ever read them, and they were deleted from
+  `globals.css` — 39 declarations across `:root`, `.dark` and `@theme inline`. A chart palette is a
+  decision to make when a chart exists, not a set of variables to inherit.

@@ -131,7 +131,7 @@ const SkillsAndTech = () => {
             variants={itemVariants}
             className="mx-auto max-w-3xl text-lg text-muted-foreground sm:text-xl"
           >
-            Tools I&apos;ve worked with hands-on — and the list keeps growing.
+            My technical toolkit, built through hands-on experience.
           </motion.p>
         </motion.div>
 
@@ -228,7 +228,7 @@ const SkillsAndTech = () => {
                 {filteredTechnologies.length}
               </span>
               <span className="text-xs leading-tight font-medium text-muted-foreground">
-                {activeCategory === 'All' ? 'technologies' : activeCategory}
+                {activeCategory === 'All' ? 'TECHS' : activeCategory}
               </span>
             </div>
           </motion.div>

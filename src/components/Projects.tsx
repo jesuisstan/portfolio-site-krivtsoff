@@ -123,8 +123,7 @@ const Projects = () => {
             variants={itemVariants}
             className="mx-auto mb-8 max-w-3xl text-xl text-muted-foreground"
           >
-            Here are some of my recent projects that showcase my skills and
-            passion for web development.
+            Some of the shipped projects. Live demo and source for each.
           </motion.p>
 
           {/* Category Filter */}

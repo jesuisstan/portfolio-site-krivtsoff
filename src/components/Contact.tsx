@@ -187,8 +187,7 @@ const Contact = () => {
           >
             <motion.div variants={itemVariants}>
               <p className="mb-8 text-base leading-relaxed text-muted-foreground">
-                Ready to start a project or have a job opportunity? Send me a
-                message and I&apos;ll respond as soon as possible.
+                Hiring, or want to talk about a role? Send a message.
               </p>
             </motion.div>
 
