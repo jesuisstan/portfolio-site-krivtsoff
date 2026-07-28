@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-28T11:18:16.554Z",
+  "generatedAt": "2026-07-28T18:21:59.031Z",
   "title": "Design System: krivtsoff.develop()",
   "extensions": {
     "colorMeta": {
@@ -455,11 +455,6 @@
       }
     ],
     "motion": [
-      {
-        "name": "float",
-        "utility": "animate-float",
-        "value": "float 3s ease-in-out infinite"
-      },
       {
         "name": "shine",
         "utility": "animate-shine",

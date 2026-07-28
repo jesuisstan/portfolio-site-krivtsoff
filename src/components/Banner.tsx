@@ -93,13 +93,6 @@ const Banner = () => {
           refresh
         />
       )}
-      {/* Background Elements */}
-      <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute left-10 top-20 h-72 w-72 animate-float rounded-full bg-primary/15 blur-3xl motion-reduce:animate-none" />
-        <div className="absolute bottom-20 right-10 h-96 w-96 animate-float rounded-full bg-primary/10 blur-3xl [animation-delay:1s] motion-reduce:animate-none" />
-        <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 animate-float rounded-full bg-primary/5 blur-3xl [animation-delay:2s] motion-reduce:animate-none" />
-      </div>
-
       {/* `relative z-10` keeps the z-0 particle canvas from painting over this in-flow content. */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-16 lg:grid-cols-2">

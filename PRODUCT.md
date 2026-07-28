@@ -57,9 +57,10 @@ but they are supporting evidence, not the headline.
 ## Capabilities and Constraints
 
 **What it does today.** One route (`src/app/page.tsx`) renders, in order: sticky nav, hero, skills &
-technologies, experience timeline, projects, contact, footer. Category filters narrow the technology
-grid and the projects grid. The hero downloads the CV PDF. The contact section renders a location, two
-messenger QR codes, four social links, and a form.
+technologies, experience timeline, projects, contact, footer, plus a floating back-to-top control.
+Category filters narrow the technology orbit and the projects grid. The hero downloads the CV PDF. The
+contact section renders a location, two messenger QR codes and a form; the social links live in the
+footer.
 
 **Technical constraints.**
 
