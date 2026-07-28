@@ -53,8 +53,9 @@ predictable, every interactive element has a real focus ring, and nothing is pla
 audience for this system is engineers reading it as a work sample, so a misaligned edge reads exactly
 like a bug in the code — the discipline is the argument. It is also alive without being busy: sections
 reveal once on scroll, the hero counters run once and stop, two borders trace slowly enough to read as
-highlights rather than as animation. Motion is authored in single moments; nothing loops fast enough to
-pull the eye off the text.
+highlights rather than as animation, and a field of dust drifts behind both end caps at a speed you have to
+stop and look for. Motion is authored in single moments; nothing loops fast enough to pull the eye off
+the text.
 
 Dark is the native environment, not an option. `defaultTheme="dark"`, and the teal was chosen for how
 it reads on graphite. The light theme is fully correct and fully supported, but it is the translation,
@@ -372,7 +373,7 @@ transitions, an unmissable focus ring. Nothing jumps, nothing asks for attention
 
 ### Animated Borders (signature)
 
-Two Magic UI primitives carry the only continuous motion in the system, both resolving their stops to
+Two Magic UI primitives send a travelling highlight around a border, both resolving their stops to
 tokens rather than literals:
 
 - **`ShineBorder`** traces a 1px `var(--primary)` → `var(--primary-alt)` gradient around the contact form
@@ -387,6 +388,35 @@ tokens rather than literals:
 hot end of an ember rather than as an error, because it is a moving 1px highlight and never a fill or a
 label. It is deliberate and confined to this single element. If the system ever needs a second warm
 decorative colour, it gets its own token; `--destructive` does not become the general-purpose warm accent.
+
+### Particle Field (signature)
+
+Magic UI's `Particles` lays a canvas of drifting dots behind the page's two end caps — 100 across the
+hero, 50 across the shorter footer, so the density reads the same in both — `pointer-events-none` and
+`aria-hidden`. It bookends the page: the same dust under the first screen and the last, and nothing in
+the reading sections between them, where it would compete with the content.
+
+**The dots are the reading colour, thinned to dust.** They take the `--foreground` value itself, held
+between 10% and 70% alpha, so the field inverts with the theme instead of owning a colour — near-white
+on graphite, near-black on paper. It never uses the accent: teal belongs to the heading word, the
+counters and the primary action, and a teal haze behind them would spend the signal on nothing. Dots
+lean towards the pointer on a slow ease (`ease={80}`), the one place in the system where a background
+answers the cursor. Not rendered at all under reduced motion.
+
+**The one hex exception.** A `<canvas>` fill cannot take a utility class, so this is the single place a
+colour is written as a literal. It is not a new colour: `useParticleColor()` holds `--foreground`
+converted to hex and nothing else, and that hook is the only sanctioned home for those two literals. A
+second hex anywhere is still a defect.
+
+**Layering.** The canvas is `absolute inset-0 z-0` and the content wrapper next to it is `relative z-10`.
+Both are required: a positioned `z-0` element paints *above* non-positioned in-flow content, so without
+the wrapper's `z-10` the dust would fall across the type. `-z-10` is not an alternative — these
+containers are `relative` with `z-index: auto`, so neither is a stacking context, and a negative layer
+escapes to the root and hides behind the container's own opaque background.
+
+**Why dust and not a pattern.** A grid, a noise texture or a gradient mesh would compete with the type
+for the same flat plane. Sparse dots at low alpha read as depth — they sit *behind* the words — which is
+the one thing the hero needs from a background and the only reason it earns motion at all.
 
 ### Theme Toggle (signature)
 

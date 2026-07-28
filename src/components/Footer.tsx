@@ -4,11 +4,14 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowUp, Heart } from 'lucide-react';
 
 import Button from '@/components/ui/button';
+import { Particles } from '@/components/ui/particles';
 import Separator from '@/components/ui/separator';
+import { useParticleColor } from '@/lib/particle-color';
 
 /** Site footer with branding and a scroll-to-top control. */
 const Footer = () => {
   const prefersReducedMotion = useReducedMotion();
+  const particleColor = useParticleColor();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -17,8 +20,19 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-muted/30">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <footer className="relative overflow-hidden border-t border-border bg-muted/30 select-none">
+      {/* Decorative drifting field — omitted outright under reduced motion. */}
+      {!prefersReducedMotion && (
+        <Particles
+          className="absolute inset-0 z-0"
+          quantity={50}
+          ease={80}
+          color={particleColor}
+          refresh
+        />
+      )}
+      {/* `relative z-10` keeps the z-0 particle canvas from painting over this in-flow content. */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
           {/* Logo and Description */}
           <motion.div

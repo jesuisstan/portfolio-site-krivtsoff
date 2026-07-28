@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Download } from 'lucide-react';
 import Image from 'next/image';
-import { useTheme } from 'next-themes';
 
 import type { BannerStatCounts } from '@/components/banner-content';
 import { bannerSocialLinks, bannerStats } from '@/components/banner-content';
@@ -14,6 +13,7 @@ import BorderBeam from '@/components/ui/border-beam';
 import Button from '@/components/ui/button';
 import { Particles } from '@/components/ui/particles';
 import Separator from '@/components/ui/separator';
+import { useParticleColor } from '@/lib/particle-color';
 
 const countsAtProgress = (progress: number): BannerStatCounts => ({
   projects: Math.floor(bannerStats[0].number * progress),
@@ -29,12 +29,7 @@ const Banner = () => {
   const prefersReducedMotion = useReducedMotion();
   const [counts, setCounts] = useState<BannerStatCounts>(countsAtProgress(0));
 
-  const { setTheme, resolvedTheme } = useTheme();
-
-  const color = useMemo(
-    () => (resolvedTheme === 'dark' ? '#ffffff' : '#000000'),
-    [resolvedTheme]
-  );
+  const particleColor = useParticleColor();
 
   // Reduced motion skips the count-up entirely and renders the final values.
   const displayCounts = prefersReducedMotion ? countsAtProgress(1) : counts;
@@ -88,13 +83,16 @@ const Banner = () => {
       aria-labelledby="home-heading"
       className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background pb-12 pt-20"
     >
-      <Particles
-        className="absolute inset-0 z-0"
-        quantity={100}
-        ease={80}
-        color={color}
-        refresh
-      />
+      {/* Decorative drifting field — omitted outright under reduced motion. */}
+      {!prefersReducedMotion && (
+        <Particles
+          className="absolute inset-0 z-0"
+          quantity={100}
+          ease={80}
+          color={particleColor}
+          refresh
+        />
+      )}
       {/* Background Elements */}
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="absolute left-10 top-20 h-72 w-72 animate-float rounded-full bg-primary/15 blur-3xl motion-reduce:animate-none" />
@@ -102,7 +100,8 @@ const Banner = () => {
         <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 animate-float rounded-full bg-primary/5 blur-3xl [animation-delay:2s] motion-reduce:animate-none" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* `relative z-10` keeps the z-0 particle canvas from painting over this in-flow content. */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-16 lg:grid-cols-2">
           {/* Content */}
           <motion.div

@@ -1,5 +1,9 @@
 'use client';
 
+// Deliberate exception to the no-raw-colour rule: this is upstream Magic UI source, kept as installed.
+// It fills a canvas, where a token class cannot reach, and its `color` prop takes a hex literal.
+// The only edits are React correctness fixes — see the ref-assignment effect below.
+
 import React, {
   type ComponentPropsWithoutRef,
   useEffect,
@@ -14,7 +18,7 @@ interface MousePosition {
   y: number;
 }
 
-function MousePosition(): MousePosition {
+const useMousePosition = (): MousePosition => {
   const [mousePosition, setMousePosition] = useState<MousePosition>({
     x: 0,
     y: 0
@@ -33,7 +37,7 @@ function MousePosition(): MousePosition {
   }, []);
 
   return mousePosition;
-}
+};
 
 interface ParticlesProps extends ComponentPropsWithoutRef<'div'> {
   className?: string;
@@ -77,6 +81,7 @@ type Circle = {
   magnetism: number;
 };
 
+/** Decorative canvas of drifting dots that lean towards the pointer; fills its positioned parent. */
 export const Particles: React.FC<ParticlesProps> = ({
   className = '',
   quantity = 100,
@@ -93,7 +98,7 @@ export const Particles: React.FC<ParticlesProps> = ({
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const context = useRef<CanvasRenderingContext2D | null>(null);
   const circles = useRef<Circle[]>([]);
-  const mousePosition = MousePosition();
+  const mousePosition = useMousePosition();
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
@@ -102,82 +107,6 @@ export const Particles: React.FC<ParticlesProps> = ({
   const initCanvasRef = useRef<() => void>(() => {});
   const onMouseMoveRef = useRef<() => void>(() => {});
   const animateRef = useRef<() => void>(() => {});
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      context.current = canvasRef.current.getContext('2d');
-    }
-    initCanvasRef.current();
-    animateRef.current();
-
-    const handleResize = () => {
-      if (resizeTimeout.current) {
-        clearTimeout(resizeTimeout.current);
-      }
-      resizeTimeout.current = setTimeout(() => {
-        initCanvasRef.current();
-      }, 200);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      if (rafID.current != null) {
-        window.cancelAnimationFrame(rafID.current);
-      }
-      if (resizeTimeout.current) {
-        clearTimeout(resizeTimeout.current);
-      }
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [color]);
-
-  useEffect(() => {
-    onMouseMoveRef.current();
-  }, [mousePosition.x, mousePosition.y]);
-
-  useEffect(() => {
-    initCanvasRef.current();
-  }, [refresh]);
-
-  const initCanvas = () => {
-    resizeCanvas();
-    drawParticles();
-  };
-
-  const onMouseMove = () => {
-    if (canvasRef.current) {
-      const rect = canvasRef.current.getBoundingClientRect();
-      const { w, h } = canvasSize.current;
-      const x = mousePosition.x - rect.left - w / 2;
-      const y = mousePosition.y - rect.top - h / 2;
-      const inside = x < w / 2 && x > -w / 2 && y < h / 2 && y > -h / 2;
-      if (inside) {
-        mouse.current.x = x;
-        mouse.current.y = y;
-      }
-    }
-  };
-
-  const resizeCanvas = () => {
-    if (canvasContainerRef.current && canvasRef.current && context.current) {
-      canvasSize.current.w = canvasContainerRef.current.offsetWidth;
-      canvasSize.current.h = canvasContainerRef.current.offsetHeight;
-
-      canvasRef.current.width = canvasSize.current.w * dpr;
-      canvasRef.current.height = canvasSize.current.h * dpr;
-      canvasRef.current.style.width = `${canvasSize.current.w}px`;
-      canvasRef.current.style.height = `${canvasSize.current.h}px`;
-      context.current.scale(dpr, dpr);
-
-      // Clear existing particles and create new ones with exact quantity
-      circles.current = [];
-      for (let i = 0; i < quantity; i++) {
-        const circle = circleParams();
-        drawCircle(circle);
-      }
-    }
-  };
 
   const circleParams = (): Circle => {
     const x = Math.floor(Math.random() * canvasSize.current.w);
@@ -239,6 +168,45 @@ export const Particles: React.FC<ParticlesProps> = ({
     for (let i = 0; i < particleCount; i++) {
       const circle = circleParams();
       drawCircle(circle);
+    }
+  };
+
+  const resizeCanvas = () => {
+    if (canvasContainerRef.current && canvasRef.current && context.current) {
+      canvasSize.current.w = canvasContainerRef.current.offsetWidth;
+      canvasSize.current.h = canvasContainerRef.current.offsetHeight;
+
+      canvasRef.current.width = canvasSize.current.w * dpr;
+      canvasRef.current.height = canvasSize.current.h * dpr;
+      canvasRef.current.style.width = `${canvasSize.current.w}px`;
+      canvasRef.current.style.height = `${canvasSize.current.h}px`;
+      context.current.scale(dpr, dpr);
+
+      // Clear existing particles and create new ones with exact quantity
+      circles.current = [];
+      for (let i = 0; i < quantity; i++) {
+        const circle = circleParams();
+        drawCircle(circle);
+      }
+    }
+  };
+
+  const initCanvas = () => {
+    resizeCanvas();
+    drawParticles();
+  };
+
+  const onMouseMove = () => {
+    if (canvasRef.current) {
+      const rect = canvasRef.current.getBoundingClientRect();
+      const { w, h } = canvasSize.current;
+      const x = mousePosition.x - rect.left - w / 2;
+      const y = mousePosition.y - rect.top - h / 2;
+      const inside = x < w / 2 && x > -w / 2 && y < h / 2 && y > -h / 2;
+      if (inside) {
+        mouse.current.x = x;
+        mouse.current.y = y;
+      }
     }
   };
 
@@ -304,9 +272,50 @@ export const Particles: React.FC<ParticlesProps> = ({
     rafID.current = window.requestAnimationFrame(animateRef.current);
   };
 
-  initCanvasRef.current = initCanvas;
-  onMouseMoveRef.current = onMouseMove;
-  animateRef.current = animate;
+  // Upstream assigns these during render, which React forbids. Declared before the effects that call
+  // through them so the mount effect still sees this render's closures.
+  useEffect(() => {
+    initCanvasRef.current = initCanvas;
+    onMouseMoveRef.current = onMouseMove;
+    animateRef.current = animate;
+  });
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      context.current = canvasRef.current.getContext('2d');
+    }
+    initCanvasRef.current();
+    animateRef.current();
+
+    const handleResize = () => {
+      if (resizeTimeout.current) {
+        clearTimeout(resizeTimeout.current);
+      }
+      resizeTimeout.current = setTimeout(() => {
+        initCanvasRef.current();
+      }, 200);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      if (rafID.current != null) {
+        window.cancelAnimationFrame(rafID.current);
+      }
+      if (resizeTimeout.current) {
+        clearTimeout(resizeTimeout.current);
+      }
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [color]);
+
+  useEffect(() => {
+    onMouseMoveRef.current();
+  }, [mousePosition.x, mousePosition.y]);
+
+  useEffect(() => {
+    initCanvasRef.current();
+  }, [refresh]);
 
   return (
     <div

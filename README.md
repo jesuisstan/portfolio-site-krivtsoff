@@ -30,7 +30,8 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
   `card`, `badge`, `input`, `textarea`, `label`, `sheet`, `tooltip`, `toggle`, `toggle-group`,
   `separator`. Add more with `npx shadcn@latest add @shadcn/<name>`
 - **Magic UI** - a second, opt-in registry, used only where an animated component is asked for.
-  Installed in `src/components/ui/`: `animated-theme-toggler`, `shine-border`, `border-beam`. Items come
+  Installed in `src/components/ui/`: `animated-theme-toggler`, `shine-border`, `border-beam`,
+  `particles`. Items come
   from `npx shadcn@latest add "https://magicui.design/r/<name>.json"`. Each one then has its decorative
   colours reduced to this project's tokens and its `motion/react` imports re-pointed to `framer-motion`,
   so the repo carries a single animation runtime
@@ -154,7 +155,8 @@ src/
 ├── components/             # React components
 │   ├── ui/                 # shadcn/ui primitives (button, card, badge, input, textarea,
 │   │                       #   label, sheet, tooltip, toggle, toggle-group, separator)
-│   │                       #   + animated-theme-toggler, shine-border, border-beam (Magic UI)
+│   │                       #   + animated-theme-toggler, shine-border, border-beam,
+│   │                       #     particles (Magic UI)
 │   ├── Banner.tsx          # Hero section + animated stat counters
 │   ├── banner-content.ts   # Hero stat + social link data
 │   ├── SkillsAndTech.tsx   # Skills groups + technology logo grid with category filter
@@ -162,13 +164,14 @@ src/
 │   ├── Projects.tsx        # Projects showcase with category filter
 │   ├── Contact.tsx         # Contact form (EmailJS) + contact details
 │   ├── NavBar.tsx          # Sticky navigation, mobile drawer (sheet), theme toggle
-│   ├── Footer.tsx          # Site footer
+│   ├── Footer.tsx          # Site footer + particle field
 │   └── ThemeProvider.tsx   # next-themes wrapper
 ├── constants/              # Page content data + its TypeScript types
 │   ├── experiences.ts      # Timeline entries
 │   ├── projects.ts         # Project cards
 │   └── technologies.ts     # Technology / logo entries
 ├── lib/
+│   ├── particle-color.ts   # `useParticleColor()` — the `--foreground` value as hex, for canvas fills
 │   └── utils.ts            # `cn()` class-merge helper
 ├── types/
 │   └── css.d.ts            # ambient declaration for stylesheet side-effect imports
