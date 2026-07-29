@@ -373,7 +373,13 @@ transitions, an unmissable focus ring. Nothing jumps, nothing asks for attention
 - **Background:** `bg-card` with `text-card-foreground`.
 - **Shadow Strategy:** `shadow-ambient` at rest and no promotion on hover — see Elevation.
 - **Border:** 1px `border-border`. Project cards shift it to `border-primary/50` on hover; that colour
-  change, plus a 500ms `scale-110` on the image, is the entire hover treatment.
+  change, plus the magnifier described below, is the entire hover treatment.
+- **Project screenshot:** the image no longer scales as a whole on hover — a 130px circular magnifier
+  follows the pointer across it at 2× (Magic UI `Lens`). The screenshot is the one piece of a project card
+  that carries real evidence, and a uniform `scale-110` only cropped it; the lens lets a visitor read the
+  actual interface instead. It is pointer-only and purely additive: the plain image is always rendered
+  underneath, the magnified copy is `aria-hidden`, and under `prefers-reduced-motion` the circle appears
+  without its scale-in. The category badge sits above it (`z-20`) so it stays legible through the sweep.
 - **Internal Padding:** `p-5` for project cards, `p-6 sm:p-8` for the contact form. The default
   `CardHeader`/`CardContent` rhythm is `px-6` with `py-6` and `gap-6`.
 - **Truncated description:** a project description is clamped to three lines (`line-clamp-3`). Anything

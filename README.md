@@ -31,7 +31,7 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
   `separator`. Add more with `npx shadcn@latest add @shadcn/<name>`
 - **Magic UI** - a second, opt-in registry, used only where an animated component is asked for.
   Installed in `src/components/ui/`: `animated-theme-toggler`, `shine-border`, `border-beam`,
-  `particles`, `orbiting-circles`. Items come
+  `particles`, `orbiting-circles`, `lens`. Items come
   from `npx shadcn@latest add "https://magicui.design/r/<name>.json"`. Each one then has its decorative
   colours reduced to this project's tokens and its `motion/react` imports re-pointed to `framer-motion`,
   so the repo carries a single animation runtime
@@ -156,7 +156,7 @@ src/
 │   ├── ui/                 # shadcn/ui primitives (button, card, badge, input, textarea,
 │   │                       #   label, sheet, tooltip, toggle, toggle-group, separator)
 │   │                       #   + animated-theme-toggler, shine-border, border-beam,
-│   │                       #     particles, orbiting-circles (Magic UI)
+│   │                       #     particles, orbiting-circles, lens (Magic UI)
 │   ├── Banner.tsx          # Hero section + animated stat counters
 │   ├── banner-content.ts   # Hero stat + social link data
 │   ├── SkillsAndTech.tsx   # Technologies as an orbital system, with a category filter

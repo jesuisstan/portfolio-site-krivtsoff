@@ -27,13 +27,16 @@ This file provides guidance to Claude Code when working with code in this reposi
   **`radix-ui`** package. Source any further primitive from the `@shadcn` registry via the shadcn MCP
   tools and `npx shadcn@latest add` — never hand-write a primitive the registry ships, and never paste
   registry source by hand. Magic UI (`magicuidesign-mcp`) only when the user explicitly asks — the repo
-  currently holds five such components in `src/components/ui/`: `animated-theme-toggler` (the nav
+  currently holds six such components in `src/components/ui/`: `animated-theme-toggler` (the nav
   theme switch), `shine-border` (the contact form card), `border-beam` (the hero "Download CV"
-  button), `particles` (the hero and footer background field) and `orbiting-circles` (the skills
-  section's orbital system), each installed from
-  `https://magicui.design/r/<name>.json`. Magic UI ships the first three importing
-  `motion/react`; the import is deliberately re-pointed to `framer-motion` so the repo carries one
-  animation runtime, which means `shadcn diff` reports a mismatch on them. `particles` needs no
+  button), `particles` (the hero and footer background field), `orbiting-circles` (the skills
+  section's orbital system) and `lens` (the magnifier over each project card's screenshot), each
+  installed from `https://magicui.design/r/<name>.json`. Magic UI ships the first three and `lens`
+  importing `motion/react`; the import is deliberately re-pointed to `framer-motion` so the repo carries
+  one animation runtime, which means `shadcn diff` reports a mismatch on them. `lens` diverges twice
+  more: upstream's focusable `role="region"` wrapper is dropped, because the effect is pointer-only and
+  a tab stop per card that does nothing is an accessibility regression, and its `rounded-xl` default is
+  dropped so the consumer owns the shape. `particles` needs no
   animation library and is kept as upstream source apart from React-correctness fixes; it is the **one
   sanctioned exception to the no-raw-colour rule**, because it paints a `<canvas>` where a token class
   cannot reach — its `color` prop takes a hex literal, supplied by `useParticleColor()` in
