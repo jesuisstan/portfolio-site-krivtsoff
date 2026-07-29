@@ -24,12 +24,12 @@ colors:
   border: "oklch(0.922 0 0)"
   input: "oklch(0.922 0 0)"
   overlay: "oklch(0.145 0 0 / 60%)"
+  logo-plate: "oklch(0.97 0 0)"
+  logo-plate-dark: "oklch(0.28 0 0)"
   destructive: "oklch(0.577 0.245 27.325)"
   destructive-foreground: "oklch(0.985 0 0)"
   brand-telegram: "oklch(0.5998 0.1412 241.55)"
   brand-whatsapp: "oklch(0.625 0.172 149.74)"
-  logo-plate: "oklch(0.97 0 0)"
-  logo-plate-dark: "oklch(0.28 0 0)"
 rounded:
   xs: "2px"
   sm: "6px"
@@ -168,6 +168,13 @@ value (`bg-[#1b1828]`), no inline `style={{ color }}`. A new colour means a vari
 `.dark` unless it is deliberately theme-constant — plus an `@theme inline` entry, added in
 `src/styles/globals.css` and nowhere else. Opacity modifiers on tokens (`bg-primary/10`, `bg-muted/30`)
 are the sanctioned way to get a lighter reading of an existing colour.
+
+**The Literal Escape Hatch.** Exactly two kinds of surface are out of reach of a class: a `<canvas>` fill,
+and a colour interpolated into an inline `radial-gradient()`. Those may hold a hex literal — and only
+inside a `src/lib/<component>-color.ts` hook that converts an *existing* token and does nothing else, so
+the literal stays traceable to the palette and to one file. `useParticleColor()` and
+`useMagicCardColors()` are the two that exist. A hex anywhere else is still a defect, and a hook that
+introduces a colour the tokens do not already have is a new colour smuggled past The Token Law.
 
 **The One Palette Rule.** A component installed from a registry that ships its own `:root`/`.dark` block
 has that block stripped on install. There is exactly one palette in this project.
@@ -373,7 +380,8 @@ transitions, an unmissable focus ring. Nothing jumps, nothing asks for attention
 - **Background:** `bg-card` with `text-card-foreground`.
 - **Shadow Strategy:** `shadow-ambient` at rest and no promotion on hover — see Elevation.
 - **Border:** 1px `border-border`. Project cards shift it to `border-primary/50` on hover; that colour
-  change, plus the magnifier described below, is the entire hover treatment.
+  change, plus the magnifier described below, is the entire hover treatment. Experience cards replace the
+  colour shift with a pointer-tracked gradient — see Spotlight Cards.
 - **Project screenshot:** the image no longer scales as a whole on hover — a 130px circular magnifier
   follows the pointer across it at 2× (Magic UI `Lens`). The screenshot is the one piece of a project card
   that carries real evidence, and a uniform `scale-110` only cropped it; the lens lets a visitor read the
@@ -434,6 +442,29 @@ hot end of an ember rather than as an error, because it is a moving 1px highligh
 label. It is deliberate and confined to this single element. If the system ever needs a second warm
 decorative colour, it gets its own token; `--destructive` does not become the general-purpose warm accent.
 
+### Spotlight Cards (signature)
+
+Magic UI's `MagicCard` is the entire hover treatment of the Experience timeline cards. Two layers move
+with the pointer and nothing else changes: a 200px radial travels the card's 1px border, running
+`--primary-alt` at the cursor → `--primary` further out, and falling back to `border-border` beyond its
+radius, and the same radial
+washes the surface at 80% with `--accent` in both themes — a deep teal in dark, a pale teal on paper in
+light. Every stop comes from `useMagicCardColors()` under The Literal Escape Hatch.
+
+**At rest it is an ordinary card.** The radial parks off-canvas, so the border resolves to its own
+`border-border` last stop and the wash resolves to nothing: same 14px radius, same `bg-card`, same
+`shadow-ambient`, same 1px border as every other card on the page. The effect exists only while a pointer
+is on it, which is the only reason a card is allowed to carry this much motion.
+
+**It replaced a scale lift.** These cards used to take a `scale: 1.02` hover plus a `border-primary/50`
+tint. A whole card growing under the cursor nudges every neighbour's perceived position and promotes
+elevation the Elevation rules forbid on hover; a light that follows the pointer answers the cursor without
+moving anything. The card content must therefore stay transparent — it renders above the wash, so any
+opaque background of its own would block the light and leave a lit frame around a dead panel.
+
+Not rendered at all under `prefers-reduced-motion`: the card falls back to the plain `Card`, whose resting
+appearance is already identical, so nothing is lost but the pointer tracking.
+
 ### Particle Field (signature)
 
 Magic UI's `Particles` lays a canvas of drifting dots behind the page's two end caps — 100 across the
@@ -453,10 +484,9 @@ counters and the primary action, and a teal haze behind them would spend the sig
 lean towards the pointer on a slow ease (`ease={80}`), the one place in the system where a background
 answers the cursor. Not rendered at all under reduced motion.
 
-**The one hex exception.** A `<canvas>` fill cannot take a utility class, so this is the single place a
-colour is written as a literal. It is not a new colour: `useParticleColor()` holds `--foreground`
-converted to hex and nothing else, and that hook is the only sanctioned home for those two literals. A
-second hex anywhere is still a defect.
+**Hex, by exception.** A `<canvas>` fill cannot take a utility class, so the dot colour is written as a
+literal under The Literal Escape Hatch. It is not a new colour: `useParticleColor()` holds `--foreground`
+converted to hex and nothing else.
 
 **Layering.** The canvas is `absolute inset-0 z-0` and the content wrapper next to it is `relative z-10`.
 Both are required: a positioned `z-0` element paints *above* non-positioned in-flow content, so without
