@@ -10,6 +10,7 @@ import Image from 'next/image';
 import Badge from '@/components/ui/badge';
 import Button from '@/components/ui/button';
 import Card from '@/components/ui/card';
+import Lens from '@/components/ui/lens';
 import ToggleGroup, { ToggleGroupItem } from '@/components/ui/toggle-group';
 import Tooltip, {
   TooltipContent,
@@ -165,15 +166,21 @@ const Projects = () => {
                 <Card className="group h-full gap-0 overflow-hidden p-0 transition-colors hover:border-primary/50">
                   {/* Project Image */}
                   <div className="relative h-48 overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-110 motion-reduce:transition-none"
-                    />
+                    <Lens
+                      zoomFactor={2}
+                      lensSize={130}
+                      className="h-full w-full"
+                    >
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover"
+                      />
+                    </Lens>
                     {/* Category Badge */}
-                    <div className="absolute left-4 top-4 flex flex-wrap gap-1.5">
+                    <div className="absolute left-4 top-4 z-20 flex flex-wrap gap-1.5">
                       {(Array.isArray(project.category)
                         ? project.category
                         : [project.category]

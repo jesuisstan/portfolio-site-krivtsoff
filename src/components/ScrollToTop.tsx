@@ -48,7 +48,7 @@ const ScrollToTop = () => {
             size="icon-lg"
             // Semi-transparent so it reads as floating above the page rather than pinned to it.
             // `dark:` repeated because the outline variant carries its own dark background.
-            className="size-12 bg-card/60 shadow-overlay backdrop-blur-sm hover:bg-card/90 dark:bg-card/60 dark:hover:bg-card/90"
+            className="opacity-90 size-12 bg-card/60 shadow-overlay backdrop-blur-sm hover:bg-card/90 dark:bg-card/60 dark:hover:bg-card/90"
             aria-label="Back to top"
             onClick={scrollToTop}
           >

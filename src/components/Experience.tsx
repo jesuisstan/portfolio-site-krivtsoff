@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 
 import type { Variants } from 'framer-motion';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import {
   Award,
   Calendar,
@@ -12,11 +12,33 @@ import {
   MapPin,
   User
 } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 import Badge from '@/components/ui/badge';
 import Card from '@/components/ui/card';
+import MagicCard from '@/components/ui/magic-card';
 import Separator from '@/components/ui/separator';
 import { experiences } from '@/constants/experiences';
+import { useMagicCardColors } from '@/lib/magic-card-color';
+
+/** Timeline card surface: MagicCard's pointer-tracked spotlight, or a plain Card under reduced motion. */
+const ExperienceCard = ({ children }: { children: ReactNode }) => {
+  const prefersReducedMotion = useReducedMotion();
+  const colors = useMagicCardColors();
+
+  if (prefersReducedMotion) {
+    return <Card className="gap-2 p-4">{children}</Card>;
+  }
+
+  return (
+    <MagicCard
+      className="rounded-xl text-card-foreground shadow-ambient"
+      {...colors}
+    >
+      <div className="flex flex-col gap-2 p-4">{children}</div>
+    </MagicCard>
+  );
+};
 
 /** Timeline of professional experience, education, and certifications. */
 const Experience = () => {
@@ -97,11 +119,8 @@ const Experience = () => {
               <div className="absolute left-8 z-10 size-4 rounded-full border-4 border-background bg-primary md:left-1/2 md:-translate-x-1/2" />
 
               {/* Content Card */}
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="md:w-6/12 lg:w-6/12"
-              >
-                <Card className="gap-2 p-4 transition-colors hover:border-primary/50">
+              <div className="md:w-6/12 lg:w-6/12">
+                <ExperienceCard>
                   {/* Type Badge */}
                   <Badge variant="secondary" className="mb-2 w-fit">
                     {experience.type === 'Freelance' && <Award />}
@@ -235,8 +254,8 @@ const Experience = () => {
                       </Badge>
                     ))}
                   </div>
-                </Card>
-              </motion.div>
+                </ExperienceCard>
+              </div>
             </motion.div>
           ))}
         </motion.div>

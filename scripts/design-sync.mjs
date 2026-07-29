@@ -52,7 +52,9 @@ const COLOR_ROLES = [
       'muted-foreground',
       'border',
       'input',
-      'overlay'
+      'overlay',
+      'logo-plate',
+      'logo-plate-dark'
     ]
   ],
   ['danger', ['destructive', 'destructive-foreground']],

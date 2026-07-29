@@ -140,12 +140,10 @@ defect, not initiative — the registry version is accessible, keyboard-correct,
 Whenever a task involves a UI primitive — adding one, replacing one, debugging one, or restyling one —
 work through the **shadcn MCP tools**, in this order:
 
-1. **Check `src/components/ui/` first.** From `@shadcn`: `badge`, `button`, `card`, `input`, `label`,
-   `separator`, `sheet`, `textarea`, `toggle`, `toggle-group`, `tooltip`. From Magic UI:
-   `animated-theme-toggler` (the nav's theme control, controlled by `next-themes`), `shine-border`
-   (the contact form card), `border-beam` (the hero's "Download CV" button). Reuse and extend
-   these — never add a second variant of a primitive that exists. New variants go in the component's
-   own `cva` block, not a wrapper component.
+1. **Check `src/components/ui/` first** — `ls` it, and read `CLAUDE.md` § Ground rules for what each
+   Magic UI item there is for and how it was reconciled (a copy of that inventory in this file went
+   stale). Reuse and extend what exists — never add a second variant of a primitive that is already
+   there. New variants go in the component's own `cva` block, not a wrapper component.
 2. **Search the registry**: `mcp__shadcn__search_items_in_registries` (query `@shadcn`), or
    `mcp__shadcn__list_items_in_registries` to browse.
 3. **Inspect before installing**: `mcp__shadcn__view_items_in_registries` for the source,

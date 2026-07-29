@@ -27,18 +27,31 @@ This file provides guidance to Claude Code when working with code in this reposi
   **`radix-ui`** package. Source any further primitive from the `@shadcn` registry via the shadcn MCP
   tools and `npx shadcn@latest add` — never hand-write a primitive the registry ships, and never paste
   registry source by hand. Magic UI (`magicuidesign-mcp`) only when the user explicitly asks — the repo
-  currently holds five such components in `src/components/ui/`: `animated-theme-toggler` (the nav
+  currently holds seven such components in `src/components/ui/`: `animated-theme-toggler` (the nav
   theme switch), `shine-border` (the contact form card), `border-beam` (the hero "Download CV"
-  button), `particles` (the hero and footer background field) and `orbiting-circles` (the skills
-  section's orbital system), each installed from
-  `https://magicui.design/r/<name>.json`. Magic UI ships the first three importing
-  `motion/react`; the import is deliberately re-pointed to `framer-motion` so the repo carries one
-  animation runtime, which means `shadcn diff` reports a mismatch on them. `particles` needs no
-  animation library and is kept as upstream source apart from React-correctness fixes; it is the **one
-  sanctioned exception to the no-raw-colour rule**, because it paints a `<canvas>` where a token class
-  cannot reach — its `color` prop takes a hex literal, supplied by `useParticleColor()` in
-  `src/lib/particle-color.ts`, which is `--foreground` converted to hex and is the only place those two
-  literals may live. Do not generalise that exception to anything a token can style — `orbiting-circles`
+  button), `particles` (the hero and footer background field), `orbiting-circles` (the skills
+  section's orbital system), `lens` (the magnifier over each project card's screenshot) and
+  `magic-card` (the hover treatment of each Experience timeline card), each
+  installed from `https://magicui.design/r/<name>.json`. Magic UI ships the first three, `lens` and
+  `magic-card`
+  importing `motion/react`; the import is deliberately re-pointed to `framer-motion` so the repo carries
+  one animation runtime, which means `shadcn diff` reports a mismatch on them. `lens` diverges twice
+  more: upstream's focusable `role="region"` wrapper is dropped, because the effect is pointer-only and
+  a tab stop per card that does nothing is an accessibility regression, and its `rounded-xl` default is
+  dropped so the consumer owns the shape. `magic-card` diverges three times more: it paints
+  `--color-card` rather than `--color-background`, because the two differ in dark mode and these are
+  cards; its two `useMotionTemplate` calls are hoisted out of the `mode` branches, where upstream calls
+  them conditionally; and upstream's `mounted` state flag is replaced by next-themes' `resolvedTheme`,
+  which is already undefined until hydration, because setting state in an effect trips
+  `react-hooks/set-state-in-effect`. `particles` needs no
+  animation library and is kept as upstream source apart from React-correctness fixes. It and
+  `magic-card` are the **two sanctioned exceptions to the no-raw-colour rule**, because one paints a
+  `<canvas>` and the other interpolates colours into an inline `radial-gradient()`, neither of which a
+  token class can reach — their colour props take hex literals, supplied by `useParticleColor()` in
+  `src/lib/particle-color.ts` (`--foreground`) and `useMagicCardColors()` in
+  `src/lib/magic-card-color.ts` (`--primary`, `--primary-alt`, and `--accent` per theme). Those
+  two hooks are the only place such literals may live; see `DESIGN.md` § Colors for the rule. Do not
+  generalise the exception to anything a token can style — `orbiting-circles`
   paints its ring as an SVG `stroke`, so it takes `stroke-border` and needs no exception. That component
   also renames upstream's `--duration`/`--radius` to `--orbit-duration`/`--orbit-radius`, because
   `--radius` is the shape token and a unitless override would break `rounded-*` on its children. Every
