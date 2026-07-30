@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Download } from 'lucide-react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 import type { BannerStatCounts } from '@/components/banner-content';
 import { bannerSocialLinks, bannerStats } from '@/components/banner-content';
@@ -28,6 +29,8 @@ const Banner = () => {
   const isInView = useInView(ref, { once: true });
   const prefersReducedMotion = useReducedMotion();
   const [counts, setCounts] = useState<BannerStatCounts>(countsAtProgress(0));
+  const t = useTranslations('banner');
+  const tCommon = useTranslations('common');
 
   const particleColor = useParticleColor();
 
@@ -114,7 +117,7 @@ const Banner = () => {
                   aria-hidden
                   className="size-2 animate-pulse rounded-full bg-primary-alt motion-reduce:animate-none"
                 />
-                Available for new opportunities
+                {t('badge')}
               </Badge>
 
               <motion.h1
@@ -124,15 +127,16 @@ const Banner = () => {
                 transition={{ delay: 0.3 }}
                 className="text-4xl font-bold leading-[1.1] text-foreground sm:text-5xl lg:text-6xl xl:text-7xl"
               >
-                <span className="text-primary">Frontend</span>
-                <br />
-                Developer
+                {t.rich('heading', {
+                  accent: (chunks) => (
+                    <span className="text-primary">{chunks}</span>
+                  ),
+                  br: () => <br />
+                })}
               </motion.h1>
 
               <p className="max-w-lg text-lg text-muted-foreground sm:text-xl">
-                Crafting digital experiences with modern technologies.
-                Passionate about creating scalable, user-friendly applications
-                that make a difference.
+                {t('intro')}
               </p>
             </motion.div>
 
@@ -143,7 +147,7 @@ const Banner = () => {
               className="flex flex-wrap items-center gap-4"
             >
               <Button size="lg" className="h-11" onClick={scrollToContact}>
-                Let&apos;s Talk
+                {t('talk')}
                 <ArrowRight />
               </Button>
 
@@ -154,7 +158,7 @@ const Banner = () => {
                 onClick={downloadCV}
               >
                 <Download />
-                Download CV
+                {tCommon('download-cv')}
                 {/* Decorative infinite loop — omitted outright under reduced motion. */}
                 {!prefersReducedMotion && (
                   <BorderBeam
@@ -206,7 +210,7 @@ const Banner = () => {
               <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
                 {bannerStats.map((stat, index) => (
                   <motion.div
-                    key={stat.label}
+                    key={stat.key}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={
                       isInView
@@ -232,7 +236,7 @@ const Banner = () => {
                         {stat.suffix}
                       </div>
                       <div className="text-xs font-medium text-muted-foreground">
-                        {stat.label}
+                        {t(`stats.${stat.key}`)}
                       </div>
                     </motion.div>
                   </motion.div>

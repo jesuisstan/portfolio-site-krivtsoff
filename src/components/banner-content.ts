@@ -19,7 +19,6 @@ export interface BannerStat {
   key: keyof BannerStatCounts;
   icon: LucideIcon;
   number: number;
-  label: string;
   suffix: string;
 }
 
@@ -29,34 +28,31 @@ export interface BannerSocialLink {
   icon: LucideIcon;
 }
 
+// Labels live in `src/i18n/messages/*.json` under `banner.stats.<key>`.
 /** Hero stat counters, in render order. */
 export const bannerStats: BannerStat[] = [
   {
     key: 'projects',
     icon: FolderOpen,
     number: 30,
-    label: 'Projects Completed',
     suffix: '+'
   },
   {
     key: 'experience',
     icon: Briefcase,
     number: 3,
-    label: 'Years Experience',
     suffix: '+'
   },
   {
     key: 'hours',
     icon: Clock,
     number: 5000,
-    label: 'Hours Coded',
     suffix: '+'
   },
   {
     key: 'certifications',
     icon: Award,
     number: 3,
-    label: 'IT Certifications',
     suffix: ''
   }
 ];

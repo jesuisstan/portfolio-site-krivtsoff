@@ -56,31 +56,34 @@ but they are supporting evidence, not the headline.
 
 ## Capabilities and Constraints
 
-**What it does today.** One route (`src/app/page.tsx`) renders, in order: sticky nav, hero, skills &
-technologies, experience timeline, projects, contact, footer, plus a floating back-to-top control.
-Category filters narrow the technology orbit and the projects grid. The hero downloads the CV PDF. The
-contact section renders a location, two messenger QR codes and a form; the social links live in the
-footer.
+**What it does today.** One page, served in two languages (`/` in English, `/fr` in French), renders in
+order: sticky nav, hero, skills & technologies, experience timeline, projects, contact, footer, plus a
+floating back-to-top control. Category filters narrow the technology orbit and the projects grid. The
+hero downloads the CV PDF. The contact section renders a location, two messenger QR codes and a form;
+the social links live in the footer.
 
 **Technical constraints.**
 
 - Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4 with CSS-first configuration,
   shadcn/ui on Radix, Framer Motion as the single animation runtime. Deployed on Vercel.
-- No authentication, no database, no upstream API, no middleware, no route handler. The only network
-  call is a client-side EmailJS send from `src/components/Contact.tsx`. Introducing any of those is a
-  decision for the owner, not an implementation detail.
+- No authentication, no database, no upstream API, no route handler. The only network call is a
+  client-side EmailJS send from `src/components/Contact.tsx`. Introducing any of those is a decision for
+  the owner, not an implementation detail. `src/proxy.ts` exists, but only to negotiate the visitor's
+  locale.
 - Every environment variable is `NEXT_PUBLIC_*` and therefore inlined into the client bundle. Nothing
   secret can be added.
-- Content data lives in `src/constants/{experiences,projects,technologies}.ts` and
-  `src/components/banner-content.ts`. It is values only.
+- Content is split in two by translatability. `src/constants/{experiences,projects,technologies}.ts` and
+  `src/components/banner-content.ts` hold the parts that never translate — company names, project names,
+  technology names, URLs, entry keys — as values only. All prose lives in
+  `src/i18n/messages/{en,fr}.json`, keyed by the same entry key.
 - Contact delivery depends on a third party (EmailJS) that can fail from the browser; the form's failure
   path is part of the product, not an edge case.
 
 **Explicitly undecided.**
 
-- **Localization.** The site is English-only today and the codebase has no i18n layer. French is a
-  known future requirement for the French market — record it as a real need, not a nice-to-have.
-  Russian is a possibility, not a commitment. Neither is scheduled.
+- **A third language.** English and French shipped on 2026-07-30; the French market need is met.
+  Russian remains a possibility, not a commitment, and is not scheduled. Adding one means a locale in
+  `src/i18n/routing.ts` and a third catalogue — the architecture does not otherwise constrain it.
 - `NEXT_PUBLIC_CONTACT_EMAIL` and `NEXT_PUBLIC_CONTACT_PHONE` exist in `.env.local` but no code reads
   them. Whether the site should display a direct email or phone number is unresolved; do not assume it
   does.

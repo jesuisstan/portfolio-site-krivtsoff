@@ -105,7 +105,8 @@ a judge, not a builder.
    criteria) and `wait_for` the hero content.
 3. **Drive the scenario**: `take_snapshot` for stable element uids, then `click` / `fill` / `hover`
    exactly the steps the criteria describe — nav links (they scroll to the section), the project and
-   technology category filters, the projects hover tooltip, the mobile drawer, the theme toggle. `wait_for` after any action that starts
+   technology category filters, the projects hover tooltip, the mobile drawer, the theme toggle, the
+   `EN | FR` language switch. `wait_for` after any action that starts
    async work or an animation; never assume timing. Scroll-triggered reveals need the section actually
    in view — scroll with `evaluate_script` (`element.scrollIntoView()`) before asserting a revealed
    element.
@@ -117,6 +118,24 @@ a judge, not a builder.
    - Computed styles, overflow, viewport metrics → `evaluate_script`.
 5. **Standing checks — run these every time, even when not in the given criteria.** This is a visual
    portfolio; the bugs that matter are exactly the ones nobody wrote a criterion for.
+   - **Both locales.** The site ships in English at `/` and French at `/fr`. Walk **both**, not just the
+     one the task touched, and treat each of these as a FAIL:
+     - **Leftover English on `/fr`.** Hunt the places it hides rather than only reading the body copy:
+       button and chip labels, form labels and `placeholder`s, `aria-label`, `title`, `alt`, `sr-only`
+       text, and status/validation messages that only appear after an interaction. Dump them
+       wholesale with `evaluate_script` instead of eyeballing screenshots — an English `sr-only` label
+       inside a shadcn primitive is invisible in a screenshot and still a defect.
+     - **Over-translation.** Technology names, company names, project titles, the official French RNCP
+       certificate titles, `krivtsoff.develop()`, the author's name and service names (GitHub,
+       LinkedIn, Telegram, …) must read identically on both pages. Diff them against `/`.
+     - **A missing message.** `MISSING_MESSAGE` in the console, a raw key path on screen
+       (`banner.badge`), or an empty element where copy belongs.
+     - **Filters still filter.** Category values are language-independent keys behind translated
+       labels; a mismatch shows an empty result set in one language only. Exercise at least one filter
+       in each locale and count the visible items.
+     - **`<html lang>`** matches the route, and switching locale preserves the chosen theme.
+     Read `src/i18n/messages/en.json` and `fr.json` when you need to know what the copy *should* say —
+     they are the contract, and their key sets must be identical.
    - **Both themes.** Toggle dark ↔ light (the sun/moon toggle in the nav; the site defaults to dark)
      and screenshot the area you changed in both. Unreadable text, an invisible border, a washed-out
      surface, or an icon that disappears in one theme is a FAIL. Light mode is the one that silently

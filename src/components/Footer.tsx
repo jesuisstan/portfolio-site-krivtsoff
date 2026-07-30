@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import Button from '@/components/ui/button';
 import { Particles } from '@/components/ui/particles';
@@ -13,6 +14,7 @@ import { socialLinks } from '@/lib/social-links';
 const Footer = () => {
   const prefersReducedMotion = useReducedMotion();
   const particleColor = useParticleColor();
+  const t = useTranslations('footer');
 
   const currentYear = new Date().getFullYear();
 
@@ -49,8 +51,7 @@ const Footer = () => {
               </span>
             </div>
             <p className="max-w-md text-sm text-muted-foreground">
-              Frontend developer focused on product UIs, React/Next.js, and
-              clear, maintainable web experiences.
+              {t('tagline')}
             </p>
           </motion.div>
 
@@ -62,7 +63,7 @@ const Footer = () => {
             className="shrink-0 text-center md:text-right"
           >
             <h3 className="mb-4 text-lg font-semibold text-foreground">
-              Follow Me
+              {t('follow-me')}
             </h3>
             <div className="flex justify-center gap-4 md:justify-end">
               {socialLinks.map((social) => (
@@ -96,29 +97,37 @@ const Footer = () => {
         >
           <Separator className="mb-8" />
           <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-muted-foreground">
-            <span>© {currentYear} Stanislav Krivtsov. </span>
-            <a
-              href="https://github.com/jesuisstan/portfolio-site-krivtsoff"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 rounded-sm underline decoration-dotted underline-offset-4 transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
-            >
-              Made
-            </a>
-            <span> with</span>
-            <motion.span
-              animate={
-                prefersReducedMotion ? undefined : { scale: [1, 1.2, 1] }
-              }
-              transition={{ duration: 1, repeat: Infinity }}
-              className="inline-flex"
-            >
-              <Heart
-                aria-hidden
-                className="size-4 fill-current text-primary-alt"
-              />
-            </motion.span>
-            <span>in Paris</span>
+            <span>{t('copyright', { year: String(currentYear) })}</span>
+            {/* One message per line: the wording around the icon differs per language, so the
+                sentence cannot be assembled from separate spans. */}
+            <span>
+              {t.rich('made-with', {
+                link: (chunks) => (
+                  <a
+                    href="https://github.com/jesuisstan/portfolio-site-krivtsoff"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 rounded-sm underline decoration-dotted underline-offset-4 transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                  >
+                    {chunks}
+                  </a>
+                ),
+                heart: () => (
+                  <motion.span
+                    animate={
+                      prefersReducedMotion ? undefined : { scale: [1, 1.2, 1] }
+                    }
+                    transition={{ duration: 1, repeat: Infinity }}
+                    className="inline-flex align-middle"
+                  >
+                    <Heart
+                      aria-hidden
+                      className="size-4 fill-current text-primary-alt"
+                    />
+                  </motion.span>
+                )
+              })}
+            </span>
           </div>
         </motion.div>
       </div>

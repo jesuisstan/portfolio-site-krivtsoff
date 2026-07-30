@@ -4,8 +4,10 @@ import { startTransition, useEffect, useLayoutEffect, useState } from 'react';
 
 import { motion, useReducedMotion } from 'framer-motion';
 import { Download, Menu } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 
+import LanguageToggle from '@/components/LanguageToggle';
 import AnimatedThemeToggler from '@/components/ui/animated-theme-toggler';
 import Button, { buttonVariants } from '@/components/ui/button';
 import Sheet, {
@@ -16,26 +18,30 @@ import Sheet, {
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 
+type NavItemKey = 'home' | 'skills' | 'experience' | 'projects' | 'contact';
+
 interface NavItem {
-  name: string;
+  key: NavItemKey;
   href: string;
 }
 
 const navItems: NavItem[] = [
-  { name: 'Home', href: '#home' },
-  { name: 'Skills', href: '#skills' },
-  { name: 'Experience', href: '#experience' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Contact', href: '#contact' }
+  { key: 'home', href: '#home' },
+  { key: 'skills', href: '#skills' },
+  { key: 'experience', href: '#experience' },
+  { key: 'projects', href: '#projects' },
+  { key: 'contact', href: '#contact' }
 ];
 
-/** Fixed top navigation with section links, theme toggle, and mobile drawer. */
+/** Fixed top navigation with section links, theme and language toggles, and mobile drawer. */
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();
   const prefersReducedMotion = useReducedMotion();
+  const t = useTranslations('nav');
+  const tCommon = useTranslations('common');
 
   // Set mounted after component mounts to prevent hydration mismatch
   // useLayoutEffect runs synchronously before browser paint
@@ -119,7 +125,7 @@ const NavBar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      aria-label="Main"
+      aria-label={t('aria-main')}
       className={cn(
         'fixed left-0 right-0 top-0 z-50 transition-colors duration-300',
         scrolled
@@ -145,7 +151,7 @@ const NavBar = () => {
           <div className="hidden items-center gap-2 lg:flex">
             {navItems.map((item, index) => (
               <motion.div
-                key={item.name}
+                key={item.key}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
@@ -155,7 +161,7 @@ const NavBar = () => {
                   className="text-muted-foreground hover:text-foreground"
                   onClick={() => scrollToSection(item.href)}
                 >
-                  {item.name}
+                  {t(`items.${item.key}`)}
                 </Button>
               </motion.div>
             ))}
@@ -163,6 +169,9 @@ const NavBar = () => {
 
           {/* Actions */}
           <div className="flex shrink-0 items-center gap-2">
+            {/* Language Toggle */}
+            <LanguageToggle />
+
             {/* Theme Toggle */}
             <AnimatedThemeToggler
               theme={isDark ? 'dark' : 'light'}
@@ -173,15 +182,13 @@ const NavBar = () => {
                 size: 'icon',
                 className: "size-11 [&_svg:not([class*='size-'])]:size-5"
               })}
-              aria-label={
-                isDark ? 'Switch to light theme' : 'Switch to dark theme'
-              }
+              aria-label={isDark ? t('to-light-theme') : t('to-dark-theme')}
             />
 
             {/* Download CV */}
             <Button className="hidden sm:flex" onClick={downloadCV}>
               <Download />
-              Download CV
+              {tCommon('download-cv')}
             </Button>
 
             {/* Mobile Menu */}
@@ -191,7 +198,7 @@ const NavBar = () => {
                   variant="ghost"
                   size="icon"
                   className="size-11 lg:hidden"
-                  aria-label="Open navigation menu"
+                  aria-label={t('open-menu')}
                 >
                   <Menu className="size-5" />
                 </Button>
@@ -199,25 +206,29 @@ const NavBar = () => {
               <SheetContent
                 side="right"
                 className="w-72"
+                closeLabel={t('close-menu')}
                 aria-describedby={undefined}
               >
                 <SheetHeader>
                   <SheetTitle>krivtsoff.develop()</SheetTitle>
                 </SheetHeader>
-                <nav aria-label="Sections" className="flex flex-col gap-1 px-4">
+                <nav
+                  aria-label={t('aria-sections')}
+                  className="flex flex-col gap-1 px-4"
+                >
                   {navItems.map((item) => (
                     <Button
-                      key={item.name}
+                      key={item.key}
                       variant="ghost"
                       className="h-11 justify-start text-base text-muted-foreground hover:text-foreground"
                       onClick={() => scrollToSection(item.href)}
                     >
-                      {item.name}
+                      {t(`items.${item.key}`)}
                     </Button>
                   ))}
                   <Button className="mt-4 h-11" onClick={downloadCV}>
                     <Download />
-                    Download CV
+                    {tCommon('download-cv')}
                   </Button>
                 </nav>
               </SheetContent>

@@ -27,15 +27,24 @@ modules, build output, and performance.
 - **Styling stack**: Tailwind CSS **v4** (CSS-first — no `tailwind.config.*`) + **shadcn/ui**
   (`components.json`, primitives in `src/components/ui/`, `radix-ui` underneath). The design tokens
   live in `src/styles/globals.css`; that file is the styling source of truth
-- **Hosting**: Vercel. `@vercel/analytics` is mounted in `src/app/layout.tsx`
+- **Hosting**: Vercel. `@vercel/analytics` is mounted in `src/app/[locale]/layout.tsx`
+- **Internationalization**: **next-intl** with locale routing — English on `/`, French on `/fr`.
+  `src/i18n/routing.ts` is the single source for the locale set; `src/proxy.ts` negotiates. The full
+  contract is `CLAUDE.md` § Internationalization
 - **Runtime**: Node.js. There is currently **no** auth, no database, no upstream API, and no API
   route handler in this repo — do not invent one. The only network call is a client-side EmailJS send.
+  `src/proxy.ts` is the one request-level hook, and it exists only for locale negotiation.
 
 ## What this project is not
 
-Do not carry over patterns from other projects: there is no NextAuth, no middleware/proxy, no
-TanStack Query, no i18n, no upstream API base URL. If a task seems to need one of those, say so and
-ask before adding a dependency of that weight.
+Do not carry over patterns from other projects: there is no NextAuth, no TanStack Query, no upstream
+API base URL. If a task seems to need one of those, say so and ask before adding a dependency of that
+weight.
+
+Two things this list used to exclude and no longer does: **i18n exists** (next-intl, English + French)
+and so does **`src/proxy.ts`** — but only for locale negotiation. Do not use that file as a foothold for
+auth, redirects, headers or feature flags; a second responsibility in it is a new architectural decision
+and belongs to the user.
 
 ## Scripts
 
@@ -53,7 +62,9 @@ npm run fresh          # nuke .next/.swc/node_modules/package-lock.json and rein
 
 | File                   | Notes                                                                                                                                                                                                                                                                                       |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `next.config.ts`       | Minimal; only `allowedDevOrigins: ['*']` (dev-only — do not extend that to production)                                                                                                                                                                                                      |
+| `next.config.ts`       | Minimal: `allowedDevOrigins: ['*']` (dev-only — do not extend that to production), wrapped in `createNextIntlPlugin('./src/i18n/request.ts')`. Keep the wrapper — without it no message ever loads                                                                                            |
+| `src/proxy.ts`         | `createMiddleware(routing)` and nothing else. `proxy.ts` is the Next 16 name for the convention; `middleware.ts` still works but warns. The matcher must keep excluding paths with a file extension, or `public/` assets get rewritten                                                        |
+| `src/i18n/routing.ts`  | The only place the locale set and `localePrefix` live. Adding a locale means editing this plus adding a catalogue — nothing else should hardcode a locale                                                                                                                                     |
 | _(no Tailwind config)_ | Tailwind v4 is CSS-first: the theme, tokens, `@custom-variant dark`, `@theme inline` and content sources all live in `src/styles/globals.css`. Do **not** recreate `tailwind.config.*`                                                                                                      |
 | `components.json`      | shadcn/ui config — style `new-york`, base `neutral`, `cssVariables: true`, css `src/styles/globals.css`, icons `lucide`, aliases `@/components`, `@/components/ui`, `@/lib/utils`, `@/lib`, `@/hooks`. Locked: changing style or base color re-themes the whole site and is the user's call |
 | `tsconfig.json`        | Strict; `@/*` → `./src/*`. Read the version constraints below before touching it                                                                                                                                                                                                            |
@@ -117,19 +128,29 @@ Version constraints learned the hard way — do not "upgrade" past them without 
 
 ## Metadata and SEO
 
-`src/app/layout.tsx` holds the site metadata: `metadataBase: 'https://krivtsoff.online'`, title,
-description, keywords, authors, OpenGraph (with `/avatar.jpg` as the 1200×630 image), Twitter card,
-icons, `manifest: '/site.webmanifest'`, and a `robots` block.
+`src/app/[locale]/layout.tsx` holds the site metadata through **`generateMetadata`**, not a static
+export — it is per-locale, reading the `metadata` namespace via
+`getTranslations({ locale, namespace: 'metadata' })`. It sets `metadataBase:
+'https://krivtsoff.online'`, title, description, keywords, authors, `alternates` (canonical plus the
+`hreflang` language map), OpenGraph (with `/avatar.jpg` as the 1200×630 image, and a per-locale
+`locale`/`alternateLocale`), Twitter card, icons, `manifest: '/site.webmanifest'`, and a `robots` block.
 
 Rules:
 
-- **The root layout owns default metadata.** If the site grows past its single route, each new route
+- **The locale layout owns default metadata.** If the site grows past its single page, each new route
   gets its own `layout.tsx` next to its `page.tsx`, and that layout owns the page metadata —
-  title format `'<Page Name> — Stanislav Krivtsoff'`, always with a one-sentence `description`.
+  title format `'<Page Name> — Stanislav Krivtsoff'`, always with a one-sentence `description`, and
+  always in both catalogues.
+- **Use the explicit-locale form of `getTranslations`.** The bare form reads request state and would
+  drop both pages out of static rendering.
+- **`alternates.languages` and `src/app/sitemap.ts` are load-bearing, not decoration.** URL-based
+  locales were chosen over a cookie precisely so the French page is linkable and indexable; a change
+  that breaks the `hreflang` pair or drops a locale from the sitemap defeats that decision. Keep the
+  sitemap's `<loc>` and the rendered `canonical` byte-identical, trailing slash included.
 - Keep `metadataBase`, the OG `url`, and the deployed domain in agreement. The domain moved from
   `krivtsoff.site` to `krivtsoff.online`; `README.md` still says `.site` — fix references you touch.
-- **Missing and worth adding when asked**: `src/app/sitemap.ts` and `src/app/robots.ts` (App Router
-  file conventions), and a real OG image (the current one is a square avatar declared as 1200×630).
+- **Missing and worth adding when asked**: `src/app/robots.ts` (App Router file convention), and a real
+  OG image (the current one is a square avatar declared as 1200×630).
 - Confirm Next.js metadata/file-convention APIs via the `context7` MCP tools before writing them —
   these conventions change between major versions.
 
@@ -194,8 +215,10 @@ dependency and its reason explicitly rather than adding it silently.
   PNGs.
 - Fonts load via `next/font/google` (Montserrat, `latin` subset) — keep it to the weights actually
   used and never add a `<link>` to Google Fonts by hand.
-- Keep `'use client'` as low in the tree as possible; `src/app/page.tsx` is a client component today,
-  which pulls every section into the client bundle. Reducing that is a legitimate platform task.
+- Keep `'use client'` as low in the tree as possible. The layout and page are server components; every
+  section below them is a client component, which pulls all of them into the client bundle. Reducing that
+  is a legitimate platform task — but `setRequestLocale` must stay in both the layout and the page, or
+  both locales fall out of static rendering.
 - Check bundle impact of any new dependency with `npm run build` output.
 
 ## Keeping the docs true (mandatory)

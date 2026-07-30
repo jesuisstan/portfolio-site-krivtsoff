@@ -1,0 +1,238 @@
+{
+  "metadata": {
+    "title": "Stanislav Krivtsoff - Frontend Developer",
+    "description": "Frontend developer focused on React, Next.js, and TypeScript. Building product UIs, data visualization, and scalable web experiences.",
+    "keywords": "Frontend Developer, React, Next.js, TypeScript, Web Development, UI, Paris",
+    "og-description": "Frontend developer focused on React, Next.js, and TypeScript.",
+    "site-name": "Stanislav Krivtsoff Portfolio",
+    "image-alt": "Stanislav Krivtsoff - Frontend Developer"
+  },
+  "common": {
+    "download-cv": "Download CV",
+    "back-to-top": "Back to top"
+  },
+  "nav": {
+    "aria-main": "Main",
+    "aria-sections": "Sections",
+    "open-menu": "Open navigation menu",
+    "close-menu": "Close navigation menu",
+    "to-light-theme": "Switch to light theme",
+    "to-dark-theme": "Switch to dark theme",
+    "aria-language": "Language",
+    "to-english": "Switch to English",
+    "to-french": "Switch to French",
+    "items": {
+      "home": "Home",
+      "skills": "Skills",
+      "experience": "Experience",
+      "projects": "Projects",
+      "contact": "Contact"
+    }
+  },
+  "banner": {
+    "badge": "Available for new opportunities",
+    "heading": "<accent>Frontend</accent><br></br>Developer",
+    "intro": "Crafting digital experiences with modern technologies. Passionate about creating scalable, user-friendly applications that make a difference.",
+    "talk": "Let's Talk",
+    "stats": {
+      "projects": "Projects Completed",
+      "experience": "Years Experience",
+      "hours": "Hours Coded",
+      "certifications": "IT Certifications"
+    }
+  },
+  "skills": {
+    "heading": "<accent>Skills</accent> & Technologies",
+    "subtitle": "My technical toolkit, built through hands-on experience.",
+    "filter-aria": "Filter technologies by category",
+    "hub-all": "Techs",
+    "categories": {
+      "all": "All",
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "mobile": "Mobile",
+      "data": "Data",
+      "design": "Design",
+      "devops": "DevOps",
+      "tools": "Tools",
+      "language": "Language",
+      "testing": "Testing"
+    }
+  },
+  "experience": {
+    "heading": "<accent>Experience</accent> & Education",
+    "subtitle": "My journey from management education to frontend development",
+    "types": {
+      "employment": "CDI, Full-time",
+      "education": "Education",
+      "management": "Management"
+    },
+    "labels": {
+      "rncp": "State-recognized certifications (RNCP):",
+      "academic": "Academic degrees:",
+      "positions": "Positions:",
+      "position-line": "<name>{title}</name> at <company></company>: {description}"
+    },
+    "skills": {
+      "leadership": "Leadership",
+      "risk-management": "Risk Management",
+      "business-strategy": "Business Strategy",
+      "project-management": "Project Management",
+      "strategic-management": "Strategic Management",
+      "data-analysis": "Data Analysis"
+    },
+    "items": {
+      "quantcube": {
+        "title": "Frontend Developer",
+        "period": "September 2023 - Present",
+        "location": "Paris, France",
+        "description": "Designing and developing a large-scale SaaS platform for real-time visualization of 40+ macroeconomic Big Data indicators used by financial institutions and analysts:",
+        "responsibilities": [
+          "Contributed to the frontend architecture of a modular React/Next.js application.",
+          "Built advanced interactive data visualizations, including charts, heatmaps, and geospatial maps.",
+          "Developed BFF logic and integrated GraphQL APIs.",
+          "Created reusable UI components and implemented authentication flows.",
+          "Implemented automated test scenarios and contributed to CI/CD workflows."
+        ]
+      },
+      "ecole42": {
+        "title": "Expert en Architecture Informatique",
+        "period": "April 2021 - February 2026",
+        "location": "Paris, France",
+        "description": "Completed intensive programming curriculum in peer-to-peer learning environment. Mastered C, C++, algorithms, web and mobile development.",
+        "certificates": {
+          "data-architecture": {
+            "title": "Expert en Architecture Informatique - Architecture de Données",
+            "level": "RNCP Level 7 (Master's degree equivalent)",
+            "date": "February 2026"
+          },
+          "software": {
+            "title": "Concepteur Développeur de Solutions Informatiques - Développement de Logiciels Applicatifs",
+            "level": "RNCP Level 6 (Bachelor's degree equivalent)",
+            "date": "October 2025"
+          },
+          "web-mobile": {
+            "title": "Concepteur Développeur de Solutions Informatiques - Développement d'Application Web & Mobile",
+            "level": "RNCP Level 6 (Bachelor's degree equivalent)",
+            "date": "November 2024"
+          }
+        }
+      },
+      "management": {
+        "title": "Management & Analysis",
+        "period": "July 2011 - March 2021",
+        "location": "Russia",
+        "description": "Gained extensive experience in audit, project management, and operational analysis across different industries.",
+        "positions": {
+          "audit": {
+            "title": "External Auditor",
+            "description": "Conducted external audits, analyzed financial statements, and ensured compliance with regulatory requirements."
+          },
+          "telecom": {
+            "title": "Project Manager",
+            "description": "Led cross-functional teams in delivering complex projects. Managed stakeholder relationships and ensured project success through effective communication."
+          },
+          "railways": {
+            "title": "Efficiency Analyst",
+            "description": "Analyzed operational efficiency, identified optimization opportunities, and developed recommendations for process improvements."
+          }
+        }
+      },
+      "hse": {
+        "title": "Higher Education",
+        "period": "September 2005 - June 2011",
+        "location": "Moscow, Russia",
+        "description": "Developed strong foundation in business strategy, organizational leadership, and project management principles.",
+        "certificates": {
+          "master": {
+            "title": "Master's in Project Management",
+            "level": "Master's degree",
+            "date": "2009-2011"
+          },
+          "bachelor": {
+            "title": "Bachelor's in Strategic Management",
+            "level": "Bachelor's degree",
+            "date": "2005-2009"
+          }
+        }
+      }
+    }
+  },
+  "projects": {
+    "heading": "Featured <accent>Projects</accent>",
+    "subtitle": "Some of the shipped projects. Live demo and source for each.",
+    "filter-aria": "Filter projects by category",
+    "live-demo": "Live Demo",
+    "code": "Code",
+    "view-more": "View More on GitHub",
+    "stats": "GitHub Stats",
+    "categories": {
+      "all": "All",
+      "full-stack": "Full-Stack",
+      "frontend": "Frontend",
+      "game": "Game",
+      "mobile": "Mobile"
+    },
+    "items": {
+      "deezeroom": {
+        "description": "A complete mobile solution focused on music and collaborative user experience. Features include real-time music track voting events, collaborative playlists, user profiles with social connections, music search via Deezer API, push notifications, and cross-platform support (Android, iOS, Web). Built with React Native, Expo, Firebase, and a separate GraphQL API server."
+      },
+      "hypertube": {
+        "description": "A video streaming platform that downloads and streams videos using the BitTorrent protocol. Features include torrent search from multiple sources, real-time streaming, user authentication, and multi-language support (EN, FR, RU). Note: torrent streaming works only in locally deployed version, not in the production deployment."
+      },
+      "matcha": {
+        "description": "A full-stack dating application enabling users to connect based on shared interests and preferences. Features include user matching algorithms, chat functionality, notifications for likes and visits, profile management with photos and interests, advanced search with geolocation, and multi-language support (EN, FR, RU)."
+      },
+      "ocreet": {
+        "description": "An interactive web simulation game written entirely in OCaml using the Ocsigen framework. Help a population of creatures (Creets) survive a deadly virus spreading from a toxic river. Features include real-time creature movement, drag-and-drop mechanics, infection system with special states (Berserk, Insane), hospital healing, collision detection with quadtree optimization, and configurable game parameters. Demonstrates client-side OCaml, type-safe web development, and monadic concurrency."
+      },
+      "tetris": {
+        "description": "A full-stack multiplayer Tetris game with real-time synchronization. Features include user authentication, room creation and joining, multiplayer gameplay with Socket.io, game statistics, chat functionality, and comprehensive test coverage (70%+ code coverage with Jest). Built with React frontend and Node.js backend with MongoDB for user data storage."
+      },
+      "contact-book": {
+        "description": "A full-stack contact management application with authentication. Features include CRUD operations, search by lastname, sorting, and user authentication with email and nickname. Built with React frontend and Node.js backend."
+      },
+      "omio": {
+        "description": "A recreation of the Omio search bar with autocomplete functionality for cities. Features responsive design, Material UI components, and integration with Tictactrip API for city suggestions and popular destinations."
+      },
+      "info-map": {
+        "description": "A full-stack web application for displaying an interactive map with location-based data from Yelp Fusion API. Features include user authentication, interactive map with Leaflet library, category-based place filtering, adjustable number of visible places (10-50), clickable markers with place information, ability to fetch new places by clicking anywhere on the map, and responsive design. Built with React TypeScript frontend and Node.js Express backend with MongoDB."
+      },
+      "pong": {
+        "description": "My first web development project - a full-stack multiplayer Pong game platform. Features include OAuth authentication (42 intranet, GitHub), two-factor authentication (2FA), real-time multiplayer gameplay with Socket.io, AI training mode, spectator mode, user profiles with avatars and nicknames, friends system, match history, achievements system, and responsive canvas-based game. Built with React TypeScript frontend and NestJS backend with PostgreSQL database."
+      }
+    }
+  },
+  "contact": {
+    "heading": "Let's <accent>Connect</accent>",
+    "intro": "Hiring, or want to talk about a role? Send a message.",
+    "location": "Location",
+    "quick-connect": "Quick Connect",
+    "qr-title": "Scan QR code or click to connect instantly via messenger",
+    "qr-alt": "{label} QR Code",
+    "form": {
+      "first-name": "First Name",
+      "first-name-placeholder": "Your first name",
+      "last-name": "Last Name *",
+      "last-name-placeholder": "Your last name",
+      "email": "Email *",
+      "email-placeholder": "your.email@example.com",
+      "phone": "Phone Number",
+      "phone-placeholder": "Your phone number",
+      "message": "Message *",
+      "message-placeholder": "Tell me about your project...",
+      "required": "* Required fields",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully!",
+      "error": "Something went wrong, please try again later",
+      "incomplete": "Please fill in all required fields"
+    }
+  },
+  "footer": {
+    "tagline": "Frontend developer focused on product UIs, React/Next.js, and clear, maintainable web experiences.",
+    "follow-me": "Follow Me",
+    "copyright": "© {year} Stanislav Krivtsov.",
+    "made-with": "<link>Made</link> with <heart></heart> in Paris"
+  }
+}

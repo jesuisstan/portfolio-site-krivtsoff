@@ -40,7 +40,9 @@ visual layer — and this site's whole purpose is to prove its author's craft, s
 - **Icons**: `lucide-react` — the only icon library; do not add another
 - **Theming**: `next-themes` via `src/components/ThemeProvider.tsx`, `attribute="class"`,
   `defaultTheme="dark"`, `enableSystem`
-- **Font**: Montserrat through `next/font/google` in `src/app/layout.tsx`
+- **Font**: Montserrat through `next/font/google` in `src/app/[locale]/layout.tsx`
+- **Copy**: **next-intl** — every visible string comes from `src/i18n/messages/{en,fr}.json`. See
+  § Copy is bilingual below; this is not optional
 - **Package manager**: npm. **Alias**: `@/` → `src/`
 
 ## Language: strict TypeScript
@@ -49,14 +51,18 @@ The repo is **fully TypeScript** (`tsconfig.json`, `strict: true`, `jsx: "react-
 `.js`/`.jsx` left under `src/` — do not reintroduce any.
 
 - Explicit types on props, arrays, generics, and callbacks; **no `any`** (use `unknown` and narrow).
-- Reuse the exported data types instead of redeclaring shapes: `Experience`,
-  `ExperienceCertificate`, `ExperiencePosition` from `@/constants/experiences`; `Project`,
-  `ProjectCategory`, `ProjectFilter` from `@/constants/projects`; `Technology`,
-  `TechnologyCategory`, `TechnologyFilter` from `@/constants/technologies`.
+- Reuse the exported data types instead of redeclaring shapes: `Experience`, `ExperienceKey`,
+  `ExperienceType`, `ExperienceCertificate`, `CertificateKey`, `ExperiencePosition`, `PositionKey` from
+  `@/constants/experiences`; `Project`, `ProjectKey`, `ProjectCategory`, `ProjectFilter` from
+  `@/constants/projects`; `Technology`, `TechnologyCategory`, `TechnologyFilter` from
+  `@/constants/technologies`; `Locale` from `next-intl`.
+- Those `*Key` unions must stay literal unions, not `string`. They are used to build message paths
+  (`t(\`items.${experience.key}.title\`)`), and next-intl can only type-check a template literal whose
+  interpolated part is a union of literals.
 - `Project['category']` is `ProjectCategory | ProjectCategory[]` — the data really has both shapes,
   so the `Array.isArray` branches in `Projects.tsx` are load-bearing.
 - Every component is a `const` arrow function with a bottom `export default`, imported by default
-  import in `src/app/page.tsx`. Keep that shape; a rename means updating the importer.
+  import in `src/app/[locale]/page.tsx`. Keep that shape; a rename means updating the importer.
 - `tsconfig.json` and dependency versions belong to the `platform` agent — do not edit them.
 
 ## Current state
@@ -65,9 +71,36 @@ The file tree is documented in **`README.md` § Project Structure** — read it 
 copy here, and `ls src/components/ui/` for the current primitive list (a hardcoded list in this file went
 stale within weeks). `CLAUDE.md` § Shape states which sections `page.tsx` renders, in order.
 
-What that tree does not tell you: every section component carries its own `'use client'`, `page.tsx` is a
-server component, and `src/styles/globals.css` holds the Tailwind entry plus the tokens and nothing that
-belongs in a component.
+What that tree does not tell you: every section component carries its own `'use client'`, the layout and
+page under `src/app/[locale]/` are server components, and `src/styles/globals.css` holds the Tailwind
+entry plus the tokens and nothing that belongs in a component.
+
+## Copy is bilingual (mandatory)
+
+The site ships in English and French. **Never hardcode a visible string in a component.** Every label,
+heading, button, placeholder, `aria-label`, `title`, `alt` and status message is looked up from
+`src/i18n/messages/{en,fr}.json` with `useTranslations`.
+
+The mechanics and the standing rules live in **`CLAUDE.md` § Internationalization** — read it before
+touching copy rather than working from a second copy here. The four that catch people out:
+
+- **Any string you add lands in both catalogues in the same change**, English first, with a real French
+  translation. Leaving French for later ships a half-English page; a key in one file and not the other is
+  a runtime miss.
+- **All authored keys are kebab-case.**
+- **Translate the label, never the value.** Filter values are kebab-case keys shared with the data; only
+  the display label is looked up. A comparison against translated text silently returns zero results in
+  one language.
+- **A phrase is one message.** Anything with mixed markup — a heading with one teal word, a sentence with
+  a link in it — is a rich-text message with tags, rendered via `t.rich`. Word order and punctuation
+  spacing differ between languages, so concatenating fragments in JSX cannot be translated correctly.
+
+What stays untranslated: technology names, company names, project titles, the official French RNCP
+certificate titles, `krivtsoff.develop()`, the author's name, service names. Those live in
+`src/constants/`; only prose belongs in the catalogues.
+
+When you add a section, its new namespace goes in both files, grouped by site section like the existing
+ones — do not scatter keys or invent a per-component file.
 
 The legacy layer is **gone** (retired 2026-07-26) — do not bring any of it back:
 
@@ -268,11 +301,12 @@ why (styling-only change, no documented fact moved).
 - **Arrow functions only** — `const Banner = () => { … }`, never `export function Banner() {}` or
   `function Banner() {}`.
 - **The file's primary component is exported at the bottom via `export default`**; named utilities use
-  `export const`. Every component already follows this — keep it, and update `src/app/page.tsx` if you
-  rename one.
-- `'use client'` only when needed (hooks, event handlers, browser APIs). `page.tsx` is currently a
-  client component for no strong reason — prefer server components for new static sections and push
-  `'use client'` down to the interactive leaf.
+  `export const`. Every component already follows this — keep it, and update
+  `src/app/[locale]/page.tsx` if you rename one.
+- `'use client'` only when needed (hooks, event handlers, browser APIs). The layout and page are server
+  components — keep them that way: `setRequestLocale` there is what keeps both locales statically
+  rendered. Prefer server components for new static sections and push `'use client'` down to the
+  interactive leaf.
 - **No inline styles** — Tailwind only. `Projects.tsx` still uses inline `style` objects for the
   hover tooltip's position; remove them when you touch that file.
 - Use `cn()` from `@/lib/utils` for conditional class merging.

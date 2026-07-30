@@ -19,7 +19,7 @@ import { dirname, join } from 'node:path';
 
 const ROOT = process.cwd();
 const CSS_PATH = join(ROOT, 'src/styles/globals.css');
-const LAYOUT_PATH = join(ROOT, 'src/app/layout.tsx');
+const LAYOUT_PATH = join(ROOT, 'src/app/[locale]/layout.tsx');
 const DESIGN_PATH = join(ROOT, 'DESIGN.md');
 const SIDECAR_PATH = join(ROOT, '.impeccable/design.json');
 

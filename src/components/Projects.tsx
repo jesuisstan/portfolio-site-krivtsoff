@@ -6,6 +6,7 @@ import type { Variants } from 'framer-motion';
 import { motion, useInView } from 'framer-motion';
 import { BarChart3, Code, Eye, Github } from 'lucide-react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 import Badge from '@/components/ui/badge';
 import Button from '@/components/ui/button';
@@ -51,11 +52,11 @@ const ProjectDescription = ({ description }: { description: string }) => {
 };
 
 const categories: ProjectFilter[] = [
-  'All',
-  'Full-Stack',
-  'Frontend',
-  'Game',
-  'Mobile'
+  'all',
+  'full-stack',
+  'frontend',
+  'game',
+  'mobile'
 ];
 
 const octoprofileUrl = `https://octoprofile.vercel.app/user?id=${process.env.NEXT_PUBLIC_GITHUB_PROFILE}`;
@@ -64,10 +65,11 @@ const octoprofileUrl = `https://octoprofile.vercel.app/user?id=${process.env.NEX
 const Projects = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-  const [activeCategory, setActiveCategory] = useState<ProjectFilter>('All');
+  const [activeCategory, setActiveCategory] = useState<ProjectFilter>('all');
+  const t = useTranslations('projects');
 
   const filteredProjects =
-    activeCategory === 'All'
+    activeCategory === 'all'
       ? projects
       : projects.filter((project) => {
           const projectCategories: ProjectCategory[] = Array.isArray(
@@ -118,13 +120,15 @@ const Projects = () => {
             variants={itemVariants}
             className="mb-8 text-4xl font-bold text-foreground lg:text-5xl"
           >
-            Featured <span className="text-primary">Projects</span>
+            {t.rich('heading', {
+              accent: (chunks) => <span className="text-primary">{chunks}</span>
+            })}
           </motion.h2>
           <motion.p
             variants={itemVariants}
             className="mx-auto mb-8 max-w-3xl text-xl text-muted-foreground"
           >
-            Some of the shipped projects. Live demo and source for each.
+            {t('subtitle')}
           </motion.p>
 
           {/* Category Filter */}
@@ -137,7 +141,7 @@ const Projects = () => {
               onValueChange={(value) => {
                 if (value) setActiveCategory(value as ProjectFilter);
               }}
-              aria-label="Filter projects by category"
+              aria-label={t('filter-aria')}
               className="w-full flex-wrap justify-center gap-2"
             >
               {categories.map((category) => (
@@ -146,7 +150,7 @@ const Projects = () => {
                   value={category}
                   className={FILTER_CHIP_CLASS}
                 >
-                  {category}
+                  {t(`categories.${category}`)}
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
@@ -162,7 +166,7 @@ const Projects = () => {
             className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
           >
             {filteredProjects.map((project) => (
-              <motion.div key={project.id} variants={itemVariants}>
+              <motion.div key={project.key} variants={itemVariants}>
                 <Card className="group h-full gap-0 overflow-hidden p-0 transition-colors hover:border-primary/50">
                   {/* Project Image */}
                   <div className="relative h-48 overflow-hidden">
@@ -184,12 +188,12 @@ const Projects = () => {
                       {(Array.isArray(project.category)
                         ? project.category
                         : [project.category]
-                      ).map((category, idx) => (
+                      ).map((category) => (
                         <Badge
-                          key={idx}
+                          key={category}
                           className="bg-primary/90 backdrop-blur-xs"
                         >
-                          {category}
+                          {t(`categories.${category}`)}
                         </Badge>
                       ))}
                     </div>
@@ -200,7 +204,9 @@ const Projects = () => {
                     <h3 className="mb-2 text-xl font-bold text-card-foreground transition-colors group-hover:text-accent-foreground">
                       {project.title}
                     </h3>
-                    <ProjectDescription description={project.description} />
+                    <ProjectDescription
+                      description={t(`items.${project.key}.description`)}
+                    />
 
                     {/* Technologies */}
                     <div className="mb-4 flex flex-wrap gap-2">
@@ -225,7 +231,7 @@ const Projects = () => {
                             rel="noopener noreferrer"
                           >
                             <Eye />
-                            Live Demo
+                            {t('live-demo')}
                           </a>
                         </Button>
                       )}
@@ -242,7 +248,7 @@ const Projects = () => {
                             rel="noopener noreferrer"
                           >
                             <Code />
-                            Code
+                            {t('code')}
                           </a>
                         </Button>
                       )}
@@ -269,7 +275,7 @@ const Projects = () => {
                 rel="noopener noreferrer"
               >
                 <Github className="size-5" />
-                View More on GitHub
+                {t('view-more')}
               </a>
             </Button>
 
@@ -285,7 +291,7 @@ const Projects = () => {
                 rel="noopener noreferrer"
               >
                 <BarChart3 className="size-5" />
-                GitHub Stats
+                {t('stats')}
               </a>
             </Button>
           </div>

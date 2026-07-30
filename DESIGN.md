@@ -420,9 +420,15 @@ transitions, an unmissable focus ring. Nothing jumps, nothing asks for attention
   `text-foreground` on hover. There is no active-section highlight; the nav does not track scroll.
 - **Brand:** a teal `size-8` `rounded-lg` tile with a white-on-teal `K`, beside `krivtsoff.develop()` at
   `text-xl font-bold`.
+- **Actions:** right-aligned and always visible at every breakpoint, in this order — the language
+  switch, the theme toggle, "Download CV" (`hidden sm:flex`), and below `lg` the menu trigger. The two icon
+  controls are `size-11`; the language pill is deliberately shorter (see § Language Switch). At 360px the
+  brand absorbs the remaining width through `min-w-0 truncate`; adding another always-visible control
+  would break that budget.
 - **Mobile:** below `lg`, a Radix sheet from the right at `w-72` with `shadow-overlay` over the
   `--overlay` scrim; links become h-11 left-aligned ghost buttons. Radix owns focus trapping and scroll
-  locking.
+  locking. The language and theme controls deliberately stay in the bar rather than moving into the
+  drawer — switching either one should never cost two taps.
 
 ### Animated Borders (signature)
 
@@ -532,6 +538,27 @@ reveals the incoming theme through a 400ms circular `clip-path` expanding from t
 Transitions API. It runs in controlled mode from `useTheme()` so `next-themes` remains the only owner of
 persistence, falls back to an instant swap where `document.startViewTransition` is unavailable, and drops
 to `duration: 0` under reduced motion.
+
+### Language Switch
+
+A two-segment `EN | FR` pill in the nav's actions row, borrowing the filter chips' vocabulary rather
+than inventing a control: an `h-8` `rounded-full` track with a 1px `border-input` hairline,
+`shadow-ambient`, and two `h-7 rounded-full` segments at `text-[11px] font-semibold tracking-wide`.
+Inactive segments are `text-muted-foreground` on transparent; the active one takes the chips' full teal
+fill (`bg-primary` / `text-primary-foreground`) — the same "selected is the only loud state" rule that
+governs the filters.
+
+It is deliberately the **quietest** control in the bar: shorter than the `size-11` toggle and menu
+button beside it, because language is a setting a visitor touches once, not an action the page is
+inviting. Two 28px-wide segments still clear the 24px minimum target size.
+
+Both segments are always visible. A single button showing one code cannot say whether it names the
+current language or the target one, and that ambiguity is worse than the ~70px this costs.
+
+Each segment is a real anchor, not a click handler: the pressed state comes from `useLocale()` and the
+href from next-intl's locale-aware `Link`, so `/fr` is a crawlable destination. That is the whole reason
+the locale lives in the URL. It carries no motion of its own beyond the inherited
+`transition-[color,box-shadow]`, so there is nothing to gate under reduced motion.
 
 ## Do's and Don'ts
 

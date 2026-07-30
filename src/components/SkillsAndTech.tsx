@@ -5,6 +5,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import type { Variants } from 'framer-motion';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 import { buildOrbitRings, orbitBoxSize } from '@/components/skills-orbit';
 import OrbitingCircles from '@/components/ui/orbiting-circles';
@@ -31,8 +32,9 @@ const SkillsAndTech = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-  const [activeCategory, setActiveCategory] = useState<TechnologyFilter>('All');
+  const [activeCategory, setActiveCategory] = useState<TechnologyFilter>('all');
   const [frame, setFrame] = useState({ width: 0, available: 0 });
+  const t = useTranslations('skills');
 
   // Measured on a full-width wrapper rather than the orbit itself, whose own size is what we compute.
   // `available` is the leftover viewport height once the nav and everything above the orbit is taken
@@ -67,7 +69,7 @@ const SkillsAndTech = () => {
   }, []);
 
   const filteredTechnologies =
-    activeCategory === 'All'
+    activeCategory === 'all'
       ? technologies
       : technologies.filter((tech) => tech.categories.includes(activeCategory));
 
@@ -125,13 +127,15 @@ const SkillsAndTech = () => {
             variants={itemVariants}
             className="mb-4 text-4xl font-bold text-foreground lg:text-5xl"
           >
-            <span className="text-primary">Skills</span> & Technologies
+            {t.rich('heading', {
+              accent: (chunks) => <span className="text-primary">{chunks}</span>
+            })}
           </motion.h2>
           <motion.p
             variants={itemVariants}
             className="mx-auto max-w-3xl text-lg text-muted-foreground sm:text-xl"
           >
-            My technical toolkit, built through hands-on experience.
+            {t('subtitle')}
           </motion.p>
         </motion.div>
 
@@ -150,7 +154,7 @@ const SkillsAndTech = () => {
             onValueChange={(value) => {
               if (value) setActiveCategory(value as TechnologyFilter);
             }}
-            aria-label="Filter technologies by category"
+            aria-label={t('filter-aria')}
             className="w-full flex-wrap justify-center gap-2"
           >
             {categories.map((category) => (
@@ -159,7 +163,7 @@ const SkillsAndTech = () => {
                 value={category}
                 className={FILTER_CHIP_CLASS}
               >
-                {category}
+                {t(`categories.${category}`)}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
@@ -228,7 +232,9 @@ const SkillsAndTech = () => {
                 {filteredTechnologies.length}
               </span>
               <span className="text-xs leading-tight font-medium text-muted-foreground">
-                {activeCategory === 'All' ? 'TECHS' : activeCategory}
+                {activeCategory === 'all'
+                  ? t('hub-all')
+                  : t(`categories.${activeCategory}`)}
               </span>
             </div>
           </motion.div>

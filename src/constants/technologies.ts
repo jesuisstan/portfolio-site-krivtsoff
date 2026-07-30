@@ -1,15 +1,15 @@
 export type TechnologyCategory =
-  | 'Frontend'
-  | 'Backend'
-  | 'Mobile'
-  | 'Data'
-  | 'Design'
-  | 'DevOps'
-  | 'Tools'
-  | 'Language'
-  | 'Testing';
+  | 'frontend'
+  | 'backend'
+  | 'mobile'
+  | 'data'
+  | 'design'
+  | 'devops'
+  | 'tools'
+  | 'language'
+  | 'testing';
 
-export type TechnologyFilter = 'All' | TechnologyCategory;
+export type TechnologyFilter = 'all' | TechnologyCategory;
 
 export interface Technology {
   name: string;
@@ -26,258 +26,258 @@ export const technologies: Technology[] = [
   {
     name: 'React',
     icon: '/powered-by/logo-react.png',
-    categories: ['Frontend']
+    categories: ['frontend']
   },
   {
     name: 'Next.js',
     icon: '/powered-by/logo-nextjs.png',
-    categories: ['Frontend', 'Backend']
+    categories: ['frontend', 'backend']
   },
   {
     name: 'JavaScript',
     icon: '/powered-by/logo-js.png',
-    categories: ['Language']
+    categories: ['language']
   },
   {
     name: 'TypeScript',
     icon: '/powered-by/logo-ts.png',
-    categories: ['Language']
+    categories: ['language']
   },
   {
     name: 'HTML5',
     icon: '/powered-by/logo-html.png',
-    categories: ['Frontend']
+    categories: ['frontend']
   },
   {
     name: 'CSS3',
     icon: '/powered-by/logo-css.png',
-    categories: ['Design']
+    categories: ['design']
   },
   {
     name: 'Tailwind CSS',
     icon: '/powered-by/logo-tailwindcss.png',
-    categories: ['Design']
+    categories: ['design']
   },
   {
     name: 'Material-UI',
     icon: '/powered-by/logo-material-ui.png',
-    categories: ['Design']
+    categories: ['design']
   },
   {
     name: 'Radix UI',
     icon: '/powered-by/logo-radix-ui.svg',
-    categories: ['Design']
+    categories: ['design']
   },
   {
     name: 'Node.js',
     icon: '/powered-by/logo-node.png',
-    categories: ['Backend']
+    categories: ['backend']
   },
   {
     name: 'MongoDB',
     icon: '/powered-by/logo-mongodb.png',
-    categories: ['Data']
+    categories: ['data']
   },
   {
     name: 'PostgreSQL',
     icon: '/powered-by/logo-vercel-postgresql.svg',
-    categories: ['Data'],
+    categories: ['data'],
     plate: 'bg-logo-plate-dark'
   },
   {
     name: 'GraphQL',
     icon: '/powered-by/logo-graph-ql.png',
-    categories: ['Backend', 'Frontend']
+    categories: ['backend', 'frontend']
   },
   {
     name: 'Apollo',
     icon: '/powered-by/logo-apollo.png',
-    categories: ['Backend', 'Frontend']
+    categories: ['backend', 'frontend']
   },
   {
     name: 'Next Auth',
     icon: '/powered-by/logo-next-auth.png',
-    categories: ['Backend', 'Frontend']
+    categories: ['backend', 'frontend']
   },
   {
     name: 'JWT',
     icon: '/powered-by/logo-jwt.svg',
-    categories: ['Backend']
+    categories: ['backend']
   },
   {
     name: 'OAuth',
     icon: '/powered-by/logo-oauth.svg',
-    categories: ['Backend']
+    categories: ['backend']
   },
   {
     name: 'Docker',
     icon: '/powered-by/logo-docker.png',
-    categories: ['DevOps']
+    categories: ['devops']
   },
   {
     name: 'Git',
     icon: '/powered-by/logo-git.png',
-    categories: ['Tools']
+    categories: ['tools']
   },
   {
     name: 'Bitbucket',
     icon: '/powered-by/logo-bitbucket.svg',
-    categories: ['Tools']
+    categories: ['tools']
   },
   {
     name: 'Highcharts',
     icon: '/powered-by/logo-highcharts.png',
-    categories: ['Frontend']
+    categories: ['frontend']
   },
   {
     name: 'ECharts',
     icon: '/powered-by/logo-echarts.png',
-    categories: ['Frontend']
+    categories: ['frontend']
   },
   {
     name: 'Next Intl',
     icon: '/powered-by/logo-next-intl.png',
-    categories: ['Frontend']
+    categories: ['frontend']
   },
   {
     name: 'Vercel',
     icon: '/powered-by/logo-vercel.svg',
-    categories: ['DevOps']
+    categories: ['devops']
   },
   {
     name: 'Vercel Blob',
     icon: '/powered-by/logo-vercel-blob.svg',
-    categories: ['Data'],
+    categories: ['data'],
     plate: 'bg-logo-plate-dark'
   },
   {
     name: 'React Native',
     icon: '/powered-by/logo-react-native.svg',
-    categories: ['Mobile', 'Frontend']
+    categories: ['mobile', 'frontend']
   },
   {
     name: 'Expo',
     icon: '/powered-by/logo-expo.svg',
-    categories: ['Mobile']
+    categories: ['mobile']
   },
   {
     name: 'Expo.dev',
     icon: '/powered-by/logo-expo-dev.svg',
-    categories: ['DevOps', 'Mobile']
+    categories: ['devops', 'mobile']
   },
   {
     name: 'Figma',
     icon: '/powered-by/logo-figma.svg',
-    categories: ['Design']
+    categories: ['design']
   },
   {
     name: 'OCaml',
     icon: '/powered-by/logo-ocaml.svg',
-    categories: ['Language']
+    categories: ['language']
   },
   {
     name: 'C',
     icon: '/powered-by/logo-c.svg',
-    categories: ['Language']
+    categories: ['language']
   },
   {
     name: 'C++',
     icon: '/powered-by/logo-cpp.svg',
-    categories: ['Language']
+    categories: ['language']
   },
   {
     name: 'Firebase',
     icon: '/powered-by/logo-firebase.svg',
-    categories: ['Backend', 'Mobile']
+    categories: ['backend', 'mobile']
   },
   {
     name: 'Firestore DB',
     icon: '/powered-by/logo-firestore.svg',
-    categories: ['Data']
+    categories: ['data']
   },
   {
     name: 'FB Auth',
     icon: '/powered-by/logo-firestore.svg',
-    categories: ['Backend', 'Mobile']
+    categories: ['backend', 'mobile']
   },
   {
     name: 'FB Storage',
     icon: '/powered-by/logo-firebase-storage.svg',
-    categories: ['Data']
+    categories: ['data']
   },
   {
     name: 'Android',
     icon: '/powered-by/logo-android.svg',
-    categories: ['Mobile']
+    categories: ['mobile']
   },
   {
     name: 'Studio',
     icon: '/powered-by/logo-android-studio.svg',
-    categories: ['Tools', 'Mobile']
+    categories: ['tools', 'mobile']
   },
   {
     name: 'Render',
     icon: '/powered-by/logo-render.svg',
-    categories: ['DevOps'],
+    categories: ['devops'],
     plate: 'bg-logo-plate-dark'
   },
   {
     name: 'Kubernetes',
     icon: '/powered-by/logo-kubernetes.svg',
-    categories: ['DevOps']
+    categories: ['devops']
   },
   {
     name: 'Jest',
     icon: '/powered-by/logo-jest.png',
-    categories: ['Testing']
+    categories: ['testing']
   },
   {
     name: 'Cypress',
     icon: '/powered-by/logo-cypress.svg',
-    categories: ['Testing']
+    categories: ['testing']
   },
   {
     name: 'Socket.io',
     icon: '/powered-by/logo-socket-io.png',
-    categories: ['Backend', 'Frontend'],
+    categories: ['backend', 'frontend'],
     plate: 'bg-logo-plate-dark'
   },
   {
     name: 'Redux',
     icon: '/powered-by/logo-redux.png',
-    categories: ['Frontend']
+    categories: ['frontend']
   },
   {
     name: 'Zustand',
     icon: '/powered-by/logo-zustand.png',
-    categories: ['Frontend']
+    categories: ['frontend']
   },
   {
     name: 'NativeWind',
     icon: '/powered-by/logo-nativewind.svg',
-    categories: ['Design', 'Mobile']
+    categories: ['design', 'mobile']
   },
   {
     name: 'Postman',
     icon: '/powered-by/logo-postman.svg',
-    categories: ['Tools']
+    categories: ['tools']
   },
   {
     name: 'Cursor IDE',
     icon: '/powered-by/logo-cursor-ide.png',
-    categories: ['Tools']
+    categories: ['tools']
   }
 ];
 
 export const categories: TechnologyFilter[] = [
-  'All',
-  'Frontend',
-  'Backend',
-  'Mobile',
-  'Data',
-  'Design',
-  'DevOps',
-  'Tools',
-  'Language',
-  'Testing'
+  'all',
+  'frontend',
+  'backend',
+  'mobile',
+  'data',
+  'design',
+  'devops',
+  'tools',
+  'language',
+  'testing'
 ];
