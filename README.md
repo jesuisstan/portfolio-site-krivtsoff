@@ -6,11 +6,14 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
 ## 🌟 Features
 
 - **Single-page layout**: hero, skills & tech, experience, projects, contact — with a sticky nav that scrolls to each section
+- **English and French**: `next-intl` with locale-based routing — English on `/`, French on `/fr`. A
+  browser that prefers French is redirected on first visit; an `EN | FR` switch in the nav overrides it
 - **Dark/Light Theme**: `next-themes` with class strategy and system preference detection (dark by default)
 - **Responsive**: mobile-first layout with a Radix-backed off-canvas drawer on small screens
 - **Animations**: Framer Motion throughout, with `prefers-reduced-motion` respected
 - **Contact form**: sends mail straight from the browser through EmailJS
-- **SEO**: full metadata, OpenGraph and Twitter cards, web manifest, Vercel Analytics
+- **SEO**: per-locale metadata, `hreflang` alternates, a sitemap covering both locales, OpenGraph and
+  Twitter cards, web manifest, Vercel Analytics
 
 ## 🛠️ Technologies Used
 
@@ -22,6 +25,8 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
 - **Tailwind CSS 4** - Utility-first CSS framework, CSS-first configuration (no `tailwind.config.ts`)
 - **Framer Motion** - Animation library
 - **Lucide React** - Icon set
+- **next-intl** - internationalization: locale routing, the `proxy.ts` locale negotiation, and the
+  message catalogues in `src/i18n/messages/`
 
 ### Styling & UI
 
@@ -150,8 +155,18 @@ npm run fresh        # wipe .next / .swc / node_modules / package-lock.json and 
 ```
 src/
 ├── app/                    # Next.js App Router
-│   ├── layout.tsx          # Root layout: font, theme provider, metadata, analytics
-│   └── page.tsx            # Home page — renders every section in order
+│   ├── [locale]/
+│   │   ├── layout.tsx      # Document shell: font, i18n + theme providers, per-locale metadata, analytics
+│   │   └── page.tsx        # Home page — renders every section in order
+│   ├── layout.tsx          # Pass-through root layout (required alongside the root not-found)
+│   ├── not-found.tsx       # Minimal 404 for paths outside a locale segment
+│   └── sitemap.ts          # Both locale URLs with their hreflang alternates
+├── proxy.ts                # next-intl locale negotiation and rewriting (pre-Next 16: middleware.ts)
+├── i18n/
+│   ├── routing.ts          # Locales, default locale, `localePrefix: 'as-needed'`
+│   ├── navigation.ts       # Locale-aware Link / router wrappers
+│   ├── request.ts          # Per-request locale + message catalogue loading
+│   └── messages/           # Translation catalogues — en.json, fr.json (kebab-case keys)
 ├── components/             # React components
 │   ├── ui/                 # shadcn/ui primitives (button, card, badge, input, textarea,
 │   │                       #   label, sheet, tooltip, toggle, toggle-group, separator)
@@ -165,13 +180,14 @@ src/
 │   ├── Experience.tsx      # Work experience timeline
 │   ├── Projects.tsx        # Projects showcase with category filter
 │   ├── Contact.tsx         # Contact form (EmailJS) + contact details
-│   ├── NavBar.tsx          # Sticky navigation, mobile drawer (sheet), theme toggle
+│   ├── NavBar.tsx          # Sticky navigation, mobile drawer (sheet), theme + language toggles
+│   ├── LanguageToggle.tsx  # Segmented EN/FR switch; each segment links to that locale
 │   ├── ScrollToTop.tsx     # Floating back-to-top control, shown once the hero scrolls away
 │   ├── Footer.tsx          # Site footer + particle field + social links
 │   └── ThemeProvider.tsx   # next-themes wrapper
-├── constants/              # Page content data + its TypeScript types
-│   ├── experiences.ts      # Timeline entries
-│   ├── projects.ts         # Project cards
+├── constants/              # Page content data + its TypeScript types — the parts that never translate
+│   ├── experiences.ts      # Timeline structure: company names, URLs, technologies, entry keys
+│   ├── projects.ts         # Project cards: names, screenshots, technologies, links, entry keys
 │   └── technologies.ts     # Technology / logo entries
 ├── lib/
 │   ├── filter-chip.ts      # Shared class list for the Skills and Projects filter chips
@@ -180,7 +196,8 @@ src/
 │   ├── social-links.ts     # Social profile links (reads env, hence not in constants/)
 │   └── utils.ts            # `cn()` class-merge helper
 ├── types/
-│   └── css.d.ts            # ambient declaration for stylesheet side-effect imports
+│   ├── css.d.ts            # ambient declaration for stylesheet side-effect imports
+│   └── next-intl.d.ts      # types message keys and the locale union from en.json
 └── styles/
     └── globals.css         # Tailwind v4 entry, design tokens, base layer, scrollbar
 ```

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import Button from '@/components/ui/button';
 
@@ -11,6 +12,7 @@ import Button from '@/components/ui/button';
 const ScrollToTop = () => {
   const prefersReducedMotion = useReducedMotion();
   const [isVisible, setIsVisible] = useState(false);
+  const t = useTranslations('common');
 
   useEffect(() => {
     const hero = document.querySelector('#home');
@@ -49,7 +51,7 @@ const ScrollToTop = () => {
             // Semi-transparent so it reads as floating above the page rather than pinned to it.
             // `dark:` repeated because the outline variant carries its own dark background.
             className="opacity-90 size-12 bg-card/60 shadow-overlay backdrop-blur-sm hover:bg-card/90 dark:bg-card/60 dark:hover:bg-card/90"
-            aria-label="Back to top"
+            aria-label={t('back-to-top')}
             onClick={scrollToTop}
           >
             <ArrowUp className="size-6" />

@@ -8,6 +8,7 @@ import { motion, useInView } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import { MapPin, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import type { FormEvent } from 'react';
 
 import Button from '@/components/ui/button';
@@ -42,10 +43,9 @@ type ContactFormData = {
   message: string;
 };
 
-interface ContactFormStatus {
-  success?: boolean;
-  message?: string;
-}
+type ContactFormResult = 'success' | 'error' | 'incomplete';
+
+type ContactSubmitState = 'idle' | 'sending';
 
 const messengers: ContactMessenger[] = [
   {
@@ -66,6 +66,7 @@ const messengers: ContactMessenger[] = [
 const Contact = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
+  const t = useTranslations('contact');
 
   // Initialize EmailJS
   useEffect(() => {
@@ -79,13 +80,13 @@ const Contact = () => {
     phone: '',
     message: ''
   });
-  const [buttonText, setButtonText] = useState('Send Message');
-  const [status, setStatus] = useState<ContactFormStatus>({});
+  const [submitState, setSubmitState] = useState<ContactSubmitState>('idle');
+  const [result, setResult] = useState<ContactFormResult | null>(null);
 
   const contactInfo: ContactInfoItem[] = [
     {
       icon: MapPin,
-      title: 'Location',
+      title: t('location'),
       value: process.env.NEXT_PUBLIC_CONTACT_LOCATION,
       href: null
     }
@@ -101,7 +102,7 @@ const Contact = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.email && formData.lastName && formData.message) {
-      setButtonText('Sending...');
+      setSubmitState('sending');
       try {
         await emailjs.send(
           process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
@@ -109,8 +110,8 @@ const Contact = () => {
           formData,
           process.env.NEXT_PUBLIC_EMAILJS_USER_ID
         );
-        setButtonText('Send Message');
-        setStatus({ success: true, message: 'Message sent successfully!' });
+        setSubmitState('idle');
+        setResult('success');
         setFormData({
           firstName: '',
           lastName: '',
@@ -119,17 +120,11 @@ const Contact = () => {
           message: ''
         });
       } catch {
-        setButtonText('Send Message');
-        setStatus({
-          success: false,
-          message: 'Something went wrong, please try again later'
-        });
+        setSubmitState('idle');
+        setResult('error');
       }
     } else {
-      setStatus({
-        success: false,
-        message: 'Please fill in all required fields'
-      });
+      setResult('incomplete');
     }
   };
 
@@ -173,7 +168,9 @@ const Contact = () => {
             variants={itemVariants}
             className="mb-8 text-4xl font-bold text-foreground lg:text-5xl"
           >
-            Let&apos;s <span className="text-primary">Connect</span>
+            {t.rich('heading', {
+              accent: (chunks) => <span className="text-primary">{chunks}</span>
+            })}
           </motion.h2>
         </motion.div>
 
@@ -187,7 +184,7 @@ const Contact = () => {
           >
             <motion.div variants={itemVariants}>
               <p className="mb-8 text-base leading-relaxed text-muted-foreground">
-                Hiring, or want to talk about a role? Send a message.
+                {t('intro')}
               </p>
             </motion.div>
 
@@ -231,7 +228,7 @@ const Contact = () => {
                 variants={itemVariants}
                 className="mb-4 text-lg font-semibold text-foreground"
               >
-                Quick Connect
+                {t('quick-connect')}
               </motion.h3>
               <motion.div
                 variants={itemVariants}
@@ -247,12 +244,12 @@ const Contact = () => {
                       href={messenger.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      title="Scan QR code or click to connect instantly via messenger"
+                      title={t('qr-title')}
                       className="group relative mx-auto mb-3 block size-28 rounded-lg bg-card shadow-ambient transition-shadow hover:shadow-raised focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
                     >
                       <Image
                         src={messenger.qrCode}
-                        alt={`${messenger.label} QR Code`}
+                        alt={t('qr-alt', { label: messenger.label })}
                         fill
                         sizes="112px"
                         className="rounded-lg object-cover"
@@ -301,7 +298,7 @@ const Contact = () => {
               >
                 <div className="grid gap-6 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
+                    <Label htmlFor="firstName">{t('form.first-name')}</Label>
                     <Input
                       id="firstName"
                       name="firstName"
@@ -310,11 +307,11 @@ const Contact = () => {
                         onFormUpdate('firstName', e.target.value)
                       }
                       className="h-11"
-                      placeholder="Your first name"
+                      placeholder={t('form.first-name-placeholder')}
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name *</Label>
+                    <Label htmlFor="lastName">{t('form.last-name')}</Label>
                     <Input
                       id="lastName"
                       name="lastName"
@@ -322,14 +319,14 @@ const Contact = () => {
                       onChange={(e) => onFormUpdate('lastName', e.target.value)}
                       required
                       className="h-11"
-                      placeholder="Your last name"
+                      placeholder={t('form.last-name-placeholder')}
                     />
                   </div>
                 </div>
 
                 <div className="grid gap-6 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email *</Label>
+                    <Label htmlFor="email">{t('form.email')}</Label>
                     <Input
                       type="email"
                       id="email"
@@ -338,11 +335,11 @@ const Contact = () => {
                       onChange={(e) => onFormUpdate('email', e.target.value)}
                       required
                       className="h-11"
-                      placeholder="your.email@example.com"
+                      placeholder={t('form.email-placeholder')}
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="phone">{t('form.phone')}</Label>
                     <Input
                       type="tel"
                       id="phone"
@@ -350,13 +347,13 @@ const Contact = () => {
                       value={formData.phone}
                       onChange={(e) => onFormUpdate('phone', e.target.value)}
                       className="h-11"
-                      placeholder="Your phone number"
+                      placeholder={t('form.phone-placeholder')}
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message">Message *</Label>
+                  <Label htmlFor="message">{t('form.message')}</Label>
                   <Textarea
                     id="message"
                     name="message"
@@ -365,34 +362,36 @@ const Contact = () => {
                     required
                     rows={6}
                     className="resize-none"
-                    placeholder="Tell me about your project..."
+                    placeholder={t('form.message-placeholder')}
                   />
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  * Required fields
+                  {t('form.required')}
                 </p>
 
                 <Button
                   type="submit"
                   className="h-11 w-full text-base font-semibold"
-                  disabled={buttonText === 'Sending...'}
+                  disabled={submitState === 'sending'}
                 >
-                  {buttonText}
+                  {submitState === 'sending'
+                    ? t('form.sending')
+                    : t('form.send')}
                 </Button>
 
-                {status.message && (
+                {result && (
                   <p
                     role="status"
                     aria-live="polite"
                     className={cn(
                       'rounded-lg border p-4 text-center text-sm',
-                      status.success
+                      result === 'success'
                         ? 'border-primary/40 bg-primary/10 text-foreground'
                         : 'border-destructive/40 bg-destructive/10 text-destructive'
                     )}
                   >
-                    {status.message}
+                    {t(`form.${result}`)}
                   </p>
                 )}
               </motion.form>

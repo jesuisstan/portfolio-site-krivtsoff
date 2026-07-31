@@ -1,50 +1,54 @@
+export type ExperienceKey = 'quantcube' | 'ecole42' | 'management' | 'hse';
+
+export type ExperienceType = 'employment' | 'education' | 'management';
+
+export type CertificateKey =
+  'data-architecture' | 'software' | 'web-mobile' | 'master' | 'bachelor';
+
+export type PositionKey = 'audit' | 'telecom' | 'railways';
+
+/** Skill phrases shown as tags; unlike a technology name, these are real prose and get translated. */
+export type SkillKey =
+  | 'leadership'
+  | 'risk-management'
+  | 'business-strategy'
+  | 'project-management'
+  | 'strategic-management'
+  | 'data-analysis';
+
 export interface ExperienceCertificate {
-  title: string;
-  level: string;
-  date: string;
+  key: CertificateKey;
   url?: string;
 }
 
 export interface ExperiencePosition {
-  title: string;
+  key: PositionKey;
   company: string;
   companyUrl: string;
-  description: string;
 }
 
 export interface Experience {
-  id: number;
-  title: string;
+  key: ExperienceKey;
+  type: ExperienceType;
   company?: string;
   companyUrl?: string;
-  type: string;
-  period: string;
-  location: string;
-  description: string;
-  responsibilities?: string[];
+  /** Which heading introduces the certificate list; the two lists are not the same kind of credential. */
+  certificatesLabel?: 'rncp' | 'academic';
   certificates?: ExperienceCertificate[];
   positions?: ExperiencePosition[];
   technologies: string[];
+  skills?: SkillKey[];
 }
 
+// Titles, periods, locations, and every description live in `src/i18n/messages/*.json` under
+// `experience.items.<key>`. Company names, URLs, and technology names are never translated; skill
+// phrases are, via `experience.skills.<key>`.
 export const experiences: Experience[] = [
   {
-    id: 1,
-    title: 'Frontend Developer',
+    key: 'quantcube',
+    type: 'employment',
     company: 'Quantcube Technology',
     companyUrl: 'https://www.quant-cube.com/',
-    type: 'CDI, Full-time',
-    period: 'September 2023 - Present',
-    location: 'Paris, France',
-    description:
-      'Designing and developing a large-scale SaaS platform for real-time visualization of 40+ macroeconomic Big Data indicators used by financial institutions and analysts:',
-    responsibilities: [
-      'Contributed to the frontend architecture of a modular React/Next.js application.',
-      'Built advanced interactive data visualizations, including charts, heatmaps, and geospatial maps.',
-      'Developed BFF logic and integrated GraphQL APIs.',
-      'Created reusable UI components and implemented authentication flows.',
-      'Implemented automated test scenarios and contributed to CI/CD workflows.'
-    ],
     technologies: [
       'React',
       'Node.js',
@@ -57,34 +61,22 @@ export const experiences: Experience[] = [
     ]
   },
   {
-    id: 2,
-    title: 'Expert en Architecture Informatique',
+    key: 'ecole42',
+    type: 'education',
     company: 'École 42',
     companyUrl: 'https://42.fr/',
-    type: 'Education',
-    period: 'April 2021 - February 2026',
-    location: 'Paris, France',
-    description:
-      'Completed intensive programming curriculum in peer-to-peer learning environment. Mastered C, C++, algorithms, web and mobile development.',
+    certificatesLabel: 'rncp',
     certificates: [
       {
-        title: 'Expert en Architecture Informatique - Architecture de Données',
-        level: "RNCP Level 7 (Master's degree equivalent)",
-        date: 'February 2026',
+        key: 'data-architecture',
         url: 'https://www.francecompetences.fr/recherche/rncp/39774/'
       },
       {
-        title:
-          'Concepteur Développeur de Solutions Informatiques - Développement de Logiciels Applicatifs',
-        level: "RNCP Level 6 (Bachelor's degree equivalent)",
-        date: 'October 2025',
+        key: 'software',
         url: 'https://www.francecompetences.fr/recherche/rncp/39783/'
       },
       {
-        title:
-          "Concepteur Développeur de Solutions Informatiques - Développement d'Application Web & Mobile",
-        level: "RNCP Level 6 (Bachelor's degree equivalent)",
-        date: 'November 2024',
+        key: 'web-mobile',
         url: 'https://www.francecompetences.fr/recherche/rncp/36135/'
       }
     ],
@@ -105,74 +97,42 @@ export const experiences: Experience[] = [
     ]
   },
   {
-    id: 3,
-    title: 'Management & Analysis',
-    type: 'Management',
-    period: 'July 2011 - March 2021',
-    location: 'Russia',
-    description:
-      'Gained extensive experience in audit, project management, and operational analysis across different industries.',
+    key: 'management',
+    type: 'management',
     positions: [
       {
-        title: 'External Auditor',
+        key: 'audit',
         company: 'Ernst & Young',
-        companyUrl: 'https://www.ey.com/',
-        description:
-          'Conducted external audits, analyzed financial statements, and ensured compliance with regulatory requirements.'
+        companyUrl: 'https://www.ey.com/'
       },
       {
-        title: 'Project Manager',
+        key: 'telecom',
         company: 'VEON Beeline',
-        companyUrl: 'https://moskva.beeline.ru/about/about-beeline/',
-        description:
-          'Led cross-functional teams in delivering complex projects. Managed stakeholder relationships and ensured project success through effective communication.'
+        companyUrl: 'https://moskva.beeline.ru/about/about-beeline/'
       },
       {
-        title: 'Efficiency Analyst',
+        key: 'railways',
         company: 'Russian Railways',
-        companyUrl: 'https://eng.rzd.ru/',
-        description:
-          'Analyzed operational efficiency, identified optimization opportunities, and developed recommendations for process improvements.'
+        companyUrl: 'https://eng.rzd.ru/'
       }
     ],
-    technologies: [
-      'JIRA',
-      'Confluence',
-      'MS Office',
-      'SAP',
-      'ERP',
-      'Data Analysis',
-      'Project Management'
-    ]
+    technologies: ['JIRA', 'Confluence', 'MS Office', 'SAP', 'ERP'],
+    skills: ['data-analysis', 'project-management']
   },
   {
-    id: 4,
-    title: 'Higher Education',
+    key: 'hse',
+    type: 'education',
     company: 'National Research University "Higher School of Economics"',
     companyUrl: 'https://www.hse.ru/en/',
-    type: 'Education',
-    period: 'September 2005 - June 2011',
-    location: 'Moscow, Russia',
-    description:
-      'Developed strong foundation in business strategy, organizational leadership, and project management principles.',
-    certificates: [
-      {
-        title: "Master's in Project Management",
-        level: "Master's degree",
-        date: '2009-2011'
-      },
-      {
-        title: "Bachelor's in Strategic Management",
-        level: "Bachelor's degree",
-        date: '2005-2009'
-      }
-    ],
-    technologies: [
-      'Strategic Management',
-      'Project Management',
-      'Business Strategy',
-      'Leadership',
-      'Risk Management'
+    certificatesLabel: 'academic',
+    certificates: [{ key: 'master' }, { key: 'bachelor' }],
+    technologies: [],
+    skills: [
+      'strategic-management',
+      'project-management',
+      'business-strategy',
+      'leadership',
+      'risk-management'
     ]
   }
 ];

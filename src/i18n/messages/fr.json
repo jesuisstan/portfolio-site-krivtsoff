@@ -1,0 +1,238 @@
+{
+  "metadata": {
+    "title": "Stanislav Krivtsoff - Développeur Frontend",
+    "description": "Développeur frontend spécialisé en React, Next.js et TypeScript. Interfaces produit, visualisation de données et applications web qui passent à l'échelle.",
+    "keywords": "Développeur Frontend, React, Next.js, TypeScript, Développement web, UI, Paris",
+    "og-description": "Développeur frontend spécialisé en React, Next.js et TypeScript.",
+    "site-name": "Portfolio de Stanislav Krivtsoff",
+    "image-alt": "Stanislav Krivtsoff - Développeur Frontend"
+  },
+  "common": {
+    "download-cv": "Télécharger le CV",
+    "back-to-top": "Retour en haut"
+  },
+  "nav": {
+    "aria-main": "Principale",
+    "aria-sections": "Sections",
+    "open-menu": "Ouvrir le menu de navigation",
+    "close-menu": "Fermer le menu de navigation",
+    "to-light-theme": "Passer au thème clair",
+    "to-dark-theme": "Passer au thème sombre",
+    "aria-language": "Langue",
+    "to-english": "Passer en anglais",
+    "to-french": "Passer en français",
+    "items": {
+      "home": "Accueil",
+      "skills": "Compétences",
+      "experience": "Expérience",
+      "projects": "Projets",
+      "contact": "Contact"
+    }
+  },
+  "banner": {
+    "badge": "Ouvert aux nouvelles opportunités",
+    "heading": "<accent>Développeur</accent><br></br>Frontend",
+    "intro": "Je construis des expériences numériques avec des technologies modernes. Passionné par les applications qui passent à l'échelle, agréables à utiliser et vraiment utiles.",
+    "talk": "Discutons",
+    "stats": {
+      "projects": "Projets réalisés",
+      "experience": "Années d'expérience",
+      "hours": "Heures de code",
+      "certifications": "Certifications IT"
+    }
+  },
+  "skills": {
+    "heading": "<accent>Compétences</accent> & technologies",
+    "subtitle": "Ma boîte à outils technique, construite par la pratique.",
+    "filter-aria": "Filtrer les technologies par catégorie",
+    "hub-all": "Techs",
+    "categories": {
+      "all": "Tous",
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "mobile": "Mobile",
+      "data": "Données",
+      "design": "Design",
+      "devops": "DevOps",
+      "tools": "Outils",
+      "language": "Langages",
+      "testing": "Tests"
+    }
+  },
+  "experience": {
+    "heading": "<accent>Expérience</accent> & formation",
+    "subtitle": "Mon parcours, du management au développement frontend",
+    "types": {
+      "employment": "CDI, temps plein",
+      "education": "Formation",
+      "management": "Management"
+    },
+    "labels": {
+      "rncp": "Certifications reconnues par l'État (RNCP) :",
+      "academic": "Diplômes universitaires :",
+      "positions": "Postes :",
+      "position-line": "<name>{title}</name> chez <company></company> : {description}"
+    },
+    "skills": {
+      "leadership": "Leadership",
+      "risk-management": "Gestion des risques",
+      "business-strategy": "Stratégie d'entreprise",
+      "project-management": "Gestion de projet",
+      "strategic-management": "Management stratégique",
+      "data-analysis": "Analyse de données"
+    },
+    "items": {
+      "quantcube": {
+        "title": "Développeur Frontend",
+        "period": "Septembre 2023 - Aujourd'hui",
+        "location": "Paris, France",
+        "description": "Conception et développement d'une plateforme SaaS à grande échelle pour la visualisation en temps réel de plus de 40 indicateurs macroéconomiques Big Data, utilisée par des institutions financières et des analystes :",
+        "responsibilities": [
+          "Participation à l'architecture frontend d'une application modulaire React/Next.js.",
+          "Réalisation de visualisations de données interactives avancées : graphiques, cartes de chaleur et cartes géospatiales.",
+          "Développement de la couche BFF et intégration d'API GraphQL.",
+          "Création de composants d'interface réutilisables et mise en place des parcours d'authentification.",
+          "Mise en place de scénarios de tests automatisés et contribution aux chaînes CI/CD."
+        ]
+      },
+      "ecole42": {
+        "title": "Expert en Architecture Informatique",
+        "period": "Avril 2021 - Février 2026",
+        "location": "Paris, France",
+        "description": "Cursus de programmation intensif en apprentissage par les pairs. Maîtrise du C, du C++, des algorithmes et du développement web et mobile.",
+        "certificates": {
+          "data-architecture": {
+            "title": "Expert en Architecture Informatique - Architecture de Données",
+            "level": "Niveau RNCP 7 (équivalent Master)",
+            "date": "Février 2026"
+          },
+          "software": {
+            "title": "Concepteur Développeur de Solutions Informatiques - Développement de Logiciels Applicatifs",
+            "level": "Niveau RNCP 6 (équivalent Licence)",
+            "date": "Octobre 2025"
+          },
+          "web-mobile": {
+            "title": "Concepteur Développeur de Solutions Informatiques - Développement d'Application Web & Mobile",
+            "level": "Niveau RNCP 6 (équivalent Licence)",
+            "date": "Novembre 2024"
+          }
+        }
+      },
+      "management": {
+        "title": "Management & analyse",
+        "period": "Juillet 2011 - Mars 2021",
+        "location": "Russie",
+        "description": "Expérience approfondie en audit, gestion de projet et analyse opérationnelle dans plusieurs secteurs.",
+        "positions": {
+          "audit": {
+            "title": "Auditeur externe",
+            "description": "Réalisation d'audits externes, analyse des états financiers et contrôle de la conformité réglementaire."
+          },
+          "telecom": {
+            "title": "Chef de projet",
+            "description": "Pilotage d'équipes pluridisciplinaires sur des projets complexes. Gestion des parties prenantes et réussite des projets par une communication efficace."
+          },
+          "railways": {
+            "title": "Analyste de performance",
+            "description": "Analyse de l'efficacité opérationnelle, identification des leviers d'optimisation et recommandations d'amélioration des processus."
+          }
+        }
+      },
+      "hse": {
+        "title": "Études supérieures",
+        "period": "Septembre 2005 - Juin 2011",
+        "location": "Moscou, Russie",
+        "description": "Bases solides en stratégie d'entreprise, conduite d'organisation et gestion de projet.",
+        "certificates": {
+          "master": {
+            "title": "Master en gestion de projet",
+            "level": "Master",
+            "date": "2009-2011"
+          },
+          "bachelor": {
+            "title": "Licence en management stratégique",
+            "level": "Licence",
+            "date": "2005-2009"
+          }
+        }
+      }
+    }
+  },
+  "projects": {
+    "heading": "<accent>Projets</accent> phares",
+    "subtitle": "Quelques projets livrés. Démo en ligne et code source pour chacun.",
+    "filter-aria": "Filtrer les projets par catégorie",
+    "live-demo": "Démo en ligne",
+    "code": "Code",
+    "view-more": "Voir plus sur GitHub",
+    "stats": "Statistiques GitHub",
+    "categories": {
+      "all": "Tous",
+      "full-stack": "Full-Stack",
+      "frontend": "Frontend",
+      "game": "Jeu",
+      "mobile": "Mobile"
+    },
+    "items": {
+      "deezeroom": {
+        "description": "Une solution mobile complète centrée sur la musique et l'expérience collaborative. Votes de morceaux en temps réel, playlists collaboratives, profils avec liens sociaux, recherche musicale via l'API Deezer, notifications push et support multiplateforme (Android, iOS, Web). Construit avec React Native, Expo, Firebase et un serveur d'API GraphQL séparé."
+      },
+      "hypertube": {
+        "description": "Une plateforme de streaming vidéo qui télécharge et diffuse des vidéos via le protocole BitTorrent. Recherche de torrents depuis plusieurs sources, diffusion en temps réel, authentification et interface multilingue (EN, FR, RU). À noter : le streaming torrent ne fonctionne qu'en déploiement local, pas sur la version en production."
+      },
+      "matcha": {
+        "description": "Une application de rencontre full-stack qui met en relation les utilisateurs selon leurs intérêts et leurs préférences. Algorithmes de correspondance, messagerie, notifications de likes et de visites, gestion du profil avec photos et centres d'intérêt, recherche avancée avec géolocalisation et interface multilingue (EN, FR, RU)."
+      },
+      "ocreet": {
+        "description": "Un jeu de simulation web interactif écrit entièrement en OCaml avec le framework Ocsigen. Aidez une population de créatures (Creets) à survivre à un virus mortel qui se propage depuis une rivière toxique. Déplacement des créatures en temps réel, glisser-déposer, système d'infection avec états spéciaux (Berserk, Insane), soin à l'hôpital, détection de collisions optimisée par quadtree et paramètres de jeu configurables. Une démonstration d'OCaml côté client, de développement web typé et de concurrence monadique."
+      },
+      "tetris": {
+        "description": "Un jeu de Tetris multijoueur full-stack avec synchronisation en temps réel. Authentification, création et accès aux salons, parties multijoueurs avec Socket.io, statistiques de jeu, messagerie et couverture de tests complète (plus de 70 % avec Jest). Frontend React et backend Node.js avec MongoDB pour les données utilisateurs."
+      },
+      "contact-book": {
+        "description": "Une application full-stack de gestion de contacts avec authentification. Opérations CRUD, recherche par nom, tri et authentification par e-mail et pseudo. Frontend React et backend Node.js."
+      },
+      "omio": {
+        "description": "Une reproduction de la barre de recherche d'Omio avec autocomplétion des villes. Design responsive, composants Material UI et intégration de l'API Tictactrip pour les suggestions de villes et les destinations populaires."
+      },
+      "info-map": {
+        "description": "Une application web full-stack qui affiche une carte interactive avec des données de lieux issues de l'API Yelp Fusion. Authentification, carte interactive avec la bibliothèque Leaflet, filtrage des lieux par catégorie, nombre de lieux affichés ajustable (10 à 50), marqueurs cliquables avec les informations du lieu, possibilité de charger de nouveaux lieux en cliquant n'importe où sur la carte et design responsive. Frontend React TypeScript et backend Node.js Express avec MongoDB."
+      },
+      "pong": {
+        "description": "Mon premier projet de développement web - une plateforme de jeu Pong multijoueur full-stack. Authentification OAuth (intranet 42, GitHub), double authentification (2FA), parties multijoueurs en temps réel avec Socket.io, mode d'entraînement contre l'IA, mode spectateur, profils avec avatars et pseudos, système d'amis, historique des matchs, système de succès et jeu responsive sur canvas. Frontend React TypeScript et backend NestJS avec base de données PostgreSQL."
+      }
+    }
+  },
+  "contact": {
+    "heading": "Prenons <accent>contact</accent>",
+    "intro": "Vous recrutez ou souhaitez parler d'un poste ? Écrivez-moi.",
+    "location": "Localisation",
+    "quick-connect": "Contact rapide",
+    "qr-title": "Scannez le QR code ou cliquez pour discuter tout de suite",
+    "qr-alt": "QR code {label}",
+    "form": {
+      "first-name": "Prénom",
+      "first-name-placeholder": "Votre prénom",
+      "last-name": "Nom *",
+      "last-name-placeholder": "Votre nom",
+      "email": "E-mail *",
+      "email-placeholder": "votre.email@exemple.com",
+      "phone": "Téléphone",
+      "phone-placeholder": "Votre numéro de téléphone",
+      "message": "Message *",
+      "message-placeholder": "Parlez-moi de votre projet...",
+      "required": "* Champs obligatoires",
+      "send": "Envoyer le message",
+      "sending": "Envoi...",
+      "success": "Message envoyé !",
+      "error": "Une erreur est survenue, merci de réessayer plus tard",
+      "incomplete": "Merci de remplir tous les champs obligatoires"
+    }
+  },
+  "footer": {
+    "tagline": "Développeur frontend spécialisé en interfaces produit, React/Next.js et applications web claires et maintenables.",
+    "follow-me": "Me suivre",
+    "copyright": "© {year} Stanislav Krivtsov.",
+    "made-with": "<link>Fait</link> avec <heart></heart> à Paris"
+  }
+}

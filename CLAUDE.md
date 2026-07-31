@@ -4,8 +4,9 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 ## Ground rules
 
-- **Language**: All code, comments, JSDoc, documentation, and user-visible copy must be written in
-  **English**.
+- **Language**: All code, comments, JSDoc and documentation must be written in **English**. User-visible
+  copy is bilingual and never hardcoded — it lives in `src/i18n/messages/{en,fr}.json`, English first,
+  with the French translation added in the same change. See § Internationalization.
 - **Package manager**: Use **npm** for all scripts and dependency installation. Never pnpm or yarn.
 - **Git**: `main` is the deployed branch (Vercel). Do not commit or push unless the user asks; when
   they do, work on a task branch off `main` rather than committing to it directly.
@@ -83,10 +84,11 @@ conversation (subagents cannot spawn subagents), using the three specialized age
    `.claude/rules/agent-delegation.md`.
 4. **Verify.** Delegate to the `verifier` agent (`.claude/agents/verifier.md`), passing the exact
    acceptance criteria. It drives Chrome via the chrome-devtools MCP and returns a structured
-   `VERDICT: PASS | FAIL | BLOCKED`. Beyond the given criteria the verifier ALWAYS checks: both themes
-   (light **and** dark), responsiveness with no horizontal overflow at 360/768/1280, a clean console,
-   no failed asset requests, and no placeholder text on screen — a break in any of those is a FAIL even
-   when it was not part of the task.
+   `VERDICT: PASS | FAIL | BLOCKED`. Beyond the given criteria the verifier ALWAYS checks: both locales
+   (`/` **and** `/fr`, with no leftover English on the French page and no translated technology or
+   company name), both themes (light **and** dark), responsiveness with no horizontal overflow at
+   360/768/1280, a clean console, no failed asset requests, and no placeholder text on screen — a break
+   in any of those is a FAIL even when it was not part of the task.
 5. **Correct and repeat.** On `FAIL`, feed the verifier's `FIX_HINTS` back to the relevant builder
    agent and re-verify. Loop until `PASS` or a **maximum of 3 build→verify iterations**.
 6. **Sync the docs.** Before reporting done, check the change against the four root documents and fix
@@ -141,26 +143,63 @@ quality is the product, not decoration.
 
 ### Shape
 
-A **single route**. `src/app/page.tsx` renders the sections in order: `NavBar`, `Banner`,
-`SkillsAndTech`, `Experience`, `Projects`, `Contact`, `Footer`, then `ScrollToTop` — a fixed control
-outside the section flow, which reveals itself from an `IntersectionObserver` on the hero.
-`src/app/layout.tsx` owns the font
-(Montserrat via `next/font`), the `next-themes` provider (class strategy, `defaultTheme="dark"`), site
-metadata/OpenGraph, and Vercel Analytics. `NavBar.tsx` owns the sticky nav, the mobile drawer (a shadcn
-`Sheet`, so Radix handles focus trapping and scroll locking), and the theme toggle (Magic UI's
-`AnimatedThemeToggler`, driven in controlled mode from `useTheme()` so `next-themes` keeps sole
-ownership of persistence, styled with `buttonVariants`); there is no
-scroll-spy. The styling stack is Tailwind + Radix only — MUI and Bootstrap were removed on 2026-07-26
-along with the dead `MenuDrawer`/`ThemeToggler` components. `src/app/page.tsx` is a server component;
-each section carries its own `'use client'`.
+**One page, two locales.** `src/app/[locale]/page.tsx` renders the sections in order: `NavBar`,
+`Banner`, `SkillsAndTech`, `Experience`, `Projects`, `Contact`, `Footer`, then `ScrollToTop` — a fixed
+control outside the section flow, which reveals itself from an `IntersectionObserver` on the hero.
+`src/app/[locale]/layout.tsx` is the document shell: it owns the font (Montserrat via `next/font`), the
+`NextIntlClientProvider`, the `next-themes` provider (class strategy, `defaultTheme="dark"`), Vercel
+Analytics, and `generateMetadata` — metadata is per-locale and therefore a function, not a static
+export. `NavBar.tsx` owns the sticky nav, the mobile drawer (a shadcn `Sheet`, so Radix handles focus
+trapping and scroll locking), the theme toggle (Magic UI's `AnimatedThemeToggler`, driven in controlled
+mode from `useTheme()` so `next-themes` keeps sole ownership of persistence, styled with
+`buttonVariants`) and `LanguageToggle`; there is no scroll-spy. The styling stack is Tailwind + Radix
+only — MUI and Bootstrap were removed on 2026-07-26 along with the dead `MenuDrawer`/`ThemeToggler`
+components. The layout and page are server components; each section carries its own `'use client'`.
 
 Content data and its exported types live in `src/constants/{experiences,projects,technologies}.ts`;
 per-component render data sits next to its consumer (`src/components/banner-content.ts`); images and
 the CV PDF in `public/`.
 
-There is **no** auth, database, upstream API, middleware, i18n, or API route handler. The only network
-call is a client-side EmailJS send from `src/components/Contact.tsx`. Do not introduce any of those
-without asking.
+There is **no** auth, database, upstream API, or API route handler. The only network call is a
+client-side EmailJS send from `src/components/Contact.tsx`. Do not introduce any of those without
+asking. There **is** a `src/proxy.ts`, but it exists solely for locale negotiation (below) — anything
+else belongs in a component or in `next.config.ts`.
+
+### Internationalization
+
+English (default) and French, through **next-intl** with locale-based routing. `src/i18n/routing.ts` is
+the one place the locale set lives; everything else derives from it.
+
+- **URLs**: `localePrefix: 'as-needed'` — English stays on `/` with no prefix, French is `/fr`. This
+  keeps every pre-existing inbound link working. Locale detection is **on**, so a French-preferring
+  browser hitting `/` is redirected to `/fr` and the choice is remembered in next-intl's cookie.
+- **`src/proxy.ts`** holds `createMiddleware(routing)`. The file convention is `proxy.ts` from Next 16
+  on; `middleware.ts` still works but logs a deprecation warning. The next-intl import path is still
+  `next-intl/middleware`. Its matcher must keep excluding anything with a file extension — the CV PDF,
+  favicons, QR codes and screenshots are served from `public/` and must not be rewritten.
+- **Static rendering is not optional here.** It is the reason URL routing was chosen over a
+  cookie-only setup, and it only holds while `generateStaticParams` and `setRequestLocale` are called in
+  both the layout and the page. Reading the locale from `cookies()` instead would make every request
+  dynamic.
+- **Catalogues**: `src/i18n/messages/{en,fr}.json`, grouped by site section (`nav`, `banner`, `skills`,
+  `experience`, `projects`, `contact`, `footer`, plus `common` and `metadata`). **All authored keys are
+  kebab-case.** The two files must always carry identical key sets.
+- **Typed keys**: `src/types/next-intl.d.ts` augments next-intl's `AppConfig` with `Locale` and
+  `Messages` from `en.json`. That augmentation is load-bearing — without it a `t()` call built from a
+  template literal fails to type-check and `t.raw()` loses its array type.
+- **Translate the label, never the value.** Filter categories are kebab-case keys (`'full-stack'`,
+  `'devops'`) that both the data and the filtering logic use; only the displayed label is looked up.
+  Never build a filter comparison out of translated text.
+- **A phrase is one message.** Headings with a single teal word, the Experience position lines and the
+  footer's "Made with ♥ in Paris" are rich-text messages with tags (`<accent>`, `<company>`, `<heart>`),
+  because word order and punctuation spacing differ between the two languages. Never assemble a
+  sentence by concatenating fragments in JSX.
+- **New copy lands in both files in the same change.** English-only text on the page is a bug, and so
+  is a key present in one catalogue and missing from the other.
+- **What is not translated**: technology names, company names, project titles, the official French RNCP
+  certificate titles, `krivtsoff.develop()`, the author's name, and service names (GitHub, LinkedIn,
+  Telegram, …). These live in `src/constants/`, which holds only the non-translatable half of the
+  content; the prose half lives in the catalogues, keyed by the same entry key.
 
 ### Styling
 

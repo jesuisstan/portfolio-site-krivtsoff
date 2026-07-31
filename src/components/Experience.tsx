@@ -5,19 +5,20 @@ import { useRef } from 'react';
 import type { Variants } from 'framer-motion';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import {
-  Award,
   Calendar,
   ExternalLink,
   GraduationCap,
   MapPin,
   User
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
 
 import Badge from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import MagicCard from '@/components/ui/magic-card';
 import Separator from '@/components/ui/separator';
+import type { CertificateKey, ExperienceKey } from '@/constants/experiences';
 import { experiences } from '@/constants/experiences';
 import { useMagicCardColors } from '@/lib/magic-card-color';
 
@@ -44,6 +45,24 @@ const ExperienceCard = ({ children }: { children: ReactNode }) => {
 const Experience = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
+  const t = useTranslations('experience');
+
+  const responsibilities: string[] = t.raw(
+    'items.quantcube.responsibilities'
+  ) as string[];
+
+  // Only the two education entries carry certificates, so the path built from `experience.key` spans
+  // more combinations than the message tree holds — hence the assertion on the key.
+  const certificateText = (
+    experienceKey: ExperienceKey,
+    certificateKey: CertificateKey,
+    field: 'title' | 'level' | 'date'
+  ): string =>
+    t(
+      `items.${experienceKey}.certificates.${certificateKey}.${field}` as Parameters<
+        typeof t
+      >[0]
+    );
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -85,13 +104,15 @@ const Experience = () => {
             variants={itemVariants}
             className="mb-6 text-4xl font-bold text-foreground lg:text-5xl"
           >
-            <span className="text-primary">Experience</span> & Education
+            {t.rich('heading', {
+              accent: (chunks) => <span className="text-primary">{chunks}</span>
+            })}
           </motion.h2>
           <motion.p
             variants={itemVariants}
             className="mx-auto max-w-3xl text-xl text-muted-foreground"
           >
-            My journey from management education to frontend development
+            {t('subtitle')}
           </motion.p>
         </motion.div>
 
@@ -109,7 +130,7 @@ const Experience = () => {
 
           {experiences.map((experience, index) => (
             <motion.div
-              key={experience.id}
+              key={experience.key}
               variants={itemVariants}
               className={`relative mb-8 flex flex-col gap-8 md:flex-row ${
                 index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
@@ -123,14 +144,13 @@ const Experience = () => {
                 <ExperienceCard>
                   {/* Type Badge */}
                   <Badge variant="secondary" className="mb-2 w-fit">
-                    {experience.type === 'Freelance' && <Award />}
-                    {experience.type === 'Education' && <GraduationCap />}
-                    {experience.type === 'Management' && <User />}
-                    {experience.type}
+                    {experience.type === 'education' && <GraduationCap />}
+                    {experience.type === 'management' && <User />}
+                    {t(`types.${experience.type}`)}
                   </Badge>
 
                   <h3 className="text-xl font-bold text-card-foreground">
-                    {experience.title}
+                    {t(`items.${experience.key}.title`)}
                   </h3>
                   <h4 className="text-lg font-semibold text-accent-foreground">
                     {experience.companyUrl ? (
@@ -151,39 +171,35 @@ const Experience = () => {
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center">
                       <Calendar className="mr-1 size-4" />
-                      {experience.period}
+                      {t(`items.${experience.key}.period`)}
                     </div>
                     <div className="flex items-center">
                       <MapPin className="mr-1 size-4" />
-                      {experience.location}
+                      {t(`items.${experience.key}.location`)}
                     </div>
                   </div>
 
                   <p className="leading-relaxed text-muted-foreground">
-                    {experience.description}
+                    {t(`items.${experience.key}.description`)}
                   </p>
 
-                  {experience.responsibilities && (
+                  {experience.key === 'quantcube' && (
                     <ul className="ml-4 list-disc space-y-1 text-sm text-muted-foreground">
-                      {experience.responsibilities.map(
-                        (responsibility, idx) => (
-                          <li key={idx}>{responsibility}</li>
-                        )
-                      )}
+                      {responsibilities.map((responsibility, idx) => (
+                        <li key={idx}>{responsibility}</li>
+                      ))}
                     </ul>
                   )}
 
                   {/* Certificates List */}
-                  {experience.certificates && (
+                  {experience.certificates && experience.certificatesLabel && (
                     <div>
                       <p className="mb-2 text-sm font-semibold text-card-foreground">
-                        {experience.id === 2
-                          ? 'State-recognized certifications (RNCP):'
-                          : 'Academic degrees:'}
+                        {t(`labels.${experience.certificatesLabel}`)}
                       </p>
                       <ul className="ml-4 list-disc space-y-1 text-sm text-muted-foreground">
-                        {experience.certificates.map((cert, idx) => (
-                          <li key={idx}>
+                        {experience.certificates.map((cert) => (
+                          <li key={cert.key}>
                             {cert.url ? (
                               <a
                                 href={cert.url}
@@ -191,16 +207,38 @@ const Experience = () => {
                                 rel="noopener noreferrer"
                                 className="rounded-sm font-medium text-accent-foreground underline decoration-dotted underline-offset-2 transition-opacity hover:opacity-80 focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
                               >
-                                {cert.title}
+                                {certificateText(
+                                  experience.key,
+                                  cert.key,
+                                  'title'
+                                )}
                               </a>
                             ) : (
-                              <span className="font-medium">{cert.title}</span>
+                              <span className="font-medium">
+                                {certificateText(
+                                  experience.key,
+                                  cert.key,
+                                  'title'
+                                )}
+                              </span>
                             )}
                             {' - '}
                             <span className="text-accent-foreground">
-                              {cert.level}
+                              {certificateText(
+                                experience.key,
+                                cert.key,
+                                'level'
+                              )}
                             </span>{' '}
-                            <span>({cert.date})</span>
+                            <span>
+                              (
+                              {certificateText(
+                                experience.key,
+                                cert.key,
+                                'date'
+                              )}
+                              )
+                            </span>
                           </li>
                         ))}
                       </ul>
@@ -211,31 +249,34 @@ const Experience = () => {
                   {experience.positions && (
                     <div>
                       <p className="mb-2 text-sm font-semibold text-card-foreground">
-                        Positions:
+                        {t('labels.positions')}
                       </p>
                       <ul className="ml-4 list-disc space-y-2 text-sm text-muted-foreground">
-                        {experience.positions.map((position, idx) => (
-                          <li key={idx}>
-                            <span className="font-medium">
-                              {position.title}
-                            </span>
-                            {' at '}
-                            {position.companyUrl ? (
-                              <a
-                                href={position.companyUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="rounded-sm font-medium text-accent-foreground underline decoration-dotted underline-offset-2 transition-opacity hover:opacity-80 focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                              >
-                                {position.company}
-                              </a>
-                            ) : (
-                              <span className="font-medium">
-                                {position.company}
-                              </span>
-                            )}
-                            {': '}
-                            <span>{position.description}</span>
+                        {experience.positions.map((position) => (
+                          <li key={position.key}>
+                            {/* One message per line: French places the connector and the colon
+                                differently, so the sentence cannot be assembled in JSX. */}
+                            {t.rich('labels.position-line', {
+                              title: t(
+                                `items.management.positions.${position.key}.title`
+                              ),
+                              description: t(
+                                `items.management.positions.${position.key}.description`
+                              ),
+                              name: (chunks) => (
+                                <span className="font-medium">{chunks}</span>
+                              ),
+                              company: () => (
+                                <a
+                                  href={position.companyUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="rounded-sm font-medium text-accent-foreground underline decoration-dotted underline-offset-2 transition-opacity hover:opacity-80 focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                                >
+                                  {position.company}
+                                </a>
+                              )
+                            })}
                           </li>
                         ))}
                       </ul>

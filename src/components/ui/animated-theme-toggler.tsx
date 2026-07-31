@@ -304,8 +304,9 @@ const AnimatedThemeToggler = ({
       className={cn(className)}
       {...props}
     >
+      {/* Upstream's `sr-only` "Toggle theme" span is dropped: the consumer passes a translated
+          `aria-label`, which overrides it for assistive tech and leaves it as untranslated DOM text. */}
       {isDark ? <Sun /> : <Moon />}
-      <span className="sr-only">Toggle theme</span>
     </button>
   );
 };
