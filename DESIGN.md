@@ -93,7 +93,8 @@ service-brand colours. Values are normative in the frontmatter, which is generat
 - **Alert Coral** (`--primary-alt`, `oklch(0.7208 0.134 25.35)`): the counterpoint, sharing Signal
   Teal's lightness so the two read as siblings rather than one shouting over the other. Theme-constant,
   declared in `:root` only, and deliberately scarce — the availability dot, the floating `NEXT.js/EXPO`
-  tile, the footer heart, and the trailing stop of both animated borders. Five uses on the whole page.
+  tile, the footer heart, the trailing stop of both animated borders, and the cursor stop of the Spotlight
+  Cards' border (as hex, under The Literal Escape Hatch). Six placements on the whole page.
 - **Alert Coral Foreground** (`--primary-alt-foreground`): the same near-black, 7.56:1 on the coral.
 
 ### Tertiary
@@ -231,13 +232,16 @@ monospace as a texture. If something needs to feel different, it changes weight 
 A single scrolling route with one container and one rhythm. Every section wraps its content in
 `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8` — 80rem maximum, gutters stepping 16→24→32px. There is no
 second container width. The only full-bleed elements are the panels of a horizontal chapter, and they
-are stages rather than containers: each one is exactly one viewport wide and still holds its content in
-that same `max-w-7xl` container, so no line of type ever runs wider than it does anywhere else.
+are stages rather than containers: a panel is as wide as its job — a viewport for the orbit, a text
+column for a cover, its own cards for the projects river — and its content still starts on the container's
+left edge, either through that same `max-w-7xl` container or through the `--panel-gutter` that resolves it
+as a length. No line of type runs wider than it does anywhere else, and no heading starts anywhere else.
 
 Vertical rhythm is deliberately flat: every section below the hero is `py-12`, and the hero is
 `min-h-screen` with `pb-12 pt-20` to clear the fixed 64px (`h-16`) nav. The two horizontal chapters are
-the exception — while pinned they own a whole viewport, so their padding moves onto the panels
-(`pt-12` on the first, `pb-12` on the last) and reproduces the same `py-12` when the chapter falls back
+the exception — while pinned they own a whole viewport, so their padding moves onto the panels and the
+control bars (Skills: `pt-12` on the cover, `pb-12` on the orbit; Projects: the bars' own `pb-6`/`pt-6`)
+and reproduces the same `py-12` when the chapter falls back
 to a stack. Contact is the other: it keeps `py-12` but takes a `min-h-[calc(100svh-4rem)]` with its
 content centred above `md`, because the Footer Curtain freezes it as a full-screen frame. Inside a section, a `mb-12`
 header block separates the title from the content, and content groups use `space-y-8` / `gap-6`. Headings
@@ -245,7 +249,7 @@ carry more space above than below.
 
 The nav is fixed, so an anchor jump has to stop short of it: `html` carries
 `scroll-padding-top: 4rem`, exactly the nav's height. Without it every in-page link parks its own
-heading underneath the bar — the one place where the sticky nav would cost the reader the thing they
+heading underneath the bar — the one place where the fixed nav would cost the reader the thing they
 clicked for.
 
 Depth of field comes from alternating surface tone rather than dividers: hero, experience, and contact
@@ -584,9 +588,37 @@ past a chapter without stopping loses nothing but the pan.
 
 **Skills is two panels** — an editorial cover carrying the heading and lede left-aligned, then the
 category filter and the Orbital System together, so the filter is always reachable while its result is
-on screen. **Projects is a cover panel, one 26rem card per filtered project travelling past at
-`gap-6`, and a narrow end cap holding the two section CTAs.** The cards are the same `Card` as the grid
-version, unchanged; the chapter changes how they arrive, not what they are.
+on screen. **Projects is a cover panel and one 26rem card per filtered project travelling past at
+`gap-6`, with its filter and its two CTAs held outside the travel.** The cards are the same `Card` as the
+grid version; the chapter changes how they arrive, not what they are.
+
+**Projects' controls do not travel.** The category chips ride a bar above the track and the two CTAs a
+bar below it, both inside the pinned viewport, both left-aligned on the page container. A filter that
+pans out of reach is not a filter — the visitor has to scroll backwards to change what they are looking
+at — and the two GitHub links, which used to sit in an end cap at the far end of the track, were a reward
+for finishing rather than an offer. The bars take their height *off* the track rather than lying over it,
+and the whole group — chips, cards, buttons — is centred in the pin as one block, so the controls sit
+next to the cards instead of out at the viewport's edges. Skills keeps a single full-height panel and
+therefore no bars: a lone panel has nothing to be grouped with.
+
+**The two CTAs are one control set**, so they are a two-column grid capped at `max-w-xl` rather than a
+row of intrinsic widths. Labels of different lengths ("View More on GitHub", "GitHub Statistics") would
+otherwise give the pair two different sizes, which reads as two unrelated buttons.
+
+**The card river has a fixed height.** The row is `min-h-[31rem]` with its cards stretched to it, rather
+than taking its height from whichever card is tallest. A category whose cards carry one badge row fewer
+would otherwise shorten the panel, and because the group is centred, the pinned bars would move — a
+15px hop every time the filter changed. Stretching then puts every card's actions on one baseline, which
+is what the fixed height buys back for the price of some slack inside the shortest card.
+
+**Changing a filter re-anchors the pan.** In Projects the track's length *is* the chapter's height, so a
+new filter can leave a visitor's scroll offset pointing past the chapter entirely — the browser clamps it
+to the shortened document and drops them into a later section. Selecting a category therefore returns the
+chapter to its cover, in the same frame and without easing, because an eased jump would be clamped away
+mid-flight. A new filter starts its river over; that is also the honest reading of the gesture. Skills
+travels the other way for the same reason: its chips are reachable while only part of the orbit has come
+into view, so a selection pans *to* the orbit. Filtering something the visitor cannot see is not a
+result.
 
 **A cover is a column, not a screen.** Each chapter opens on a panel exactly as wide as its own text —
 the lede's `max-w-3xl` measure plus the page gutter and a `pr-12` gap — so the first card, or the first
@@ -625,7 +657,9 @@ The target is derived from the panel's measured layout offset, never from a hard
 Projects track changes length whenever the filter changes, and a hardcoded jump would land between
 cards. Because travel maps 1:1 with scroll, that offset *is* the scroll distance, and the jump is
 handed to the same inertia layer as everything else, so pressing the chevron feels like a long wheel
-gesture rather than like a different mechanism.
+gesture rather than like a different mechanism. Every such jump is clamped to the chapter's own travel:
+one panel per card means a filter can leave a track with nothing left to travel, and an unclamped offset
+would take the visitor past the chapter instead of into it.
 
 **It leaves when it stops being true.** The button fades out and goes non-interactive once the chapter
 has travelled halfway through its first panel: a control offering to take you somewhere you already are
@@ -649,8 +683,14 @@ leftover viewport height, so scrolling to the section lands the whole system on 
 cropping it — measured from the orbit's own panel while the chapter travels, and from the section when
 it is stacked, because those are the two things the reader is actually looking at.
 
+**The filter belongs to the orbit, not to the bar above it.** While the chapter is pinned the panel opens
+with a `pt-8` clearance and the chips sit only `mb-2` off the box: parked directly under the nav they read
+as a second toolbar the site is wearing, and 64px away from what they filter they read as unrelated to it.
+Stacked, the panel takes no clearance and the row keeps its full `mb-8` — there is no bar to be confused
+with, and a control 8px above its own result reads as crowding.
+
 **The box breathes.** A 32px gutter is withheld from that height budget above and below, and handed back
-by centring the box in the space left under the filter row, which itself sits `mb-8` clear. The
+by centring the box in the space left under the filter row. The
 distinction matters: the slack is *reserved*, not trimmed off the rings, so the outermost logos and their
 labels always land inside the pinned viewport with visible margin at both ends instead of pressing
 against the nav with all the leftover space pooled at the bottom. The centring region carries `min-h-0`
@@ -719,11 +759,21 @@ strand keyboard focus on an invisible control. It is the deliberate, clickable h
 peek strip suggests.
 
 **A whole screen earns a composition, not a stretched strip.** The finale centres one column: the logo
-tile and `krivtsoff.develop()` at display size (`md` 4xl → `lg` 5xl), the tagline beneath it at `md:text-lg`
-on a `max-w-2xl` measure, then the follow heading and the social buttons at `size-14`. The copyright and
-the "made with ♥" line sit apart at the bottom above a separator. It is the one place that breaks the flat
+tile and `krivtsoff.develop()` as a signature line (`md:text-xl` beside a `md:size-10` plate), then the
+author's name as the display line — `text-3xl` → `lg:text-5xl`, the hero's own name scale, with the
+surname in `text-primary` so the page opens and closes on the same signature — the tagline beneath it at
+`md:text-lg` on a `max-w-2xl` measure, then the follow heading and the social buttons at `size-14`. The
+copyright and the "made with ♥ in Paris, France" line sit apart at the bottom above a separator. It is the
+one place that breaks the flat
 `py-12` rhythm — `md:py-16` — because it is the last thing on the page and nothing follows it. The whole
 composition is budgeted to clear 768px of viewport height with room to spare; it never scrolls internally.
+
+**The name carries it, and nothing says the role twice.** A full screen with only a wordmark and a
+tagline reads as an empty room, so the name is what fills it and the wordmark steps down to a signature —
+two display-size lines would compete for the same job. What the name does *not* get is a role line
+underneath: "Frontend Developer · Paris" directly above a tagline that opens "Frontend developer focused
+on…" is the same fact twice in two type sizes. The city belongs to the closing line instead, where it was
+already half-said.
 Its reveals are `viewport={{ once: true }}`: now that they play on screen rather than behind a curtain,
 replaying them on every scroll pass would be visible noise.
 

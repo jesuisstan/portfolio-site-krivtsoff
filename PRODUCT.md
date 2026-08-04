@@ -57,15 +57,16 @@ but they are supporting evidence, not the headline.
 ## Capabilities and Constraints
 
 **What it does today.** One page, served in two languages (`/` in English, `/fr` in French), renders in
-order: sticky nav, hero, skills & technologies, experience timeline, projects, contact, footer, plus a
-floating back-to-top control. Category filters narrow the technology orbit and the projects grid. The
+order: fixed nav, hero, skills & technologies, experience timeline, projects, contact, footer, plus a
+floating back-to-top control. Category filters narrow the technology orbit and the projects showcase. The
 hero downloads the CV PDF. The contact section renders a location, two messenger QR codes and a form;
 the social links live in the footer.
 
 **Technical constraints.**
 
 - Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4 with CSS-first configuration,
-  shadcn/ui on Radix, Framer Motion as the single animation runtime. Deployed on Vercel.
+  shadcn/ui on Radix, Framer Motion as the single animation runtime, Lenis for the site-wide scroll
+  inertia the scroll-linked sections are built on. Deployed on Vercel.
 - No authentication, no database, no upstream API, no route handler. The only network call is a
   client-side EmailJS send from `src/components/Contact.tsx`. Introducing any of those is a decision for
   the owner, not an implementation detail. `src/proxy.ts` exists, but only to negotiate the visitor's
@@ -90,13 +91,19 @@ the social links live in the footer.
 
 ## Brand Commitments
 
-- The name is rendered **Stanislav Krivtsoff** in the site's own voice (the CV and some records use the
-  transliteration *Krivtsov*); the domain is `krivtsoff.online`.
+- The name appears in two transliterations and the site currently uses both: **Krivtsoff** wherever the
+  site introduces itself to a machine or a search result (`metadata.title`, the OpenGraph site name, the
+  `authors`/`creator` fields, the README title) and **Krivtsov** wherever it is set as type for a reader
+  (the hero name block, the footer signature, the copyright line, the CV PDF's filename). The domain is
+  `krivtsoff.online`. Unifying them is an open decision for the owner, not a cleanup — until it is made,
+  do not "correct" either side.
 - Voice is first person, plain, and understated — it states what he built and lets the links prove it.
   No superlatives about himself, no invented enthusiasm.
 - Real assets in `public/`: the avatar photograph, the CV PDF, Telegram and WhatsApp QR codes, nine
   project screenshots, technology logos.
-- All copy is English (a repository-wide rule) until localization is actually decided.
+- Visitor-facing copy is bilingual: every string exists in English and French, authored English first and
+  translated in the same change. The repository-wide English rule covers code, comments and documentation,
+  not the page. No third language is committed (see § Explicitly undecided).
 
 ## Evidence on Hand
 

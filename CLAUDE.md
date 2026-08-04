@@ -33,10 +33,12 @@ This file provides guidance to Claude Code when working with code in this reposi
   button), `particles` (the hero and footer background field), `orbiting-circles` (the skills
   section's orbital system), `lens` (the magnifier over each project card's screenshot) and
   `magic-card` (the hover treatment of each Experience timeline card), each
-  installed from `https://magicui.design/r/<name>.json`. Magic UI ships the first three, `lens` and
-  `magic-card`
-  importing `motion/react`; the import is deliberately re-pointed to `framer-motion` so the repo carries
-  one animation runtime, which means `shadcn diff` reports a mismatch on them. `lens` diverges twice
+  installed from `https://magicui.design/r/<name>.json`. Three of them — `border-beam`, `lens` and
+  `magic-card` — ship importing `motion/react`; that import is deliberately re-pointed to `framer-motion`
+  so the repo carries
+  one animation runtime, which means `shadcn diff` reports a mismatch on them. The other four need no
+  animation runtime at all: `animated-theme-toggler` and `shine-border` import none, and `particles` and
+  `orbiting-circles` animate on a canvas and in CSS. `lens` diverges twice
   more: upstream's focusable `role="region"` wrapper is dropped, because the effect is pointer-only and
   a tab stop per card that does nothing is an accessibility regression, and its `rounded-xl` default is
   dropped so the consumer owns the shape. `magic-card` diverges three times more: it paints
@@ -75,8 +77,9 @@ build → verify → correct loop before it is reported as done. The loop is orc
 conversation (subagents cannot spawn subagents), using the three specialized agents.
 
 1. **Define acceptance criteria first.** Restate the task as a short list of observable, checkable
-   outcomes (e.g. "the projects grid renders 3 columns at 1280px and 1 column at 360px, and the
-   category filter narrows the visible cards"). If the task does not already imply clear criteria, ask the user
+   outcomes (e.g. "the projects chapter pans sideways at 1280px and falls back to a 1-column grid at
+   360px, and the category filter narrows the visible cards without moving the pinned control bars").
+   If the task does not already imply clear criteria, ask the user
    one focused question before building — the loop cannot judge PASS/FAIL without them.
 2. **Ensure the site is running.** The `verifier` needs the dev server at `http://localhost:3000`.
    Start it in the background if it is not up and confirm it responds before delegating verification.
@@ -119,6 +122,8 @@ npm run typecheck      # tsc --noEmit
 
 npm run design:sync    # regenerate DESIGN.md frontmatter + .impeccable/design.json from globals.css
 npm run design:check   # fail if that generated layer is stale (read-only)
+
+npm run fresh          # wipe .swc / .next / node_modules / package-lock.json and reinstall
 ```
 
 `design:sync` is wired to run automatically two ways, because neither covers the other's gap. A
@@ -161,10 +166,16 @@ landmark.
 inside a tall outer box and translates a flex track on X in proportion to that box's scroll progress, so
 `SkillsAndTech` and `Projects` travel sideways under ordinary vertical scrolling — there is no wheel or
 key interception anywhere on the site, and adding any would be a regression. It exports
-`useHorizontalChapter()` (the `lg` + non-reduced-motion gate), `ScrollHint` and `COVER_PANEL_CLASS` — the
-last one only ever applied while the chapter travels, and it needs the `--panel-gutter` the track
-publishes, because a panel narrower than the viewport cannot get the container's left offset from
-`mx-auto`. Two consequences to
+`useHorizontalChapter()` (the `lg` + non-reduced-motion gate), `ScrollHint`, `COVER_PANEL_CLASS` and
+`panelScrollTarget()`. The class is only ever applied while the chapter travels, and it needs the
+`--panel-gutter` the track publishes, because a panel narrower than the viewport cannot get the
+container's left offset from `mx-auto`. `panelScrollTarget()` finds the chapter through the
+`data-chapter` attribute on its outer box and **not** through `offsetParent`, which stops at the pinned
+viewport — `sticky` counts as positioned, and reading the offset from it silently returns the scroll
+position the page is already at. It also takes optional `topBar`/`bottomBar` controls, rendered inside the
+pin but outside the track; with them the group is centred and the track keeps its content height, so a
+panel whose height depends on its content must be pinned to a fixed one or the bars move with it. Two
+consequences to
 respect: the gate is `false` through SSR and hydration by design, so a consumer must keep **one** JSX
 tree across the flip — swapping the top-level element unmounts the node `useInView` bound to, and
 framer-motion's effect does not re-subscribe on a ref change (this shipped as a blank Projects section
@@ -187,7 +198,11 @@ never a transform wrapper — which is why `sticky`, `useScroll` and `scroll-pad
 and it is not mounted at all under `prefers-reduced-motion`. Every programmatic scroll on the page goes
 through `useSmoothScrollTo()` in `src/lib/smooth-scroll.ts` rather than calling `window.scrollTo`, which
 Lenis would otherwise fight; that hook also guarantees its `onComplete` fires exactly once, including
-when the visitor grabs the scroll mid-jump. `globals.css` therefore carries no `scroll-behavior: smooth`. `NavBar.tsx` owns the sticky nav, the mobile drawer (a shadcn `Sheet`, so Radix handles focus
+when the visitor grabs the scroll mid-jump. Its `immediate` option exists for one case: re-anchoring a
+scroll whose page is about to change height in the same frame, where an eased jump is clamped away
+mid-flight and Lenis then resyncs to the clamped position. `globals.css` therefore carries no
+`scroll-behavior: smooth`. `NavBar.tsx` owns the fixed nav and its hide-on-scroll-down behaviour (see
+`DESIGN.md` § Navigation for the rule and what pins it visible), the mobile drawer (a shadcn `Sheet`, so Radix handles focus
 trapping and scroll locking), the theme toggle (Magic UI's `AnimatedThemeToggler`, driven in controlled
 mode from `useTheme()` so `next-themes` keeps sole ownership of persistence, styled with
 `buttonVariants`) and `LanguageToggle`; there is no scroll-spy. The styling stack is Tailwind + Radix
@@ -229,7 +244,7 @@ the one place the locale set lives; everything else derives from it.
   `'devops'`) that both the data and the filtering logic use; only the displayed label is looked up.
   Never build a filter comparison out of translated text.
 - **A phrase is one message.** Headings with a single teal word, the Experience position lines and the
-  footer's "Made with ♥ in Paris" are rich-text messages with tags (`<accent>`, `<company>`, `<heart>`),
+  footer's "Made with ♥ in Paris, France" are rich-text messages with tags (`<accent>`, `<company>`, `<heart>`),
   because word order and punctuation spacing differ between the two languages. Never assemble a
   sentence by concatenating fragments in JSX.
 - **New copy lands in both files in the same change.** English-only text on the page is a bug, and so
@@ -273,10 +288,11 @@ them wrong.
   `.button-secondary`, `.container-custom` and `.card-hover` were deleted on 2026-07-26. Containers are
   `mx-auto max-w-7xl`, buttons are `Button` variants, panels are `Card`.
 - The rest of `globals.css`: `@import 'tw-animate-css'`,
-  `@custom-variant dark (&:is(.dark *))` (keyed to the `next-themes` class strategy), a `@theme` block
-  for the `float` animation, the `@layer base` reset, `html { scroll-behavior: smooth;
-  scroll-padding-top: 4rem }` — the padding is what stops an anchor jump from parking a heading under the
-  fixed nav — the scrollbar rules, and the three
+  `@custom-variant dark (&:is(.dark *))` (keyed to the `next-themes` class strategy), the `--animate-shine`
+  and `--animate-orbit` keyframe pairs inside the same `@theme inline` block, the `@layer base` reset,
+  `html { scroll-padding-top: 4rem }` — the padding is what stops an anchor jump from parking a heading
+  under the fixed nav, and there is deliberately **no** `scroll-behavior: smooth` beside it, because the
+  inertia layer owns every jump — the scrollbar rules, and the three
   `::view-transition-*(root)` rules the theme toggler's clip-path reveal needs — the two scoped ones read
   `--magicui-theme-toggle-vt-duration` / `--magicui-theme-vt-clip-from`, which the toggler sets on
   `<html>` only while a toggle is in flight, so no other view transition is affected.

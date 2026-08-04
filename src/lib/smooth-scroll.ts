@@ -16,6 +16,11 @@ export type SmoothScrollTarget = number | string | HTMLElement;
 export interface SmoothScrollOptions {
   /** Runs exactly once: when the scroll settles, or when it is abandoned. */
   onComplete?: () => void;
+  /**
+   * Lands on the target in one frame instead of easing to it. For re-anchoring a scroll whose page is
+   * about to change height under it — an eased jump would be clamped away mid-flight.
+   */
+  immediate?: boolean;
 }
 
 export type SmoothScrollTo = (
@@ -70,15 +75,16 @@ export const useSmoothScrollTo = (): SmoothScrollTo => {
   const prefersReducedMotion = useMediaQuery(REDUCED_MOTION_QUERY);
 
   return useCallback<SmoothScrollTo>(
-    (target, { onComplete } = {}) => {
+    (target, { onComplete, immediate } = {}) => {
       const settle = onComplete && settleOnce(onComplete);
 
       if (lenis) {
-        lenis.scrollTo(target, { onComplete: settle });
+        lenis.scrollTo(target, { onComplete: settle, immediate });
         return;
       }
 
-      const behavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth';
+      const behavior: ScrollBehavior =
+        prefersReducedMotion || immediate ? 'auto' : 'smooth';
 
       if (typeof target === 'number') {
         window.scrollTo({ top: target, behavior });

@@ -5,7 +5,11 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
 
 ## 🌟 Features
 
-- **Single-page layout**: hero, skills & tech, experience, projects, contact — with a sticky nav that scrolls to each section
+- **Single-page layout**: hero, skills & tech, experience, projects, contact — with a fixed nav that
+  scrolls to each section and slides out of the way on the way down
+- **Scroll choreography**: Lenis inertia over the real scroll position, two sideways chapters (skills and
+  projects) that pan under ordinary vertical scrolling, and a full-screen footer that draws over the
+  contact section — all `lg`/`md` enhancements that fall back to a plain vertical page
 - **English and French**: `next-intl` with locale-based routing — English on `/`, French on `/fr`. A
   browser that prefers French is redirected on first visit; an `EN | FR` switch in the nav overrides it
 - **Dark/Light Theme**: `next-themes` with class strategy and system preference detection (dark by default)
@@ -41,8 +45,9 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
   Installed in `src/components/ui/`: `animated-theme-toggler`, `shine-border`, `border-beam`,
   `particles`, `orbiting-circles`, `lens`, `magic-card`. Items come
   from `npx shadcn@latest add "https://magicui.design/r/<name>.json"`. Each one then has its decorative
-  colours reduced to this project's tokens and its `motion/react` imports re-pointed to `framer-motion`,
-  so the repo carries a single animation runtime
+  colours reduced to this project's tokens, and the three that ship an animation runtime import
+  (`border-beam`, `lens`, `magic-card`) have it re-pointed from `motion/react` to `framer-motion`, so the
+  repo carries a single one
 - **radix-ui** - the unified Radix package the current registry components import from
 - **class-variance-authority** + **tailwind-merge**/**clsx** - variant recipes and the `cn()` helper
 - **Design tokens** - OKLCH CSS variables in `src/styles/globals.css`, exposed to Tailwind through
@@ -178,7 +183,8 @@ src/
 │   │                       #     magic-card (Magic UI)
 │   ├── Banner.tsx          # Hero section + animated stat counters
 │   ├── banner-content.ts   # Hero stat + social link data
-│   ├── HorizontalChapter.tsx # Scroll-linked sideways track (+ `useHorizontalChapter`, `ScrollHint`, `COVER_PANEL_CLASS`)
+│   ├── HorizontalChapter.tsx # Scroll-linked sideways track (+ `useHorizontalChapter`, `ScrollHint`,
+│   │                       #   `COVER_PANEL_CLASS`, `panelScrollTarget`)
 │   ├── SkillsAndTech.tsx   # Technologies as an orbital system, with a category filter
 │   ├── skills-orbit.ts     # Ring specs + distributing the filtered technologies across them
 │   ├── Experience.tsx      # Work experience timeline

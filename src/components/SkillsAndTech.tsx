@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl';
 
 import HorizontalChapter, {
   COVER_PANEL_CLASS,
+  panelScrollTarget,
   ScrollHint,
   useHorizontalChapter
 } from '@/components/HorizontalChapter';
@@ -18,6 +19,7 @@ import ToggleGroup, { ToggleGroupItem } from '@/components/ui/toggle-group';
 import type { TechnologyFilter } from '@/constants/technologies';
 import { categories, technologies } from '@/constants/technologies';
 import { FILTER_CHIP_CLASS } from '@/lib/filter-chip';
+import { useSmoothScrollTo } from '@/lib/smooth-scroll';
 import { cn } from '@/lib/utils';
 
 const NAV_HEIGHT = 64;
@@ -47,6 +49,7 @@ const SkillsAndTech = () => {
   const isInView = useInView(sectionRef, { once: true });
   const isHorizontal = useHorizontalChapter();
   const [activeCategory, setActiveCategory] = useState<TechnologyFilter>('all');
+  const scrollTo = useSmoothScrollTo();
   const [frame, setFrame] = useState({ width: 0, available: 0 });
   const t = useTranslations('skills');
 
@@ -95,6 +98,18 @@ const SkillsAndTech = () => {
       window.removeEventListener('resize', sync);
     };
   }, [isHorizontal]);
+
+  // The chips are reachable while the chapter has only panned far enough to show part of the orbit, so
+  // a selection also travels to it: filtering something the visitor cannot see is not a result.
+  const selectCategory = (category: TechnologyFilter) => {
+    setActiveCategory(category);
+
+    const panel = orbitPanelRef.current;
+    if (!isHorizontal || !panel) return;
+
+    const target = panelScrollTarget(panel);
+    if (target !== null) scrollTo(target);
+  };
 
   const filteredTechnologies =
     activeCategory === 'all'
@@ -181,15 +196,25 @@ const SkillsAndTech = () => {
           </div>
         </div>
 
-        {/* Orbit panel */}
-        <div ref={orbitPanelRef} className={cn(PANEL_CLASS, 'pb-12')}>
+        {/* Orbit panel. While pinned it starts below the nav, so the filter needs its own clearance:
+            parked directly under the bar the chips read as a second toolbar rather than as this
+            section's control. */}
+        <div
+          ref={orbitPanelRef}
+          className={cn(PANEL_CLASS, 'pb-12', isHorizontal && 'pt-8')}
+        >
           <div className={cn(CONTAINER_CLASS, 'flex flex-1 flex-col')}>
             {/* Category Filter */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="mb-8 flex justify-center"
+              // Tighter against the orbit while pinned: the box keeps its own gutter, so the stacked
+              // layout still needs the full margin to separate the filter from what it filters.
+              className={cn(
+                'flex justify-center',
+                isHorizontal ? 'mb-2' : 'mb-8'
+              )}
             >
               <ToggleGroup
                 type="single"
@@ -197,7 +222,7 @@ const SkillsAndTech = () => {
                 spacing={2}
                 value={activeCategory}
                 onValueChange={(value) => {
-                  if (value) setActiveCategory(value as TechnologyFilter);
+                  if (value) selectCategory(value as TechnologyFilter);
                 }}
                 aria-label={t('filter-aria')}
                 className="w-full flex-wrap justify-center gap-2"

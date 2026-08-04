@@ -60,6 +60,32 @@ interface ChapterControls {
 
 const ChapterContext = createContext<ChapterControls | null>(null);
 
+// Marks a chapter's outer box. The panels cannot find it through `offsetParent`, which stops at the
+// pinned viewport — `sticky` counts as positioned.
+const CHAPTER_ATTRIBUTE = 'data-chapter';
+
+/**
+ * Scroll offset that brings a chapter panel flush with the viewport's left edge.
+ * @param panel Panel element inside a travelling chapter.
+ * @returns Document scroll offset, or null when the panel is not inside one. Travel maps 1:1 with
+ * scroll, so the panel's own layout offset *is* the distance to it — never a hardcoded width, which
+ * would land between cards as soon as a filter changes the track's length.
+ */
+export const panelScrollTarget = (panel: HTMLElement): number | null => {
+  const chapter = panel.closest(`[${CHAPTER_ATTRIBUTE}]`);
+  if (!(chapter instanceof HTMLElement)) return null;
+
+  // Clamped to the chapter's own scroll range: a filter can leave a track with nothing left to travel,
+  // and an unclamped offset would then land the visitor somewhere past the chapter entirely.
+  const travel = Math.max(0, chapter.offsetHeight - window.innerHeight);
+
+  return (
+    chapter.getBoundingClientRect().top +
+    window.scrollY +
+    Math.min(panel.offsetLeft, travel)
+  );
+};
+
 /**
  * Reports whether a horizontal chapter travels sideways on the current viewport.
  * @returns True once mounted at `lg` or wider with motion allowed; false during SSR and hydration.
@@ -119,17 +145,24 @@ interface HorizontalChapterProps {
   children: ReactNode;
   className?: string;
   trackClassName?: string;
+  /** Controls held above the track, outside the travel. Rendered only while the chapter travels. */
+  topBar?: ReactNode;
+  /** Controls held below the track, outside the travel. Rendered only while the chapter travels. */
+  bottomBar?: ReactNode;
 }
 
 /**
  * Turns a section into a horizontally travelling chapter driven by its own vertical scroll progress.
- * @param props Panels to lay out plus optional classes for the outer container and the track.
+ * @param props Panels to lay out, optional classes for the outer container and the track, and optional
+ * control bars pinned above and below the travel.
  * @returns A pinned sideways track at `lg` and above, or a plain vertical stack otherwise.
  */
 const HorizontalChapter = ({
   children,
   className,
-  trackClassName
+  trackClassName,
+  topBar,
+  bottomBar
 }: HorizontalChapterProps) => {
   const outerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -187,15 +220,13 @@ const HorizontalChapter = ({
     setPastFirstPanel(progress >= exitAt);
   });
 
-  // Travel maps 1:1 with vertical scroll, so a panel's own layout offset is the scroll distance to it.
   const scrollToPanel = useCallback(
     (index: number) => {
-      const outer = outerRef.current;
       const panel = trackRef.current?.children[index];
-      if (!outer || !(panel instanceof HTMLElement)) return;
+      if (!(panel instanceof HTMLElement)) return;
 
-      const chapterTop = outer.getBoundingClientRect().top + window.scrollY;
-      scrollTo(chapterTop + panel.offsetLeft);
+      const target = panelScrollTarget(panel);
+      if (target !== null) scrollTo(target);
     },
     [scrollTo]
   );
@@ -205,6 +236,7 @@ const HorizontalChapter = ({
     [scrollToPanel, pastFirstPanel]
   );
 
+  const hasBars = Boolean(topBar || bottomBar);
   const panelWidth = enabled
     ? metrics.panelWidth > 0
       ? `${metrics.panelWidth}px`
@@ -217,19 +249,34 @@ const HorizontalChapter = ({
   return (
     <div
       ref={outerRef}
+      {...(enabled ? { [CHAPTER_ATTRIBUTE]: '' } : {})}
       className={cn('relative', className)}
       style={
         enabled ? { height: `calc(100svh + ${metrics.travel}px)` } : undefined
       }
     >
+      {/* A flex column, so the bars take their height off the track rather than lying over the panels.
+          With bars the whole group is centred and the track keeps its content height, which is what puts
+          the controls next to the panels instead of out at the viewport's edges; without them the track
+          fills the pin, because a lone panel has nothing to be grouped with. */}
       <div
-        className={cn(enabled && 'sticky top-0 h-svh overflow-hidden pt-16')}
+        className={cn(
+          enabled && 'sticky top-0 flex h-svh flex-col overflow-hidden pt-16',
+          enabled && hasBars && 'justify-center'
+        )}
       >
+        {enabled && topBar}
         <motion.div
           ref={trackRef}
           style={trackStyle}
           className={cn(
-            enabled ? cn('flex h-full w-max', PANEL_GUTTER) : 'flex flex-col',
+            enabled
+              ? cn(
+                  'flex min-h-0 w-max',
+                  hasBars ? 'shrink' : 'flex-1',
+                  PANEL_GUTTER
+                )
+              : 'flex flex-col',
             trackClassName
           )}
         >
@@ -237,6 +284,7 @@ const HorizontalChapter = ({
             {children}
           </ChapterContext.Provider>
         </motion.div>
+        {enabled && bottomBar}
       </div>
     </div>
   );

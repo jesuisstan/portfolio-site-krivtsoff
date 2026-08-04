@@ -145,8 +145,6 @@ const Footer = () => {
     };
   }, [enabled]);
 
-  const currentYear = new Date().getFullYear();
-
   return (
     <motion.footer
       ref={footerRef}
@@ -183,17 +181,24 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center justify-center gap-2 md:gap-4">
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary md:size-14">
-                <span className="text-sm font-bold text-primary-foreground md:text-2xl">
+            {/* The wordmark steps down to a signature: on a full screen the name is what should carry
+                the composition, and two display-size lines would compete. */}
+            <div className="flex items-center justify-center gap-2 md:gap-3">
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary md:size-10">
+                <span className="text-sm font-bold text-primary-foreground md:text-lg">
                   K
                 </span>
               </div>
-              <span className="text-xl font-bold text-foreground md:text-4xl lg:text-5xl">
+              <span className="text-base font-bold text-foreground md:text-xl">
                 krivtsoff.develop()
               </span>
             </div>
-            <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground md:mt-6 md:max-w-2xl md:text-lg">
+            <h2 className="mt-6 text-3xl leading-[1.1] font-bold text-foreground sm:text-4xl md:mt-8 lg:text-5xl">
+              Stanislav <span className="text-primary">Krivtsov</span>
+            </h2>
+            {/* No role line here: the tagline already opens on the role, and the city belongs to the
+                closing line at the bottom of the panel. */}
+            <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground md:mt-5 md:max-w-2xl md:text-lg">
               {t('tagline')}
             </p>
           </motion.div>
@@ -241,7 +246,7 @@ const Footer = () => {
         >
           <Separator className="mb-6 md:mb-8" />
           <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-muted-foreground">
-            <span>{t('copyright', { year: String(currentYear) })}</span>
+            <span>{t('copyright')}</span>
             {/* One message per line: the wording around the icon differs per language, so the
                 sentence cannot be assembled from separate spans. */}
             <span>
