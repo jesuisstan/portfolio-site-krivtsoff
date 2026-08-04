@@ -24,6 +24,9 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
 - **TypeScript** - strict mode, no `any`
 - **Tailwind CSS 4** - Utility-first CSS framework, CSS-first configuration (no `tailwind.config.ts`)
 - **Framer Motion** - Animation library
+- **Lenis** - site-wide scroll inertia, mounted once in the locale layout and dropped entirely under
+  `prefers-reduced-motion`; it animates the real scroll position, so sticky sections and anchors are
+  untouched
 - **Lucide React** - Icon set
 - **next-intl** - internationalization: locale routing, the `proxy.ts` locale negotiation, and the
   message catalogues in `src/i18n/messages/`
@@ -175,24 +178,30 @@ src/
 │   │                       #     magic-card (Magic UI)
 │   ├── Banner.tsx          # Hero section + animated stat counters
 │   ├── banner-content.ts   # Hero stat + social link data
+│   ├── HorizontalChapter.tsx # Scroll-linked sideways track (+ `useHorizontalChapter`, `ScrollHint`, `COVER_PANEL_CLASS`)
 │   ├── SkillsAndTech.tsx   # Technologies as an orbital system, with a category filter
 │   ├── skills-orbit.ts     # Ring specs + distributing the filtered technologies across them
 │   ├── Experience.tsx      # Work experience timeline
 │   ├── Projects.tsx        # Projects showcase with category filter
 │   ├── Contact.tsx         # Contact form (EmailJS) + contact details
+│   ├── CurtainStage.tsx    # Locks the last section while the footer curtain draws over it
 │   ├── NavBar.tsx          # Sticky navigation, mobile drawer (sheet), theme + language toggles
 │   ├── LanguageToggle.tsx  # Segmented EN/FR switch; each segment links to that locale
 │   ├── ScrollToTop.tsx     # Floating back-to-top control, shown once the hero scrolls away
 │   ├── Footer.tsx          # Site footer + particle field + social links
+│   ├── SmoothScroll.tsx    # Mounts the Lenis scroll inertia; renders nothing under reduced motion
 │   └── ThemeProvider.tsx   # next-themes wrapper
 ├── constants/              # Page content data + its TypeScript types — the parts that never translate
 │   ├── experiences.ts      # Timeline structure: company names, URLs, technologies, entry keys
 │   ├── projects.ts         # Project cards: names, screenshots, technologies, links, entry keys
 │   └── technologies.ts     # Technology / logo entries
 ├── lib/
+│   ├── curtain.ts          # Gate + peek height shared by the footer curtain and its stage
 │   ├── filter-chip.ts      # Shared class list for the Skills and Projects filter chips
 │   ├── magic-card-color.ts # `useMagicCardColors()` — MagicCard's gradient stops as hex
+│   ├── media-query.ts      # `useMediaQuery()` — SSR-safe `matchMedia` subscription
 │   ├── particle-color.ts   # `useParticleColor()` — the `--foreground` value as hex, for canvas fills
+│   ├── smooth-scroll.ts    # `useSmoothScrollTo()` / `useScrollInertiaLock()` — every programmatic scroll
 │   ├── social-links.ts     # Social profile links (reads env, hence not in constants/)
 │   └── utils.ts            # `cn()` class-merge helper
 ├── types/

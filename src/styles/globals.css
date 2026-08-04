@@ -160,7 +160,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* No `scroll-behavior: smooth`: the inertia layer animates the real scroll position and a CSS
+     smooth scroll would run a second animation against it. Every jump asks for its own behaviour. */
   /* The nav is fixed at h-16, so an anchor jump must stop short of it or the heading lands underneath. */
   scroll-padding-top: 4rem;
 }

@@ -9,7 +9,8 @@
   },
   "common": {
     "download-cv": "Télécharger le CV",
-    "back-to-top": "Retour en haut"
+    "back-to-top": "Retour en haut",
+    "scroll-hint": "Faites défiler pour explorer"
   },
   "nav": {
     "aria-main": "Principale",

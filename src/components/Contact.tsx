@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 
 import emailjs from 'emailjs-com';
 import type { Variants } from 'framer-motion';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
-import { MapPin, MessageCircle } from 'lucide-react';
+import { ChevronDown, MapPin, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import type { FormEvent } from 'react';
@@ -18,6 +18,7 @@ import Label from '@/components/ui/label';
 import Separator from '@/components/ui/separator';
 import ShineBorder from '@/components/ui/shine-border';
 import Textarea from '@/components/ui/textarea';
+import { useSmoothScrollTo } from '@/lib/smooth-scroll';
 import { cn } from '@/lib/utils';
 
 interface ContactInfoItem {
@@ -66,7 +67,10 @@ const messengers: ContactMessenger[] = [
 const Contact = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
+  const prefersReducedMotion = useReducedMotion();
+  const scrollTo = useSmoothScrollTo();
   const t = useTranslations('contact');
+  const tCommon = useTranslations('common');
 
   // Initialize EmailJS
   useEffect(() => {
@@ -128,6 +132,10 @@ const Contact = () => {
     }
   };
 
+  const scrollToFooter = () => {
+    scrollTo(document.documentElement.scrollHeight);
+  };
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -153,7 +161,10 @@ const Contact = () => {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="bg-background py-12"
+      // `CurtainStage` locks this section one peek strip above the viewport floor, so above `md` it has
+      // to fill that stage: a shorter section would leave a band of bare background above it while the
+      // footer panel draws over the rest.
+      className="bg-background py-12 motion-safe:md:flex motion-safe:md:min-h-[calc(100svh-4rem)] motion-safe:md:flex-col motion-safe:md:justify-center"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -397,6 +408,31 @@ const Contact = () => {
               </motion.form>
             </Card>
           </motion.div>
+        </div>
+
+        {/* The one native cue that the footer panel below is reachable. Its margin tightens where the
+            curtain is live: those pixels are what let the locked section clear the nav band. */}
+        <div className="mt-16 flex justify-center md:mt-6">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-lg"
+            className="size-11 text-primary hover:text-accent-foreground"
+            aria-label={tCommon('scroll-hint')}
+            onClick={scrollToFooter}
+          >
+            <motion.span
+              animate={prefersReducedMotion ? undefined : { y: [0, 12, 0] }}
+              transition={{
+                duration: 2.4,
+                repeat: Infinity,
+                ease: 'easeInOut'
+              }}
+              className="inline-flex"
+            >
+              <ChevronDown className="size-8" strokeWidth={1.5} />
+            </motion.span>
+          </Button>
         </div>
       </div>
     </section>

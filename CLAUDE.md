@@ -143,13 +143,51 @@ quality is the product, not decoration.
 
 ### Shape
 
-**One page, two locales.** `src/app/[locale]/page.tsx` renders the sections in order: `NavBar`,
-`Banner`, `SkillsAndTech`, `Experience`, `Projects`, `Contact`, `Footer`, then `ScrollToTop` — a fixed
+**One page, two locales.** `src/app/[locale]/page.tsx` renders a flex column holding `<main>` — the
+sections in order: `NavBar`, `Banner`, `SkillsAndTech`, `Experience`, `Projects`, then `Contact` wrapped
+in `CurtainStage` — and `Footer` plus `ScrollToTop` as siblings *after* it. `ScrollToTop` is a fixed
 control outside the section flow, which reveals itself from an `IntersectionObserver` on the hero.
+
+Three mechanical constraints in that shell break silently if changed. The footer's travel is an in-flow
+spacer inside `<main>`, never a bottom margin on it: a margin falls outside the sticky containing block,
+and `CurtainStage` needs the spacer to hold the last section against while the panel draws over it. The
+footer paints **above** `<main>` (`z-20` against `z-10`) and slides up over it, so its surface must stay
+opaque — a translucent fill would let the content it covers read through. And `<main>` must never get
+`overflow-hidden`: it would become a scroll container and kill `position: sticky` in every section below.
+`<footer>` is a sibling rather than nested, because a `<footer>` inside `<main>` is not a `contentinfo`
+landmark.
+
+**Scroll-linked sections.** `src/components/HorizontalChapter.tsx` pins a `sticky top-0 h-svh` viewport
+inside a tall outer box and translates a flex track on X in proportion to that box's scroll progress, so
+`SkillsAndTech` and `Projects` travel sideways under ordinary vertical scrolling — there is no wheel or
+key interception anywhere on the site, and adding any would be a regression. It exports
+`useHorizontalChapter()` (the `lg` + non-reduced-motion gate), `ScrollHint` and `COVER_PANEL_CLASS` — the
+last one only ever applied while the chapter travels, and it needs the `--panel-gutter` the track
+publishes, because a panel narrower than the viewport cannot get the container's left offset from
+`mx-auto`. Two consequences to
+respect: the gate is `false` through SSR and hydration by design, so a consumer must keep **one** JSX
+tree across the flip — swapping the top-level element unmounts the node `useInView` bound to, and
+framer-motion's effect does not re-subscribe on a ref change (this shipped as a blank Projects section
+once); and the reveal observer belongs on the section, which spans the whole travel, not on a panel that
+translates off-screen. Sizing comes from a measured `--panel-width`, not `w-screen`, because `100vw`
+includes the scrollbar. `src/components/CurtainStage.tsx` pins the page's last section the same way for
+the footer curtain, and its offset has to be measured for one CSS reason: `sticky` only ever pushes an
+element *down* past its flow position, and only through `top` — a `bottom` offset shifts it the other way
+and drags the section up the page instead. Parking the section's bottom edge on the panel's peek strip is
+therefore a `top` of viewport minus the section's own height, which no CSS length can express; it goes
+negative for a section taller than the stage, which is what lets a long one scroll through in full before
+it locks. The gate and the peek height that the stage and `Footer` must agree on live in
+`src/lib/curtain.ts`. See `DESIGN.md` for what the chapters look like and how the footer curtain reads.
 `src/app/[locale]/layout.tsx` is the document shell: it owns the font (Montserrat via `next/font`), the
-`NextIntlClientProvider`, the `next-themes` provider (class strategy, `defaultTheme="dark"`), Vercel
-Analytics, and `generateMetadata` — metadata is per-locale and therefore a function, not a static
-export. `NavBar.tsx` owns the sticky nav, the mobile drawer (a shadcn `Sheet`, so Radix handles focus
+`NextIntlClientProvider`, the `next-themes` provider (class strategy, `defaultTheme="dark"`), `SmoothScroll`,
+Vercel Analytics, and `generateMetadata` — metadata is per-locale and therefore a function, not a static
+export. `SmoothScroll.tsx` is the whole of the Lenis wiring: a client leaf that mounts `ReactLenis root`
+and renders no DOM, so the layout stays a server component. It animates the **real** scroll position —
+never a transform wrapper — which is why `sticky`, `useScroll` and `scroll-padding-top` all still work,
+and it is not mounted at all under `prefers-reduced-motion`. Every programmatic scroll on the page goes
+through `useSmoothScrollTo()` in `src/lib/smooth-scroll.ts` rather than calling `window.scrollTo`, which
+Lenis would otherwise fight; that hook also guarantees its `onComplete` fires exactly once, including
+when the visitor grabs the scroll mid-jump. `globals.css` therefore carries no `scroll-behavior: smooth`. `NavBar.tsx` owns the sticky nav, the mobile drawer (a shadcn `Sheet`, so Radix handles focus
 trapping and scroll locking), the theme toggle (Magic UI's `AnimatedThemeToggler`, driven in controlled
 mode from `useTheme()` so `next-themes` keeps sole ownership of persistence, styled with
 `buttonVariants`) and `LanguageToggle`; there is no scroll-spy. The styling stack is Tailwind + Radix

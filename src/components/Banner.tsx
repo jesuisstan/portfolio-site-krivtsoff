@@ -15,6 +15,7 @@ import Button from '@/components/ui/button';
 import { Particles } from '@/components/ui/particles';
 import Separator from '@/components/ui/separator';
 import { useParticleColor } from '@/lib/particle-color';
+import { useSmoothScrollTo } from '@/lib/smooth-scroll';
 
 const countsAtProgress = (progress: number): BannerStatCounts => ({
   projects: Math.floor(bannerStats[0].number * progress),
@@ -27,6 +28,7 @@ const countsAtProgress = (progress: number): BannerStatCounts => ({
 const Banner = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
+  const scrollTo = useSmoothScrollTo();
   const prefersReducedMotion = useReducedMotion();
   const [counts, setCounts] = useState<BannerStatCounts>(countsAtProgress(0));
   const t = useTranslations('banner');
@@ -74,10 +76,7 @@ const Banner = () => {
   };
 
   const scrollToContact = () => {
-    const element = document.querySelector('#contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollTo('#contact');
   };
 
   return (

@@ -9,7 +9,8 @@
   },
   "common": {
     "download-cv": "Download CV",
-    "back-to-top": "Back to top"
+    "back-to-top": "Back to top",
+    "scroll-hint": "Scroll to explore"
   },
   "nav": {
     "aria-main": "Main",
