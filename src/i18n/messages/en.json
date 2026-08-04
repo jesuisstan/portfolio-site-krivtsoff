@@ -9,7 +9,8 @@
   },
   "common": {
     "download-cv": "Download CV",
-    "back-to-top": "Back to top"
+    "back-to-top": "Back to top",
+    "scroll-hint": "Scroll to explore"
   },
   "nav": {
     "aria-main": "Main",
@@ -165,7 +166,7 @@
     "live-demo": "Live Demo",
     "code": "Code",
     "view-more": "View More on GitHub",
-    "stats": "GitHub Stats",
+    "stats": "GitHub Statistics",
     "categories": {
       "all": "All",
       "full-stack": "Full-Stack",
@@ -232,7 +233,7 @@
   "footer": {
     "tagline": "Frontend developer focused on product UIs, React/Next.js, and clear, maintainable web experiences.",
     "follow-me": "Follow Me",
-    "copyright": "© {year} Stanislav Krivtsov.",
-    "made-with": "<link>Made</link> with <heart></heart> in Paris"
+    "copyright": "© 2024 Stanislav Krivtsov.",
+    "made-with": "<link>Made</link> with <heart></heart> in Paris, France"
   }
 }

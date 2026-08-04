@@ -1,8 +1,19 @@
 'use client';
 
-import { startTransition, useEffect, useLayoutEffect, useState } from 'react';
+import {
+  startTransition,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from 'react';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import {
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll
+} from 'framer-motion';
 import { Download, Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
@@ -16,6 +27,7 @@ import Sheet, {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet';
+import { useScrollInertiaLock, useSmoothScrollTo } from '@/lib/smooth-scroll';
 import { cn } from '@/lib/utils';
 
 type NavItemKey = 'home' | 'skills' | 'experience' | 'projects' | 'contact';
@@ -33,15 +45,39 @@ const navItems: NavItem[] = [
   { key: 'contact', href: '#contact' }
 ];
 
-/** Fixed top navigation with section links, theme and language toggles, and mobile drawer. */
+/** Bar height in px — matches `h-16` and the `scroll-padding-top: 4rem` in globals.css. */
+const NAV_HEIGHT = 64;
+
+/** Scroll offset at which the bar swaps its transparent background for the blurred one. */
+const SCROLLED_OFFSET = 50;
+
+/** Distance the page must travel in one direction before the bar changes state. */
+const DIRECTION_THRESHOLD = 6;
+
+/** Radix holds the body scroll lock until the drawer's 300ms close animation ends. */
+const DRAWER_CLOSE_MS = 350;
+
+/**
+ * Fixed top navigation with section links, theme and language toggles, and mobile drawer.
+ * Hides on scroll-down and returns on any scroll-up, unless pinned by the open drawer,
+ * keyboard focus inside the bar, an anchor jump, or `prefers-reduced-motion`.
+ */
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const lastScrollY = useRef(0);
+  const anchorPinned = useRef(false);
+  const scrollTo = useSmoothScrollTo();
+  const { scrollY } = useScroll();
   const { setTheme, resolvedTheme } = useTheme();
   const prefersReducedMotion = useReducedMotion();
   const t = useTranslations('nav');
   const tCommon = useTranslations('common');
+
+  useScrollInertiaLock(isOpen);
 
   // Set mounted after component mounts to prevent hydration mismatch
   // useLayoutEffect runs synchronously before browser paint
@@ -52,53 +88,62 @@ const NavBar = () => {
     });
   }, []);
 
+  // Browsers restore scroll position on reload, so seed from the real offset:
+  // a baseline of 0 would read as one huge downward delta on the next scroll.
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const restored = scrollY.get();
+    lastScrollY.current = restored;
+    startTransition(() => {
+      setScrolled(restored > SCROLLED_OFFSET);
+    });
+  }, [scrollY]);
+
+  useMotionValueEvent(scrollY, 'change', (latest: number) => {
+    setScrolled(latest > SCROLLED_OFFSET);
+
+    // `:focus-visible` rather than `activeElement`, so a mouse click on a nav
+    // button does not pin the bar open for the rest of the session.
+    const isPinned =
+      isOpen ||
+      anchorPinned.current ||
+      navRef.current?.querySelector(':focus-visible') != null;
+
+    if (isPinned || latest <= NAV_HEIGHT) {
+      lastScrollY.current = latest;
+      setHidden(false);
+      return;
+    }
+
+    const delta = latest - lastScrollY.current;
+    // Sub-threshold moves are left unrecorded so they accumulate, which keeps
+    // momentum jitter and scroll anchoring from oscillating the bar.
+    if (Math.abs(delta) < DIRECTION_THRESHOLD) return;
+
+    lastScrollY.current = latest;
+    setHidden(delta > 0);
+  });
 
   const scrollToSection = (href: string) => {
-    // First close mobile menu
+    // The jump scrolls down, which would otherwise hide the bar mid-gesture. It runs for as long as
+    // the distance takes, so the pin is released by the scroll itself, never by a fixed window.
+    anchorPinned.current = true;
+    setHidden(false);
+
+    const jump = () => {
+      scrollTo(href, {
+        onComplete: () => {
+          anchorPinned.current = false;
+        }
+      });
+    };
+
+    if (!isOpen) {
+      jump();
+      return;
+    }
+
     setIsOpen(false);
-
-    // Add a small delay to ensure menu closes
-    setTimeout(() => {
-      const element = document.querySelector<HTMLElement>(href);
-      if (element) {
-        // Consider fixed navigation height
-        const navHeight = 64; // h-16 = 64px
-        const elementPosition = element.offsetTop - navHeight;
-
-        // Use scrollIntoView as fallback
-        try {
-          window.scrollTo({
-            top: elementPosition,
-            behavior: 'smooth'
-          });
-        } catch {
-          // Fallback to scrollIntoView if scrollTo doesn't work
-          element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      } else {
-        console.warn(`Element with id "${href}" not found`);
-        // Try to find element by another selector
-        const alternativeElement = document.querySelector(
-          `[id="${href.substring(1)}"]`
-        );
-        if (alternativeElement) {
-          alternativeElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      }
-    }, 150); // Increase delay for more reliable menu closing
+    setTimeout(jump, DRAWER_CLOSE_MS);
   };
 
   const downloadCV = () => {
@@ -123,8 +168,14 @@ const NavBar = () => {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      ref={navRef}
+      initial={{ y: '-100%' }}
+      animate={{ y: hidden && !prefersReducedMotion ? '-100%' : '0%' }}
+      transition={{
+        duration: prefersReducedMotion ? 0 : 0.25,
+        ease: 'easeOut'
+      }}
+      onFocus={() => setHidden(false)}
       aria-label={t('aria-main')}
       className={cn(
         'fixed left-0 right-0 top-0 z-50 transition-colors duration-300',

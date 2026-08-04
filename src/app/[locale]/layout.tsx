@@ -7,6 +7,7 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { ReactNode } from 'react';
 
+import SmoothScroll from '@/components/SmoothScroll';
 import ThemeProvider from '@/components/ThemeProvider';
 import { getPathname } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
@@ -130,6 +131,7 @@ const LocaleLayout = async ({
             enableSystem
             disableTransitionOnChange
           >
+            <SmoothScroll />
             {children}
             <Analytics />
           </ThemeProvider>

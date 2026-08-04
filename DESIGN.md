@@ -93,7 +93,8 @@ service-brand colours. Values are normative in the frontmatter, which is generat
 - **Alert Coral** (`--primary-alt`, `oklch(0.7208 0.134 25.35)`): the counterpoint, sharing Signal
   Teal's lightness so the two read as siblings rather than one shouting over the other. Theme-constant,
   declared in `:root` only, and deliberately scarce — the availability dot, the floating `NEXT.js/EXPO`
-  tile, the footer heart, and the trailing stop of both animated borders. Five uses on the whole page.
+  tile, the footer heart, the trailing stop of both animated borders, and the cursor stop of the Spotlight
+  Cards' border (as hex, under The Literal Escape Hatch). Six placements on the whole page.
 - **Alert Coral Foreground** (`--primary-alt-foreground`): the same near-black, 7.56:1 on the coral.
 
 ### Tertiary
@@ -230,16 +231,25 @@ monospace as a texture. If something needs to feel different, it changes weight 
 
 A single scrolling route with one container and one rhythm. Every section wraps its content in
 `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8` — 80rem maximum, gutters stepping 16→24→32px. There is no
-second container width and no full-bleed section.
+second container width. The only full-bleed elements are the panels of a horizontal chapter, and they
+are stages rather than containers: a panel is as wide as its job — a viewport for the orbit, a text
+column for a cover, its own cards for the projects river — and its content still starts on the container's
+left edge, either through that same `max-w-7xl` container or through the `--panel-gutter` that resolves it
+as a length. No line of type runs wider than it does anywhere else, and no heading starts anywhere else.
 
 Vertical rhythm is deliberately flat: every section below the hero is `py-12`, and the hero is
-`min-h-screen` with `pb-12 pt-20` to clear the fixed 64px (`h-16`) nav. Inside a section, a `mb-12`
+`min-h-screen` with `pb-12 pt-20` to clear the fixed 64px (`h-16`) nav. The two horizontal chapters are
+the exception — while pinned they own a whole viewport, so their padding moves onto the panels and the
+control bars (Skills: `pt-12` on the cover, `pb-12` on the orbit; Projects: the bars' own `pb-6`/`pt-6`)
+and reproduces the same `py-12` when the chapter falls back
+to a stack. Contact is the other: it keeps `py-12` but takes a `min-h-[calc(100svh-4rem)]` with its
+content centred above `md`, because the Footer Curtain freezes it as a full-screen frame. Inside a section, a `mb-12`
 header block separates the title from the content, and content groups use `space-y-8` / `gap-6`. Headings
 carry more space above than below.
 
 The nav is fixed, so an anchor jump has to stop short of it: `html` carries
 `scroll-padding-top: 4rem`, exactly the nav's height. Without it every in-page link parks its own
-heading underneath the bar — the one place where the sticky nav would cost the reader the thing they
+heading underneath the bar — the one place where the fixed nav would cost the reader the thing they
 clicked for.
 
 Depth of field comes from alternating surface tone rather than dividers: hero, experience, and contact
@@ -247,14 +257,18 @@ sit on `bg-background`; skills and projects on `bg-muted/30`. That alternation i
 there are no horizontal rules between sections.
 
 Responsive behaviour is mobile-first on Tailwind's default breakpoints. The structural switch is at `lg`
-(1024px), where the desktop nav replaces the drawer and the hero goes two-column. Grids: projects
-1 → `md` 2 → `lg` 3; hero stats 2 → `md` 4. The skills section is not a grid — see the Particle Field's
+(1024px), where the desktop nav replaces the drawer and the hero goes two-column; there is a second,
+smaller one at `md` (768px), where the footer leaves the flow and becomes the Footer Curtain below.
+Grids: projects 1 → `md` 2 — and at `lg` the grid is replaced outright by a Horizontal Chapter; hero
+stats 2 → `md` 4. The skills section is not a grid — see the Particle Field's
 sibling, the Orbital System, whose size is measured rather than stepped.
 
 ### Named Rules
 
 **The No Horizontal Scroll Rule.** 360px is the floor, and nothing may overflow it. Test the real copy
-at 360 / 768 / 1280 before calling a layout done.
+at 360 / 768 / 1280 before calling a layout done. A horizontal chapter is not an exception: its track is
+clipped by the pinned viewport's `overflow-hidden`, and its panels are sized from the container's own
+measured width rather than from `100vw`, which counts the scrollbar and would push the document sideways.
 
 ## Elevation & Depth
 
@@ -282,8 +296,18 @@ inlines the `var()` so the utility resolves again inside `.dark`.
   something genuinely liftable. Currently the messenger QR tiles.
 - **Overlay** (`shadow-overlay`; light `0 4px 8px -2px oklch(0.145 0 0 / 8%), 0 16px 40px -8px oklch(0.145 0 0 / 18%)`,
   dark `0 4px 8px -2px oklch(0 0 0 / 45%), 0 16px 40px -8px oklch(0 0 0 / 70%)`): reserved for surfaces
-  above the page: the mobile sheet, the project-description tooltip, and any future popover or dialog.
-  A floating surface with no shadow reads as pasted onto the page — if it is portalled, it takes this tier.
+  above the page: the mobile sheet, the project-description tooltip, Back To Top, the Footer Curtain panel
+  that slides up over the content, and any future popover or dialog. A floating surface with no shadow reads
+  as pasted onto the page — if it is portalled, it takes this tier.
+
+  **Known gap — the tier only casts downward.** All three steps use positive `y` offsets, which is right
+  for every member above except the Footer Curtain: it rises from the bottom of the viewport, so the edge
+  that needs to read as lifted is its *top* one, and overlay throws almost nothing there. The panel's top
+  edge currently earns its separation tonally instead — `bg-muted` against Contact's `bg-background`, a 1px
+  `border-border` hairline, and `rounded-t-xl` corners that let the content show through. That is
+  consistent with the Structure-Is-Tonal Rule and legible in both themes, but it is a workaround, not the
+  intended answer. A genuine upward cast needs a fourth token (an inverted `--elevation-3`), not a one-off
+  `shadow-[...]` and not a hand-rolled gradient scrim. Undecided; do not improvise one.
 
 ### Named Rules
 
@@ -415,9 +439,15 @@ transitions, an unmissable focus ring. Nothing jumps, nothing asks for attention
 
 - **Style:** fixed, full width, `h-16`, transparent over the hero and switching to
   `border-b border-border bg-background/80 backdrop-blur-md` past 50px of scroll — a 300ms colour
-  transition, the only chrome that reacts to scroll position.
+  transition.
+- **Behaviour:** the bar gets out of the way. Scrolling down past one nav height slides it off the top
+  (`y` to `-100%`, 250ms `easeOut`); any upward scroll returns it immediately, anywhere in the document —
+  the instant return is what makes hiding it acceptable at all. It is pinned visible while the mobile
+  drawer is open, while keyboard focus is inside it, during an anchor jump, and entirely under
+  `prefers-reduced-motion`. It translates rather than collapsing, so nothing below it ever reflows.
 - **Typography:** ghost buttons at `text-sm font-medium` in `text-muted-foreground`, resolving to
-  `text-foreground` on hover. There is no active-section highlight; the nav does not track scroll.
+  `text-foreground` on hover. There is no active-section highlight — the bar reacts to scroll
+  *direction*, never to which section you are in.
 - **Brand:** a teal `size-8` `rounded-lg` tile with a white-on-teal `K`, beside `krivtsoff.develop()` at
   `text-xl font-bold`.
 - **Actions:** right-aligned and always visible at every breakpoint, in this order — the language
@@ -473,10 +503,12 @@ appearance is already identical, so nothing is lost but the pointer tracking.
 
 ### Particle Field (signature)
 
-Magic UI's `Particles` lays a canvas of drifting dots behind the page's two end caps — 100 across the
-hero, 50 across the shorter footer, so the density reads the same in both — `pointer-events-none` and
-`aria-hidden`. It bookends the page: the same dust under the first screen and the last, and nothing in
-the reading sections between them, where it would compete with the content.
+Magic UI's `Particles` lays a canvas of drifting dots behind the page's two end caps — 100 in each,
+because the Footer Curtain made both end caps a full screen and the density has to read the same in the
+two — `pointer-events-none` and `aria-hidden`. It bookends the page: the same dust under the first
+screen and the last, and nothing in the reading sections between them, where it would compete with the
+content. Below `md` the footer collapses to its compact strip and the same count reads a little denser
+there; that is the accepted cost of one number serving both shapes.
 
 **Decoration is not selectable.** The hero, the footer and the orbit box carry `select-none`. Dragging
 across a decorative region should not produce a text selection over animated logos and drifting dots —
@@ -504,6 +536,137 @@ escapes to the root and hides behind the container's own opaque background.
 for the same flat plane. Sparse dots at low alpha read as depth — they sit *behind* the words — which is
 the one thing the hero needs from a background and the only reason it earns motion at all.
 
+### Scroll Inertia (signature)
+
+**The page has weight.** The wheel does not jump the document to a new offset; it gives it momentum,
+and the document glides to a stop over roughly a sixth of a second. This is the first thing a visitor
+feels, before a single word is read, and it is what makes the rest of the choreography legible — a
+sideways chapter, a curtain, a counter all read as one continuous camera move rather than as separate
+effects firing at scroll thresholds.
+
+**It moves the real scroll position.** Nothing is wrapped in a translated container and nothing is
+faked: the scrollbar is honest, `position: sticky` still pins, the keyboard still scrolls, and every
+measurement the rest of the page takes from the scroll position stays true. A smooth-scroll layer that
+transforms a wrapper instead would break the two pinned chapters and the footer curtain outright, which
+is the reason this constraint is stated rather than assumed.
+
+**Every jump is the same motion.** The nav's section links, the chevron between chapter panels, the
+back-to-top control and the chevron above the footer all hand their target to the same layer, so a
+click and a wheel land in the same way and no two controls glide at different speeds. `html` therefore
+carries no `scroll-behavior: smooth`; the one offset that jumps must respect — the nav's height, held
+as `scroll-padding-top` — is read by that layer for element targets, so it is still stated once.
+
+**A visitor who asks for less motion gets none of it.** Under `prefers-reduced-motion` the layer is not
+mounted at all — no instance, no animation loop — and every jump becomes an instant one. Inertia is
+exactly the kind of vestibular motion that request is about, and softening it would miss the point.
+
+### Horizontal Chapters (signature)
+
+Two sections read sideways. Skills and Projects are each a **horizontal chapter**: a tall outer
+container whose inner viewport is `sticky top-0 h-svh overflow-hidden`, holding a flex track that
+translates on X in proportion to that chapter's own scroll progress. The chapter is exactly one viewport
+tall plus its travel distance, so **one pixel of vertical scroll is one pixel of horizontal travel** —
+the page never runs faster or slower than the wheel, which is the whole reason it reads as a camera pan
+rather than as a trick.
+
+**The track glides, it is not nailed down.** A spring sits between the scroll position and the
+translation (`stiffness: 320`, `damping: 40`), so the panels trail the wheel by a few frames and coast
+into place instead of snapping to it. What that pair actually sets is the trail the track keeps at
+speed — `damping / stiffness`, here 0.125s, so a 1200px/s flick leaves the panels 150px behind and
+recovers in about a third of a second. Looser than that and a fast flick stops reading as momentum and
+starts reading as the content catching up, which is the failure mode of every scroll-linked page that
+overdoes this. The damping ratio is deliberately above 1: this is inertia, not a
+bounce, and a panel that overshoots and returns would read as a bug in a portfolio whose argument is
+precision. The spring is on the pixel offset rather than on the 0–1 progress, which is what keeps
+`restDelta` a sub-pixel tolerance and lets the last panel settle exactly flush with the viewport's right
+edge — a final panel resting three pixels short is the tell that separates this from a real pan. It is
+not applied at all when the chapter is disabled.
+
+**Nothing is hijacked.** There is no wheel handler, no scroll locking, no snapping. Native vertical
+scrolling stays exactly as it was; only what the pinned viewport shows changes. A visitor who scrolls
+past a chapter without stopping loses nothing but the pan.
+
+**Skills is two panels** — an editorial cover carrying the heading and lede left-aligned, then the
+category filter and the Orbital System together, so the filter is always reachable while its result is
+on screen. **Projects is a cover panel and one 26rem card per filtered project travelling past at
+`gap-6`, with its filter and its two CTAs held outside the travel.** The cards are the same `Card` as the
+grid version; the chapter changes how they arrive, not what they are.
+
+**Projects' controls do not travel.** The category chips ride a bar above the track and the two CTAs a
+bar below it, both inside the pinned viewport, both left-aligned on the page container. A filter that
+pans out of reach is not a filter — the visitor has to scroll backwards to change what they are looking
+at — and the two GitHub links, which used to sit in an end cap at the far end of the track, were a reward
+for finishing rather than an offer. The bars take their height *off* the track rather than lying over it,
+and the whole group — chips, cards, buttons — is centred in the pin as one block, so the controls sit
+next to the cards instead of out at the viewport's edges. Skills keeps a single full-height panel and
+therefore no bars: a lone panel has nothing to be grouped with.
+
+**The two CTAs are one control set**, so they are a two-column grid capped at `max-w-xl` rather than a
+row of intrinsic widths. Labels of different lengths ("View More on GitHub", "GitHub Statistics") would
+otherwise give the pair two different sizes, which reads as two unrelated buttons.
+
+**The card river has a fixed height.** The row is `min-h-[31rem]` with its cards stretched to it, rather
+than taking its height from whichever card is tallest. A category whose cards carry one badge row fewer
+would otherwise shorten the panel, and because the group is centred, the pinned bars would move — a
+15px hop every time the filter changed. Stretching then puts every card's actions on one baseline, which
+is what the fixed height buys back for the price of some slack inside the shortest card.
+
+**Changing a filter re-anchors the pan.** In Projects the track's length *is* the chapter's height, so a
+new filter can leave a visitor's scroll offset pointing past the chapter entirely — the browser clamps it
+to the shortened document and drops them into a later section. Selecting a category therefore returns the
+chapter to its cover, in the same frame and without easing, because an eased jump would be clamped away
+mid-flight. A new filter starts its river over; that is also the honest reading of the gesture. Skills
+travels the other way for the same reason: its chips are reachable while only part of the orbit has come
+into view, so a selection pans *to* the orbit. Filtering something the visitor cannot see is not a
+result.
+
+**A cover is a column, not a screen.** Each chapter opens on a panel exactly as wide as its own text —
+the lede's `max-w-3xl` measure plus the page gutter and a `pr-12` gap — so the first card, or the first
+arc of the orbit, is already on screen when the chapter begins. A cover the width of the viewport reads
+as a title slide, and it costs a full screen of scrolling before anything substantive appears: because
+travel is 1:1, a 1280px cover is 1280px of wheel spent on a heading the visitor has already read.
+Showing the content's leading edge instead is both the invitation and the payoff — the pan starts with
+something to pan *toward*. The cover keeps the page's left edge while it narrows, from a
+`--panel-gutter` the track publishes (`mx-auto max-w-7xl px-8` resolved as a length): `mx-auto` cannot
+give a narrow panel that offset, and a heading sliding 300px left of every other section's on a wide
+display would read as a broken grid, not as a chapter.
+
+**It is a `lg` enhancement and nothing more.** Below 1024px, and at any width under
+`prefers-reduced-motion`, both sections render their ordinary vertical layout — Skills stacked and
+centred, Projects back to its `md:grid-cols-2` grid with the CTAs beneath it. A pinned pan is a
+pointer-and-desk affordance; on a phone it would be a scroll trap, and for a visitor who has asked for
+less motion it is precisely the motion they asked to be rid of. The panels themselves are sized from a
+`--panel-width` custom property the track sets, which is the measured container width when travelling
+and `100%` when stacked, so the same markup serves both without a second copy; the cover's own class
+list applies only while travelling, because a text-width column and a page gutter mean nothing to a
+stacked section.
+
+**Panels clear the nav.** The pinned viewport carries `pt-16` — the fixed nav's exact height — so no
+panel ever starts underneath the bar. The unit is `svh`, not `vh`: a mobile toolbar collapsing mid-scroll
+would otherwise resize the pin underneath the reader.
+
+**The affordance is one chevron, and it is a real button.** A sideways section has to say so before it
+moves, so the first panel of each chapter carries a single `ChevronRight` in `text-primary` drifting
+12px right and back on a 2.4s ease — no label, no eyebrow, no "scroll" copy. **Anything that animates
+like an invitation will be clicked**, so it is a `size-11` ghost icon button rather than decoration:
+pressing it scrolls to the next panel of its own chapter, it is keyboard reachable with the standard
+focus ring, and it takes the ghost hover fill so the pointer confirms it before the click. Its
+accessible name is the translated `common.scroll-hint`, which is why the icon carries no visible string.
+
+The target is derived from the panel's measured layout offset, never from a hardcoded width — the
+Projects track changes length whenever the filter changes, and a hardcoded jump would land between
+cards. Because travel maps 1:1 with scroll, that offset *is* the scroll distance, and the jump is
+handed to the same inertia layer as everything else, so pressing the chevron feels like a long wheel
+gesture rather than like a different mechanism. Every such jump is clamped to the chapter's own travel:
+one panel per card means a filter can leave a track with nothing left to travel, and an unclamped offset
+would take the visitor past the chapter instead of into it.
+
+**It leaves when it stops being true.** The button fades out and goes non-interactive once the chapter
+has travelled halfway through its first panel: a control offering to take you somewhere you already are
+is worse than no control. It retires with `inert`, not with `aria-hidden` — `inert` also takes focus off
+it, and a keyboard visitor left standing on a control that has faded to nothing is stranded. Rendered
+only when the chapter actually travels, and the drift is dropped under reduced motion.
+
 ### Orbital System (signature)
 
 The Skills section is not a grid of cards; the technologies orbit. Magic UI's `OrbitingCircles` places
@@ -517,19 +680,116 @@ result.
 arc spacing stays even whatever the filter selects, and a small category collapses to a single tighter
 ring in a smaller box rather than leaving three near-empty circles. The box is also capped by the
 leftover viewport height, so scrolling to the section lands the whole system on screen instead of
-cropping it.
+cropping it — measured from the orbit's own panel while the chapter travels, and from the section when
+it is stacked, because those are the two things the reader is actually looking at.
+
+**The filter belongs to the orbit, not to the bar above it.** While the chapter is pinned the panel opens
+with a `pt-8` clearance and the chips sit only `mb-2` off the box: parked directly under the nav they read
+as a second toolbar the site is wearing, and 64px away from what they filter they read as unrelated to it.
+Stacked, the panel takes no clearance and the row keeps its full `mb-8` — there is no bar to be confused
+with, and a control 8px above its own result reads as crowding.
+
+**The box breathes.** A 32px gutter is withheld from that height budget above and below, and handed back
+by centring the box in the space left under the filter row. The
+distinction matters: the slack is *reserved*, not trimmed off the rings, so the outermost logos and their
+labels always land inside the pinned viewport with visible margin at both ends instead of pressing
+against the nav with all the leftover space pooled at the bottom. The centring region carries `min-h-0`
+so an oversized box can never grow it and feed its own height back into the measurement.
 
 **Interaction.** Hovering a logo pauses its ring and raises it above its neighbours, which is the only
 way to read a moving label; the border warms to `border-primary/40`. Under reduced motion the animation
 is paused rather than removed — the `0%` keyframe is what puts each logo on its ring, so removing it
 would collapse the system into the hub.
 
+### Footer Curtain (signature)
+
+Above `md` the footer does not follow the page — it draws across it. The footer is `fixed inset-x-0
+bottom-0 z-20 h-svh`, a full-screen panel painting **above** the content at `z-10`, and one screen of
+in-flow spacer after the last section is the travel: over it the panel's `y` runs from parked to `0`,
+sliding up until it covers the viewport. The visitor never watches a hole open beneath the page; a panel
+arrives over it.
+
+**The page holds still while the curtain draws.** `CurtainStage` locks Contact the moment its bottom edge
+reaches the peek strip, and it stays locked, pixel for pixel, until the panel has covered the screen — the
+rise is mapped 1:1 onto the scroll, so the panel moves exactly as far as the wheel turns and the section
+under it never moves at all. This is the difference between an effect and a coincidence: a page that keeps
+scrolling while the footer arrives reads as two things sliding past each other, and the last section
+drifts up into blank margin just as it is being read. Frozen, it reads as one thing — the site has said
+its last word, and the footer is drawn over the top of it. The lock lands on the same pixel the rise
+begins, which is not luck: the travel is the panel's height *minus* the strip already showing, exactly the
+distance the section has left before its bottom meets the strip.
+
+Two consequences the section itself has to carry. It fills the stage above `md`
+(`min-h-[calc(100svh-4rem)]`, content centred), because a section shorter than the frame would freeze with
+a band of bare background above it. And its chevron's top margin tightens from `mt-16` to `md:mt-6`, which
+is what lets the whole composition sit between the nav band and the strip on a 800px-tall viewport instead
+of tucking its heading under the nav. A section taller than the stage — every width below `lg`, where the
+form stacks — simply locks with its earlier part scrolled off above; nothing is ever unreachable, because
+the lock cannot happen until the bottom edge has arrived.
+
+**The direction is the whole point.** The panel enters top edge first, so its content is read in the
+order it is written — brand, tagline, social links, then the copyright line last. The earlier
+arrangement pinned the footer *behind* the page and uncovered it from the bottom up, which surfaced the
+copyright first and the brand last. Reading order inverted is not a detail; it is the reason the
+mechanism was turned around.
+
+**The peek strip is the page's only "there is more" signal, and it arrives with Contact.** Until the
+Contact section's top edge crosses the bottom of the viewport the panel sits entirely off-screen at
+`translate-y-full`; from there a 64px band of its top edge slides out over the next 240px of scroll and
+then holds still until the unfurl begins. 64px is the nav's own `h-16`, so the last screen of the page is
+bracketed by two bands of the same height. Withholding the band is what buys the effect its surprise: a
+strip standing at the foot of the viewport from the hero onward is furniture, and it spends the signal
+half a page before there is anything to signal. The strip has to read as a *different surface*, not as
+the bottom of the document: opaque `bg-muted`
+against Contact's `bg-background`, a 1px `border-border` hairline along the top, and `rounded-t-xl`
+corners — the card radius, the largest in the shape family — through which the content behind stays
+visible. `shadow-overlay` is on the panel because it is genuinely the top layer, but see the known gap in
+Elevation: the tier casts downward, so the tonal step and the hairline are what actually carry the edge.
+
+**Two mechanical consequences, both load-bearing.** The strip lies over the content, so the locked
+section's frame stops exactly one peek height above the viewport floor and the panel drops
+`pointer-events` until it is more than half revealed, or the band would swallow clicks aimed at whatever
+it covers. `bg-background` on `<main>` also stays load-bearing for a new reason: the alternating
+`bg-muted/30` section tones are translucent and would leak the panel's particle field through.
+
+**Contact ends with a chevron.** A `ChevronDown` ghost button at `size-11`, bobbing on the same 2.4s
+`easeInOut` loop as the horizontal chapters' `ChevronRight`, scrolls the document to the end. It shares
+their `common.scroll-hint` label, carries no visible copy, and never fades — a hint that disappears can
+strand keyboard focus on an invisible control. It is the deliberate, clickable half of the affordance the
+peek strip suggests.
+
+**A whole screen earns a composition, not a stretched strip.** The finale centres one column: the logo
+tile and `krivtsoff.develop()` as a signature line (`md:text-xl` beside a `md:size-10` plate), then the
+author's name as the display line — `text-3xl` → `lg:text-5xl`, the hero's own name scale, with the
+surname in `text-primary` so the page opens and closes on the same signature — the tagline beneath it at
+`md:text-lg` on a `max-w-2xl` measure, then the follow heading and the social buttons at `size-14`. The
+copyright and the "made with ♥ in Paris, France" line sit apart at the bottom above a separator. It is the
+one place that breaks the flat
+`py-12` rhythm — `md:py-16` — because it is the last thing on the page and nothing follows it. The whole
+composition is budgeted to clear 768px of viewport height with room to spare; it never scrolls internally.
+
+**The name carries it, and nothing says the role twice.** A full screen with only a wordmark and a
+tagline reads as an empty room, so the name is what fills it and the wordmark steps down to a signature —
+two display-size lines would compete for the same job. What the name does *not* get is a role line
+underneath: "Frontend Developer · Paris" directly above a tagline that opens "Frontend developer focused
+on…" is the same fact twice in two type sizes. The city belongs to the closing line instead, where it was
+already half-said.
+Its reveals are `viewport={{ once: true }}`: now that they play on screen rather than behind a curtain,
+replaying them on every scroll pass would be visible noise.
+
+**It degrades to nothing.** Below `md`, and under `prefers-reduced-motion` at any width, every pinning
+class is off (`motion-safe:md:` throughout) and the footer is the ordinary in-flow strip it has always
+been — no spacer, no locked section, no peek strip, no fixed positioning, and no scroll-linked transform. The chevron
+survives at every width, because scrolling to the end of the document is useful either way. A visitor who
+cannot use the effect must never meet a footer they cannot reach.
+
 ### Back To Top (floating)
 
 A single floating control, `fixed bottom-6 right-6`, revealed once the hero is 80% scrolled away and
-faded out again when it returns. It is the one element allowed `shadow-overlay` outside a real overlay,
-because it genuinely floats above the page, and it is `bg-card/60` with `backdrop-blur-sm` so the content
-it covers stays half-visible — a solid disc parked over the page reads as a defect.
+faded out again when it returns. It is `bg-card/60` with `backdrop-blur-sm` so the content it covers
+stays half-visible — a solid disc parked over the page reads as a defect. Its `z-40` clears both the
+content at `z-10` and the Footer Curtain panel at `z-20`, so it stays reachable and clickable through the
+whole travel — including where it overlaps the parked peek strip.
 
 ### Theme Toggle (signature)
 
@@ -572,7 +832,8 @@ the locale lives in the URL. It carries no motion of its own beyond the inherite
 - **Do** use `text-accent-foreground` for teal-toned text and links; reserve `text-primary` for
   display-size type, icons, and fills.
 - **Do** separate sections by alternating `bg-background` and `bg-muted/30`, and keep every section on
-  `py-12` inside `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`.
+  `py-12` inside `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8` — a horizontal chapter moves that padding onto
+  its panels rather than dropping it.
 - **Do** give every interactive element the standard focus ring (`focus-visible:ring-[3px] ring-ring/50`
   with `focus-visible:border-ring`).
 - **Do** gate every non-essential animation behind `prefers-reduced-motion` — `motion-reduce:animate-none`,

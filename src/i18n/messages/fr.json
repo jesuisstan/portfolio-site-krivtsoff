@@ -9,7 +9,8 @@
   },
   "common": {
     "download-cv": "Télécharger le CV",
-    "back-to-top": "Retour en haut"
+    "back-to-top": "Retour en haut",
+    "scroll-hint": "Faites défiler pour explorer"
   },
   "nav": {
     "aria-main": "Principale",
@@ -232,7 +233,7 @@
   "footer": {
     "tagline": "Développeur frontend spécialisé en interfaces produit, React/Next.js et applications web claires et maintenables.",
     "follow-me": "Me suivre",
-    "copyright": "© {year} Stanislav Krivtsov.",
-    "made-with": "<link>Fait</link> avec <heart></heart> à Paris"
+    "copyright": "© 2024 Stanislav Krivtsov.",
+    "made-with": "<link>Fait</link> avec <heart></heart> à Paris, France"
   }
 }
