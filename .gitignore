@@ -55,6 +55,9 @@ next-env.d.ts
 *.tsbuildinfo
 
 # impeccable live mode — local session journal, not project source
-/.impeccable/live/sessions/.env.local
+/.impeccable/live/sessions/
+
+# impeccable engine binary — platform-specific, installed by `npx impeccable update`
+/.claude/skills/impeccable/scripts/bin/
 
 /.claude/agents/
