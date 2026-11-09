@@ -9,11 +9,12 @@ This file provides guidance to Claude Code when working with code in this reposi
   with the French translation added in the same change. See § Internationalization.
 - **Package manager**: Use **npm** for all scripts and dependency installation. Never pnpm or yarn.
 - **Git**: `main` is the deployed branch (Vercel). Do not commit or push unless the user asks; when
-  they do, work on a task branch off `main` rather than committing to it directly.
+  they do, work on a task branch off `main` rather than committing to it directly. Branch checks,
+  staging and pushing: `.claude/rules/git-workflow.md`.
 - **TypeScript**: the repo is fully strict TypeScript (migrated 2026-07-26). No `.js`/`.jsx` under
-  `src/` — never add one. `typescript` is pinned to `^5` and `eslint` to `^9` for compatibility reasons
-  documented in `.claude/agents/platform.md`; do not bump them casually. Toolchain changes belong to
-  the `platform` agent.
+  `src/` — never add one. `typescript` is pinned to `^5` (TS 7 breaks Next's `next.config.ts`
+  transpiler) and `eslint` to `^9` (ESLint 10 needs a `typescript-eslint` that `eslint-config-next@16`
+  does not bundle); do not bump them casually. Toolchain changes belong to the `platform` agent.
 - **Documentation is part of the deliverable**: `README.md`, `CLAUDE.md`, `DESIGN.md` and `PRODUCT.md`
   must be true at all times. Any change that invalidates a statement in one of them fixes it in the
   **same** change, never as a follow-up. **One fact, one file**: each document owns its subject and the
@@ -72,7 +73,9 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 Any task that changes what a visitor sees or how the site behaves MUST go through a
 build → verify → correct loop before it is reported as done. The loop is orchestrated in the main
-conversation (subagents cannot spawn subagents), using the three specialized agents.
+conversation (subagents cannot spawn subagents), using the three specialized agents. `/task <statement>`
+(`.claude/skills/task`) runs it end to end; `.claude/rules/agent-delegation.md` covers briefing and
+running the agents.
 
 1. **Define acceptance criteria first.** Restate the task as a short list of observable, checkable
    outcomes (e.g. "the projects chapter pans sideways at 1280px and falls back to a 1-column grid at
@@ -115,7 +118,7 @@ npm run build          # production build — also type-checks
 npm run start          # serve the production build
 
 npm run lint           # eslint (flat config) — the authoritative style config
-npm run lint:fix       # runs automatically after every edit via a PostToolUse hook
+npm run lint:fix       # whole repo; after each edit a PostToolUse hook fixes just that file
 npm run typecheck      # tsc --noEmit
 
 npm run design:sync    # regenerate DESIGN.md frontmatter + .impeccable/design.json from globals.css

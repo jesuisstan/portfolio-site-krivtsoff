@@ -1,38 +1,33 @@
-# Code Organization Rules
+---
+paths:
+  - 'src/**/*.{ts,tsx}'
+  - 'src/styles/**'
+---
 
-## Extracted data & helpers — name modules by role, not by "type"
+# Code organization
 
-- Do not embed sizable static values inline in components, pages, or hooks — extract
-  them. This covers: long string literals (code samples, templates), data arrays,
-  lookup maps, and option/config lists.
-- **Name the module for what it holds, not `constants.ts`/`utils.ts`.** A file literally
-  named `constants` must contain only constant _values_; do not put functions there.
-  Group by responsibility instead, e.g. for a page's folder:
-  - `content.ts` — pure display data / static text the page renders directly.
-  - `code-samples.ts` (or `<feature>.ts`) — functions that build/derive strings or
-    structures, plus their private supporting consts.
-    A module that pairs a few private consts with the functions that consume them is fine —
-    that is cohesion, not a dumping ground.
-- Put these files in the **same folder** as the consumer. If a value or helper is shared
-  by several features, or reads environment/config, hoist it to `src/lib/`.
-- Site-wide content data (project cards, timeline entries, tech logos) lives in
-  `src/constants/` and is **values only** — no functions, no env reads, no derived state.
-- Components read from these modules and stay focused on rendering. Export only what other
-  files consume; keep purely local helpers unexported.
-- A single short literal used once (a label, a className) does not need extracting —
-  this targets bulky or reused values, not every string.
+## Data and helpers: name modules by role
 
-## Colors
+- Extract sizable static values from components, pages and hooks: long string literals, data arrays,
+  lookup maps, option lists. A single short literal used once (a label, a className) stays inline.
+- Name the module for what it holds, never `constants.ts`/`utils.ts` as a dumping ground:
+  `content.ts` for render data, `<feature>.ts` for builder functions plus their private consts (that
+  pairing is cohesion). A file named `constants` holds values only.
+- Keep it next to its consumer; hoist to `src/lib/` once several features share it or it reads
+  env/config.
+- Site-wide content (project cards, timeline entries, technology logos) lives in `src/constants/` —
+  values and their exported types only: no functions, env reads or derived state.
+- Components stay focused on rendering. Export only what other files consume.
 
-- Never use arbitrary Tailwind color values — no `text-[#a3cfff]`, `bg-[#1b1828]`,
-  or inline `style={{ color: ... }}`. All colors come from the named Tailwind tokens.
-- A color token is an OKLCH CSS variable declared in `src/styles/globals.css` — in
-  both `:root` and `.dark`, or in `:root` alone when it is theme-constant — and mapped
-  to a Tailwind utility in the same file's `@theme inline` block. Tailwind v4 is
-  CSS-first: there is no `tailwind.config.*` to edit.
-- If a design needs a new color, **add a named token** (variable + config entry) and
-  use the class (`bg-<name>`, `text-<name>-foreground`, …). Opacity modifiers on
-  tokens are fine (`bg-accent/10`). Never introduce a one-off hex/rgba.
-- The palette is the shadcn **neutral** token set with the brand teal as `--primary`.
-  There is exactly one palette: a component that ships its own `:root`/`.dark` block
-  must have it stripped on install.
+## Colours
+
+- No arbitrary colour values: no `text-[#a3cfff]`, `bg-[#1b1828]`, `rgb()`, stock palette
+  (`gray-700`), or inline `style={{ color }}`. Colours come from token utilities; opacity modifiers
+  (`bg-accent/10`) are the way to lighten one.
+- A new colour is a new token: an OKLCH variable in `src/styles/globals.css` — in `:root` and `.dark`,
+  or `:root` alone when theme-constant — mapped in the same file's `@theme inline`, then
+  `npm run design:sync`. Tailwind v4 is CSS-first: there is no `tailwind.config.*`.
+- One palette: the shadcn neutral set with the brand teal as `--primary`. A component that ships its
+  own `:root`/`.dark` block has it stripped on install.
+- The only hex literals allowed are in the `src/lib/*-color.ts` hooks that convert an existing token
+  for a `<canvas>` or an inline gradient (`DESIGN.md` § The Literal Escape Hatch).

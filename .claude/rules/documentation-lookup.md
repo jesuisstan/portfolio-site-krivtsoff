@@ -1,26 +1,20 @@
-# Documentation Lookup Rule
+---
+paths:
+  - 'src/**'
+  - 'scripts/**'
+  - '*.config.{ts,mjs,js}'
+  - 'package.json'
+---
 
-Before writing or editing code that uses a library, framework, or API whose current usage you are
-not certain of (Next.js App Router, next-themes, Framer Motion, Radix UI, shadcn CLI, Tailwind,
-`next/image`, `next/font`, EmailJS, etc.), look up
-up-to-date documentation via the **context7** MCP tools (`resolve-library-id` then
-`query-docs`) instead of relying on memorized/training-data knowledge.
+# Documentation lookup
 
-## When to use it
+Training data goes stale and these libraries change between majors. Before writing code against an API
+you have not just seen working in this repo — Next.js 16 (App Router, metadata, `proxy.ts`, `next/image`,
+`next/font`), React 19, next-intl 4, Framer Motion 12, Tailwind v4, Radix/shadcn, Lenis, EmailJS — read
+the installed version in `package.json`, then that version's docs through **context7**
+(`resolve-library-id` → `query-docs`). It is required for unfamiliar usage, not a matter of confidence.
 
-- Before adding a new dependency or a new usage pattern of an existing one.
-- Before implementing a new component, hook, API route, or piece of middleware that depends on a
-  library's public API surface.
-- When behavior differs across versions and you are not sure which version this repo pins
-  (check `package.json` first, then resolve that version's docs via context7).
+For a shadcn primitive the registry is the source: the shadcn MCP, or `npx shadcn@latest docs <name>`.
 
-## When it's not needed
-
-- Pure internal refactors that don't touch a library's public API.
-- Changes confined to this repo's own modules (content data, config values, styling tokens) where
-  the correct usage is already established by existing code in the repo.
-
-## Why
-
-Training data goes stale and library APIs change between versions; confirming current usage via
-context7 avoids introducing code based on a deprecated or non-existent API.
+Not needed for changes confined to this repo's own modules where the usage is already established in the
+code.
