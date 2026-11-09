@@ -56,3 +56,5 @@ next-env.d.ts
 
 # impeccable live mode — local session journal, not project source
 /.impeccable/live/sessions/.env.local
+
+/.claude/agents/
