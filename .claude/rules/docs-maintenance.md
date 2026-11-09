@@ -16,8 +16,8 @@ confidently wrong document is worse than a thin one.
 | **`CLAUDE.md`** | Operating instructions for Claude Code: ground rules, the self-verifying loop, the command list, the architecture "Shape", code conventions, dependency pins and the reasons for them, which mechanical constraints break the build if violated. | Visual doctrine (that is `DESIGN.md`) and audience/positioning claims (that is `PRODUCT.md`). It may state a *mechanical* styling constraint — where tokens live, which utility namespace is required — but not which colour is tasteful where. |
 | **`DESIGN.md`** | The whole visual system, and the only prose place design decisions are recorded: colour roles, typography, layout and responsive behaviour, elevation, shapes, per-component specs, named rules, do's and don'ts. Its YAML frontmatter is generated — see below. | Product truth, build tooling, install steps, code conventions unrelated to appearance. |
 | **`PRODUCT.md`** | Durable product truth: users and their situation, purpose, positioning, operating context, capabilities and constraints, brand commitments, evidence on hand and its documented absences, accessibility requirements. | Visual worlds, palettes, page composition, or anything a redesign would legitimately change. |
-| **`.claude/agents/*.md`** | How that one agent works: its domain, its tools and the order it uses them, install/reconcile procedures, its own report format. | A copy of the design system, the product record, or the code conventions. Point at the owner. |
-| **`.claude/rules/*.md`** | Cross-cutting conventions that apply to every agent and to the main conversation: code quality, code organisation, communication, delegation, documentation lookup, and this ownership model. | Anything specific to one agent's workflow, and anything the four root documents own. |
+| **`.claude/agents/*.md`** | How that one agent works: its domain, its tools and the order it uses them, install/reconcile procedures, its own report format. The folder is git-ignored — local to the owner's machine. | A copy of the design system, the product record, or the code conventions. Point at the owner. And nothing another clone needs: a fact that must survive outside this machine lives in a tracked file. |
+| **`.claude/rules/*.md`** | Cross-cutting conventions that apply to every agent and to the main conversation: code quality, code organisation, communication, delegation, documentation lookup, git workflow, task workflow, and this ownership model. A rule with `paths:` frontmatter loads only while matching files are in play. | Anything specific to one agent's workflow, and anything the four root documents own. |
 
 One redundancy is deliberate: a constraint that **silently breaks the build or the theme** may be stated
 in both its owning rule file and `CLAUDE.md`, because `CLAUDE.md` is always in context and a rule file may
@@ -40,7 +40,7 @@ Check your diff against the owning file only.
 | ------ | ------ |
 | Add, delete, rename, or move a file under `src/` or `public/` | README "Project Structure"; CLAUDE.md "Shape" if it is a section component or a route |
 | Add or remove a dependency | README "Technologies Used" / "Development Tools"; CLAUDE.md only if it changes the stack or is version-pinned for a reason |
-| Change or pin a version for a compatibility reason | CLAUDE.md ground rules + `.claude/agents/platform.md`; README "Prerequisites" if the Node/npm floor moves |
+| Change or pin a version for a compatibility reason | CLAUDE.md ground rules (the pin and a one-line reason); `.claude/agents/platform.md` may hold the detail; README "Prerequisites" if the Node/npm floor moves |
 | Add, rename, or remove an npm script | README "Scripts"; CLAUDE.md "Commands" |
 | Add, rename, or remove an env var | README env block; CLAUDE.md "Environment variables" |
 | Add or remove a route, or change what a route renders | README "Features" if user-visible; CLAUDE.md "Shape" |

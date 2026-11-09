@@ -1,48 +1,33 @@
-# Code Quality Rules
+---
+paths:
+  - 'src/**/*.{ts,tsx}'
+  - 'scripts/**'
+  - '*.config.{ts,mjs,js}'
+---
 
-## General
+# Code quality
 
-- Write clean, production-ready code
-- Arrow function syntax for all components and functions
-- Strict TypeScript everywhere — explicit types on arrays, generics, callbacks; no `any`. The repo is
-  fully `.ts`/`.tsx`; never add a `.js`/`.jsx` file under `src/`
-- Prefer built-in APIs over custom logic
+`CLAUDE.md` § Code conventions states the shape; this file holds the detail.
 
-## Scope
+- Strict TypeScript: no `any` (narrow `unknown`), explicit types on exported APIs, arrays and callbacks.
+  Never add a `.js`/`.jsx` file under `src/`.
+- Arrow functions assigned to a `const`; the file's primary component is the bottom `export default`.
+- JSDoc on every new exported function or component: one imperative sentence ("Returns…", not "This
+  function…"), `@param` per argument, `@returns` always (even `void`); a second paragraph only when the
+  behaviour would surprise a reader.
 
-- Implement only what the task requires — no extra features, refactoring, or abstractions
-- Three similar lines is better than a premature abstraction
-- Do not design for hypothetical future requirements
+  ```ts
+  /** Returns the projects matching the given category filter. */
+  ```
 
-## Error handling
-
-- Only validate at system boundaries (user input, external APIs)
-- Do not add error handling, fallbacks, or validation for scenarios that cannot happen
-- Trust internal code and framework guarantees
-
-## Comments
-
-- Default to no comments
-- Add a comment only when the WHY is non-obvious: a hidden constraint, a subtle invariant, a workaround for a specific bug
-- Never explain WHAT the code does — well-named identifiers do that
-- Never write multi-line comment blocks; one short line max
-- All comments must be in English
-
-## JSDoc
-
-Required on all new exported functions. Keep it concise:
-
-```ts
-/** Returns the projects matching the given category filter. */
-const filterProjects = (projects: Project[], category: string): Project[] => { ... }
-```
-
-- First line: one-sentence imperative summary ("Fetches…", "Calculates…", not "This function…")
-- `@param` for every argument
-- `@returns` always (even if `void`)
-- No additional paragraphs unless the behavior would genuinely surprise a reader
-
-## Linting
-
-- Do not fix lint warnings proactively
-- Only address issues that break the build or runtime
+- Comments: none by default. One short line when the why is not obvious — a hidden constraint, an
+  invariant, a workaround — never what the code does. English only.
+- Validate only at boundaries (user input, external responses); no fallbacks for states that cannot
+  happen.
+- No premature abstraction: three similar lines beat a speculative helper.
+- Rendering never branches on a browser-only value read during render (`useReducedMotion()`, `window`,
+  `matchMedia`): the server and the hydration render must agree — use `useMediaQuery` from
+  `src/lib/media-query.ts` (`CLAUDE.md` § Code conventions).
+- Lint: after every edit a hook (`.claude/hooks/lint-file.mjs`) runs ESLint `--fix` on that file and
+  reports what it could not fix — fix those before moving on. Don't chase warnings; fix what breaks
+  lint, types, the build or runtime.

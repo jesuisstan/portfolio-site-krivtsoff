@@ -141,7 +141,7 @@ npm run build        # production build (type-checks the project)
 npm start            # serve the production build
 
 npm run lint         # ESLint — the authoritative style check
-npm run lint:fix     # ESLint with --fix (also runs automatically after every edit by Claude Code)
+npm run lint:fix     # ESLint with --fix (Claude Code also fixes each file it edits, via a hook)
 npm run typecheck    # tsc --noEmit
 
 npm run design:sync  # regenerate DESIGN.md's token frontmatter + .impeccable/design.json from globals.css
@@ -249,7 +249,16 @@ Product context — who the site is for, what it claims, and which facts must no
 ## 🤖 Working on this repo with Claude Code
 
 `CLAUDE.md` holds the project guidance (architecture, conventions, the build → verify loop), and
-`.claude/` contains the specialized agents (`frontend`, `platform`, `verifier`) plus the shared rules.
+`.claude/rules/` the shared rules: delegation, task workflow, communication, code quality and
+organisation, documentation lookup, git workflow, and the docs ownership model. The specialized agents
+(`frontend`, `platform`, `verifier`) live in `.claude/agents/`, which is git-ignored — local to the
+owner's machine. `/task <statement>` (`.claude/skills/task`) runs a change end to end: acceptance
+criteria, the agents, a browser check, the docs. After each edit Claude Code makes,
+`.claude/hooks/lint-file.mjs` runs ESLint `--fix` on that one file and reports what it could not fix.
+
+`.claude/skills/impeccable` is the Impeccable design skill (critique, redesign, polish). `npx impeccable
+update` refreshes it and installs its platform-specific engine under `scripts/bin/` (git-ignored) plus
+local design-check hooks in `.claude/settings.local.json`.
 
 Two hooks keep the generated design layer honest, and they cover different gaps. `.claude/settings.json`
 runs `scripts/design-sync.mjs` after Claude Code edits `globals.css` or `DESIGN.md` — that only fires for

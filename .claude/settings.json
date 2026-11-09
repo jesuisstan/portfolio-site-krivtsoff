@@ -16,11 +16,13 @@
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Edit|Write",
+        "matcher": "Edit|Write|MultiEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "npm run lint:fix"
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/lint-file.mjs\"",
+            "timeout": 60,
+            "statusMessage": "Linting the edited file"
           }
         ]
       },
