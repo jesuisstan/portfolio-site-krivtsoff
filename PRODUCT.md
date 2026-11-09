@@ -120,8 +120,9 @@ the social links live in the footer.
   into an unverifiable claim.
 - Nine shipped projects in `src/constants/projects.ts`, each with a live URL, a GitHub URL, a screenshot,
   and an honest description — including the caveat that Hypertube's torrent streaming only works in a
-  local deployment. That kind of caveat is a feature of the voice; keep it.
-- The four hero counters are confirmed accurate as stated: 30+ projects completed, 3+ years experience,
+  local deployment. That kind of caveat is a feature of the voice; keep it. Six are shown: Contact Book,
+  Omio-like search bar and Info Map App are commented out for now, by the owner's choice, not deleted.
+- The four hero figures are confirmed accurate as stated: 30+ projects completed, 3+ years experience,
   5000+ hours coded, 3 IT certifications.
 - Availability is a confirmed fact: "Available for new opportunities" is true as written.
 - Location is Paris, France.

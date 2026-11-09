@@ -4,9 +4,7 @@ import { useCallback, useEffect } from 'react';
 
 import { useLenis } from 'lenis/react';
 
-import { useMediaQuery } from '@/lib/media-query';
-
-const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+import { REDUCED_MOTION_QUERY, useMediaQuery } from '@/lib/media-query';
 
 /** Upper bound on a jump, for browsers without `scrollend` and for scrolls the visitor abandons. */
 const SETTLE_TIMEOUT_MS = 3000;

@@ -111,56 +111,57 @@ export const projects: Project[] = [
     liveUrl: 'https://tetris-game-frontend.onrender.com/',
     githubUrl: 'https://github.com/jesuisstan/tetris-game'
   },
-  {
-    key: 'contact-book',
-    title: 'Contact Book',
-    image: '/projects/project-contact.png',
-    technologies: [
-      'React',
-      'TypeScript',
-      'Node.js',
-      'Express',
-      'MongoDB',
-      'Material UI',
-      'JWT'
-    ],
-    category: 'full-stack',
-    liveUrl: 'https://contact-book-frontend-1n4u.onrender.com/',
-    githubUrl: 'https://github.com/jesuisstan/ContactBookFullstackApp'
-  },
-  {
-    key: 'omio',
-    title: 'Omio-like search bar',
-    image: '/projects/project-imgOmio.png',
-    technologies: [
-      'React',
-      'TypeScript',
-      'Material UI',
-      'Axios',
-      'CSS Modules'
-    ],
-    category: 'frontend',
-    liveUrl: 'https://omio-like-search-bar.onrender.com/',
-    githubUrl: 'https://github.com/jesuisstan/OmioSearchBar'
-  },
-  {
-    key: 'info-map',
-    title: 'Info Map App',
-    image: '/projects/project-info-map.png',
-    technologies: [
-      'React',
-      'TypeScript',
-      'Node.js',
-      'Express',
-      'MongoDB',
-      'Leaflet',
-      'Material UI',
-      'Yelp Fusion API'
-    ],
-    category: 'full-stack',
-    liveUrl: 'https://github.com/jesuisstan/InfoMapApp#demonstration',
-    githubUrl: 'https://github.com/jesuisstan/InfoMapApp'
-  },
+  // Hidden for now, not deleted: uncomment to show again (Omio also brings back the 'frontend' filter in Projects.tsx).
+  // {
+  //   key: 'contact-book',
+  //   title: 'Contact Book',
+  //   image: '/projects/project-contact.png',
+  //   technologies: [
+  //     'React',
+  //     'TypeScript',
+  //     'Node.js',
+  //     'Express',
+  //     'MongoDB',
+  //     'Material UI',
+  //     'JWT'
+  //   ],
+  //   category: 'full-stack',
+  //   liveUrl: 'https://contact-book-frontend-1n4u.onrender.com/',
+  //   githubUrl: 'https://github.com/jesuisstan/ContactBookFullstackApp'
+  // },
+  // {
+  //   key: 'omio',
+  //   title: 'Omio-like search bar',
+  //   image: '/projects/project-imgOmio.png',
+  //   technologies: [
+  //     'React',
+  //     'TypeScript',
+  //     'Material UI',
+  //     'Axios',
+  //     'CSS Modules'
+  //   ],
+  //   category: 'frontend',
+  //   liveUrl: 'https://omio-like-search-bar.onrender.com/',
+  //   githubUrl: 'https://github.com/jesuisstan/OmioSearchBar'
+  // },
+  // {
+  //   key: 'info-map',
+  //   title: 'Info Map App',
+  //   image: '/projects/project-info-map.png',
+  //   technologies: [
+  //     'React',
+  //     'TypeScript',
+  //     'Node.js',
+  //     'Express',
+  //     'MongoDB',
+  //     'Leaflet',
+  //     'Material UI',
+  //     'Yelp Fusion API'
+  //   ],
+  //   category: 'full-stack',
+  //   liveUrl: 'https://github.com/jesuisstan/InfoMapApp#demonstration',
+  //   githubUrl: 'https://github.com/jesuisstan/InfoMapApp'
+  // },
   {
     key: 'pong',
     title: 'Pong The Game',

@@ -414,7 +414,7 @@
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "The hero h1 only, one per page. 700 weight, text-4xl through xl:text-7xl (2.25-4.5rem), leading-[1.1]."
+        "purpose": "The hero h1 only, one per page: the name at 700, the anchor, over the rolling role at 400, text-4xl / sm:text-5xl / lg:text-6xl / xl:text-7xl (2.25-4.5rem), leading-none, tracking-tighter. The role line alone drops to text-2xl below sm."
       },
       "headline": {
         "displayName": "Headline",
@@ -422,15 +422,15 @@
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Card and project titles. 700 weight, text-xl."
+        "purpose": "Card and project titles. 700 weight, text-xl; text-3xl to lg:text-5xl for the footer's name line."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Reading copy at 400 weight, text-base; ledes step up to text-lg sm:text-xl. Held to 58-70ch by max-w-lg / max-w-3xl."
+        "purpose": "Reading copy at 400 weight, text-base; section ledes step up to text-lg sm:text-xl, the hero intro to text-lg md:text-xl. Held to 58-70ch by max-w-2xl / max-w-3xl."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Buttons, badges, form labels at 500 weight text-sm; stat captions at text-xs. Sentence case, never tracked uppercase."
+        "purpose": "Buttons, badges and form labels at 500 weight: text-sm for controls and links, text-xs for badges and filter chips. Sentence case, never tracked uppercase."
       }
     },
     "fontFamily": "Montserrat, sans-serif",
@@ -549,14 +549,14 @@
   ],
   "narrative": {
     "northStar": "The Signal in the Noise",
-    "overview": "This is a monochrome field with one voice in it. The neutral scale does all the structural work — surfaces, borders, reading text, dividers — and a single saturated teal appears only where attention has actually been earned: one word per section heading, the icons that label a fact, the counters, the primary action. The palette is neutral by decision, not by timidity. Colour here is a signal, and a signal that fires everywhere is noise.\n\nThe character is precise and engineered. Spacing is regular rather than expressive, states are predictable, every interactive element has a real focus ring, and nothing is placed by feel. The audience for this system is engineers reading it as a work sample, so a misaligned edge reads exactly like a bug in the code — the discipline is the argument. It is also alive without being busy: sections reveal once on scroll, the hero counters run once and stop, two borders trace slowly enough to read as highlights rather than as animation. Motion is authored in single moments; nothing loops fast enough to pull the eye off the text.\n\nDark is the native environment, not an option. defaultTheme=\"dark\", and the teal was chosen for how it reads on graphite. The light theme is fully correct and fully supported, but it is the translation, not the original.",
+    "overview": "This is a monochrome field with one voice in it. The neutral scale does all the structural work — surfaces, borders, reading text, dividers — and a single saturated teal appears only where attention has actually been earned: one word per section heading, the icons that label a fact, the orbit's count, the primary action. The palette is neutral by decision, not by timidity. Colour here is a signal, and a signal that fires everywhere is noise.\n\nThe character is precise and engineered. Spacing is regular rather than expressive, states are predictable, every interactive element has a real focus ring, and nothing is placed by feel. The audience for this system is engineers reading it as a work sample, so a misaligned edge reads exactly like a bug in the code — the discipline is the argument. It is also alive without being busy: the hero's role rolls once through its six variants and then rests on \"Full-Stack\" for ten seconds, sections reveal once on scroll, one border traces slowly enough to read as a highlight rather than as animation, and a field of dust drifts behind the first screen and the last at a speed you have to stop and look for. Motion is authored in single moments; nothing loops fast enough to pull the eye off the text.\n\nDark is the native environment, not an option. defaultTheme=\"dark\", and the teal was chosen for how it reads on graphite. The light theme is fully correct and fully supported, but it is the translation, not the original.",
     "keyCharacteristics": [
-      "One saturated accent against a strictly neutral scale; a coral sibling used five times in the whole page",
+      "One saturated accent against a strictly neutral scale; a coral sibling used three times in the whole page",
       "Dark-first, with the light theme derived rather than designed twice",
       "Tonal layering carries structure; a three-step shadow scale carries only state and layer",
       "Softly rounded geometry (10px base radius), pill shapes reserved for labels and filters",
       "Single type family; hierarchy comes from size and weight alone",
-      "Motion is slow, one-shot, and fully removable under prefers-reduced-motion"
+      "Motion is slow, authored in single moments, and fully removable under prefers-reduced-motion"
     ],
     "rules": [
       {
@@ -582,7 +582,7 @@
       {
         "name": "The Single Accent Word Rule",
         "section": "typography",
-        "body": "Every section heading carries exactly one teal word — Frontend Developer, Featured Projects, Let's Connect. Not a gradient, not the whole line, not two words. The heading is where the signal is spent."
+        "body": "Every section heading carries exactly one teal word — Skills & Technologies, Featured Projects, Let's Connect, and in the hero the rolling role's one variable term — a single accent even where, as in \"Web & Mobile\", the term runs to more than one word. Not a gradient, not the whole line, not two separate words. The heading is where the signal is spent."
       },
       {
         "name": "The No Second Voice Rule",
@@ -607,12 +607,12 @@
       {
         "name": "The No Halo Rule",
         "section": "elevation",
-        "body": "Every shadow carries a vertical offset and a soft blur. A zero-offset coloured glow is decoration, and the hero's blurred teal orbs already own that register."
+        "body": "Every shadow carries a vertical offset and a soft blur. A zero-offset coloured glow is not a shadow, it is decoration, and nothing on the page carries one — not a surface, not a control."
       },
       {
         "name": "The Hairline Rule",
         "section": "shapes",
-        "body": "1px, all four sides, border-border. No coloured border-left accent bars, no 2px emphasis borders, no border as decoration. Three exceptions are exhaustive: a thicker border is legitimate only as a focus ring, as a frame around a photograph (the avatar), or as a background-coloured knockout (the timeline dot). Wanting something to look more important is not a fourth reason."
+        "body": "1px, all four sides, border-border. No coloured border-left accent bars, no 2px emphasis borders, no border as decoration. Two exceptions are exhaustive: a thicker border is legitimate only as a focus ring or as a background-coloured knockout (the timeline dot). Wanting something to look more important is not a third reason."
       },
       {
         "name": "The Pill Means Label Rule",
@@ -626,7 +626,7 @@
       "Do use text-accent-foreground for teal-toned text and links; reserve text-primary for display-size type, icons, and fills.",
       "Do separate sections by alternating bg-background and bg-muted/30, and keep every section on py-12 inside mx-auto max-w-7xl px-4 sm:px-6 lg:px-8.",
       "Do give every interactive element the standard focus ring (focus-visible:ring-[3px] ring-ring/50 with focus-visible:border-ring).",
-      "Do gate every non-essential animation behind prefers-reduced-motion — motion-reduce:animate-none, a motion-safe: prefix, useReducedMotion(), or simply not rendering the effect.",
+      "Do gate every non-essential animation behind prefers-reduced-motion — motion-reduce:animate-none, a motion-safe: prefix, or not rendering the effect at all. To decide what renders, read the preference with useMediaQuery(REDUCED_MOTION_QUERY); framer-motion's useReducedMotion() disagrees with the server on hydration, so it may only time or tune an animation, never choose the markup.",
       "Do check both themes and 360 / 768 / 1280 with the real copy before calling any change done."
     ],
     "donts": [
@@ -637,10 +637,10 @@
       "Don't reintroduce hand-written utility classes of the .gradient-text / .glass-effect / .button-primary / .container-custom / .card-hover kind. Containers are mx-auto max-w-7xl, buttons are Button variants, panels are Card.",
       "Don't add gradient text, a second font family, a tracked uppercase eyebrow over sections, or monospace used as a \"technical\" texture.",
       "Don't hand-write a primitive the shadcn registry ships, and don't paste registry source by hand — install it and reconcile it with these tokens and the repo's conventions.",
-      "Don't add a coloured border-left accent bar, or a border above 1px for emphasis. Thicker strokes exist in exactly three sanctioned places (focus ring, avatar frame, timeline knockout) — see Shapes.",
+      "Don't add a coloured border-left accent bar, or a border above 1px for emphasis. Thicker strokes exist in exactly two sanctioned places (focus ring, timeline knockout) — see Shapes.",
       "Don't use depth to rank elements. Ambient is uniform across surfaces and controls; if something needs to read as more important, that is colour, size, or position — not a bigger shadow.",
       "Don't nest a card inside a card, or let a grid of identical icon-heading-text cards become a section's whole structure.",
-      "Don't spread --destructive into decoration. It means failure, and --primary-alt is the decorative sibling. The hero beam's leading stop is the single sanctioned exception (see Components); do not cite it to justify a second one.",
+      "Don't spread --destructive into decoration. It means failure, and --primary-alt is the decorative sibling.",
       "Don't revive the --chart-* or --sidebar-* tokens as a shortcut to a new colour. Nothing under src/ reads them today, and they are excluded from this document on purpose."
     ]
   }

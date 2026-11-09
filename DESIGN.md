@@ -46,18 +46,18 @@ rounded:
 
 This is a monochrome field with one voice in it. The neutral scale does all the structural work —
 surfaces, borders, reading text, dividers — and a single saturated teal appears only where attention
-has actually been earned: one word per section heading, the icons that label a fact, the counters, the
-primary action. The palette is neutral by decision, not by timidity. Colour here is a signal, and a
+has actually been earned: one word per section heading, the icons that label a fact, the orbit's count,
+the primary action. The palette is neutral by decision, not by timidity. Colour here is a signal, and a
 signal that fires everywhere is noise.
 
 The character is precise and engineered. Spacing is regular rather than expressive, states are
 predictable, every interactive element has a real focus ring, and nothing is placed by feel. The
 audience for this system is engineers reading it as a work sample, so a misaligned edge reads exactly
-like a bug in the code — the discipline is the argument. It is also alive without being busy: sections
-reveal once on scroll, the hero counters run once and stop, two borders trace slowly enough to read as
-highlights rather than as animation, and a field of dust drifts behind both end caps at a speed you have to
-stop and look for. Motion is authored in single moments; nothing loops fast enough to pull the eye off
-the text.
+like a bug in the code — the discipline is the argument. It is also alive without being busy: the hero's
+role rolls once through its six variants and then rests on "Full-Stack" for ten seconds,
+sections reveal once on scroll, one border traces slowly enough to read as a highlight rather than as
+animation, and a field of dust drifts behind the first screen and the last at a speed you have to stop and look for.
+Motion is authored in single moments; nothing loops fast enough to pull the eye off the text.
 
 Dark is the native environment, not an option. `defaultTheme="dark"`, and the teal was chosen for how
 it reads on graphite. The light theme is fully correct and fully supported, but it is the translation,
@@ -65,12 +65,12 @@ not the original.
 
 **Key Characteristics:**
 
-- One saturated accent against a strictly neutral scale; a coral sibling used five times in the whole page
+- One saturated accent against a strictly neutral scale; a coral sibling used three times in the whole page
 - Dark-first, with the light theme derived rather than designed twice
 - Tonal layering carries structure; a three-step shadow scale carries only state and layer
 - Softly rounded geometry (10px base radius), pill shapes reserved for labels and filters
 - Single type family; hierarchy comes from size and weight alone
-- Motion is slow, one-shot, and fully removable under `prefers-reduced-motion`
+- Motion is slow, authored in single moments, and fully removable under `prefers-reduced-motion`
 
 ## Colors
 
@@ -82,9 +82,9 @@ service-brand colours. Values are normative in the frontmatter, which is generat
 ### Primary
 
 - **Signal Teal** (`--primary`, `oklch(0.715 0.122 196.14)` = `#00babc`): the brand. Display-size
-  headings, the accent word in every section title, icon fills, stat counters, the logo tile, the
-  primary button, the scrollbar thumb, and `--ring`. Identical in both themes — a brand accent that
-  shifts per theme is two brands.
+  headings, the accent word in every section title, icon fills, the orbit's count, the logo tile, the
+  primary button, the scrollbar thumb, text selection (with Signal Teal Foreground, site-wide), and
+  `--ring`. Identical in both themes — a brand accent that shifts per theme is two brands.
 - **Signal Teal Foreground** (`--primary-foreground`): near-black, 8.25:1 on the teal. What sits on top
   of a teal fill; never white.
 
@@ -92,9 +92,9 @@ service-brand colours. Values are normative in the frontmatter, which is generat
 
 - **Alert Coral** (`--primary-alt`, `oklch(0.7208 0.134 25.35)`): the counterpoint, sharing Signal
   Teal's lightness so the two read as siblings rather than one shouting over the other. Theme-constant,
-  declared in `:root` only, and deliberately scarce — the availability dot, the floating `NEXT.js/EXPO`
-  tile, the footer heart, the trailing stop of both animated borders, and the cursor stop of the Spotlight
-  Cards' border (as hex, under The Literal Escape Hatch). Six placements on the whole page.
+  declared in `:root` only, and deliberately scarce — the footer heart, the trailing stop of the contact
+  card's animated border, and the cursor stop of the Spotlight Cards' border (as hex, under The Literal
+  Escape Hatch). Three placements on the whole page.
 - **Alert Coral Foreground** (`--primary-alt-foreground`): the same near-black, 7.56:1 on the coral.
 
 ### Tertiary
@@ -193,7 +193,7 @@ the data as complete token class names (`tint: 'text-brand-telegram'`) and reach
 **Label/Mono Font:** none
 
 **Character:** One geometric sans doing every job. Montserrat's wide, even bowls stay legible at
-counter-size and hold their geometry at 4.5rem, so the system gets its hierarchy from size and weight
+caption size and hold their geometry at 4.5rem, so the system gets its hierarchy from size and weight
 alone. A second family would be decoration, and a monospace face would be a costume for "technical"
 rather than a tool for code.
 
@@ -203,26 +203,30 @@ whole vocabulary.
 
 ### Hierarchy
 
-- **Display** (700, `text-4xl` → `sm:text-5xl` → `lg:text-6xl` → `xl:text-7xl`, i.e. 2.25→4.5rem,
-  `leading-[1.1]`): the hero `h1` only. One per page.
+- **Display** (`text-4xl` → `sm:text-5xl` → `lg:text-6xl` → `xl:text-7xl`, i.e. 2.25→4.5rem, `leading-none`,
+  `tracking-tighter`): the hero `h1` only, one per page — the name at 700, the anchor, over the rolling
+  role at 400, which qualifies it.
+  The role line alone drops to `text-2xl` below `sm`; see Hero. `tracking-tighter` is the tightest the
+  scale goes anywhere, and only at this size: Montserrat's glyphs still clear one another there.
 - **Headline** (700, `text-4xl` → `lg:text-5xl`, 2.25→3rem): section titles. Each one is two words, the
   first or second of which is teal.
 - **Title** (700, `text-xl`, 1.25rem): card and project titles. Also 700 at `text-3xl`→`lg:text-5xl` for
-  the hero name block, which is display type behaving as a signature.
-- **Body** (400, `text-base` 1rem; the hero and section ledes step up to `text-lg sm:text-xl`): reading
-  copy, held to `max-w-lg` in the hero and `max-w-3xl` for section ledes — roughly 58–70ch, inside the
-  65–75ch comfort band.
-- **Label** (500, `text-sm` 0.875rem for controls and links; `text-xs` 0.75rem for stat captions,
-  badges and filter chips): buttons, badges, form labels, counter captions. Sentence case.
+  the footer's name line, which is display type behaving as a signature.
+- **Body** (400, `text-base` 1rem; section ledes step up to `text-lg sm:text-xl`, the hero intro to
+  `text-lg md:text-xl`): reading copy, held to `max-w-2xl` in the hero and `max-w-3xl` for section
+  ledes — roughly 58–70ch, inside the 65–75ch comfort band.
+- **Label** (500, `text-sm` 0.875rem for controls and links; `text-xs` 0.75rem for badges and filter
+  chips): buttons, badges, form labels. Sentence case.
 - **Micro label** (500, 10px, `leading-none`): one use only — the technology names under the orbiting
   logos, where 48 of them share one ring and `text-xs` collides. Below the scale on purpose; anything
   that has room for `text-xs` uses `text-xs`.
 
 ### Named Rules
 
-**The Single Accent Word Rule.** Every section heading carries exactly one teal word — `Frontend`
-Developer, Featured `Projects`, Let's `Connect`. Not a gradient, not the whole line, not two words. The
-heading is where the signal is spent.
+**The Single Accent Word Rule.** Every section heading carries exactly one teal word — `Skills` &
+Technologies, Featured `Projects`, Let's `Connect`, and in the hero the rolling role's one variable term
+— a single accent even where, as in "Web & Mobile", the term runs to more than one word. Not a gradient,
+not the whole line, not two separate words. The heading is where the signal is spent.
 
 **The No Second Voice Rule.** No second font family, no uppercase tracked eyebrow above sections, no
 monospace as a texture. If something needs to feel different, it changes weight or size.
@@ -237,8 +241,9 @@ column for a cover, its own cards for the projects river — and its content sti
 left edge, either through that same `max-w-7xl` container or through the `--panel-gutter` that resolves it
 as a length. No line of type runs wider than it does anywhere else, and no heading starts anywhere else.
 
-Vertical rhythm is deliberately flat: every section below the hero is `py-12`, and the hero is
-`min-h-screen` with `pb-12 pt-20` to clear the fixed 64px (`h-16`) nav. The two horizontal chapters are
+Vertical rhythm is deliberately flat: every section below the hero is `py-12`. The hero is `min-h-svh`
+at every width — the whole first viewport — clearing the fixed 64px (`h-16`) nav with a `pt-16` of its
+own and centring a single column beneath it inside `py-12` → `lg:py-16`. The two horizontal chapters are
 the exception — while pinned they own a whole viewport, so their padding moves onto the panels and the
 control bars (Skills: `pt-12` on the cover, `pb-12` on the orbit; Projects: the bars' own `pb-6`/`pt-6`)
 and reproduces the same `py-12` when the chapter falls back
@@ -257,11 +262,12 @@ sit on `bg-background`; skills and projects on `bg-muted/30`. That alternation i
 there are no horizontal rules between sections.
 
 Responsive behaviour is mobile-first on Tailwind's default breakpoints. The structural switch is at `lg`
-(1024px), where the desktop nav replaces the drawer and the hero goes two-column; there is a second,
-smaller one at `md` (768px), where the footer leaves the flow and becomes the Footer Curtain below.
-Grids: projects 1 → `md` 2 — and at `lg` the grid is replaced outright by a Horizontal Chapter; hero
-stats 2 → `md` 4. The skills section is not a grid — see the Particle Field's
-sibling, the Orbital System, whose size is measured rather than stepped.
+(1024px), where the desktop nav replaces the drawer and the hero's heading steps up a size (its full
+Display size waits for `xl`); there is a second, smaller one at `md` (768px), where the footer leaves the flow and becomes the
+Footer Curtain below. The hero itself is one centred column at every width. Grids: projects 1 → `md` 2 —
+and at `lg` the grid is replaced outright by a Horizontal Chapter; the hero facts 2×2 → one line at `md`.
+The skills section is not a grid — see the Particle Field's sibling, the Orbital System, whose size is
+measured rather than stepped.
 
 ### Named Rules
 
@@ -323,31 +329,26 @@ in this project; they are theme-blind and invisible on graphite. A fourth step m
 one-off `shadow-[...]`.
 
 **The No Halo Rule.** Every shadow carries a vertical offset and a soft blur. A zero-offset coloured glow
-is not a shadow, it is decoration — the one on the page is the teal wash behind the avatar
-(`bg-primary/20 blur-xl`), and it sits under a photograph rather than under a surface. Nothing that
-carries content gets one.
+is not a shadow, it is decoration, and nothing on the page carries one — not a surface, not a control.
 
 ## Shapes
 
 One softly-rounded family from a single base: `--radius: 0.625rem` (10px), with `xs` 2px, `sm` 6px, `md`
 8px, `lg` 10px and `xl` 14px derived from it in `@theme inline`. Buttons, inputs, textareas and toggles
-take `md`; cards take `xl`; the logo tile and the floating hero tiles take `lg`; `xs` exists for details
+take `md`; cards take `xl`; the logo tile takes `lg`; `xs` exists for details
 too small to carry a real corner — the tooltip's arrow and the sheet's close affordance. Nothing in the
 system is square, and nothing is fully organic.
 
 Full pills (`rounded-full`) are reserved for things that label or select: badges, category chips, filter
-toggles, the availability chip, the status dot — plus the avatar, its teal wash, and every technology
-logo plate on the orbit, which are circles because they are round objects rather than because they are
-pills.
+toggles — plus every technology logo plate on the orbit, which is a circle because it is a round object
+rather than because it is a pill.
 
-Borders are 1px `border-border` on every side. There are exactly **three** deliberate exceptions, and a
-fourth is a defect:
+Borders are 1px `border-border` on every side. There are exactly **two** deliberate exceptions, and a
+third is a defect:
 
 1. The **focus ring** — `ring-[3px] ring-ring/50` with `focus-visible:border-ring`, on every interactive
    element without exception.
-2. The **avatar ring** — a 4px `border-primary/30` around the one circular photograph, where the weight
-   is the frame, not emphasis.
-3. The **timeline dot knockout** — a 4px `border-background` on the experience timeline's dot. The border
+2. The **timeline dot knockout** — a 4px `border-background` on the experience timeline's dot. The border
    is background-coloured, so it is not read as a border at all: it punches the dot out of the vertical
    line running behind it. A knockout ring is a masking technique, and it must stay background-coloured
    to qualify.
@@ -355,9 +356,9 @@ fourth is a defect:
 ### Named Rules
 
 **The Hairline Rule.** 1px, all four sides, `border-border`. No coloured `border-left` accent bars, no
-2px emphasis borders, no border as decoration. The three exceptions above are exhaustive: a thicker
-border is legitimate only as a focus ring, as a frame around a photograph, or as a background-coloured
-knockout. Wanting something to look more important is not a fourth reason.
+2px emphasis borders, no border as decoration. The two exceptions above are exhaustive: a thicker border
+is legitimate only as a focus ring or as a background-coloured knockout. Wanting something to look more
+important is not a third reason.
 
 **The Pill Means Label Rule.** A pill is a badge, a chip, or a filter. An action is a `md`-radius
 rectangle. Do not round a button to a pill to make it look friendlier.
@@ -422,7 +423,7 @@ transitions, an unmissable focus ring. Nothing jumps, nothing asks for attention
   (`line-clamp-3`) and the full text is disclosed in a tooltip. The clamped text is a real `button`, not
   a `p`, so it carries the standard focus ring and the disclosure is reachable by keyboard — a card that
   ends in an ellipsis with no way to finish the sentence is a dead end, and a hover-only tooltip is one
-  for anyone not using a mouse. Nine cards of equal height are worth more than nine full paragraphs.
+  for anyone not using a mouse. A row of equal-height cards is worth more than a row of full paragraphs.
 
 ### Inputs / Fields
 
@@ -460,23 +461,73 @@ transitions, an unmissable focus ring. Nothing jumps, nothing asks for attention
   locking. The language and theme controls deliberately stay in the bar rather than moving into the
   drawer — switching either one should never cost two taps.
 
-### Animated Borders (signature)
+### Hero
 
-Two Magic UI primitives send a travelling highlight around a border, both resolving their stops to
-tokens rather than literals:
+**One centred column, read top to bottom.** The first screen is the name, the role, one paragraph, the
+actions and the four facts, and nothing else — no badge, no portrait, no glow, no count-up. Behind it
+drifts the Particle Field, the footer's own, so the page opens and closes on the same texture. The
+composition comes from a 21st.dev "animated hero", rebuilt on this system's own primitives: `min-h-svh`
+at every width with the column centred under the nav, `gap-8` between groups, `gap-4` between the
+heading and its intro, `gap-3` across the button row.
 
-- **`ShineBorder`** traces a 1px `var(--primary)` → `var(--primary-alt)` gradient around the contact form
-  card on a 14s linear loop — slow enough to read as a highlight, not a glow. Gated behind
-  `motion-safe:`, leaving a static ring when motion is reduced.
-- **`BorderBeam`** sends a 60px `var(--destructive)` → `var(--primary-alt)` highlight around the hero
-  "Download CV" button's 1px border on a slow spring (`stiffness: 26`), reading as a travelling glint
-  rather than a racing dot. It is a `div` inside the `button` so it inherits the radius and stays clipped
-  without a wrapper that would swallow the focus ring. Not rendered at all under reduced motion.
+- **Heading:** the page's one `h1`, in the Display role. The name is 700 in `text-foreground`, the weight
+  of the section headlines; the role beneath it is 400, and only its variable term is `text-primary` —
+  the hero's one accent — while
+  "Developer" / "Développeur" stays foreground. `banner.role` wraps a `{word}` argument in an `<accent>`
+  tag because the word order differs between the two languages.
+- **Intro:** `text-lg md:text-xl`, `leading-relaxed tracking-tight`, `text-muted-foreground`,
+  `max-w-2xl`, centred and `text-balance`d so no line ends on a single word.
+- **Actions:** Download CV (outline) and Let's Talk (primary — the region's one filled control, scrolling
+  to Contact), `size="lg"` at `h-11` with trailing icons, then the GitHub and LinkedIn outline icon
+  buttons, which wrap as one unit.
+- **Facts:** one quiet centred line — the figure in `font-semibold tabular-nums text-foreground`, its
+  label in `text-muted-foreground`, both `text-sm`. Below `md` it is a 2×2 grid whose columns size to
+  their content, so a 390px phone keeps every label on one line.
 
-**Known exception.** That beam is the one place a danger token is used decoratively — the red reads as the
-hot end of an ember rather than as an error, because it is a moving 1px highlight and never a fill or a
-label. It is deliberate and confined to this single element. If the system ever needs a second warm
-decorative colour, it gets its own token; `--destructive` does not become the general-purpose warm accent.
+**The role rolls, then rests.** The second line of the heading is a reel: a full-width, fixed-height,
+`overflow-hidden` line box held open by a `&nbsp;`, with every role stacked absolutely over it and
+`whitespace-nowrap`, so the heading never changes size and nothing around it moves. Its resting role is
+"Full-Stack Developer". One pass rolls from it through Frontend → Web & Mobile → React → Next.js →
+TypeScript and back to Full-Stack, one step every 1.5s. Each step is a critically damped spring
+(`visualDuration: 0.4`, `bounce: 0`) that lifts the outgoing role out of the top and brings the next one
+in from below, visually at rest within about half a second — so each role reads for about a second
+before the next rolls in, and a pass runs about 8.2s from the first roll to the last settle. The line then
+stands still on "Full-Stack Developer" for ten seconds before the next pass. Full-Stack both opens the
+reel and ends the list, so a pass lands on a second copy of it, rewound to the first unseen, and every
+step rolls the same way.
+
+**Known gap — no pause control.** A pass outlasts the five seconds after which WCAG 2.2.2 asks that
+motion which starts by itself, beside other content, can be paused, and passes repeat for as long as the
+hero is in view. The reel stops off screen, in a hidden tab and under reduced motion, but there is no
+control that stops it. Undecided; do not improvise one.
+
+**It moves only while someone can see it.** The reel runs only while its line is on screen and the tab
+is visible. The first pass starts one step after the line first comes into view; losing either condition
+rewinds it to "Full-Stack Developer" on the spot, and regaining it waits out a full rest, so a pass never
+starts the instant a visitor returns. Under `prefers-reduced-motion` it never starts and the line stays
+on "Full-Stack Developer". In every case the server HTML already shows that role (`initial={false}`),
+the markup is identical on server and client, and only the timers are gated — so the line is never blank
+before hydration and never mismatches it.
+
+**Assistive tech hears one heading.** The rolling copies are `aria-hidden`; an `sr-only` copy of the
+resting role completes the heading, whose accessible name is always "Stanislav Krivtsov Full-Stack
+Developer" ("… Développeur Full-Stack"). There is no live region: the reel decorates a fact that does
+not change, so there is nothing to announce.
+
+**Every role fits on one line, at every width.** The longest is the French "Développeur Web & Mobile",
+about 12.5em at `tracking-tighter`. The heading is `max-w-5xl` and holds `text-6xl` through `lg`,
+taking `text-7xl` only at `xl`: at 1024px that role at 72px would leave under 6% of the line. Below `sm`
+the role steps down to `text-2xl` under a `text-4xl` name — at 360px it cannot share the name's size and
+stay on one line, and dropping the whole heading to `text-2xl` would leave it smaller than every section
+title beneath it — and keeps its own `tracking-tighter`, so its spacing is −0.05em of its own size rather
+than of the name's. From `sm` up both lines share the scale.
+
+### Animated Border (signature)
+
+Magic UI's **`ShineBorder`** traces a 1px `var(--primary)` → `var(--primary-alt)` gradient around the
+contact form card on a 14s linear loop — slow enough to read as a highlight, not a glow — resolving both
+stops to tokens rather than literals. Gated behind `motion-safe:`, leaving a static ring when motion is
+reduced. It is the only animated border on the page.
 
 ### Spotlight Cards (signature)
 
@@ -503,24 +554,30 @@ appearance is already identical, so nothing is lost but the pointer tracking.
 
 ### Particle Field (signature)
 
-Magic UI's `Particles` lays a canvas of drifting dots behind the page's two end caps — 100 in each,
-because the Footer Curtain made both end caps a full screen and the density has to read the same in the
-two — `pointer-events-none` and `aria-hidden`. It bookends the page: the same dust under the first
-screen and the last, and nothing in the reading sections between them, where it would compete with the
-content. Below `md` the footer collapses to its compact strip and the same count reads a little denser
-there; that is the accepted cost of one number serving both shapes.
+Magic UI's `Particles` lays a canvas of drifting dots behind the page's two end caps, the hero and the
+footer — 100 in each, because both are a full screen and the density has to read the same in the two —
+`pointer-events-none` and `aria-hidden`. It bookends the page: the same dust under the first screen and
+the last, and nothing in the reading sections between them, where it would compete with the content.
+Below `md` the footer collapses to its compact strip and the same count reads a little denser there; that
+is the accepted cost of one number serving both shapes.
 
-**Decoration is not selectable.** The hero, the footer and the orbit box carry `select-none`. Dragging
-across a decorative region should not produce a text selection over animated logos and drifting dots —
-the highlight lands on nothing a reader wanted. Reading regions stay selectable; this is scoped to the
-three surfaces whose content is the effect itself.
+**Decoration is not selectable — except in the hero.** The footer and the orbit box carry `select-none`:
+dragging across a decorative region should not produce a text selection over animated logos and drifting
+dots, because the highlight lands on nothing a reader wanted. The hero carries the dust but stays
+selectable, because its name is the first thing a visitor may want to copy — and since the canvas takes
+no pointer events, a drag across it lands on the text above. Controls are never selectable either:
+`Button`, `Badge` and the toggle-group items carry `select-none` in their base classes, so a drag across
+a row of them never highlights their labels.
 
 **The dots are the reading colour, thinned to dust.** They take the `--foreground` value itself, held
 between 10% and 70% alpha, so the field inverts with the theme instead of owning a colour — near-white
 on graphite, near-black on paper. It never uses the accent: teal belongs to the heading word, the
-counters and the primary action, and a teal haze behind them would spend the signal on nothing. Dots
+surname and the primary action, and a teal haze behind them would spend the signal on nothing. Dots
 lean towards the pointer on a slow ease (`ease={80}`), the one place in the system where a background
-answers the cursor. Not rendered at all under reduced motion.
+answers the cursor. Not rendered at all under reduced motion: both canvases read the preference through
+a media query that answers "motion allowed" on the server and through hydration, so the server render and
+the client's first one always agree, and the canvas leaves just after hydration for a visitor who asked for
+less motion.
 
 **Hex, by exception.** A `<canvas>` fill cannot take a utility class, so the dot colour is written as a
 literal under The Literal Escape Hatch. It is not a new colour: `useParticleColor()` holds `--foreground`
@@ -528,20 +585,20 @@ converted to hex and nothing else.
 
 **Layering.** The canvas is `absolute inset-0 z-0` and the content wrapper next to it is `relative z-10`.
 Both are required: a positioned `z-0` element paints *above* non-positioned in-flow content, so without
-the wrapper's `z-10` the dust would fall across the type. `-z-10` is not an alternative — these
-containers are `relative` with `z-index: auto`, so neither is a stacking context, and a negative layer
-escapes to the root and hides behind the container's own opaque background.
+the wrapper's `z-10` the dust would fall across the type. `-z-10` is not an alternative — the hero, and the
+footer below `md`, are `relative` with `z-index: auto`, so neither is a stacking context, and a negative
+layer escapes to the root and sinks behind the section's own background.
 
 **Why dust and not a pattern.** A grid, a noise texture or a gradient mesh would compete with the type
 for the same flat plane. Sparse dots at low alpha read as depth — they sit *behind* the words — which is
-the one thing the hero needs from a background and the only reason it earns motion at all.
+the one thing the two end caps need from a background and the only reason it earns motion at all.
 
 ### Scroll Inertia (signature)
 
 **The page has weight.** The wheel does not jump the document to a new offset; it gives it momentum,
 and the document glides to a stop over roughly a sixth of a second. This is the first thing a visitor
 feels, before a single word is read, and it is what makes the rest of the choreography legible — a
-sideways chapter, a curtain, a counter all read as one continuous camera move rather than as separate
+sideways chapter, a curtain, a section reveal all read as one continuous camera move rather than as separate
 effects firing at scroll thresholds.
 
 **It moves the real scroll position.** Nothing is wrapped in a translated container and nothing is
@@ -760,8 +817,8 @@ peek strip suggests.
 
 **A whole screen earns a composition, not a stretched strip.** The finale centres one column: the logo
 tile and `krivtsoff.develop()` as a signature line (`md:text-xl` beside a `md:size-10` plate), then the
-author's name as the display line — `text-3xl` → `lg:text-5xl`, the hero's own name scale, with the
-surname in `text-primary` so the page opens and closes on the same signature — the tagline beneath it at
+author's name as the display line — `text-3xl` → `lg:text-5xl`, a step below the hero's Display name, with
+the surname in `text-primary`, so the page that opens on his name closes on it as a signature — the tagline beneath it at
 `md:text-lg` on a `max-w-2xl` measure, then the follow heading and the social buttons at `size-14`. The
 copyright and the "made with ♥ in Paris, France" line sit apart at the bottom above a separator. It is the
 one place that breaks the flat
@@ -837,7 +894,9 @@ the locale lives in the URL. It carries no motion of its own beyond the inherite
 - **Do** give every interactive element the standard focus ring (`focus-visible:ring-[3px] ring-ring/50`
   with `focus-visible:border-ring`).
 - **Do** gate every non-essential animation behind `prefers-reduced-motion` — `motion-reduce:animate-none`,
-  a `motion-safe:` prefix, `useReducedMotion()`, or simply not rendering the effect.
+  a `motion-safe:` prefix, or not rendering the effect at all. To decide what renders, read the preference
+  with `useMediaQuery(REDUCED_MOTION_QUERY)`; framer-motion's `useReducedMotion()` disagrees with the
+  server on hydration, so it may only time or tune an animation, never choose the markup.
 - **Do** check both themes and 360 / 768 / 1280 with the real copy before calling any change done.
 
 ### Don't:
@@ -859,14 +918,13 @@ the locale lives in the URL. It carries no motion of its own beyond the inherite
 - **Don't** hand-write a primitive the shadcn registry ships, and don't paste registry source by hand —
   install it and reconcile it with these tokens and the repo's conventions.
 - **Don't** add a coloured `border-left` accent bar, or a border above 1px for emphasis. Thicker strokes
-  exist in exactly three sanctioned places (focus ring, avatar frame, timeline knockout) — see Shapes.
+  exist in exactly two sanctioned places (focus ring, timeline knockout) — see Shapes.
 - **Don't** use depth to rank elements. Ambient is uniform across surfaces and controls; if something
   needs to read as more important, that is colour, size, or position — not a bigger shadow.
 - **Don't** nest a card inside a card, or let a grid of identical icon-heading-text cards become a
   section's whole structure.
 - **Don't** spread `--destructive` into decoration. It means failure, and `--primary-alt` is the
-  decorative sibling. The hero beam's leading stop is the single sanctioned exception (see Components);
-  do not cite it to justify a second one.
+  decorative sibling.
 - **Don't** reintroduce the `--chart-*` or `--sidebar-*` tokens as a shortcut to a new colour. They came
   with the shadcn scale, nothing under `src/` ever read them, and they were deleted from
   `globals.css` — 39 declarations across `:root`, `.dark` and `@theme inline`. A chart palette is a

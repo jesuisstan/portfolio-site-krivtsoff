@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 
 import type { Variants } from 'framer-motion';
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import {
   Calendar,
   ExternalLink,
@@ -21,10 +21,12 @@ import Separator from '@/components/ui/separator';
 import type { CertificateKey, ExperienceKey } from '@/constants/experiences';
 import { experiences } from '@/constants/experiences';
 import { useMagicCardColors } from '@/lib/magic-card-color';
+import { REDUCED_MOTION_QUERY, useMediaQuery } from '@/lib/media-query';
 
 /** Timeline card surface: MagicCard's pointer-tracked spotlight, or a plain Card under reduced motion. */
 const ExperienceCard = ({ children }: { children: ReactNode }) => {
-  const prefersReducedMotion = useReducedMotion();
+  // Not framer's `useReducedMotion`: it is already true on the hydration render and swaps the card early.
+  const prefersReducedMotion = useMediaQuery(REDUCED_MOTION_QUERY);
   const colors = useMagicCardColors();
 
   if (prefersReducedMotion) {

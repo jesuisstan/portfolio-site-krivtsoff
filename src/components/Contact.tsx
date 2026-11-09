@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import emailjs from 'emailjs-com';
 import type { Variants } from 'framer-motion';
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import { ChevronDown, MapPin, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
@@ -18,6 +18,7 @@ import Label from '@/components/ui/label';
 import Separator from '@/components/ui/separator';
 import ShineBorder from '@/components/ui/shine-border';
 import Textarea from '@/components/ui/textarea';
+import { REDUCED_MOTION_QUERY, useMediaQuery } from '@/lib/media-query';
 import { useSmoothScrollTo } from '@/lib/smooth-scroll';
 import { cn } from '@/lib/utils';
 
@@ -67,7 +68,7 @@ const messengers: ContactMessenger[] = [
 const Contact = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = useMediaQuery(REDUCED_MOTION_QUERY);
   const scrollTo = useSmoothScrollTo();
   const t = useTranslations('contact');
   const tCommon = useTranslations('common');
@@ -421,13 +422,14 @@ const Contact = () => {
             aria-label={tCommon('scroll-hint')}
             onClick={scrollToFooter}
           >
+            {/* A rest target with no duration, not `undefined`: only that stops a bob begun before hydration. */}
             <motion.span
-              animate={prefersReducedMotion ? undefined : { y: [0, 12, 0] }}
-              transition={{
-                duration: 2.4,
-                repeat: Infinity,
-                ease: 'easeInOut'
-              }}
+              animate={prefersReducedMotion ? { y: 0 } : { y: [0, 12, 0] }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
+              }
               className="inline-flex"
             >
               <ChevronDown className="size-8" strokeWidth={1.5} />

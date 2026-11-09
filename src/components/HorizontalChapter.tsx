@@ -14,7 +14,6 @@ import type { MotionStyle } from 'framer-motion';
 import {
   motion,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform
@@ -24,7 +23,7 @@ import { useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
 
 import { buttonVariants } from '@/components/ui/button';
-import { useMediaQuery } from '@/lib/media-query';
+import { REDUCED_MOTION_QUERY, useMediaQuery } from '@/lib/media-query';
 import { useSmoothScrollTo } from '@/lib/smooth-scroll';
 import { cn } from '@/lib/utils';
 
@@ -92,7 +91,7 @@ export const panelScrollTarget = (panel: HTMLElement): number | null => {
  */
 export const useHorizontalChapter = (): boolean => {
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = useMediaQuery(REDUCED_MOTION_QUERY);
 
   return isDesktop && !prefersReducedMotion;
 };
@@ -103,7 +102,7 @@ interface ScrollHintProps {
 
 /** Chevron button that pans its chapter to the next panel; fades out once that panel is reached. */
 export const ScrollHint = ({ className }: ScrollHintProps) => {
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = useMediaQuery(REDUCED_MOTION_QUERY);
   const isHorizontal = useHorizontalChapter();
   const controls = useContext(ChapterContext);
   const t = useTranslations('common');

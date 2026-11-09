@@ -28,14 +28,12 @@ This file provides guidance to Claude Code when working with code in this reposi
   **`radix-ui`** package. Source any further primitive from the `@shadcn` registry via the shadcn MCP
   tools and `npx shadcn@latest add` — never hand-write a primitive the registry ships, and never paste
   registry source by hand. Magic UI (`magicuidesign-mcp`) only when the user explicitly asks — the repo
-  currently holds seven such components in `src/components/ui/`: `animated-theme-toggler` (the nav
-  theme switch), `shine-border` (the contact form card), `border-beam` (the hero "Download CV"
-  button), `particles` (the hero and footer background field), `orbiting-circles` (the skills
-  section's orbital system), `lens` (the magnifier over each project card's screenshot) and
-  `magic-card` (the hover treatment of each Experience timeline card), each
-  installed from `https://magicui.design/r/<name>.json`. Three of them — `border-beam`, `lens` and
-  `magic-card` — ship importing `motion/react`; that import is deliberately re-pointed to `framer-motion`
-  so the repo carries
+  currently holds six such components in `src/components/ui/`: `animated-theme-toggler` (the nav
+  theme switch), `shine-border` (the contact form card), `particles` (the hero and footer background field),
+  `orbiting-circles` (the skills section's orbital system), `lens` (the magnifier over each project
+  card's screenshot) and `magic-card` (the hover treatment of each Experience timeline card), each
+  installed from `https://magicui.design/r/<name>.json`. Two of them — `lens` and `magic-card` — ship
+  importing `motion/react`; that import is deliberately re-pointed to `framer-motion` so the repo carries
   one animation runtime, which means `shadcn diff` reports a mismatch on them. The other four need no
   animation runtime at all: `animated-theme-toggler` and `shine-border` import none, and `particles` and
   `orbiting-circles` animate on a canvas and in CSS. `lens` diverges twice
@@ -289,7 +287,8 @@ them wrong.
   `mx-auto max-w-7xl`, buttons are `Button` variants, panels are `Card`.
 - The rest of `globals.css`: `@import 'tw-animate-css'`,
   `@custom-variant dark (&:is(.dark *))` (keyed to the `next-themes` class strategy), the `--animate-shine`
-  and `--animate-orbit` keyframe pairs inside the same `@theme inline` block, the `@layer base` reset,
+  and `--animate-orbit` keyframe pairs inside the same `@theme inline` block, the `@layer base` reset with
+  the site-wide `::selection` (the `bg-primary` / `text-primary-foreground` pair the inputs already use),
   `html { scroll-padding-top: 4rem }` — the padding is what stops an anchor jump from parking a heading
   under the fixed nav, and there is deliberately **no** `scroll-behavior: smooth` beside it, because the
   inertia layer owns every jump — the scrollbar rules, and the three
@@ -327,3 +326,7 @@ contact section renders Location plus the messenger links. Either wire them back
   means a new variable in both `:root` and `.dark` plus an `@theme inline` entry.
 - `'use client'` only where hooks, event handlers, or browser APIs require it; keep it low in the tree.
 - Respect `prefers-reduced-motion` for every non-essential animation.
+- Never branch rendered markup or attributes on framer-motion's `useReducedMotion()`: it is `null` on the
+  server but already `true` on a reduced-motion client's hydration render, so the trees mismatch. Use
+  `useMediaQuery(REDUCED_MOTION_QUERY)` from `src/lib/media-query.ts`; framer's hook may only time or tune
+  an animation.

@@ -2,11 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { useReducedMotion } from 'framer-motion';
 import type { ReactNode } from 'react';
 
 import { CURTAIN_PEEK_PX, CURTAIN_QUERY } from '@/lib/curtain';
-import { useMediaQuery } from '@/lib/media-query';
+import { REDUCED_MOTION_QUERY, useMediaQuery } from '@/lib/media-query';
 import { cn } from '@/lib/utils';
 
 interface CurtainStageProps {
@@ -21,7 +20,7 @@ interface CurtainStageProps {
  * @returns A sticky stage over the curtain's travel above `md`, or the section in plain flow.
  */
 const CurtainStage = ({ children }: CurtainStageProps) => {
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = useMediaQuery(REDUCED_MOTION_QUERY);
   const isPinnable = useMediaQuery(CURTAIN_QUERY);
 
   const stageRef = useRef<HTMLDivElement>(null);

@@ -157,6 +157,11 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* The same pair the inputs already use, so a selection reads the same in a field and on the page. */
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
 }
 
 html {

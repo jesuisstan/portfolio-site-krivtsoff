@@ -1,75 +1,50 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
-import { motion, useInView, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Download } from 'lucide-react';
-import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { Download, MoveRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import type { BannerStatCounts } from '@/components/banner-content';
-import { bannerSocialLinks, bannerStats } from '@/components/banner-content';
-import Badge from '@/components/ui/badge';
-import BorderBeam from '@/components/ui/border-beam';
+import {
+  bannerRoleWords,
+  bannerSocialLinks,
+  bannerStats
+} from '@/components/banner-content';
+import { useRoleReel } from '@/components/banner-reel';
 import Button from '@/components/ui/button';
 import { Particles } from '@/components/ui/particles';
-import Separator from '@/components/ui/separator';
+import { REDUCED_MOTION_QUERY, useMediaQuery } from '@/lib/media-query';
 import { useParticleColor } from '@/lib/particle-color';
 import { useSmoothScrollTo } from '@/lib/smooth-scroll';
 
-const countsAtProgress = (progress: number): BannerStatCounts => ({
-  projects: Math.floor(bannerStats[0].number * progress),
-  experience: Math.floor(bannerStats[1].number * progress),
-  hours: Math.floor(bannerStats[2].number * progress),
-  certifications: Math.floor(bannerStats[3].number * progress)
-});
+// The role the line rests on, and the one shown wherever it cannot move.
+const RESTING_ROLE = bannerRoleWords[bannerRoleWords.length - 1];
 
-/** Hero section with intro copy, CTAs, animated stat counters, and avatar. */
+// It also opens the reel, so a pass through the list lands back on it and every step rolls one way.
+const ROLE_SLOTS = [RESTING_ROLE, ...bannerRoleWords];
+
+/** Hero: the name over a rolling role, the intro, the actions and the key facts in one centred column. */
 const Banner = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true });
+  const roleLineRef = useRef<HTMLSpanElement>(null);
+  const reel = useRoleReel(roleLineRef, ROLE_SLOTS.length);
+  // False until hydration has finished, so the canvas renders exactly as on the server, then leaves if asked.
+  const prefersReducedMotion = useMediaQuery(REDUCED_MOTION_QUERY);
+  const particleColor = useParticleColor();
   const scrollTo = useSmoothScrollTo();
-  const prefersReducedMotion = useReducedMotion();
-  const [counts, setCounts] = useState<BannerStatCounts>(countsAtProgress(0));
   const t = useTranslations('banner');
   const tCommon = useTranslations('common');
 
-  const particleColor = useParticleColor();
-
-  // Reduced motion skips the count-up entirely and renders the final values.
-  const displayCounts = prefersReducedMotion ? countsAtProgress(1) : counts;
-
-  useEffect(() => {
-    if (!isInView || prefersReducedMotion) return;
-
-    const steps = 60;
-    const stepDuration = 2000 / steps;
-    let currentStep = 0;
-
-    const interval = setInterval(() => {
-      currentStep++;
-      setCounts(countsAtProgress(currentStep / steps));
-      if (currentStep >= steps) {
-        clearInterval(interval);
-      }
-    }, stepDuration);
-
-    return () => clearInterval(interval);
-  }, [isInView, prefersReducedMotion]);
-
   const downloadCV = () => {
-    // Create link to PDF file in public folder
     const cvUrl =
       process.env.NEXT_PUBLIC_LINK_CV_DOWNLOAD ||
       '/Krivtsov Stanislav_Frontend developer_CV.pdf';
 
-    // Create temporary <a> element for download
     const link = document.createElement('a');
     link.href = cvUrl;
-    link.download = 'Krivtsov Stanislav_Frontend developer_CV.pdf'; // Filename when downloading
+    link.download = 'Krivtsov Stanislav_Frontend developer_CV.pdf';
     link.target = '_blank';
 
-    // Add element to DOM, click it and remove
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -83,9 +58,9 @@ const Banner = () => {
     <section
       id="home"
       aria-labelledby="home-heading"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background pb-12 pt-20 select-none"
+      className="relative flex min-h-svh flex-col justify-center overflow-hidden bg-background pt-16"
     >
-      {/* Decorative drifting field — omitted outright under reduced motion. */}
+      {/* The footer's field, so the page opens and closes on the same dust. */}
       {!prefersReducedMotion && (
         <Particles
           className="absolute inset-0 z-0"
@@ -96,234 +71,105 @@ const Banner = () => {
         />
       )}
       {/* `relative z-10` keeps the z-0 particle canvas from painting over this in-flow content. */}
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-16 lg:grid-cols-2">
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-10"
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-8 px-4 py-12 text-center sm:px-6 lg:px-8 lg:py-16">
+        <div className="flex w-full flex-col items-center gap-4">
+          <h1
+            id="home-heading"
+            className="w-full max-w-5xl text-4xl leading-none font-bold tracking-tighter text-foreground sm:text-5xl lg:text-6xl xl:text-7xl"
           >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="space-y-8"
+            <span className="block">Stanislav Krivtsov</span>{' '}
+            {/* The role assistive tech reads; the rolling copies are visual only, so nothing is announced. */}
+            <span className="sr-only">
+              {t.rich('role', {
+                word: RESTING_ROLE,
+                accent: (chunks) => chunks
+              })}
+            </span>
+            {/* `&nbsp;` holds the line open under the stacked slots; tracking is re-declared because an inherited em value keeps the name's pixels. */}
+            <span
+              ref={roleLineRef}
+              aria-hidden
+              className="relative flex w-full justify-center overflow-hidden text-2xl leading-tight font-normal tracking-tighter sm:text-[1em]"
             >
-              <Badge variant="secondary" className="gap-2 px-4 py-2 text-sm">
-                <span
-                  aria-hidden
-                  className="size-2 animate-pulse rounded-full bg-primary-alt motion-reduce:animate-none"
-                />
-                {t('badge')}
-              </Badge>
-
-              <motion.h1
-                id="home-heading"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-4xl font-bold leading-[1.1] text-foreground sm:text-5xl lg:text-6xl xl:text-7xl"
-              >
-                {t.rich('heading', {
-                  accent: (chunks) => (
-                    <span className="text-primary">{chunks}</span>
-                  ),
-                  br: () => <br />
-                })}
-              </motion.h1>
-
-              <p className="max-w-lg text-lg text-muted-foreground sm:text-xl">
-                {t('intro')}
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-wrap items-center gap-4"
-            >
-              <Button size="lg" className="h-11" onClick={scrollToContact}>
-                {t('talk')}
-                <ArrowRight />
-              </Button>
-
-              <Button
-                size="lg"
-                variant="outline"
-                className="relative h-11 overflow-hidden"
-                onClick={downloadCV}
-              >
-                <Download />
-                {tCommon('download-cv')}
-                {/* Decorative infinite loop — omitted outright under reduced motion. */}
-                {!prefersReducedMotion && (
-                  <BorderBeam
-                    size={60}
-                    initialOffset={20}
-                    transition={{ type: 'spring', stiffness: 26, damping: 20 }}
-                    colorFrom="var(--destructive)"
-                    colorTo="var(--primary-alt)"
-                  />
-                )}
-              </Button>
-
-              {/* Social Links */}
-              {bannerSocialLinks.map((social, index) => (
-                <motion.div
-                  key={social.label}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.6 + index * 0.1 }}
+              &nbsp;
+              {ROLE_SLOTS.map((word, slot) => (
+                <motion.span
+                  key={slot}
+                  className="absolute whitespace-nowrap"
+                  initial={false}
+                  animate={
+                    slot === reel.slot
+                      ? { y: '0%', opacity: 1 }
+                      : { y: slot < reel.slot ? '-100%' : '100%', opacity: 0 }
+                  }
+                  transition={reel.transition}
                 >
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="icon-lg"
-                    className="size-11"
-                  >
-                    <a
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={social.label}
-                    >
-                      <social.icon className="size-5" />
-                    </a>
-                  </Button>
-                </motion.div>
+                  {t.rich('role', {
+                    word,
+                    accent: (chunks) => (
+                      <span className="text-primary">{chunks}</span>
+                    )
+                  })}
+                </motion.span>
               ))}
-            </motion.div>
+            </span>
+          </h1>
 
-            {/* Stats */}
-            <motion.div
-              ref={ref}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="space-y-10"
-            >
-              <Separator />
-              <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-                {bannerStats.map((stat, index) => (
-                  <motion.div
-                    key={stat.key}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={
-                      isInView
-                        ? { opacity: 1, scale: 1 }
-                        : { opacity: 0, scale: 0.8 }
-                    }
-                    transition={{ delay: 1 + index * 0.1, duration: 0.6 }}
-                    className="text-center"
-                  >
-                    <div className="mx-auto mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
-                      <stat.icon aria-hidden className="size-5 text-primary" />
-                    </div>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={
-                        isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-                      }
-                      transition={{ delay: 1.2 + index * 0.1, duration: 0.6 }}
-                      className="space-y-1"
-                    >
-                      <div className="text-xl font-bold text-foreground">
-                        {displayCounts[stat.key]}
-                        {stat.suffix}
-                      </div>
-                      <div className="text-xs font-medium text-muted-foreground">
-                        {t(`stats.${stat.key}`)}
-                      </div>
-                    </motion.div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative flex flex-col items-center space-y-8 lg:items-end"
-          >
-            <div className="relative">
-              {/* Floating Elements */}
-              <motion.div
-                animate={
-                  prefersReducedMotion
-                    ? undefined
-                    : { y: [0, -10, 0], rotate: [0, 5, 0] }
-                }
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: 'easeInOut'
-                }}
-                className="absolute -right-6 -top-6 flex size-20 flex-col items-center justify-center rounded-xl bg-primary text-center text-sm font-bold text-primary-foreground"
-              >
-                React{'\n'}
-                JS/TS
-              </motion.div>
-
-              <motion.div
-                animate={
-                  prefersReducedMotion
-                    ? undefined
-                    : { y: [0, 10, 0], rotate: [0, -5, 0] }
-                }
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: 1
-                }}
-                className="absolute -bottom-6 -left-6 flex size-20 flex-col items-center justify-center rounded-xl bg-primary-alt text-center text-sm font-bold text-primary-alt-foreground"
-              >
-                NEXT.js{'\n'}EXPO
-              </motion.div>
-
-              {/* Main Image */}
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="relative h-80 w-80 lg:h-96 lg:w-96"
-              >
-                <div
-                  aria-hidden
-                  className="absolute inset-0 rounded-full bg-primary/20 blur-xl"
-                />
-                <div className="relative h-full w-full overflow-hidden rounded-full border-4 border-primary/30">
-                  <Image
-                    src="/avatar.jpg"
-                    alt="Stanislav Krivtsoff"
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, 384px"
-                  />
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Name */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-center text-3xl font-bold leading-[1.1] text-foreground sm:text-4xl lg:text-right lg:text-5xl"
-            >
-              Stanislav
-              <br />
-              <span className="text-4xl text-primary sm:text-5xl lg:text-6xl">
-                Krivtsov
-              </span>
-            </motion.h2>
-          </motion.div>
+          <p className="max-w-2xl text-lg leading-relaxed tracking-tight text-balance text-muted-foreground md:text-xl">
+            {t('intro')}
+          </p>
         </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Button
+            size="lg"
+            variant="outline"
+            className="h-11"
+            onClick={downloadCV}
+          >
+            {tCommon('download-cv')}
+            <Download />
+          </Button>
+          <Button size="lg" className="h-11" onClick={scrollToContact}>
+            {t('talk')}
+            <MoveRight />
+          </Button>
+          {/* One wrapping unit, so a narrow row never strands a single icon on a line of its own. */}
+          <div className="flex gap-3">
+            {bannerSocialLinks.map((social) => (
+              <Button
+                key={social.label}
+                asChild
+                variant="outline"
+                size="icon-lg"
+                className="size-11"
+              >
+                <a
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                >
+                  <social.icon className="size-5" />
+                </a>
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        <ul className="grid grid-cols-[auto_auto] gap-x-6 gap-y-2 text-sm md:flex md:gap-x-8">
+          {bannerStats.map((stat) => (
+            <li key={stat.key}>
+              <span className="font-semibold text-foreground tabular-nums">
+                {stat.number}
+                {stat.suffix}
+              </span>{' '}
+              <span className="text-muted-foreground">
+                {t(`stats.${stat.key}`)}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
