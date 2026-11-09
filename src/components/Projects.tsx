@@ -146,7 +146,8 @@ const ProjectCard = ({ project }: { project: Project }) => {
 const categories: ProjectFilter[] = [
   'all',
   'full-stack',
-  'frontend',
+  // Hidden while its only project (Omio, commented out in `src/constants/projects.ts`) is hidden.
+  // 'frontend',
   'game',
   'mobile'
 ];

@@ -42,12 +42,12 @@ The site is deployed on Vercel and can be accessed at [krivtsoff.online](https:/
   `card`, `badge`, `input`, `textarea`, `label`, `sheet`, `tooltip`, `toggle`, `toggle-group`,
   `separator`. Add more with `npx shadcn@latest add @shadcn/<name>`
 - **Magic UI** - a second, opt-in registry, used only where an animated component is asked for.
-  Installed in `src/components/ui/`: `animated-theme-toggler`, `shine-border`, `border-beam`,
-  `particles`, `orbiting-circles`, `lens`, `magic-card`. Items come
+  Installed in `src/components/ui/`: `animated-theme-toggler`, `shine-border`, `particles`,
+  `orbiting-circles`, `lens`, `magic-card`. Items come
   from `npx shadcn@latest add "https://magicui.design/r/<name>.json"`. Each one then has its decorative
-  colours reduced to this project's tokens, and the three that ship an animation runtime import
-  (`border-beam`, `lens`, `magic-card`) have it re-pointed from `motion/react` to `framer-motion`, so the
-  repo carries a single one
+  colours reduced to this project's tokens, and the two that ship an animation runtime import
+  (`lens`, `magic-card`) have it re-pointed from `motion/react` to `framer-motion`, so the repo carries a
+  single one
 - **radix-ui** - the unified Radix package the current registry components import from
 - **class-variance-authority** + **tailwind-merge**/**clsx** - variant recipes and the `cn()` helper
 - **Design tokens** - OKLCH CSS variables in `src/styles/globals.css`, exposed to Tailwind through
@@ -178,11 +178,11 @@ src/
 ├── components/             # React components
 │   ├── ui/                 # shadcn/ui primitives (button, card, badge, input, textarea,
 │   │                       #   label, sheet, tooltip, toggle, toggle-group, separator)
-│   │                       #   + animated-theme-toggler, shine-border, border-beam,
-│   │                       #     particles, orbiting-circles, lens,
-│   │                       #     magic-card (Magic UI)
-│   ├── Banner.tsx          # Hero section + animated stat counters
-│   ├── banner-content.ts   # Hero stat + social link data
+│   │                       #   + animated-theme-toggler, shine-border, particles,
+│   │                       #     orbiting-circles, lens, magic-card (Magic UI)
+│   ├── Banner.tsx          # Hero: name over a rolling role, intro, actions, key facts + particle field
+│   ├── banner-content.ts   # Hero role words, facts + social link data
+│   ├── banner-reel.ts      # `useRoleReel()` — the role line's pass-and-rest schedule, paused off screen
 │   ├── HorizontalChapter.tsx # Scroll-linked sideways track (+ `useHorizontalChapter`, `ScrollHint`,
 │   │                       #   `COVER_PANEL_CLASS`, `panelScrollTarget`)
 │   ├── SkillsAndTech.tsx   # Technologies as an orbital system, with a category filter
@@ -205,7 +205,7 @@ src/
 │   ├── curtain.ts          # Gate + peek height shared by the footer curtain and its stage
 │   ├── filter-chip.ts      # Shared class list for the Skills and Projects filter chips
 │   ├── magic-card-color.ts # `useMagicCardColors()` — MagicCard's gradient stops as hex
-│   ├── media-query.ts      # `useMediaQuery()` — SSR-safe `matchMedia` subscription
+│   ├── media-query.ts      # `useMediaQuery()` — SSR-safe `matchMedia` subscription (+ `REDUCED_MOTION_QUERY`)
 │   ├── particle-color.ts   # `useParticleColor()` — the `--foreground` value as hex, for canvas fills
 │   ├── smooth-scroll.ts    # `useSmoothScrollTo()` / `useScrollInertiaLock()` — every programmatic scroll
 │   ├── social-links.ts     # Social profile links (reads env, hence not in constants/)

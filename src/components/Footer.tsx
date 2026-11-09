@@ -2,12 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform
-} from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Heart } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import type { CSSProperties } from 'react';
@@ -16,7 +11,7 @@ import Button from '@/components/ui/button';
 import { Particles } from '@/components/ui/particles';
 import Separator from '@/components/ui/separator';
 import { CURTAIN_PEEK_PX, CURTAIN_QUERY } from '@/lib/curtain';
-import { useMediaQuery } from '@/lib/media-query';
+import { REDUCED_MOTION_QUERY, useMediaQuery } from '@/lib/media-query';
 import { useParticleColor } from '@/lib/particle-color';
 import { socialLinks } from '@/lib/social-links';
 import { cn } from '@/lib/utils';
@@ -52,7 +47,8 @@ const IDLE_METRICS: RevealMetrics = {
 
 /** Site footer: an in-flow strip on small screens, a full-screen panel riding up over the page above `md`. */
 const Footer = () => {
-  const prefersReducedMotion = useReducedMotion();
+  // False until hydration has finished, so the canvas and the curtain classes render as on the server.
+  const prefersReducedMotion = useMediaQuery(REDUCED_MOTION_QUERY);
   const isPinnable = useMediaQuery(CURTAIN_QUERY);
   const particleColor = useParticleColor();
   const t = useTranslations('footer');
@@ -262,11 +258,18 @@ const Footer = () => {
                   </a>
                 ),
                 heart: () => (
+                  // A rest target with no duration, not `undefined`: only that stops a beat begun before hydration.
                   <motion.span
                     animate={
-                      prefersReducedMotion ? undefined : { scale: [1, 1.2, 1] }
+                      prefersReducedMotion
+                        ? { scale: 1 }
+                        : { scale: [1, 1.2, 1] }
                     }
-                    transition={{ duration: 1, repeat: Infinity }}
+                    transition={
+                      prefersReducedMotion
+                        ? { duration: 0 }
+                        : { duration: 1, repeat: Infinity }
+                    }
                     className="inline-flex align-middle"
                   >
                     <Heart

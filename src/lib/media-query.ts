@@ -4,6 +4,9 @@ import { useCallback, useSyncExternalStore } from 'react';
 
 const getServerSnapshot = (): boolean => false;
 
+/** A visitor who has asked for less motion. Read it through `useMediaQuery` wherever it decides markup. */
+export const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+
 /**
  * Tracks a CSS media query without ever disagreeing with the server render.
  * @param query Media query string, e.g. `(min-width: 1024px)`.

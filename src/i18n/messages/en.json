@@ -31,8 +31,7 @@
     }
   },
   "banner": {
-    "badge": "Available for new opportunities",
-    "heading": "<accent>Frontend</accent><br></br>Developer",
+    "role": "<accent>{word}</accent> Developer",
     "intro": "Crafting digital experiences with modern technologies. Passionate about creating scalable, user-friendly applications that make a difference.",
     "talk": "Let's Talk",
     "stats": {

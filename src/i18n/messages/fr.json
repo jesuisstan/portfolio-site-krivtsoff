@@ -31,8 +31,7 @@
     }
   },
   "banner": {
-    "badge": "Ouvert aux nouvelles opportunités",
-    "heading": "<accent>Développeur</accent><br></br>Frontend",
+    "role": "Développeur <accent>{word}</accent>",
     "intro": "Je construis des expériences numériques avec des technologies modernes. Passionné par les applications qui passent à l'échelle, agréables à utiliser et vraiment utiles.",
     "talk": "Discutons",
     "stats": {

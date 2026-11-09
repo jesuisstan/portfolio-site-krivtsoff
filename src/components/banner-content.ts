@@ -1,23 +1,11 @@
 import type { LucideIcon } from 'lucide-react';
-import {
-  Award,
-  Briefcase,
-  Clock,
-  FolderOpen,
-  Github,
-  Linkedin
-} from 'lucide-react';
+import { Github, Linkedin } from 'lucide-react';
 
-export interface BannerStatCounts {
-  projects: number;
-  experience: number;
-  hours: number;
-  certifications: number;
-}
+export type BannerStatKey =
+  'projects' | 'experience' | 'hours' | 'certifications';
 
 export interface BannerStat {
-  key: keyof BannerStatCounts;
-  icon: LucideIcon;
+  key: BannerStatKey;
   number: number;
   suffix: string;
 }
@@ -28,30 +16,37 @@ export interface BannerSocialLink {
   icon: LucideIcon;
 }
 
+// The same in both languages; only the words around them come from `banner.role`.
+/** Words the hero's role line rolls through, in order; the last is the one it rests on. */
+export const bannerRoleWords = [
+  'Frontend',
+  'Web & Mobile',
+  'React',
+  'Next.js',
+  'TypeScript',
+  'Full-Stack'
+] as const;
+
 // Labels live in `src/i18n/messages/*.json` under `banner.stats.<key>`.
-/** Hero stat counters, in render order. */
+/** Hero facts, in render order. */
 export const bannerStats: BannerStat[] = [
   {
     key: 'projects',
-    icon: FolderOpen,
     number: 30,
     suffix: '+'
   },
   {
     key: 'experience',
-    icon: Briefcase,
     number: 3,
     suffix: '+'
   },
   {
     key: 'hours',
-    icon: Clock,
     number: 5000,
     suffix: '+'
   },
   {
     key: 'certifications',
-    icon: Award,
     number: 3,
     suffix: ''
   }

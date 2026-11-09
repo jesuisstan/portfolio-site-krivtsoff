@@ -20,8 +20,8 @@ const ScrollToTop = () => {
     const hero = document.querySelector('#home');
     if (!hero) return;
 
-    // A threshold rather than 0: the hero is `min-h-screen`, so at the top of the next section its
-    // last strip is still behind the fixed nav and a 0 threshold would keep the button hidden there.
+    // A threshold rather than 0: at the top of the next section the hero's last strip is still behind
+    // the fixed nav, and a 0 threshold would keep the button hidden there.
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsVisible(!entry.isIntersecting);
