@@ -60,4 +60,7 @@ next-env.d.ts
 # impeccable engine binary — platform-specific, installed by `npx impeccable update`
 /.claude/skills/impeccable/scripts/bin/
 
-/.claude/agents/
+# project agents not tracked; the ones the Impeccable skill installs are tracked
+/.claude/agents/frontend.md
+/.claude/agents/platform.md
+/.claude/agents/verifier.md

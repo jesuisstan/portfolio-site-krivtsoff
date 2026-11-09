@@ -251,8 +251,8 @@ Product context — who the site is for, what it claims, and which facts must no
 `CLAUDE.md` holds the project guidance (architecture, conventions, the build → verify loop), and
 `.claude/rules/` the shared rules: delegation, task workflow, communication, code quality and
 organisation, documentation lookup, git workflow, and the docs ownership model. The specialized agents
-(`frontend`, `platform`, `verifier`) live in `.claude/agents/`, which is git-ignored — local to the
-owner's machine. `/task <statement>` (`.claude/skills/task`) runs a change end to end: acceptance
+(`frontend`, `platform`, `verifier`) are local to the owner's machine (git-ignored); the `impeccable-*`
+agents the Impeccable skill installs into `.claude/agents/` are tracked. `/task <statement>` (`.claude/skills/task`) runs a change end to end: acceptance
 criteria, the agents, a browser check, the docs. After each edit Claude Code makes,
 `.claude/hooks/lint-file.mjs` runs ESLint `--fix` on that one file and reports what it could not fix.
 
